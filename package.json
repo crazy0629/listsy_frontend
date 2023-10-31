@@ -6,7 +6,8 @@
     "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start -p 4000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pm2:build": "npm run build && pm2 start npm --name listsy_frontend -- run start"
   },
   "dependencies": {
     "@types/node": "20.6.3",
