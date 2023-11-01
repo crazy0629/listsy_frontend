@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as Styled from "./ads.styles";
 import { SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
 import { useRouter } from "next/router";
@@ -19,6 +19,7 @@ import { Estate } from "./Estate";
 import { Truck } from "./Truck";
 import { ImageModal } from "./ImageModal";
 import { ForSale } from "./ForSale";
+import { Auth as AuthContext } from "@/context/contexts";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
@@ -26,6 +27,7 @@ export const AdsDetailsSection: React.FC = () => {
   const [data, setData] = useState<any>(null);
   const [imageModal, setImageModal] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const { authContext } = useContext<any>(AuthContext);
 
   useEffect(() => {
     if (id) {
@@ -48,6 +50,12 @@ export const AdsDetailsSection: React.FC = () => {
   const handleSlideClick = (index: number) => {
     setImageIndex(index);
     setImageModal(true);
+  };
+
+  const sendMessageClicked = () => {
+    const senderId = authContext.user.id;
+    const receiverId = data.userId._id;
+    router.push(`/message/${senderId}/${receiverId}`);
   };
 
   return (
@@ -120,7 +128,7 @@ export const AdsDetailsSection: React.FC = () => {
                   </div>
                 </div>
                 <div className="user-action">
-                  <BsSend size={24} />
+                  <BsSend size={24} onClick={() => sendMessageClicked()} />
                   <BsBookmark size={24} />
                   <BiLike size={24} />
                 </div>
