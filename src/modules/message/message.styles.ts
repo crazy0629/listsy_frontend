@@ -36,6 +36,19 @@ export const MessageUserListWrapper = styled.div`
   .user-list {
     flex: 1;
     overflow: auto;
+    h6 {
+      background-color: #5a88ff;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 400;
+      margin-right: 10px;
+    }
   }
 `;
 

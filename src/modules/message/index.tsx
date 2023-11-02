@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Styled from "./message.styles";
 import { IoIosSearch, IoIosSend } from "react-icons/io";
 import Image from "next/image";
@@ -6,8 +6,37 @@ import { MdLocationOn, MdPhone } from "react-icons/md";
 import { Rating } from "react-simple-star-rating";
 import { ImAttachment } from "react-icons/im";
 import { GrEmoji } from "react-icons/gr";
+import { useRouter } from "next/router";
+import { SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export const MessageRoom: React.FC = () => {
+  const router = useRouter();
+  const { senderId, receiverId } = router.query;
+  const [chatUserList, setChatUserList] = useState<Array<any>>([]);
+  const [chatUserListLoading, setChatUserListLoading] = useState(true);
+  useEffect(() => {
+    if (senderId && receiverId) {
+      getChatUserList();
+    }
+  }, [senderId, receiverId]);
+
+  const getChatUserList = async () => {
+    setChatUserListLoading(true);
+    const res = await axios.post(`${SERVER_URI}/message/addMemberOnChat`, {
+      userId: senderId,
+      posterId: receiverId,
+    });
+    if (res.data.success) {
+      console.log(res.data.data);
+      setChatUserListLoading(false);
+      setChatUserList(res.data.data);
+    } else {
+      toast.error(res.data.error);
+    }
+  };
+
   return (
     <Styled.MessageRoomWrapper>
       <Styled.MessageUserListWrapper>
@@ -16,18 +45,38 @@ export const MessageRoom: React.FC = () => {
           <input type="text" placeholder="Search..." />
         </div>
         <div className="user-list">
-          <Styled.MessageUserListItem>
-            <Image
-              src={"/assets/images/user.png"}
-              alt="avatar"
-              width={50}
-              height={50}
-            />
-            <div>
-              <h3>Lolla Smith</h3>
-              <p>Las Vegas, NV, US</p>
-            </div>
-          </Styled.MessageUserListItem>
+          {chatUserListLoading ? (
+            <h5>Loading...</h5>
+          ) : chatUserList.length > 0 ? (
+            chatUserList.map((item: any, key: number) => (
+              <React.Fragment key={key}>
+                <Styled.MessageUserListItem>
+                  {item.avatar ? (
+                    <Image
+                      src={SERVER_UPLOAD_URI + item.avatar}
+                      alt="avatar"
+                      width={50}
+                      height={50}
+                    />
+                  ) : (
+                    <h6>
+                      {" "}
+                      {item.firstName[0].toString().toUpperCase() +
+                        item.lastName[0].toString().toUpperCase()}
+                    </h6>
+                  )}
+                  <div>
+                    <h3>{item.firstName + " " + item.lastName}</h3>
+                  </div>
+                </Styled.MessageUserListItem>
+              </React.Fragment>
+            ))
+          ) : (
+            <h5>No chat History</h5>
+          )}
+          {/* {chatUserList.length && chatUserList[0].avatar && (
+            
+          )} */}
         </div>
       </Styled.MessageUserListWrapper>
       <Styled.MessageContainer>
