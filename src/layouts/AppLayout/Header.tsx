@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { UploadModal } from "@/modules/upload";
 import { ConfirmModal } from "@/components";
 import axios from "axios";
+import { MdMailOutline } from "react-icons/md";
 
 export const Header: React.FC = () => {
   const router = useRouter();
@@ -119,6 +120,13 @@ export const Header: React.FC = () => {
           <input type="text" placeholder="Search..." onChange={() => {}} />
           <IoIosSearch size={20} color="#AFAFAF" />
         </Styled.HeaderSearchInput>
+        <div
+          className="icon-wrapper message"
+          onClick={() => router.push("/message")}
+        >
+          <MdMailOutline size={24} />
+          {<span />}
+        </div>
         <div className="icon-wrapper">
           <PiUploadSimple size={24} onClick={handleUploadClick} />
         </div>

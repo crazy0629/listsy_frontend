@@ -47,16 +47,24 @@ export const MessageUserListWrapper = styled.div`
       color: #fff;
       font-size: 20px;
       font-weight: 400;
-      margin-right: 10px;
+      margin-right: 24px;
     }
   }
 `;
+export const MessageFileUploadWrapper = styled.label``;
 
 export const MessageUserListItem = styled.div`
   padding: 20px 40px;
   border-bottom: 1px solid #eaeaea;
   display: flex;
   align-items: center;
+  &.active {
+    background: #eaeaea70;
+    border-right: 5px solid #00000050;
+  }
+  &:hover {
+    background: #eaeaea70;
+  }
   img {
     object-fit: cover;
     margin-right: 24px;
@@ -82,46 +90,64 @@ export const MessageContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  .messages-wrapper {
+  h6 {
+    background-color: #5a88ff;
+    min-width: 50px;
+    height: 50px;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 400;
+    margin-right: 24px;
+  }
+  .messages-wrapper {
     flex: 1;
     overflow: auto;
-    padding: 24px 64px 0;
-    margin-bottom: 24px;
-    .message-form {
+    overflow-anchor: auto !important;
+    & > div {
       display: flex;
-      margin-top: 16px;
-      img {
-        border-radius: 999px;
-        object-fit: cover;
-        border: 1px solid #afafaf;
-      }
-      div {
-        margin-left: 12px;
-        display: flex;
-        flex-direction: column;
+      flex-direction: column;
+      justify-content: flex-end;
 
-        h3 {
-          color: #000;
-          font-size: 16px;
-          font-weight: 600;
-          margin-bottom: 8px;
+      padding: 24px 64px 0;
+      margin-bottom: 24px;
+      .message-form {
+        display: flex;
+        margin-top: 16px;
+        img {
+          border-radius: 999px;
+          object-fit: cover;
+          border: 1px solid #afafaf;
         }
-        p {
-          color: #000;
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 20.4px; /* 145.714% */
-        }
-      }
-      &.to {
-        flex-direction: row-reverse;
         div {
-          align-items: flex-end;
-          margin-left: 0;
-          margin-right: 12px;
+          margin-left: 12px;
+          display: flex;
+          flex-direction: column;
+
+          h3 {
+            color: #000;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+          }
+          p {
+            color: #000;
+            font-size: 14px;
+            font-weight: 400;
+            word-break: break-all;
+            line-height: 20.4px; /* 145.714% */
+          }
+        }
+        &.to {
+          flex-direction: row-reverse;
+          div {
+            align-items: flex-end;
+            margin-left: 0;
+            margin-right: 12px;
+          }
         }
       }
     }
@@ -156,6 +182,21 @@ export const MessageContainer = styled.div`
       }
     }
   }
+  .message-emoji-picker {
+    position: relative;
+    & > div {
+      position: absolute;
+      bottom: 40px;
+      right: 0;
+      transition: all 0.3s;
+      opacity: 0;
+      visibility: hidden;
+      &.show {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
 `;
 
 export const MessageUserInfoWrapper = styled.div`
@@ -165,6 +206,16 @@ export const MessageUserInfoWrapper = styled.div`
   flex: 1;
   overflow: auto;
   overflow-x: hidden;
+  & > h5 {
+    width: 100%;
+    height: 337px;
+    background: #5a88ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 120px;
+  }
   .user-info {
     padding: 20px 24px;
     border-bottom: 1px solid #eaeaea;

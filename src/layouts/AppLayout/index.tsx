@@ -26,7 +26,7 @@ export const AppLayout: React.FC<Props> = ({
       return seo_lists[name];
     } else if (name === "details") {
       return {
-        title: "Parasol Finance | " + title,
+        title: "Listsy | " + title,
         description: description,
         image: image,
       };

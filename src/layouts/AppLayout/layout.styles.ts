@@ -49,6 +49,14 @@ export const HeaderNavWrapper = styled.div`
       top: 5px;
       right: 5px;
     }
+    &.message {
+      span {
+        top: 2px;
+        right: 0;
+        width: 8px;
+        height: 8px;
+      }
+    }
   }
 `;
 

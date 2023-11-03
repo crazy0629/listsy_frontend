@@ -132,6 +132,11 @@ export const AppSidebar: React.FC = () => {
     }
   };
 
+  const handleEmojiClick = (event: any) => {
+    setCommunityValue((prev) => prev + event.emoji);
+    setEmojiShow(false);
+  };
+
   const handleAddCommunity = async () => {
     if (authContext.user) {
       if (!communityValue) {
@@ -267,9 +272,9 @@ export const AppSidebar: React.FC = () => {
                 />
                 <div className={emojiShow ? "show" : ""} ref={emojiRef}>
                   <EmojiPicker
-                    onEmojiClick={(e) =>
-                      setCommunityValue((prev) => prev + e.emoji)
-                    }
+                    onEmojiClick={(e) => {
+                      handleEmojiClick(e);
+                    }}
                     searchDisabled
                     skinTonesDisabled
                     autoFocusSearch={false}

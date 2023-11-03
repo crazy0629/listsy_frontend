@@ -268,6 +268,7 @@ export const JobForm: React.FC<Props> = ({ onFinish }) => {
             multiple
           />
         </UploadAssetWrapper>
+
         <Styled.UploadedFilesWrapper>
           {files.length ? (
             files.map((item: any, key: number) => (
