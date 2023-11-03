@@ -8,7 +8,7 @@ import { Rating } from "react-simple-star-rating";
 import { ImAttachment } from "react-icons/im";
 import { GrEmoji } from "react-icons/gr";
 import { useRouter } from "next/router";
-import { ORIGIN_SERVER_URI, SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
+import { SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Auth as AuthContext } from "@/context/contexts";
@@ -33,7 +33,7 @@ export const MessageRoom: React.FC = () => {
 
   const [ws, setWs] = useState(null);
 
-  const socket = io(ORIGIN_SERVER_URI, {
+  const socket = io(SERVER_UPLOAD_URI, {
     query: { userId: authContext.user.id },
   });
 
