@@ -3,9 +3,9 @@ import dynamic from "next/dynamic";
 import * as Styled from "./message.styles";
 import { IoIosSearch, IoIosSend } from "react-icons/io";
 import Image from "next/image";
-import { MdLocationOn, MdPhone } from "react-icons/md";
+import { MdClose, MdLocationOn, MdPhone } from "react-icons/md";
 import { Rating } from "react-simple-star-rating";
-import { ImAttachment } from "react-icons/im";
+import { ImAttachment, ImUsers } from "react-icons/im";
 import { GrEmoji } from "react-icons/gr";
 import { useRouter } from "next/router";
 import { SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
@@ -30,6 +30,8 @@ export const MessageRoom: React.FC = () => {
   const [emojiShow, setEmojiShow] = useState(false);
   const [messageHistory, setMessageHistory] = useState<any>([]);
   const emojiRef = useRef<any>(null);
+  const [isCurrentOpen, setIsCurrentOpen] = useState(false);
+  const [isMobileUserList, setIsMobileUserList] = useState(false);
 
   const socket = io(SERVER_UPLOAD_URI, {
     query: { userId: authContext.user.id },
@@ -155,9 +157,17 @@ export const MessageRoom: React.FC = () => {
 
   return (
     <Styled.MessageRoomWrapper>
-      <Styled.MessageUserListWrapper>
+      <div
+        className={`mobile-user-list ${isMobileUserList ? "open" : ""}`}
+        onClick={() => setIsMobileUserList((prev) => !prev)}
+      >
+        {isMobileUserList ? <MdClose size={24} /> : <ImUsers size={24} />}
+      </div>
+      <Styled.MessageUserListWrapper className={isMobileUserList ? "open" : ""}>
         <div className="user-search">
-          <IoIosSearch size={24} color="#afafaf" />
+          <div>
+            <IoIosSearch size={24} color="#afafaf" />
+          </div>
           <input type="text" placeholder="Search..." />
         </div>
         <div className="user-list">
@@ -168,7 +178,14 @@ export const MessageRoom: React.FC = () => {
               <React.Fragment key={key}>
                 <Styled.MessageUserListItem
                   className={item._id === currentChatUser?._id ? "active" : ""}
-                  onClick={() => router.push(`/message/${item._id}`)}
+                  onClick={() => {
+                    if (item._id === receiverId) {
+                      setIsCurrentOpen(true);
+                    } else {
+                      router.push(`/message/${item._id}`);
+                      setIsCurrentOpen(true);
+                    }
+                  }}
                 >
                   {item.avatar ? (
                     <Image
@@ -195,6 +212,10 @@ export const MessageRoom: React.FC = () => {
           )}
         </div>
       </Styled.MessageUserListWrapper>
+      <Styled.MessageUserListOverlay
+        className={isMobileUserList ? "open" : ""}
+        onClick={() => setIsMobileUserList(false)}
+      ></Styled.MessageUserListOverlay>
       <Styled.MessageContainer>
         <div className="messages-wrapper">
           <div>
@@ -323,65 +344,69 @@ export const MessageRoom: React.FC = () => {
           </div>
         </div>
       </Styled.MessageContainer>
-      {currentChatUser && (
-        <Styled.MessageUserInfoWrapper>
-          {currentChatUser.avatar ? (
-            <Image
-              src={SERVER_UPLOAD_URI + currentChatUser.avatar}
-              alt="avatar"
-              width={359}
-              height={337}
+      <Styled.MessageUserInfoWrapper
+        className={isCurrentOpen && currentChatUser ? "open" : ""}
+      >
+        {currentChatUser?.avatar ? (
+          <Image
+            src={SERVER_UPLOAD_URI + currentChatUser.avatar}
+            alt="avatar"
+            width={359}
+            height={337}
+          />
+        ) : (
+          <h5>
+            {currentChatUser?.firstName[0].toUpperCase() +
+              currentChatUser?.lastName[0].toUpperCase()}
+          </h5>
+        )}
+        {/* */}
+        <div className="user-info">
+          <div className="username">
+            <h2>
+              {currentChatUser?.firstName + " " + currentChatUser?.lastName}
+              <span>20 ads posts</span>
+            </h2>
+            <a href={`tel:+18888888888`} target="_blank">
+              <MdPhone size={30} color={"#82FF20"} />
+            </a>
+          </div>
+          <p>{currentChatUser?.bio}</p>
+          <div className="reviews">
+            <Rating
+              initialValue={currentChatUser?.reviewMark}
+              size={24}
+              disableFillHover
+              allowHover={false}
+              readonly
+              onClick={() => {}}
             />
-          ) : (
-            <h5>
-              {currentChatUser.firstName[0].toUpperCase() +
-                currentChatUser.lastName[0].toUpperCase()}
-            </h5>
-          )}
-          {/* */}
-          <div className="user-info">
-            <div className="username">
-              <h2>
-                {currentChatUser.firstName + " " + currentChatUser.lastName}
-                <span>20 ads posts</span>
-              </h2>
-              <a href={`tel:+18888888888`} target="_blank">
-                <MdPhone size={30} color={"#82FF20"} />
-              </a>
-            </div>
-            <p>{currentChatUser.bio}</p>
-            <div className="reviews">
-              <Rating
-                initialValue={currentChatUser.reviewMark}
-                size={24}
-                disableFillHover
-                allowHover={false}
-                readonly
-                onClick={() => {}}
-              />
-              <p>{currentChatUser.reviewMark}</p>
-              <span>{`(${currentChatUser.reviewCount} Reviews)`}</span>
-            </div>
+            <p>{currentChatUser?.reviewMark}</p>
+            <span>{`(${currentChatUser?.reviewCount} Reviews)`}</span>
           </div>
-          <div className="write-review">
-            <h3>Write Reviews</h3>
-            <div className="score-review">
-              <span>Score: </span>
-              <Rating
-                initialValue={0}
-                size={36}
-                onClick={(e) => console.log(e)}
-              />
-            </div>
-            <div className="review-textbox">
-              <p>Review:</p>
-              <textarea placeholder="Write Review here..." />
-              <span>0 / 5000</span>
-            </div>
-            <button>Save</button>
+        </div>
+        <div className="write-review">
+          <h3>Write Reviews</h3>
+          <div className="score-review">
+            <span>Score: </span>
+            <Rating
+              initialValue={0}
+              size={36}
+              onClick={(e) => console.log(e)}
+            />
           </div>
-        </Styled.MessageUserInfoWrapper>
-      )}
+          <div className="review-textbox">
+            <p>Review:</p>
+            <textarea placeholder="Write Review here..." />
+            <span>0 / 5000</span>
+          </div>
+          <button>Save</button>
+        </div>
+      </Styled.MessageUserInfoWrapper>
+      <Styled.MessageUseInfoOverlay
+        className={isCurrentOpen && currentChatUser ? "open" : ""}
+        onClick={() => setIsCurrentOpen(false)}
+      ></Styled.MessageUseInfoOverlay>
     </Styled.MessageRoomWrapper>
   );
 };

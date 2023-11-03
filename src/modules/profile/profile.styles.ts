@@ -10,9 +10,33 @@ export const ProfilePageWrapper = styled.div`
   height: 100%;
 `;
 
+export const MobileSidebar = styled.div`
+  position: fixed;
+  width: 40px;
+  z-index: 98;
+  height: 40px;
+  top: 100px;
+  background: #fff;
+  border: 1px solid #00000050;
+  border-left: none;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+  @media screen and (max-width: 1024px) {
+    display: flex;
+    left: 0;
+    transition: all 0.3s;
+    &.open {
+      left: 300px;
+    }
+  }
+`;
+
 export const SidebarWrapper = styled.div`
-  padding: 50px 64px;
-  max-width: 384px;
+  padding: 50px 40px;
+  max-width: 300px;
   width: 100%;
   height: 100%;
   border-right: 1px solid #eaeaea;
@@ -37,6 +61,18 @@ export const SidebarWrapper = styled.div`
     font-size: 14px;
     font-weight: 400;
     line-height: 20.4px; /* 145.714% */
+  }
+  @media screen and (max-width: 1024px) {
+    position: fixed;
+    z-index: 100;
+    top: 85px;
+    bottom: 0;
+    transition: all 0.3s;
+    left: -300px;
+    background-color: #fff;
+    &.open {
+      left: 0;
+    }
   }
 `;
 
@@ -136,11 +172,14 @@ export const SettingPageWrapper = styled.div`
     cursor: pointer;
     float: right;
   }
+  @media screen and (max-width: 768px) {
+    padding: 50px 30px;
+  }
 `;
 
 export const SettingFormWrapper = styled.div`
   & > :not(:first-child) {
-    margin-top: 32px;
+    margin-top: 40px;
   }
   input {
     outline: none;
@@ -201,6 +240,9 @@ export const FormGroup = styled.div`
     font-size: 14px;
     font-weight: 400;
     line-height: 20.4px; /* 145.714% */
+  }
+  @media screen and (max-width: 500px) {
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -267,6 +309,14 @@ export const ChangePasswordPageWrapper = styled.div`
     cursor: pointer;
     float: right;
   }
+  @media screen and (max-width: 768px) {
+    padding: 50px 30px;
+  }
+  @media screen and (max-width: 480px) {
+    h1 {
+      font-size: 24px;
+    }
+  }
 `;
 
 export const PasswordInputGroup = styled.div`
@@ -298,6 +348,7 @@ export const PostsPageWrapper = styled.div`
 export const PostsFilterWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding: 0 30px;
 `;
 
@@ -306,8 +357,10 @@ export const PostsPageFilterWrapper = styled.div`
   align-items: center;
   span {
     border-radius: 100px;
+    margin-bottom: 12px;
     padding: 6px 12px;
     margin-right: 8px;
+    white-space: nowrap;
     transition: all 0.3s;
     font-size: 10px;
     font-weight: 400;
@@ -320,11 +373,15 @@ export const PostsPageFilterWrapper = styled.div`
       color: #fff;
     }
   }
+  @media screen and (max-width: 500px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export const StatusWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 12px;
   span {
     margin-left: 8px;
     color: #000;
@@ -378,6 +435,21 @@ export const PostsGridWrapper = styled.div`
     grid-gap: 32px;
     padding: 0 30px 50px;
   }
+  @media screen and (max-width: 1440px) {
+    .infinite-scroll-component {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    .infinite-scroll-component {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .infinite-scroll-component {
+      grid-template-columns: 1fr;
+    }
+  }
 `;
 
 export const PostsListWrapper = styled.div`
@@ -392,10 +464,30 @@ export const PostsListWrapper = styled.div`
 export const JobDetailsWrapper = styled.div`
   width: 40%;
   overflow: auto;
+  display: none;
+  &.open {
+    display: block;
+  }
   & > p {
     font-size: 14px;
     text-align: center;
     padding: 20px;
+  }
+  @media screen and (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    display: block;
+    right: -425px;
+    bottom: 0;
+    transition: all 0.3s;
+    max-width: 425px;
+    width: 100%;
+    background: #fff;
+    border-left: 1px solid #00000050;
+    z-index: 100;
+    &.open {
+      right: 0;
+    }
   }
 `;
 

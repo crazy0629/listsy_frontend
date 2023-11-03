@@ -21,6 +21,7 @@ export const AppLayout: React.FC<Props> = ({
   image,
   noSidebar,
 }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const getSeoList = () => {
     if (seo_lists[name]) {
       return seo_lists[name];
@@ -41,12 +42,21 @@ export const AppLayout: React.FC<Props> = ({
 
   const props = getSeoList();
 
+  const handleSidebarClick = () => {
+    setSidebarOpen((prev) => !prev);
+  };
+
   return (
     <Styled.AppLayoutWrapper>
       <Seo {...props} />
-      <Header />
+      <Header onSidebar={handleSidebarClick} />
       <Styled.AppMainSection>
-        {!noSidebar && <AppSidebar />}
+        {!noSidebar && (
+          <AppSidebar
+            open={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+          />
+        )}
         <Styled.AppMainContainer nosidebar={noSidebar ? "true" : undefined}>
           <Styled.AppMainContent>
             {children ? children : ""}

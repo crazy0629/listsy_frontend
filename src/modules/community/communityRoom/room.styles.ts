@@ -8,6 +8,11 @@ export const CommunityRoomWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 768px) {
+    padding-left: 20px;
+    margin-right: 20px;
+    padding-bottom: 20px;
+  }
 `;
 
 export const CommunityHeaderWraper = styled.div`
@@ -16,7 +21,7 @@ export const CommunityHeaderWraper = styled.div`
   justify-content: space-between;
   align-items: center;
   .community-info {
-    width: 80%;
+    width: 70%;
     display: flex;
     align-items: center;
     img {
@@ -151,6 +156,9 @@ export const CommunityBodyWrapper = styled.div`
   overflow: auto;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 
 export const CommunityChatCotainer = styled.div`

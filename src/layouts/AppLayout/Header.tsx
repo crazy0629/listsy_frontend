@@ -18,7 +18,7 @@ import { ConfirmModal } from "@/components";
 import axios from "axios";
 import { MdMailOutline } from "react-icons/md";
 
-export const Header: React.FC = () => {
+export const Header: React.FC<{ onSidebar: () => void }> = ({ onSidebar }) => {
   const router = useRouter();
   const [visible, setVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -105,7 +105,7 @@ export const Header: React.FC = () => {
       />
       <Styled.HeaderLogoWrapper>
         <div>
-          <IoMdMenu size={40} />
+          <IoMdMenu size={40} onClick={onSidebar} />
         </div>
         <Image
           src="/assets/images/logo.png"

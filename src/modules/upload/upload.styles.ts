@@ -15,7 +15,7 @@ export const UploadModalWrapper = styled.div<{ open?: string }>`
     opacity: 1;
     visibility: visible;
   }
-  z-index: 999;
+  z-index: 99998;
 `;
 
 export const UploadModalContainer = styled.div`
@@ -26,12 +26,18 @@ export const UploadModalContainer = styled.div`
   margin-top: 5vh;
   background: #fff;
   max-width: 900px;
-  width: 100%;
+  width: 95%;
   overflow: auto;
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin-top: 0;
+  }
 `;
 
 export const UploadModalOverlay = styled.div`
@@ -230,6 +236,9 @@ export const UploadedFileWrapper = styled.div`
 export const DetailsWrapper = styled.div`
   padding: 24px 16px;
   display: flex;
+  @media screen and (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 export const DetailsFormWrapper = styled.div`
@@ -239,6 +248,11 @@ export const DetailsFormWrapper = styled.div`
 export const DetailsPreviewWrapper = styled.div`
   width: 350px;
   margin-left: 24px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 12px;
+  }
 `;
 
 export const VideoWrapper = styled.div`

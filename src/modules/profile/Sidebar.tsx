@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import axios from "axios";
 import * as Styled from "./profile.styles";
@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { ConfirmModal } from "@/components";
 import { toast } from "react-toastify";
 import { SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
-import FileResizer from "react-image-file-resizer";
+import { MdClose, MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 type Props = {
   page: "setting" | "changePassword" | "posts";
@@ -37,6 +37,26 @@ export const Sidebar: React.FC<Props> = ({ page }) => {
   const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
   const { authContext, setAuthContext } = useContext<any>(AuthContext);
   const [password, setPassword] = useState("");
+  const [isMobileUserList, setIsMobileUserList] = useState(false);
+
+  const dropDownRef = useRef<any>(null);
+
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
+    const handleClickOutside = (e: any) => {
+      if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
+        setIsMobileUserList(false);
+      }
+    };
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropDownRef]);
 
   const handleDeleteAccount = async () => {
     if (!password) {
@@ -110,7 +130,20 @@ export const Sidebar: React.FC<Props> = ({ page }) => {
           </Styled.ConfirmPasswordWrapper>
         }
       />
-      <Styled.SidebarWrapper>
+      <Styled.MobileSidebar
+        className={`mobile-user-list ${isMobileUserList ? "open" : ""}`}
+        onClick={() => setIsMobileUserList((prev) => !prev)}
+      >
+        {isMobileUserList ? (
+          <MdClose size={24} />
+        ) : (
+          <MdKeyboardDoubleArrowRight size={24} />
+        )}
+      </Styled.MobileSidebar>
+      <Styled.SidebarWrapper
+        className={isMobileUserList ? "open" : ""}
+        ref={dropDownRef}
+      >
         <Styled.ProfileAvatarWrapper>
           {authContext.user?.avatar ? (
             <Image
