@@ -53,9 +53,8 @@ export const AdsDetailsSection: React.FC = () => {
   };
 
   const sendMessageClicked = () => {
-    const senderId = authContext.user.id;
     const receiverId = data.userId._id;
-    router.push(`/message/${senderId}/${receiverId}`);
+    router.push(`/message/${receiverId}`);
   };
 
   return (

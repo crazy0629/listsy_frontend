@@ -22,12 +22,12 @@ export const seo_lists: { [any: string]: ISeoProps } = {
     image: "",
   },
   home: {
-    title: "",
+    title: "Listsy | Home",
     description: "",
     image: "",
   },
   estate: {
-    title: "",
+    title: "Listsy | Real Estate",
     description: "",
     image: "",
   },
