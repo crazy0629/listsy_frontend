@@ -31,8 +31,6 @@ export const MessageRoom: React.FC = () => {
   const [messageHistory, setMessageHistory] = useState<any>([]);
   const emojiRef = useRef<any>(null);
 
-  const [ws, setWs] = useState(null);
-
   const socket = io(SERVER_UPLOAD_URI, {
     query: { userId: authContext.user.id },
   });
@@ -108,8 +106,7 @@ export const MessageRoom: React.FC = () => {
   };
 
   const handleSendMsgButtonClicked = async (enteredText) => {
-    if (files.length == 0 && enteredText == "") return;
-    if (!receiverId) return;
+    if (enteredText == "" || !receiverId) return;
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
       formData.append("chatFiles", files[i]);
@@ -117,7 +114,6 @@ export const MessageRoom: React.FC = () => {
     formData.append("message", enteredText);
     formData.append("senderId", authContext.user.id);
     formData.append("receiverId", receiverId.toString());
-    formData.append("sentDate", Date.now().toString());
 
     const res = await axios.post(`${SERVER_URI}/message/add`, formData);
     if (res.data.success) {
@@ -130,7 +126,6 @@ export const MessageRoom: React.FC = () => {
   const handleKeyPress = async (event: any) => {
     if (event.key === "Enter") {
       const enteredText = event.target.value;
-      console.log(enteredText);
       await handleSendMsgButtonClicked(enteredText);
       setMessageContent("");
     }
@@ -140,7 +135,7 @@ export const MessageRoom: React.FC = () => {
     setMessageContent(event.target.value);
   };
 
-  const setMessageRead = async (event: any) => {
+  const setMessageRead = (event: any) => {
     let data = messageHistory.filter(
       (item) =>
         item.receiverId._id == authContext.user.id && item.readState == false
@@ -151,12 +146,11 @@ export const MessageRoom: React.FC = () => {
       idList.push(data[index]._id);
     }
 
-    const res = await axios.post(`${SERVER_URI}/message/markAsRead`, {
+    axios.post(`${SERVER_URI}/message/markAsRead`, {
       idList,
       senderId: authContext.user.id,
       receiverId,
     });
-    setMessageHistory(res.data.data);
   };
 
   return (
@@ -201,7 +195,7 @@ export const MessageRoom: React.FC = () => {
           )}
         </div>
       </Styled.MessageUserListWrapper>
-      <Styled.MessageContainer onMouseMoveCapture={setMessageRead}>
+      <Styled.MessageContainer>
         <div className="messages-wrapper">
           <div>
             {messageHistory.length > 1 ? (
