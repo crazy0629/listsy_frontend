@@ -206,6 +206,10 @@ export const MessageUserInfoWrapper = styled.div`
   flex: 1;
   overflow: auto;
   overflow-x: hidden;
+  img {
+    object-fit: cover;
+    object-position: center;
+  }
   & > h5 {
     width: 100%;
     height: 337px;

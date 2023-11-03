@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { Auth as AuthContext } from "@/context/contexts";
 
 import io from "socket.io-client";
+import { BsCheck, BsCheck2All } from "react-icons/bs";
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -37,10 +38,7 @@ export const MessageRoom: React.FC = () => {
   });
 
   useEffect(() => {
-    // Listen for server events
-
     socket.on("server", (data) => {
-      console.log(123123123, data);
       setMessageHistory(data);
     });
 
@@ -141,8 +139,32 @@ export const MessageRoom: React.FC = () => {
     setMessageContent(event.target.value);
   };
 
+  const setMessageRead = async (event: any) => {
+    let data = messageHistory.filter(
+      (item) =>
+        item.receiverId._id == authContext.user.id && item.readState == false
+    );
+    if (data.length == 0) return;
+    let idList: any = [];
+    for (let index = 0; index < data.length; index++) {
+      idList.push(data[index]._id);
+    }
+
+    const res = await axios.post(`${SERVER_URI}/message/markAsRead`, {
+      idList,
+      senderId: authContext.user.id,
+      receiverId,
+    });
+    setMessageHistory(res.data.data);
+  };
+
   return (
-    <Styled.MessageRoomWrapper>
+    <Styled.MessageRoomWrapper
+      onMouseDown={setMessageRead}
+      onMouseMove={setMessageRead}
+      onKeyDown={setMessageRead}
+      onScroll={setMessageRead}
+    >
       <Styled.MessageUserListWrapper>
         <div className="user-search">
           <IoIosSearch size={24} color="#afafaf" />
@@ -199,26 +221,46 @@ export const MessageRoom: React.FC = () => {
                     >
                       {item.receiverId._id == receiverId &&
                       item.senderId.avatar ? (
-                        <Image
-                          src={SERVER_UPLOAD_URI + item.senderId.avatar}
-                          alt="avatar"
-                          width={50}
-                          height={50}
-                        />
+                        <div>
+                          <Image
+                            src={SERVER_UPLOAD_URI + item.senderId.avatar}
+                            alt="avatar"
+                            width={50}
+                            height={50}
+                          />
+                          {!item.readState ? (
+                            <BsCheck color="green" size={24} />
+                          ) : (
+                            <BsCheck2All color="green" size={24} />
+                          )}
+                        </div>
                       ) : item.receiverId._id == receiverId &&
                         !item.senderId.avatar ? (
-                        <h6>
-                          {item.senderId.firstName[0].toString().toUpperCase() +
-                            item.senderId.lastName[0].toString().toUpperCase()}
-                        </h6>
+                        <div>
+                          <h6>
+                            {item.senderId.firstName[0]
+                              .toString()
+                              .toUpperCase() +
+                              item.senderId.lastName[0]
+                                .toString()
+                                .toUpperCase()}
+                          </h6>
+                          {!item.readState ? (
+                            <BsCheck color="green" size={24} />
+                          ) : (
+                            <BsCheck2All color="green" size={24} />
+                          )}
+                        </div>
                       ) : item.senderId._id == receiverId &&
                         item.senderId.avatar ? (
-                        <Image
-                          src={SERVER_UPLOAD_URI + item.senderId.avatar}
-                          alt="avatar"
-                          width={50}
-                          height={50}
-                        />
+                        <div>
+                          <Image
+                            src={SERVER_UPLOAD_URI + item.senderId.avatar}
+                            alt="avatar"
+                            width={50}
+                            height={50}
+                          />
+                        </div>
                       ) : (
                         <h6>
                           {item.senderId.firstName[0].toString().toUpperCase() +
