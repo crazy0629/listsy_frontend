@@ -162,7 +162,6 @@ export const MessageRoom: React.FC = () => {
     <Styled.MessageRoomWrapper
       onMouseDown={setMessageRead}
       onMouseMove={setMessageRead}
-      onKeyDown={setMessageRead}
       onScroll={setMessageRead}
     >
       <Styled.MessageUserListWrapper>
