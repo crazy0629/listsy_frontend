@@ -22,7 +22,7 @@ export const CommunityModalWrapper = styled.div<{ open?: string }>`
 export const CommunityModalContainer = styled.div`
   position: absolute;
   max-width: 750px;
-  width: 100%;
+  width: 95%;
   z-index: 1;
   padding-bottom: 24px;
   border-radius: 5px;
@@ -46,6 +46,12 @@ export const CommunityModalContainer = styled.div`
         transform: rotate(90deg);
       }
     }
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    max-width: 768px;
+    height: 100%;
+    border-radius: 0;
   }
 `;
 

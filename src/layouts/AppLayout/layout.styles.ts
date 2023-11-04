@@ -8,6 +8,9 @@ export const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media screen and (max-width: 480px) {
+    padding: 20px;
+  }
 `;
 
 export const HeaderLogoWrapper = styled.div`
@@ -30,6 +33,7 @@ export const HeaderNavWrapper = styled.div`
   align-items: center;
   flex: 1;
   justify-content: flex-end;
+  margin-left: 30px;
   & > :not(:first-child) {
     margin-left: 16px;
   }
@@ -80,6 +84,9 @@ export const HeaderSearchInput = styled.div`
     &::placeholder {
       color: #afafaf;
     }
+  }
+  @media screen and (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -153,6 +160,10 @@ export const AppMainContainer = styled.div<{ nosidebar?: string }>`
   padding-left: ${({ nosidebar }) => (nosidebar ? "0" : "240px")};
   flex: 1;
   /* overflow: auto; */
+  transition: all 0.3s;
+  @media screen and (max-width: 1024px) {
+    padding-left: 0;
+  }
 `;
 
 export const AppMainContent = styled.div`
@@ -360,6 +371,39 @@ export const AppSidebarWrapper = styled.div`
   height: calc(100vh - 85px);
   display: flex;
   flex-direction: column;
+  transition: all 0.3s;
+  background: #fff;
+  z-index: 9999;
+  left: 0;
+  @media screen and (max-width: 1024px) {
+    &.show {
+      left: 0;
+    }
+
+    border-right: 1px solid #00000030;
+    left: -240px;
+  }
+`;
+
+export const AppSidebarOverlay = styled.div`
+  display: none;
+  @media screen and (max-width: 1024px) {
+    display: block;
+    height: calc(100vh - 85px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #00000050;
+    z-index: 9998;
+    position: fixed;
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    &.show {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 `;
 
 export const AppSidebarContainer = styled.div`

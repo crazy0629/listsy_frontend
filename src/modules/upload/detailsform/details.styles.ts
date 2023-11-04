@@ -153,6 +153,9 @@ export const FormGroup = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 16px;
+  @media screen and (max-width: 580px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const UploadedFilesWrapper = styled.div`

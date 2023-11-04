@@ -9,11 +9,13 @@ export const MainPageSectionWrapper = styled.div`
 `;
 
 export const FilterWrapper = styled.div`
-  padding: 16px 20px;
+  padding: 0 20px 16px;
   display: flex;
   align-items: center;
-  & > :not(:first-child) {
-    margin-left: 12px;
+  flex-wrap: wrap;
+  & > * {
+    margin-top: 16px;
+    margin-right: 12px;
   }
   & > button {
     height: 34px;
@@ -41,6 +43,43 @@ export const MainGridWrapper = styled.div`
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 32px;
     padding: 0 20px 40px;
+    /* @media screen and (max-width: ) {
+      
+    } */
+  }
+  @media screen and (max-width: 1440px) {
+    .infinite-scroll-component {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  @media screen and (max-width: 1280px) {
+    .infinite-scroll-component {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    .infinite-scroll-component {
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 24px;
+    }
+  }
+  @media screen and (max-width: 920px) {
+    .infinite-scroll-component {
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 24px;
+    }
+  }
+  @media screen and (max-width: 680px) {
+    .infinite-scroll-component {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 24px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .infinite-scroll-component {
+      grid-template-columns: 1fr;
+      grid-gap: 24px;
+    }
   }
 `;
 
@@ -62,6 +101,11 @@ export const JobDetailWrapper = styled.div`
   flex: 1;
   overflow: auto;
   padding: 36px 24px;
+
+  display: none;
+  &.open {
+    display: block;
+  }
   & > a {
     display: flex;
     width: fit-content;
@@ -73,24 +117,28 @@ export const JobDetailWrapper = styled.div`
     color: #000;
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 12px;
   }
   & > div.job-details {
     display: flex;
     justify-content: space-between;
     div {
       display: flex;
+      flex-wrap: wrap;
       span {
         padding: 3px 12px;
         color: #000;
         font-size: 10px;
         font-weight: 400;
+        margin-top: 12px;
+        white-space: nowrap;
         border-radius: 100px;
         margin-right: 8px;
         background: #eaeaea;
       }
     }
     h5 {
+      margin-top: 12px;
+      white-space: nowrap;
       color: #000;
       font-size: 12px;
       font-weight: 500;
@@ -106,6 +154,21 @@ export const JobDetailWrapper = styled.div`
     font-weight: 300;
     white-space: pre-line;
     margin-top: 16px;
+  }
+  @media screen and (max-width: 1024px) {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    max-width: 500px;
+    width: 100%;
+    background-color: #fff;
+    right: -500px;
+    border-left: 1px solid #00000030;
+    display: block;
+    transition: all 0.3s;
+    &.open {
+      right: 0;
+    }
   }
 `;
 

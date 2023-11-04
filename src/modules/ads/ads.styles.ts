@@ -11,6 +11,9 @@ export const AdsDetailsContainer = styled.div`
   width: 95%;
   display: flex;
   margin: auto;
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+  }
 `;
 
 export const AdsDetailsVideoInfoWrapper = styled.div`
@@ -43,6 +46,7 @@ export const AdsDetailsThumbWrapper = styled.div`
       }
       img {
         object-fit: cover;
+        object-position: center;
       }
     }
     .swiper-button-prev,
@@ -52,6 +56,39 @@ export const AdsDetailsThumbWrapper = styled.div`
         color: #000000;
         font-weight: 900;
       }
+    }
+  }
+  @media screen and (max-width: 1440px) {
+    max-width: 400px;
+    .mySwiper {
+      .swiper-slide {
+        img {
+          width: 400px;
+          height: 280px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1280px) {
+    max-width: 300px;
+    .mySwiper {
+      .swiper-slide {
+        img {
+          width: 300px;
+          height: 220px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    max-width: 100%;
+    margin-left: 0;
+    margin-top: 50px;
+    padding-top: 50px;
+    border-top: 1px solid #00000030;
+    .mySwiper {
+      width: 300px;
+      margin-left: 0;
     }
   }
 `;
@@ -84,6 +121,7 @@ export const VideoInfoWrapper = styled.div`
       font-weight: 300;
       display: flex;
       align-items: center;
+      white-space: nowrap;
       span {
         margin-left: 12px;
       }

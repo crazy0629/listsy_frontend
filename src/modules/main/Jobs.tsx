@@ -215,100 +215,94 @@ export const JobsPageSection: React.FC = () => {
               ))}
           </InfiniteScroll>
         </Styled.JobListContainer>
-        {selectedJob && (
-          <Styled.JobDetailWrapper>
-            <h1>{selectedJob.jobTitle}</h1>
-            <div className="job-details">
-              <div>
-                <span>{selectedJob.workTimeType}</span>
-                <span>{selectedJob.workRemoteType}</span>
-                <span>{selectedJob.jobIndustry}</span>
-              </div>
-              <h5>
-                {selectedJob.priceUnit + " " + selectedJob.price}
-                <span>{" / " + selectedJob.paidType}</span>
-              </h5>
+        <Styled.JobDetailWrapper className={selectedJob ? "open" : ""}>
+          <h1>{selectedJob?.jobTitle}</h1>
+          <div className="job-details">
+            <div>
+              <span>{selectedJob?.workTimeType}</span>
+              <span>{selectedJob?.workRemoteType}</span>
+              <span>{selectedJob?.jobIndustry}</span>
             </div>
-            <p>{selectedJob.jobDescription}</p>
-            {selectedJob?.jobAttachFileName?.length > 0 &&
-              selectedJob?.jobAttachFileName.map(
-                (item: string, key: number) => (
-                  <a
-                    href={SERVER_UPLOAD_URI + item}
-                    target="_blank"
-                    download={true}
-                    key={key}
-                  >
-                    {selectedJob?.attachOriginalName[key]}
-                  </a>
-                )
-              )}
-            <Styled.JobApplySection>
-              {isApply && (
-                <Styled.ApplyForm>
-                  <h2>Send your proposal</h2>
-                  <TextAreaFormItem height={200}>
-                    <p>{"Cover letter"}</p>
-                    <textarea
-                      placeholder="Type here..."
-                      onChange={(e) =>
-                        e.target.value.length <= 5000 &&
-                        setCoverletter(e.target.value)
-                      }
-                      value={coverletter}
-                    ></textarea>
-                    <span>{coverletter.length} / 5000</span>
-                  </TextAreaFormItem>
-                  <Styled.AttachFile>
-                    <label htmlFor="attach-file">
-                      <input
-                        type="file"
-                        hidden
-                        id="attach-file"
-                        multiple
-                        onChange={handleFileChange}
-                      />
-                      <MdAttachFile />
-                      <span>Attachments</span>
-                    </label>
-                    {files.length > 0 &&
-                      files.map((item, key) => (
-                        <div key={key}>
-                          <p>
-                            <b>{item.name}</b>
-                            <span>{formatBytes(item.size)}</span>
-                          </p>
-                          <MdClose
-                            onClick={() =>
-                              setFiles((prev) =>
-                                prev.filter((f, i) => i !== key)
-                              )
-                            }
-                          />
-                        </div>
-                      ))}
-                  </Styled.AttachFile>
-                </Styled.ApplyForm>
-              )}
-              {loading ? (
-                <Styled.ApplyButtonWrapper>
-                  <span>Wait a moment...</span>
-                </Styled.ApplyButtonWrapper>
-              ) : (
-                <Styled.ApplyButtonWrapper>
-                  {isApplied ? (
-                    <span>Applied</span>
-                  ) : (
-                    <button onClick={handleApply}>Apply Now</button>
-                  )}
-                  <button className="close" onClick={handleApplyClose}>
-                    Close
-                  </button>
-                </Styled.ApplyButtonWrapper>
-              )}
-            </Styled.JobApplySection>
-          </Styled.JobDetailWrapper>
-        )}
+            <h5>
+              {selectedJob?.priceUnit + " " + selectedJob?.price}
+              <span>{" / " + selectedJob?.paidType}</span>
+            </h5>
+          </div>
+          <p>{selectedJob?.jobDescription}</p>
+          {selectedJob?.jobAttachFileName?.length > 0 &&
+            selectedJob?.jobAttachFileName.map((item: string, key: number) => (
+              <a
+                href={SERVER_UPLOAD_URI + item}
+                target="_blank"
+                download={true}
+                key={key}
+              >
+                {selectedJob?.attachOriginalName[key]}
+              </a>
+            ))}
+          <Styled.JobApplySection>
+            {isApply && (
+              <Styled.ApplyForm>
+                <h2>Send your proposal</h2>
+                <TextAreaFormItem height={200}>
+                  <p>{"Cover letter"}</p>
+                  <textarea
+                    placeholder="Type here..."
+                    onChange={(e) =>
+                      e.target.value.length <= 5000 &&
+                      setCoverletter(e.target.value)
+                    }
+                    value={coverletter}
+                  ></textarea>
+                  <span>{coverletter.length} / 5000</span>
+                </TextAreaFormItem>
+                <Styled.AttachFile>
+                  <label htmlFor="attach-file">
+                    <input
+                      type="file"
+                      hidden
+                      id="attach-file"
+                      multiple
+                      onChange={handleFileChange}
+                    />
+                    <MdAttachFile />
+                    <span>Attachments</span>
+                  </label>
+                  {files.length > 0 &&
+                    files.map((item, key) => (
+                      <div key={key}>
+                        <p>
+                          <b>{item.name}</b>
+                          <span>{formatBytes(item.size)}</span>
+                        </p>
+                        <MdClose
+                          onClick={() =>
+                            setFiles((prev) => prev.filter((f, i) => i !== key))
+                          }
+                        />
+                      </div>
+                    ))}
+                </Styled.AttachFile>
+              </Styled.ApplyForm>
+            )}
+            {loading ? (
+              <Styled.ApplyButtonWrapper>
+                <span>Wait a moment...</span>
+              </Styled.ApplyButtonWrapper>
+            ) : (
+              <Styled.ApplyButtonWrapper>
+                {isApplied ? (
+                  <span>Applied</span>
+                ) : (
+                  <button onClick={handleApply}>Apply Now</button>
+                )}
+                <button className="close" onClick={handleApplyClose}>
+                  Close
+                </button>
+              </Styled.ApplyButtonWrapper>
+            )}
+          </Styled.JobApplySection>
+        </Styled.JobDetailWrapper>
       </Styled.JobListWrapper>
     </Styled.MainPageSectionWrapper>
   );

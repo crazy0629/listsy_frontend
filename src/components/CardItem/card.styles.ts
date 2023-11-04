@@ -5,6 +5,19 @@ export const CardItemWrapper = styled.div`
   border-radius: 10px;
   height: fit-content;
   box-shadow: 0px 18px 40px 0px rgba(216, 215, 215, 0.25);
+  & > .button {
+    padding: 0 12px 12px;
+    margin-top: -10px;
+    button {
+      border-radius: 5px;
+      border: 1px solid #eaeaea;
+      height: 32px;
+      width: 100%;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+  }
 `;
 
 export const VideoWrapper = styled.div`
@@ -46,8 +59,9 @@ export const VideoWrapper = styled.div`
 export const VideoInfoWrapper = styled.div`
   padding: 24px 12px;
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   img {
+    min-width: 36px;
     border-radius: 999px;
     object-fit: cover;
   }
@@ -130,6 +144,9 @@ export const VideoInfoWrapper = styled.div`
         }
       }
       &.reviews {
+        white-space: nowrap;
+
+        flex-wrap: wrap;
         div {
           display: flex;
         }
@@ -152,16 +169,6 @@ export const VideoInfoWrapper = styled.div`
         }
       }
     }
-  }
-  & > button {
-    border-radius: 5px;
-    border: 1px solid #eaeaea;
-    height: 32px;
-    width: 100%;
-    margin-top: 8px;
-    background: #fff;
-    cursor: pointer;
-    outline: none;
   }
 `;
 

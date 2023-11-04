@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import * as Styled from "./profile.styles";
 import { Auth as AuthContext } from "@/context/contexts";
 import axios from "axios";
@@ -72,6 +72,26 @@ export const MyPosts: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [proposalLoading, setProposalLoading] = useState(false);
   const [proposals, setProposals] = useState<any>([]);
+  const [isJobProposals, setIsJobProposals] = useState(false);
+  const dropDownRef = useRef<any>(null);
+
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
+    const handleClickOutside = (e: any) => {
+      if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
+        setIsJobProposals(false);
+        setSelectedJob(-1);
+      }
+    };
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropDownRef]);
 
   useEffect(() => {
     if (authContext.user) {
@@ -232,10 +252,13 @@ export const MyPosts: React.FC = () => {
                         key={key}
                         onClick={
                           selectedJob === key
-                            ? () => setSelectedJob(-1)
+                            ? () => {
+                                setSelectedJob(-1);
+                              }
                             : () => {
                                 handleGetProposalByJob(item._id);
                                 setSelectedJob(key);
+                                setIsJobProposals(true);
                               }
                         }
                       >
@@ -252,58 +275,57 @@ export const MyPosts: React.FC = () => {
                 <h4>No Data</h4>
               )}
             </JobListContainer>
-            {selectedJob > -1 && (
-              <Styled.JobDetailsWrapper>
-                {proposalLoading ? (
-                  <p>Loading...</p>
-                ) : proposals.length > 0 ? (
-                  proposals.map((item: any, key: number) => (
-                    <Styled.ProposalDetailsWrapper key={key}>
-                      <div className="user-info">
-                        {item.userId?.avatar ? (
-                          <Image
-                            src={SERVER_UPLOAD_URI + item.userId?.avatar}
-                            alt="avatar"
-                            width={24}
-                            height={24}
-                          />
-                        ) : (
-                          <span>
-                            {item.userId?.firstName[0].toUpperCase() +
-                              item.userId?.lastName[0].toUpperCase()}
-                          </span>
-                        )}
-                        <h3>
-                          {item.userId?.firstName + " " + item.userId?.lastName}
-                        </h3>
-                      </div>
-                      <h5>Cover letter</h5>
-                      <p>{item?.proposalContent}</p>
-                      <h5>Attachments</h5>
-                      {item?.attachedFileNames.length > 0 ? (
-                        item.attachedFileNames.map(
-                          (file: any, fKey: number) => (
-                            <a
-                              href={SERVER_UPLOAD_URI + file}
-                              key={fKey}
-                              target="_blank"
-                              download={true}
-                            >
-                              {item.attachOriginalNames[fKey]}
-                            </a>
-                          )
-                        )
+            <Styled.JobDetailsWrapper
+              ref={dropDownRef}
+              className={isJobProposals && selectedJob > -1 ? "open" : ""}
+            >
+              {proposalLoading ? (
+                <p>Loading...</p>
+              ) : proposals.length > 0 ? (
+                proposals.map((item: any, key: number) => (
+                  <Styled.ProposalDetailsWrapper key={key}>
+                    <div className="user-info">
+                      {item.userId?.avatar ? (
+                        <Image
+                          src={SERVER_UPLOAD_URI + item.userId?.avatar}
+                          alt="avatar"
+                          width={24}
+                          height={24}
+                        />
                       ) : (
-                        <p>No Files</p>
+                        <span>
+                          {item.userId?.firstName[0].toUpperCase() +
+                            item.userId?.lastName[0].toUpperCase()}
+                        </span>
                       )}
-                      <button>Send Message</button>
-                    </Styled.ProposalDetailsWrapper>
-                  ))
-                ) : (
-                  <p>No Proposals</p>
-                )}
-              </Styled.JobDetailsWrapper>
-            )}
+                      <h3>
+                        {item.userId?.firstName + " " + item.userId?.lastName}
+                      </h3>
+                    </div>
+                    <h5>Cover letter</h5>
+                    <p>{item?.proposalContent}</p>
+                    <h5>Attachments</h5>
+                    {item?.attachedFileNames.length > 0 ? (
+                      item.attachedFileNames.map((file: any, fKey: number) => (
+                        <a
+                          href={SERVER_UPLOAD_URI + file}
+                          key={fKey}
+                          target="_blank"
+                          download={true}
+                        >
+                          {item.attachOriginalNames[fKey]}
+                        </a>
+                      ))
+                    ) : (
+                      <p>No Files</p>
+                    )}
+                    <button>Send Message</button>
+                  </Styled.ProposalDetailsWrapper>
+                ))
+              ) : (
+                <p>No Proposals</p>
+              )}
+            </Styled.JobDetailsWrapper>
           </JobListWrapper>
         </Styled.PostsListWrapper>
       )}

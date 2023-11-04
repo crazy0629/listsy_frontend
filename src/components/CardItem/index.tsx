@@ -128,8 +128,12 @@ export const CardItem: React.FC<Props> = ({
             </p>
           </div>
         </div>
-        {isBoost && <button>Boost</button>}
       </Styled.VideoInfoWrapper>
+      {isBoost && (
+        <div className="button">
+          <button>Boost</button>
+        </div>
+      )}
     </Styled.CardItemWrapper>
   );
 };

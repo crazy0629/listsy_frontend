@@ -4,6 +4,31 @@ export const MessageRoomWrapper = styled.div`
   border-top: 1px solid #eaeaea;
   height: 100%;
   display: flex;
+  .mobile-user-list {
+    position: fixed;
+    width: 40px;
+    z-index: 98;
+    height: 40px;
+    top: 100px;
+    background: #fff;
+    border: 1px solid #00000050;
+    border-left: none;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 768px) {
+    .mobile-user-list {
+      display: flex;
+      left: 0;
+      transition: all 0.3s;
+      &.open {
+        left: 300px;
+      }
+    }
+  }
 `;
 
 export const MessageUserListWrapper = styled.div`
@@ -18,6 +43,9 @@ export const MessageUserListWrapper = styled.div`
     display: flex;
     align-items: center;
     border-bottom: 1px solid #eaeaea;
+    div {
+      display: flex;
+    }
     svg {
       margin-right: 16px;
     }
@@ -50,7 +78,44 @@ export const MessageUserListWrapper = styled.div`
       margin-right: 24px;
     }
   }
+  @media screen and (max-width: 1024px) {
+    max-width: 300px;
+  }
+  @media screen and (max-width: 768px) {
+    position: fixed;
+    transition: all 0.3s;
+    top: 84px;
+    bottom: 0;
+    left: -340px;
+    background: #fff;
+    z-index: 98;
+    &.open {
+      left: 0;
+    }
+  }
 `;
+
+export const MessageUserListOverlay = styled.div`
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: block;
+    top: 85px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    z-index: 95;
+    background: #00000040;
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    &.open {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+`;
+
 export const MessageFileUploadWrapper = styled.label``;
 
 export const MessageUserListItem = styled.div`
@@ -83,6 +148,9 @@ export const MessageUserListItem = styled.div`
       font-weight: 400;
       line-height: 20.4px; /* 145.714% */
     }
+  }
+  @media screen and (max-width: 768px) {
+    padding: 16px 20px;
   }
 `;
 
@@ -197,6 +265,17 @@ export const MessageContainer = styled.div`
       }
     }
   }
+  @media screen and (max-width: 1024px) {
+    .messages-wrapper {
+      & > div {
+        padding: 24px 24px 0;
+      }
+    }
+    .input-wrapper {
+      margin: 0 24px;
+      margin-bottom: 12px;
+    }
+  }
 `;
 
 export const MessageUserInfoWrapper = styled.div`
@@ -206,6 +285,10 @@ export const MessageUserInfoWrapper = styled.div`
   flex: 1;
   overflow: auto;
   overflow-x: hidden;
+  display: none;
+  &.open {
+    display: block;
+  }
   img {
     object-fit: cover;
     object-position: center;
@@ -341,6 +424,41 @@ export const MessageUserInfoWrapper = styled.div`
       font-weight: 400;
       line-height: 20.4px; /* 145.714% */
       margin-top: 20px;
+    }
+  }
+  @media screen and (max-width: 1180px) {
+    position: fixed;
+    background: #fff;
+    right: 0;
+    top: 85px;
+    bottom: 0;
+    display: block;
+    transition: all 0.3s;
+    z-index: 100;
+    right: -360px;
+    &.open {
+      right: 0;
+    }
+  }
+`;
+
+export const MessageUseInfoOverlay = styled.div`
+  display: none;
+  @media screen and (max-width: 1180px) {
+    display: block;
+    position: fixed;
+    z-index: 99;
+    background: #00000050;
+    top: 85px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    &.open {
+      opacity: 1;
+      visibility: visible;
     }
   }
 `;
