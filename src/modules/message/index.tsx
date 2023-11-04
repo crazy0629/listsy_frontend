@@ -130,6 +130,7 @@ export const MessageRoom: React.FC = () => {
   const handleKeyPress = async (event: any) => {
     if (event.key === "Enter") {
       const enteredText = event.target.value;
+      console.log(enteredText);
       await handleSendMsgButtonClicked(enteredText);
       setMessageContent("");
     }
@@ -159,11 +160,7 @@ export const MessageRoom: React.FC = () => {
   };
 
   return (
-    <Styled.MessageRoomWrapper
-      onMouseDown={setMessageRead}
-      onMouseMove={setMessageRead}
-      onScroll={setMessageRead}
-    >
+    <Styled.MessageRoomWrapper>
       <Styled.MessageUserListWrapper>
         <div className="user-search">
           <IoIosSearch size={24} color="#afafaf" />
@@ -204,7 +201,7 @@ export const MessageRoom: React.FC = () => {
           )}
         </div>
       </Styled.MessageUserListWrapper>
-      <Styled.MessageContainer>
+      <Styled.MessageContainer onMouseMoveCapture={setMessageRead}>
         <div className="messages-wrapper">
           <div>
             {messageHistory.length > 1 ? (
