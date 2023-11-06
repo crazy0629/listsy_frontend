@@ -17,6 +17,7 @@ import { UploadModal } from "@/modules/upload";
 import { ConfirmModal } from "@/components";
 import axios from "axios";
 import { MdMailOutline } from "react-icons/md";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 export const Header: React.FC<{ onSidebar: () => void }> = ({ onSidebar }) => {
   const router = useRouter();
@@ -127,8 +128,9 @@ export const Header: React.FC<{ onSidebar: () => void }> = ({ onSidebar }) => {
           <MdMailOutline size={24} />
           {<span />}
         </div>
-        <div className="icon-wrapper">
-          <PiUploadSimple size={24} onClick={handleUploadClick} />
+        <div className="icon-wrapper upload">
+          <AiOutlinePlusCircle size={24} onClick={handleUploadClick} />
+          <h6>List it</h6>
         </div>
         <div className="icon-wrapper">
           <IoMdNotificationsOutline size={24} />
