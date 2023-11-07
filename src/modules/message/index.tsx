@@ -30,7 +30,7 @@ export const MessageRoom: React.FC = () => {
   const [emojiShow, setEmojiShow] = useState(false);
   const [messageHistory, setMessageHistory] = useState<any>([]);
   const emojiRef = useRef<any>(null);
-  const [isCurrentOpen, setIsCurrentOpen] = useState(false);
+  const [isCurrentOpen, setIsCurrentOpen] = useState(true);
   const [isMobileUserList, setIsMobileUserList] = useState(false);
 
   const socket = io(SERVER_UPLOAD_URI, {
@@ -38,15 +38,14 @@ export const MessageRoom: React.FC = () => {
   });
 
   useEffect(() => {
-    socket.on("server", (data) => {
-      setMessageHistory(data);
+    socket.on("server", async (data) => {
+      await getChatUserList();
     });
 
     // Send a message to the server
     // socket.emit("message", "Hello from client");
 
     return () => {
-      // Clean up socket connection
       socket.disconnect();
     };
   }, []);
@@ -66,10 +65,30 @@ export const MessageRoom: React.FC = () => {
   }, [emojiRef]);
 
   useEffect(() => {
-    // if (receiverId) {
     getChatUserList();
-    // }
   }, [receiverId]);
+
+  const getChatUserList = async () => {
+    setChatUserListLoading(true);
+    const res = await axios.post(`${SERVER_URI}/message/addChatUserList`, {
+      senderId: authContext.user.id,
+      receiverId: receiverId ? receiverId : "no-user",
+    });
+
+    if (res.data.success) {
+      setChatUserList(res.data.data);
+      if (receiverId) {
+        setCurrentChatUser(
+          res.data.data.filter((item: any) => item._id == receiverId)[0]
+        );
+      }
+      setMessageHistory(res.data.messages);
+      setChatUserListLoading(false);
+    } else {
+      setChatUserListLoading(false);
+      toast.error(res.data.error);
+    }
+  };
 
   useEffect(() => {
     var messageBody = document.querySelector(".messages-wrapper");
@@ -87,49 +106,35 @@ export const MessageRoom: React.FC = () => {
     setEmojiShow(false);
   };
 
-  const getChatUserList = async () => {
-    setChatUserListLoading(true);
-    const res = await axios.post(`${SERVER_URI}/message/addMemberOnChat`, {
-      userId: authContext.user.id,
-      posterId: receiverId ? receiverId : "no-user",
-    });
-    if (res.data.success) {
-      setChatUserListLoading(false);
-      setChatUserList(res.data.data);
-      if (receiverId) {
-        setCurrentChatUser(
-          res.data.data.filter((item: any) => item._id == receiverId)[0]
-        );
-      }
-      setMessageHistory(res.data.messages);
-    } else {
-      toast.error(res.data.error);
-    }
-  };
-
   const handleSendMsgButtonClicked = async (enteredText) => {
     if (enteredText == "" || !receiverId) return;
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append("chatFiles", files[i]);
-    }
-    formData.append("message", enteredText);
-    formData.append("senderId", authContext.user.id);
-    formData.append("receiverId", receiverId.toString());
+    // const formData = new FormData();
+    // for (let i = 0; i < files.length; i++) {
+    //   formData.append("chatFiles", files[i]);
+    // }
+    // formData.append("message", enteredText);
+    // formData.append("senderId", authContext.user.id);
+    // formData.append("receiverId", receiverId.toString());
 
-    const res = await axios.post(`${SERVER_URI}/message/add`, formData);
+    const res = await axios.post(`${SERVER_URI}/message/addMessage`, {
+      senderId: authContext.user.id,
+      receiverId,
+      message: enteredText,
+    });
+
     if (res.data.success) {
       setMessageHistory(res.data.data);
     } else {
       toast.error(res.data.message);
     }
   };
+  0;
 
   const handleKeyPress = async (event: any) => {
     if (event.key === "Enter") {
       const enteredText = event.target.value;
-      await handleSendMsgButtonClicked(enteredText);
       setMessageContent("");
+      await handleSendMsgButtonClicked(enteredText);
     }
   };
 
@@ -137,6 +142,7 @@ export const MessageRoom: React.FC = () => {
     setMessageContent(event.target.value);
   };
 
+  /*
   const setMessageRead = (event: any) => {
     let data = messageHistory.filter(
       (item) =>
@@ -154,6 +160,7 @@ export const MessageRoom: React.FC = () => {
       receiverId,
     });
   };
+*/
 
   return (
     <Styled.MessageRoomWrapper>
@@ -219,7 +226,7 @@ export const MessageRoom: React.FC = () => {
       <Styled.MessageContainer>
         <div className="messages-wrapper">
           <div>
-            {messageHistory.length > 1 ? (
+            {messageHistory.length > 0 ? (
               messageHistory.map((item: any, key: number) =>
                 item.message != "" ? (
                   <React.Fragment key={key}>
@@ -240,9 +247,9 @@ export const MessageRoom: React.FC = () => {
                             height={50}
                           />
                           {!item.readState ? (
-                            <BsCheck color="green" size={24} />
+                            <BsCheck color="green" size={20} />
                           ) : (
-                            <BsCheck2All color="green" size={24} />
+                            <BsCheck2All color="green" size={20} />
                           )}
                         </div>
                       ) : item.receiverId._id == receiverId &&
@@ -326,10 +333,10 @@ export const MessageRoom: React.FC = () => {
             <GrEmoji size={24} onClick={() => setEmojiShow((prev) => !prev)} />
             <IoIosSend
               size={24}
-              onClick={async () => {
-                await handleSendMsgButtonClicked(messageContent);
-                setMessageContent("");
-              }}
+              // onClick={async () => {
+              //   await handleSendMsgButtonClicked(messageContent);
+              //   setMessageContent("");
+              // }}
             />
             <div ref={emojiRef} className={`${emojiShow ? "show" : ""}`}>
               <EmojiPicker

@@ -43,6 +43,15 @@ export const HeaderNavWrapper = styled.div`
     align-items: center;
     justify-content: center;
     position: relative;
+    &.upload {
+      flex-direction: column;
+      justify-content: flex-start;
+      h6 {
+        @media screen and (max-width: 1000px) {
+          display: none;
+        }
+      }
+    }
     span {
       position: absolute;
       display: block;
