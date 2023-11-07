@@ -39,11 +39,25 @@ export const MessageRoom: React.FC = () => {
 
   useEffect(() => {
     socket.on("server", async (data) => {
-      await getChatUserList();
+      // await getChatUserList();
     });
 
-    // Send a message to the server
-    // socket.emit("message", "Hello from client");
+    socket.on("getChatUserList", (data) => {
+      console.log(123123123, data);
+      if (data.success) {
+        setChatUserList(data.data);
+        if (receiverId) {
+          setCurrentChatUser(
+            data.data.filter((item: any) => item._id == receiverId)[0]
+          );
+          // setMessageHistory(res.data.messages);
+        }
+        setChatUserListLoading(false);
+      } else {
+        setChatUserListLoading(false);
+        toast.error(data.message);
+      }
+    });
 
     return () => {
       socket.disconnect();
@@ -68,26 +82,36 @@ export const MessageRoom: React.FC = () => {
     getChatUserList();
   }, [receiverId]);
 
+  useEffect(() => {
+    if (currentChatUser) {
+      socket.emit("getMessageHistory");
+    }
+  }, [currentChatUser]);
+
   const getChatUserList = async () => {
     setChatUserListLoading(true);
-    const res = await axios.post(`${SERVER_URI}/message/addChatUserList`, {
+    socket.emit("addChatUserList", {
       senderId: authContext.user.id,
       receiverId: receiverId ? receiverId : "no-user",
     });
+    // const res = await axios.post(`${SERVER_URI}/message/addChatUserList`, {
+    //   senderId: authContext.user.id,
+    //   receiverId: receiverId ? receiverId : "no-user",
+    // });
 
-    if (res.data.success) {
-      setChatUserList(res.data.data);
-      if (receiverId) {
-        setCurrentChatUser(
-          res.data.data.filter((item: any) => item._id == receiverId)[0]
-        );
-      }
-      setMessageHistory(res.data.messages);
-      setChatUserListLoading(false);
-    } else {
-      setChatUserListLoading(false);
-      toast.error(res.data.error);
-    }
+    // if (res.data.success) {
+    //   setChatUserList(res.data.data);
+    //   if (receiverId) {
+    //     setCurrentChatUser(
+    //       res.data.data.filter((item: any) => item._id == receiverId)[0]
+    //     );
+    //     // setMessageHistory(res.data.messages);
+    //   }
+    //   setChatUserListLoading(false);
+    // } else {
+    //   setChatUserListLoading(false);
+    //   toast.error(res.data.error);
+    // }
   };
 
   useEffect(() => {
@@ -108,27 +132,23 @@ export const MessageRoom: React.FC = () => {
 
   const handleSendMsgButtonClicked = async (enteredText) => {
     if (enteredText == "" || !receiverId) return;
-    // const formData = new FormData();
-    // for (let i = 0; i < files.length; i++) {
-    //   formData.append("chatFiles", files[i]);
-    // }
-    // formData.append("message", enteredText);
-    // formData.append("senderId", authContext.user.id);
-    // formData.append("receiverId", receiverId.toString());
-
-    const res = await axios.post(`${SERVER_URI}/message/addMessage`, {
+    socket.emit("addMessage", {
       senderId: authContext.user.id,
       receiverId,
       message: enteredText,
     });
+    // const res = await axios.post(`${SERVER_URI}/message/addMessage`, {
+    //   senderId: authContext.user.id,
+    //   receiverId,
+    //   message: enteredText,
+    // });
 
-    if (res.data.success) {
-      setMessageHistory(res.data.data);
-    } else {
-      toast.error(res.data.message);
-    }
+    // if (res.data.success) {
+    //   setMessageHistory(res.data.data);
+    // } else {
+    //   toast.error(res.data.message);
+    // }
   };
-  0;
 
   const handleKeyPress = async (event: any) => {
     if (event.key === "Enter") {
@@ -179,7 +199,7 @@ export const MessageRoom: React.FC = () => {
         </div>
         <div className="user-list">
           {chatUserListLoading ? (
-            <h5>Loading...</h5>
+            <h5></h5>
           ) : chatUserList.length > 0 ? (
             chatUserList.map((item: any, key: number) => (
               <React.Fragment key={key}>
