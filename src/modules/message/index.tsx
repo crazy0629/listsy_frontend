@@ -6,15 +6,16 @@ import Image from "next/image";
 import { MdClose, MdLocationOn, MdPhone } from "react-icons/md";
 import { Rating } from "react-simple-star-rating";
 import { ImAttachment, ImUsers } from "react-icons/im";
-import { GrEmoji } from "react-icons/gr";
+import { GrEdit, GrEmoji } from "react-icons/gr";
 import { useRouter } from "next/router";
 import { SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { Auth as AuthContext } from "@/context/contexts";
 
 import io from "socket.io-client";
-import { BsCheck, BsCheck2All } from "react-icons/bs";
+import { BsCheck, BsCheck2All, BsReply } from "react-icons/bs";
+import { RiDeleteBin7Line } from "react-icons/ri";
+import { FaRegCopy } from "react-icons/fa";
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -32,37 +33,84 @@ export const MessageRoom: React.FC = () => {
   const emojiRef = useRef<any>(null);
   const [isCurrentOpen, setIsCurrentOpen] = useState(true);
   const [isMobileUserList, setIsMobileUserList] = useState(false);
-
-  const socket = io(SERVER_UPLOAD_URI, {
-    query: { userId: authContext.user.id },
-  });
+  const [socket, setSocket] = useState<any>();
+  const [recentMessageObject, setRecentMessageObject] = useState<any>();
+  const [recentMessageTime, setRecentMessageTime] = useState("");
+  const [showMenu, setShowMenu] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    socket.on("server", async (data) => {
-      // await getChatUserList();
-    });
+    if (authContext.user.id) {
+      const socket = io(SERVER_UPLOAD_URI, {
+        query: { userId: authContext.user.id },
+      });
+      setSocket(socket);
+    }
+  }, [authContext.user.id]);
 
-    socket.on("getChatUserList", (data) => {
-      console.log(123123123, data);
-      if (data.success) {
-        setChatUserList(data.data);
-        if (receiverId) {
-          setCurrentChatUser(
-            data.data.filter((item: any) => item._id == receiverId)[0]
-          );
-          // setMessageHistory(res.data.messages);
+  useEffect(() => {
+    if (socket) {
+      socket.on("newMessage", async (data) => {
+        if (data.success) {
+          if (
+            (authContext.user.id == data.senderId &&
+              receiverId == data.receiverId) ||
+            (authContext.user.id == data.receiverId &&
+              receiverId == data.senderId)
+          ) {
+            setRecentMessageObject(data.message);
+            setRecentMessageTime(data.message.createdAt);
+          }
+          if (!data.flag) {
+            socket.emit("addChatUserList", {
+              senderId: authContext.user.id,
+              receiverId: receiverId ? receiverId : "no-user",
+            });
+          }
+        } else {
+          toast.error(data.message);
         }
-        setChatUserListLoading(false);
-      } else {
-        setChatUserListLoading(false);
-        toast.error(data.message);
-      }
-    });
+      });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [socket]);
+
+  useEffect(() => {
+    if (recentMessageTime) {
+      setMessageHistory((prevMessageHistory) => [
+        ...prevMessageHistory,
+        recentMessageObject,
+      ]);
+    }
+  }, [recentMessageTime]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("getChatUserList", (data) => {
+        if (data.id != authContext.user.id) return;
+        if (data.success) {
+          setChatUserList(data.data);
+          if (receiverId) {
+            setCurrentChatUser(
+              data.data.filter((item: any) => item._id == receiverId)[0]
+            );
+            setMessageHistory(data.messages);
+          }
+          setChatUserListLoading(false);
+        } else {
+          setChatUserListLoading(false);
+          toast.error(data.message);
+        }
+      });
+
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [socket]);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -79,39 +127,21 @@ export const MessageRoom: React.FC = () => {
   }, [emojiRef]);
 
   useEffect(() => {
-    getChatUserList();
-  }, [receiverId]);
-
-  useEffect(() => {
-    if (currentChatUser) {
-      socket.emit("getMessageHistory");
+    if (socket) {
+      getChatUserList();
     }
-  }, [currentChatUser]);
+  }, [receiverId, socket]);
 
   const getChatUserList = async () => {
     setChatUserListLoading(true);
-    socket.emit("addChatUserList", {
-      senderId: authContext.user.id,
-      receiverId: receiverId ? receiverId : "no-user",
-    });
-    // const res = await axios.post(`${SERVER_URI}/message/addChatUserList`, {
-    //   senderId: authContext.user.id,
-    //   receiverId: receiverId ? receiverId : "no-user",
-    // });
-
-    // if (res.data.success) {
-    //   setChatUserList(res.data.data);
-    //   if (receiverId) {
-    //     setCurrentChatUser(
-    //       res.data.data.filter((item: any) => item._id == receiverId)[0]
-    //     );
-    //     // setMessageHistory(res.data.messages);
-    //   }
-    //   setChatUserListLoading(false);
-    // } else {
-    //   setChatUserListLoading(false);
-    //   toast.error(res.data.error);
-    // }
+    try {
+      socket.emit("addChatUserList", {
+        senderId: authContext.user.id,
+        receiverId: receiverId ? receiverId : "no-user",
+      });
+    } catch (error) {
+      console.log(error, "error");
+    }
   };
 
   useEffect(() => {
@@ -137,17 +167,6 @@ export const MessageRoom: React.FC = () => {
       receiverId,
       message: enteredText,
     });
-    // const res = await axios.post(`${SERVER_URI}/message/addMessage`, {
-    //   senderId: authContext.user.id,
-    //   receiverId,
-    //   message: enteredText,
-    // });
-
-    // if (res.data.success) {
-    //   setMessageHistory(res.data.data);
-    // } else {
-    //   toast.error(res.data.message);
-    // }
   };
 
   const handleKeyPress = async (event: any) => {
@@ -160,6 +179,23 @@ export const MessageRoom: React.FC = () => {
 
   const handleMessageChangle = (event: any) => {
     setMessageContent(event.target.value);
+  };
+
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+    setShowMenu(true);
+    setMenuPosition({ x: event.clientX, y: event.clientY });
+  };
+
+  const handleMenuItemClick = (action) => {
+    // Perform the desired action based on the clicked menu item
+    console.log("Clicked:", action);
+    setShowMenu(false);
+    // You can implement different actions based on the clicked item, such as deleting, editing, etc.
+  };
+
+  const closeMenu = () => {
+    setShowMenu(false);
   };
 
   /*
@@ -244,37 +280,95 @@ export const MessageRoom: React.FC = () => {
         onClick={() => setIsMobileUserList(false)}
       ></Styled.MessageUserListOverlay>
       <Styled.MessageContainer>
+        <div className="dropdown-menu">
+          {showMenu && (
+            <div
+              style={{
+                position: "fixed",
+                top: menuPosition.y,
+                left: menuPosition.x,
+                backgroundColor: "white",
+                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+                padding: "20px",
+              }}
+              className="dropdown-menu-wrapper"
+            >
+              <div onClick={() => handleMenuItemClick("Action 1")}>
+                <BsReply size={20} />
+                <span>Reply</span>
+              </div>
+              <div onClick={() => handleMenuItemClick("Action 2")}>
+                <GrEdit size={20} />
+                <span>Edit</span>
+              </div>
+              <div onClick={() => handleMenuItemClick("Action 1")}>
+                <FaRegCopy size={20} />
+                <span>Copy</span>
+              </div>
+              <div onClick={() => handleMenuItemClick("Action 3")}>
+                <RiDeleteBin7Line size={20} />
+                <span>Delete</span>
+              </div>
+            </div>
+          )}
+        </div>
         <div className="messages-wrapper">
-          <div>
+          <div onContextMenu={handleContextMenu}>
             {messageHistory.length > 0 ? (
               messageHistory.map((item: any, key: number) =>
                 item.message != "" ? (
-                  <React.Fragment key={key}>
-                    <div
-                      className={
-                        item.receiverId._id == receiverId
-                          ? "message-form to"
-                          : "message-form from"
-                      }
-                    >
-                      {item.receiverId._id == receiverId &&
-                      item.senderId.avatar ? (
-                        <div>
-                          <Image
-                            src={SERVER_UPLOAD_URI + item.senderId.avatar}
-                            alt="avatar"
-                            width={50}
-                            height={50}
-                          />
-                          {!item.readState ? (
-                            <BsCheck color="green" size={20} />
-                          ) : (
-                            <BsCheck2All color="green" size={20} />
-                          )}
-                        </div>
-                      ) : item.receiverId._id == receiverId &&
-                        !item.senderId.avatar ? (
-                        <div>
+                  <div onContextMenu={handleContextMenu}>
+                    <React.Fragment key={key}>
+                      <div
+                        className={
+                          item.receiverId._id == receiverId
+                            ? "message-form to"
+                            : "message-form from"
+                        }
+                      >
+                        {item.receiverId._id == receiverId &&
+                        item.senderId.avatar ? (
+                          <div>
+                            <Image
+                              src={SERVER_UPLOAD_URI + item.senderId.avatar}
+                              alt="avatar"
+                              width={50}
+                              height={50}
+                            />
+                            {!item.readState ? (
+                              <BsCheck color="green" size={20} />
+                            ) : (
+                              <BsCheck2All color="green" size={20} />
+                            )}
+                          </div>
+                        ) : item.receiverId._id == receiverId &&
+                          !item.senderId.avatar ? (
+                          <div>
+                            <h6>
+                              {item.senderId.firstName[0]
+                                .toString()
+                                .toUpperCase() +
+                                item.senderId.lastName[0]
+                                  .toString()
+                                  .toUpperCase()}
+                            </h6>
+                            {!item.readState ? (
+                              <BsCheck color="green" size={24} />
+                            ) : (
+                              <BsCheck2All color="green" size={24} />
+                            )}
+                          </div>
+                        ) : item.senderId._id == receiverId &&
+                          item.senderId.avatar ? (
+                          <div>
+                            <Image
+                              src={SERVER_UPLOAD_URI + item.senderId.avatar}
+                              alt="avatar"
+                              width={50}
+                              height={50}
+                            />
+                          </div>
+                        ) : (
                           <h6>
                             {item.senderId.firstName[0]
                               .toString()
@@ -283,43 +377,23 @@ export const MessageRoom: React.FC = () => {
                                 .toString()
                                 .toUpperCase()}
                           </h6>
-                          {!item.readState ? (
-                            <BsCheck color="green" size={24} />
-                          ) : (
-                            <BsCheck2All color="green" size={24} />
-                          )}
-                        </div>
-                      ) : item.senderId._id == receiverId &&
-                        item.senderId.avatar ? (
-                        <div>
-                          <Image
-                            src={SERVER_UPLOAD_URI + item.senderId.avatar}
-                            alt="avatar"
-                            width={50}
-                            height={50}
-                          />
-                        </div>
-                      ) : (
-                        <h6>
-                          {item.senderId.firstName[0].toString().toUpperCase() +
-                            item.senderId.lastName[0].toString().toUpperCase()}
-                        </h6>
-                      )}
+                        )}
 
-                      <div>
-                        <h3>
-                          {item.receiverId._id == receiverId
-                            ? "You"
-                            : `${
-                                item.senderId.firstName +
-                                " " +
-                                item.senderId.lastName
-                              }`}
-                        </h3>
-                        <p>{item.message}</p>
+                        <div>
+                          <h3>
+                            {item.receiverId._id == receiverId
+                              ? "You"
+                              : `${
+                                  item.senderId.firstName +
+                                  " " +
+                                  item.senderId.lastName
+                                }`}
+                          </h3>
+                          <p>{item.message}</p>
+                        </div>
                       </div>
-                    </div>
-                  </React.Fragment>
+                    </React.Fragment>
+                  </div>
                 ) : (
                   <div key={key}></div>
                 )
