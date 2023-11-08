@@ -171,6 +171,24 @@ export const MessageContainer = styled.div`
     font-weight: 400;
     margin-right: 24px;
   }
+  .dropdown-menu .dropdown-menu-wrapper {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+
+    div {
+      width: 150px;
+      padding: 10px;
+      border-radius: 10px;
+      display: flex;
+      span {
+        margin-left: 20px;
+      }
+      &:hover {
+        background: #eaeaea70;
+      }
+    }
+  }
   .messages-wrapper {
     flex: 1;
     overflow: auto;
