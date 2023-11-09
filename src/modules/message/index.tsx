@@ -411,8 +411,8 @@ export const MessageRoom: React.FC = () => {
             {messageHistory.length > 0 ? (
               messageHistory.map((item: any, key: number) =>
                 item.message != "" ? (
-                  <div onContextMenu={handleContextMenu}>
-                    <React.Fragment key={key}>
+                  <div onContextMenu={handleContextMenu} key={key}>
+                    <React.Fragment>
                       <div
                         className={
                           item.receiverId._id == receiverId
