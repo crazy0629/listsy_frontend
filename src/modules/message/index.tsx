@@ -4,7 +4,7 @@ import * as Styled from "./message.styles";
 import { IoIosSearch, IoIosSend } from "react-icons/io";
 import Image from "next/image";
 import { MdClose, MdLocationOn, MdPhone } from "react-icons/md";
-import { Rating } from "react-simple-star-rating";
+import StarRatings from "react-star-ratings";
 import { ImAttachment, ImUsers } from "react-icons/im";
 import { GrEdit, GrEmoji } from "react-icons/gr";
 import { useRouter } from "next/router";
@@ -16,6 +16,7 @@ import io from "socket.io-client";
 import { BsCheck, BsCheck2All, BsReply } from "react-icons/bs";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { FaRegCopy } from "react-icons/fa";
+import axios from "axios";
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -38,6 +39,11 @@ export const MessageRoom: React.FC = () => {
   const [recentMessageTime, setRecentMessageTime] = useState("");
   const [showMenu, setShowMenu] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+
+  const [reviewMark, setReivewMark] = useState(0);
+  const [reviewContent, setReviewContent] = useState<string>("");
+  const [hasReview, setHasReview] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     if (authContext.user.id) {
@@ -88,8 +94,24 @@ export const MessageRoom: React.FC = () => {
   }, [recentMessageTime]);
 
   useEffect(() => {
+    if (currentChatUser) {
+      axios
+        .post(`${SERVER_URI}/review/checkReviewExists`, {
+          fromUserId: authContext.user.id,
+          toUserId: currentChatUser?._id,
+        })
+        .then((res) => {
+          if (res.data.success) {
+            setReviewContent(res.data.data.reviewContent);
+            setReivewMark(res.data.data.reviewMark);
+            setHasReview(true);
+          }
+        });
+    }
+  }, [currentChatUser]);
+  useEffect(() => {
     if (socket) {
-      socket.on("getChatUserList", (data) => {
+      socket.on("getChatUserList", async (data) => {
         if (data.id != authContext.user.id) return;
         if (data.success) {
           setChatUserList(data.data);
@@ -181,6 +203,10 @@ export const MessageRoom: React.FC = () => {
     setMessageContent(event.target.value);
   };
 
+  const handleReviewContentChange = (event: any) => {
+    setReviewContent(event.target.value);
+  };
+
   const handleContextMenu = (event) => {
     event.preventDefault();
     setShowMenu(true);
@@ -196,6 +222,74 @@ export const MessageRoom: React.FC = () => {
 
   const closeMenu = () => {
     setShowMenu(false);
+  };
+
+  const reviewEditHandler = async () => {
+    if (isEdit == false) {
+      setIsEdit(true);
+      setHasReview(false);
+      return;
+    } else {
+      const data = {
+        senderId: authContext.user.id,
+        receiverId: currentChatUser._id,
+        reviewMark,
+        reviewContent,
+      };
+      const res = await axios.post(`${SERVER_URI}/review/changeReview`, data);
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+        setCurrentChatUser(res.data.reviewer);
+        setReivewMark(res.data.review.reviewMark);
+        setReviewContent(res.data.review.reviewContent);
+        setIsEdit(false);
+        setHasReview(true);
+      } else {
+        toast.error(res.data.message);
+      }
+    }
+  };
+
+  const reviewRemoveHandler = async () => {
+    if (isEdit) {
+      setIsEdit(false);
+      setHasReview(true);
+    } else {
+      const data = {
+        senderId: authContext.user.id,
+        receiverId: currentChatUser._id,
+      };
+      const res = await axios.post(`${SERVER_URI}/review/deleteReview`, data);
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+        setHasReview(false);
+        setCurrentChatUser(res.data.reviewer);
+        setReivewMark(0);
+        setReviewContent("");
+      } else {
+        toast.error(res.data.message);
+      }
+    }
+  };
+
+  const reviewSaveHandler = async () => {
+    const data = {
+      fromUserId: authContext.user.id,
+      toUserId: currentChatUser._id,
+      reviewContent,
+      reviewMark,
+    };
+
+    const res = await axios.post(`${SERVER_URI}/review/addReview`, data);
+    if (res.data.success) {
+      setHasReview(true);
+      setCurrentChatUser(res.data.reviewer);
+      toast.success(res.data.message);
+    } else {
+      toast.error(res.data.message);
+    }
   };
 
   /*
@@ -474,34 +568,67 @@ export const MessageRoom: React.FC = () => {
           </div>
           <p>{currentChatUser?.bio}</p>
           <div className="reviews">
-            <Rating
-              initialValue={currentChatUser?.reviewMark}
-              size={24}
-              disableFillHover
-              allowHover={false}
-              readonly
-              onClick={() => {}}
+            <StarRatings
+              rating={currentChatUser?.reviewMark}
+              starRatedColor="gold"
+              starEmptyColor="gray"
+              starDimension="24px"
+              starSpacing="2px"
             />
             <p>{currentChatUser?.reviewMark}</p>
             <span>{`(${currentChatUser?.reviewCount} Reviews)`}</span>
           </div>
         </div>
         <div className="write-review">
-          <h3>Write Reviews</h3>
+          {hasReview == true ? <h3>Your feedback</h3> : <h3>Write Reviews</h3>}
           <div className="score-review">
             <span>Score: </span>
-            <Rating
-              initialValue={0}
-              size={36}
-              onClick={(e) => console.log(e)}
-            />
+            {hasReview == true ? (
+              <StarRatings
+                rating={currentChatUser?.reviewMark}
+                starRatedColor="gold"
+                starEmptyColor="gray"
+                starDimension="24px"
+                starSpacing="2px"
+              />
+            ) : (
+              <StarRatings
+                rating={reviewMark}
+                starRatedColor="gold"
+                starEmptyColor="gray"
+                starDimension="24px"
+                starSpacing="2px"
+                changeRating={(e) => setReivewMark(Number(e))}
+              />
+            )}
           </div>
           <div className="review-textbox">
             <p>Review:</p>
-            <textarea placeholder="Write Review here..." />
-            <span>0 / 5000</span>
+            {hasReview == false ? (
+              <div>
+                <textarea
+                  placeholder="Write Review here..."
+                  value={reviewContent}
+                  onChange={handleReviewContentChange}
+                />
+                <span>0 / 5000</span>
+              </div>
+            ) : (
+              <textarea value={reviewContent} readOnly />
+            )}
           </div>
-          <button>Save</button>
+          {hasReview == false && !isEdit ? (
+            <button onClick={reviewSaveHandler}>Save</button>
+          ) : (
+            <div className="button-group">
+              <button className="delete_btn" onClick={reviewRemoveHandler}>
+                {isEdit ? "Cancel" : "Remove"}
+              </button>
+              <button onClick={reviewEditHandler}>
+                {isEdit ? "Save" : "Edit"}
+              </button>
+            </div>
+          )}
         </div>
       </Styled.MessageUserInfoWrapper>
       <Styled.MessageUseInfoOverlay

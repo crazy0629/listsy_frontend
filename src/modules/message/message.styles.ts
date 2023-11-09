@@ -363,6 +363,10 @@ export const MessageUserInfoWrapper = styled.div`
     .reviews {
       display: flex;
       align-items: center;
+      .review-star span {
+        color: orange;
+        font-size: 24px;
+      }
       p {
         color: #000;
         font-size: 14px;
@@ -380,6 +384,24 @@ export const MessageUserInfoWrapper = styled.div`
   }
   .write-review {
     padding: 24px 24px 40px;
+    .button-group {
+      display: flex;
+      .delete_btn {
+        display: block;
+        margin-left: auto;
+        width: 85px;
+        height: 36px;
+        border-radius: 5px;
+        background: #fff;
+        color: #ff6f00;
+        border: 1px solid #ff6f00;
+        outline: none;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20.4px; /* 145.714% */
+        margin-top: 20px;
+      }
+    }
     h3 {
       color: #000;
       font-size: 16px;
