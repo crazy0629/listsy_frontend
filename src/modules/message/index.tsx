@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 import { SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
 import { Auth as AuthContext } from "@/context/contexts";
-
 import io from "socket.io-client";
 import { BsCheck, BsCheck2All, BsReply } from "react-icons/bs";
 import { RiDeleteBin7Line } from "react-icons/ri";
@@ -52,37 +51,42 @@ export const MessageRoom: React.FC = () => {
       });
       setSocket(socket);
     }
-  }, [authContext.user.id]);
+  }, []);
 
   useEffect(() => {
-    if (socket) {
-      socket.on("newMessage", async (data) => {
-        if (data.success) {
-          if (
-            (authContext.user.id == data.senderId &&
-              receiverId == data.receiverId) ||
-            (authContext.user.id == data.receiverId &&
-              receiverId == data.senderId)
-          ) {
-            setRecentMessageObject(data.message);
-            setRecentMessageTime(data.message.createdAt);
-          }
-          if (!data.flag) {
-            socket.emit("addChatUserList", {
-              senderId: authContext.user.id,
-              receiverId: receiverId ? receiverId : "no-user",
-            });
-          }
-        } else {
-          toast.error(data.message);
+    const handleAddNewMsgEvent = (data) => {
+      if (data.success) {
+        if (
+          (authContext.user.id == data.senderId &&
+            receiverId == data.receiverId) ||
+          (authContext.user.id == data.receiverId &&
+            receiverId == data.senderId)
+        ) {
+          setRecentMessageObject(data.message);
+          setRecentMessageTime(data.message.createdAt);
         }
-      });
+        if (!data.flag) {
+          socket.emit("addChatUserList", {
+            senderId: authContext.user.id,
+            receiverId: receiverId ? receiverId : "no-user",
+          });
+        }
+      } else {
+        toast.error(data.message);
+      }
+    };
 
-      return () => {
-        socket.disconnect();
-      };
+    if (socket) {
+      socket.on("newMessage", handleAddNewMsgEvent);
     }
-  }, [socket]);
+
+    // Teardown the event listener
+    return () => {
+      if (socket) {
+        socket.off("newMessage", handleAddNewMsgEvent);
+      }
+    };
+  }, [socket, receiverId, router.query]);
 
   useEffect(() => {
     if (recentMessageTime) {
@@ -109,30 +113,35 @@ export const MessageRoom: React.FC = () => {
         });
     }
   }, [currentChatUser]);
-  useEffect(() => {
-    if (socket) {
-      socket.on("getChatUserList", async (data) => {
-        if (data.id != authContext.user.id) return;
-        if (data.success) {
-          setChatUserList(data.data);
-          if (receiverId) {
-            setCurrentChatUser(
-              data.data.filter((item: any) => item._id == receiverId)[0]
-            );
-            setMessageHistory(data.messages);
-          }
-          setChatUserListLoading(false);
-        } else {
-          setChatUserListLoading(false);
-          toast.error(data.message);
-        }
-      });
 
-      return () => {
-        socket.disconnect();
-      };
+  useEffect(() => {
+    const handleGetChatUserList = (data) => {
+      if (data.id !== authContext.user.id) return;
+      if (data.success) {
+        setChatUserList(data.data);
+        if (receiverId) {
+          setCurrentChatUser(
+            data.data.filter((item: any) => item._id === receiverId)[0]
+          );
+          setMessageHistory(data.messages);
+        }
+        setChatUserListLoading(false);
+      } else {
+        setChatUserListLoading(false);
+        toast.error(data.message);
+      }
+    };
+    if (socket) {
+      socket.on("getChatUserList", handleGetChatUserList);
     }
-  }, [socket]);
+
+    // Teardown the event listener
+    return () => {
+      if (socket) {
+        socket.off("getChatUserList", handleGetChatUserList);
+      }
+    };
+  }, [socket, receiverId, router.query]);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -209,7 +218,7 @@ export const MessageRoom: React.FC = () => {
 
   const handleContextMenu = (event) => {
     event.preventDefault();
-    setShowMenu(true);
+    setShowMenu(false);
     setMenuPosition({ x: event.clientX, y: event.clientY });
   };
 
