@@ -1,5 +1,5 @@
 {
-  "name": "classe365-next",
+  "name": "listsy_frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,8 +12,6 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.17",
-    "@mui/styled-engine-sc": "^6.0.0-alpha.5",
     "@types/node": "20.6.3",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
