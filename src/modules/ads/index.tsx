@@ -13,13 +13,14 @@ import {
   MdPhone,
 } from "react-icons/md";
 import { Rating } from "react-simple-star-rating";
-import { BsBookmark, BsFlag, BsSend } from "react-icons/bs";
+import { BsBookmark, BsClock, BsFlag, BsSend } from "react-icons/bs";
 import { BiLike } from "react-icons/bi";
 import { Estate } from "./Estate";
 import { Truck } from "./Truck";
 import { ImageModal } from "./ImageModal";
 import { ForSale } from "./ForSale";
 import { Auth as AuthContext } from "@/context/contexts";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
@@ -54,6 +55,10 @@ export const AdsDetailsSection: React.FC = () => {
 
   const sendMessageClicked = () => {
     const receiverId = data.userId._id;
+    if (authContext.user.id == receiverId) {
+      toast.error("You can not send message to yourself!");
+      return;
+    }
     router.push(`/message/${receiverId}`);
   };
 
@@ -80,7 +85,7 @@ export const AdsDetailsSection: React.FC = () => {
               <h1>
                 <span>{data?.title}</span>
                 <p>
-                  <MdOutlineCalendarMonth size={20} />{" "}
+                  <BsClock size={20} />{" "}
                   <span>{new Date(data?.adId?.uploadDate).toDateString()}</span>
                 </p>
               </h1>
@@ -104,12 +109,19 @@ export const AdsDetailsSection: React.FC = () => {
                         {data?.userId?.firstName + " " + data?.userId?.lastName}
                       </span>
                       {data?.userId?.telephoneNumber && (
-                        <a
-                          href={`tel:+${data?.userId?.telephoneNumber}`}
-                          target="_blank"
-                        >
-                          <MdPhone size={20} />
-                        </a>
+                        <div>
+                          <ReactTooltip id="my-tooltip" />
+                          <MdPhone
+                            size={20}
+                            data-tooltip-id="my-tooltip"
+                            data-tooltip-content={
+                              data?.userId?.phoneNumberShare
+                                ? data?.userId?.telephoneNumber
+                                : "Phone number is private"
+                            }
+                            data-tooltip-place="top"
+                          />
+                        </div>
                       )}
                     </h5>
                     <div className="review">

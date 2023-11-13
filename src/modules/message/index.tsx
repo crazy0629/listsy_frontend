@@ -16,6 +16,7 @@ import { BsCheck, BsCheck2All, BsReply } from "react-icons/bs";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { FaRegCopy } from "react-icons/fa";
 import axios from "axios";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -530,10 +531,11 @@ export const MessageRoom: React.FC = () => {
             <GrEmoji size={24} onClick={() => setEmojiShow((prev) => !prev)} />
             <IoIosSend
               size={24}
-              // onClick={async () => {
-              //   await handleSendMsgButtonClicked(messageContent);
-              //   setMessageContent("");
-              // }}
+              onClick={async () => {
+                const text = messageContent;
+                setMessageContent("");
+                await handleSendMsgButtonClicked(text);
+              }}
             />
             <div ref={emojiRef} className={`${emojiShow ? "show" : ""}`}>
               <EmojiPicker
@@ -569,11 +571,22 @@ export const MessageRoom: React.FC = () => {
           <div className="username">
             <h2>
               {currentChatUser?.firstName + " " + currentChatUser?.lastName}
-              <span>20 ads posts</span>
+              <span>{currentChatUser?.adCount} ads posts</span>
             </h2>
-            <a href={`tel:+18888888888`} target="_blank">
-              <MdPhone size={30} color={"#82FF20"} />
-            </a>
+            <div>
+              <ReactTooltip id="my-tooltip" />
+              <MdPhone
+                size={20}
+                color={"#82FF20"}
+                data-tooltip-id="my-tooltip"
+                data-tooltip-content={
+                  currentChatUser?.phoneNumberShare
+                    ? currentChatUser?.telephoneNumber
+                    : "Phone number is private"
+                }
+                data-tooltip-place="top"
+              />
+            </div>
           </div>
           <p>{currentChatUser?.bio}</p>
           <div className="reviews">
@@ -594,7 +607,7 @@ export const MessageRoom: React.FC = () => {
             <span>Score: </span>
             {hasReview == true ? (
               <StarRatings
-                rating={currentChatUser?.reviewMark}
+                rating={reviewMark}
                 starRatedColor="gold"
                 starEmptyColor="gray"
                 starDimension="24px"

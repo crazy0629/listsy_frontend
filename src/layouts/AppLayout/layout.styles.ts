@@ -22,6 +22,9 @@ export const HeaderLogoWrapper = styled.div`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    @media screen and (min-width: 1024px) {
+      display: none;
+    }
   }
   img {
     cursor: pointer;

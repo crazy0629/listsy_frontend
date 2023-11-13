@@ -19,7 +19,9 @@ import axios from "axios";
 import { MdMailOutline } from "react-icons/md";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-export const Header: React.FC<{ onSidebar: () => void }> = ({ onSidebar }) => {
+export const Header: React.FC<{
+  onSidebar: () => void;
+}> = ({ onSidebar }) => {
   const router = useRouter();
   const [visible, setVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
