@@ -244,6 +244,12 @@ export const FormGroup = styled.div`
   @media screen and (max-width: 500px) {
     grid-template-columns: 1fr;
   }
+  .phoneNumberShare {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export const EditButtonGroup = styled.div`

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import * as Styled from "./upload.styles";
 import { MdClose, MdUpload } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -6,6 +6,7 @@ import { Navigation } from "swiper/modules";
 import Image from "next/image";
 import { HiPlus } from "react-icons/hi";
 import axios from "axios";
+import { Auth as AuthContext } from "@/context/contexts";
 import { SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
 
@@ -15,6 +16,7 @@ export const UploadThumb: React.FC<Props> = ({ adId, onFinish }) => {
   const [files, setFiles] = useState<any[]>([]);
   const [tempFiles, setTempFiles] = useState<string[]>([]);
   const [selected, setSelected] = useState(0);
+  const { authContext } = useContext<any>(AuthContext);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
@@ -51,6 +53,8 @@ export const UploadThumb: React.FC<Props> = ({ adId, onFinish }) => {
       formData.append("images", files[i]);
     }
     formData.append("adId", adId);
+    formData.append("userId", authContext.user?.id);
+
     const res = await axios.post(`${SERVER_URI}/asset/uploadImages`, formData);
     if (res.data.success) {
       toast.success(res.data.message);
