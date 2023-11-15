@@ -104,7 +104,10 @@ export const Header: React.FC<{
           setUploadInfo({ adId, adType });
           setUploadCancelModal(true);
         }}
-        onFinish={() => setUploadModal(false)}
+        onFinish={() => {
+          setUploadModal(false);
+          router.push("/profile/posts");
+        }}
       />
       <Styled.HeaderLogoWrapper>
         <div>

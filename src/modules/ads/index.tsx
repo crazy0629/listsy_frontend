@@ -7,13 +7,10 @@ import { toast } from "react-toastify";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import Image from "next/image";
-import {
-  MdOutlineCalendarMonth,
-  MdOutlineShare,
-  MdPhone,
-} from "react-icons/md";
+import { MdOutlineShare, MdPhone } from "react-icons/md";
 import { Rating } from "react-simple-star-rating";
-import { BsBookmark, BsClock, BsFlag, BsSend } from "react-icons/bs";
+import { BsBookmark, BsClock, BsFlag } from "react-icons/bs";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { BiLike } from "react-icons/bi";
 import { Estate } from "./Estate";
 import { Truck } from "./Truck";
@@ -21,6 +18,7 @@ import { ImageModal } from "./ImageModal";
 import { ForSale } from "./ForSale";
 import { Auth as AuthContext } from "@/context/contexts";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import CopyToClipboard from "react-copy-to-clipboard";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
@@ -56,7 +54,9 @@ export const AdsDetailsSection: React.FC = () => {
   const sendMessageClicked = () => {
     const receiverId = data.userId._id;
     if (authContext.user.id == receiverId) {
-      toast.error("You can not send message to yourself!");
+      toast.error(
+        "Cannot send messages to yourself. Please select a different recipient."
+      );
       return;
     }
     router.push(`/message/${receiverId}`);
@@ -108,20 +108,29 @@ export const AdsDetailsSection: React.FC = () => {
                       <span>
                         {data?.userId?.firstName + " " + data?.userId?.lastName}
                       </span>
+
                       {data?.userId?.telephoneNumber && (
-                        <div>
-                          <ReactTooltip id="my-tooltip" />
-                          <MdPhone
-                            size={20}
-                            data-tooltip-id="my-tooltip"
-                            data-tooltip-content={
-                              data?.userId?.phoneNumberShare
-                                ? data?.userId?.telephoneNumber
-                                : "Phone number is private"
-                            }
-                            data-tooltip-place="top"
-                          />
-                        </div>
+                        <CopyToClipboard
+                          text={
+                            data?.userId?.phoneNumberShare
+                              ? data?.userId?.telephoneNumber
+                              : ""
+                          }
+                        >
+                          <div>
+                            <ReactTooltip id="my-tooltip" />
+                            <MdPhone
+                              size={20}
+                              data-tooltip-id="my-tooltip"
+                              data-tooltip-content={
+                                data?.userId?.phoneNumberShare
+                                  ? data?.userId?.telephoneNumber
+                                  : "Phone number is private"
+                              }
+                              data-tooltip-place="top"
+                            />
+                          </div>
+                        </CopyToClipboard>
                       )}
                     </h5>
                     <div className="review">
@@ -139,13 +148,16 @@ export const AdsDetailsSection: React.FC = () => {
                   </div>
                 </div>
                 <div className="user-action">
-                  <BsSend size={24} onClick={() => sendMessageClicked()} />
+                  <IoChatbubbleEllipsesOutline
+                    size={24}
+                    onClick={() => sendMessageClicked()}
+                  />
                   <BsBookmark size={24} />
                   <BiLike size={24} />
                 </div>
               </Styled.UserInfoWrapper>
               <p>{data?.description}</p>
-              <span>Show Details</span>
+              <span>Show Reviews</span>
               <div className="action">
                 <button>
                   <MdOutlineShare size={20} />

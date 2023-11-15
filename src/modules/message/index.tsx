@@ -17,6 +17,7 @@ import { RiDeleteBin7Line } from "react-icons/ri";
 import { FaRegCopy } from "react-icons/fa";
 import axios from "axios";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import CopyToClipboard from "react-copy-to-clipboard";
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -46,11 +47,16 @@ export const MessageRoom: React.FC = () => {
   const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
-    if (authContext.user.id) {
-      const socket = io(SERVER_UPLOAD_URI, {
-        query: { userId: authContext.user.id },
-      });
-      setSocket(socket);
+    if (authContext.user) {
+      if (authContext.user.id) {
+        const socket = io(SERVER_UPLOAD_URI, {
+          query: { userId: authContext.user.id },
+        });
+        setSocket(socket);
+      }
+    } else {
+      toast.error("Please Sign In");
+      router.push("/auth/login");
     }
   }, []);
 
@@ -571,22 +577,34 @@ export const MessageRoom: React.FC = () => {
           <div className="username">
             <h2>
               {currentChatUser?.firstName + " " + currentChatUser?.lastName}
-              <span>{currentChatUser?.adCount} ads posts</span>
+              <span>
+                {currentChatUser?.adCount}{" "}
+                {currentChatUser?.adCount < 2 ? "Ad posted" : "Ads posted"}
+              </span>
             </h2>
-            <div>
-              <ReactTooltip id="my-tooltip" />
-              <MdPhone
-                size={20}
-                color={"#82FF20"}
-                data-tooltip-id="my-tooltip"
-                data-tooltip-content={
-                  currentChatUser?.phoneNumberShare
-                    ? currentChatUser?.telephoneNumber
-                    : "Phone number is private"
-                }
-                data-tooltip-place="top"
-              />
-            </div>
+
+            <CopyToClipboard
+              text={
+                currentChatUser?.phoneNumberShare
+                  ? currentChatUser?.telephoneNumber
+                  : ""
+              }
+            >
+              <div>
+                <ReactTooltip id="my-tooltip" />
+                <MdPhone
+                  size={20}
+                  color={"#82FF20"}
+                  data-tooltip-id="my-tooltip"
+                  data-tooltip-content={
+                    currentChatUser?.phoneNumberShare
+                      ? currentChatUser?.telephoneNumber
+                      : "Phone number is private"
+                  }
+                  data-tooltip-place="top"
+                />
+              </div>
+            </CopyToClipboard>
           </div>
           <p>{currentChatUser?.bio}</p>
           <div className="reviews">
