@@ -16,7 +16,6 @@ export const ProfileSetting: React.FC = () => {
     userName: "",
     bio: "",
     telephoneNumber: "",
-    phoneNumberShare: false,
   });
   const [form, setForm] = useState({
     id: "",
@@ -25,36 +24,42 @@ export const ProfileSetting: React.FC = () => {
     userName: "",
     bio: "",
     telephoneNumber: "",
-    phoneNumberShare: false,
   });
   const [editable, setEditable] = useState(false);
 
   useEffect(() => {
     if (authContext.user) {
+      setPhoneNumberShare(!authContext.user.phoneNumberShare);
       setForm(authContext.user);
-      console.log(111, authContext);
       setCurrentUser(authContext.user);
-      console.log(222, form);
     }
   }, [authContext]);
 
-  useEffect(() => {
-    setForm((prev) => ({
-      ...prev,
-      phoneNumberShare,
-    }));
-    setCurrentUser((prev) => ({
-      ...prev,
-      phoneNumberShare,
-    }));
-  }, [phoneNumberShare]);
+  useEffect(() => {}, [phoneNumberShare]);
+
+  const handlePhoneNumberShare = async (event) => {
+    setPhoneNumberShare((prev) => !prev);
+
+    const res = await axios.post(
+      `${SERVER_URI}/profile/changePhoneNumberShare`,
+      {
+        userId: form.id,
+        phoneNumberShare: phoneNumberShare,
+      }
+    );
+    if (res.data.success) {
+      setEditable(false);
+      setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
+      localStorage.setItem("token", res.data.token);
+    } else {
+      toast.error(res.data.message);
+    }
+  };
 
   const handleSave = async () => {
     if (!form.firstName || !form.lastName) {
       toast.error("First name and Last name is Required.");
     } else {
-      console.log(form);
-      console.log(phoneNumberShare);
       const res = await axios.post(`${SERVER_URI}/profile/editProfile`, {
         ...form,
         userId: form.id,
@@ -137,17 +142,12 @@ export const ProfileSetting: React.FC = () => {
               type="checkbox"
               name="share"
               id="share"
-              disabled={!editable}
-              checked={
-                editable
-                  ? form.phoneNumberShare
-                  : authContext.user.phoneNumberShare
-              }
-              onClick={() => {
-                setPhoneNumberShare((prev) => !prev);
+              checked={phoneNumberShare}
+              onChange={(e) => {
+                handlePhoneNumberShare(e);
               }}
             />
-            <label htmlFor="share"> share phone number</label>
+            <label htmlFor="share"> Keep phone number hidden on Ad</label>
           </div>
         </Styled.FormGroup>
       </Styled.SettingFormWrapper>

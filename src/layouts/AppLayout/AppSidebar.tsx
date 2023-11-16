@@ -21,7 +21,6 @@ import {
   MdOutlineEmojiEmotions,
 } from "react-icons/md";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-
 import { RiMessage2Fill, RiServiceLine } from "react-icons/ri";
 import { PiPlusBold } from "react-icons/pi";
 import * as Styled from "./layout.styles";
@@ -33,6 +32,16 @@ import Image from "next/image";
 import { calcCompareTime } from "@/utils";
 import { CommunityViewModal } from "@/modules/community";
 import { useRouter } from "next/router";
+
+let Country = require("country-state-city").Country;
+let State = require("country-state-city").State;
+let City = require("country-state-city").City;
+
+import { getCountries, getStates } from "country-state-picker";
+
+// console.log(123123, Country.getAllCountries());
+// console.log(234234, State.getAllStates());
+// console.log(345345345, City.getCitiesOfCountry("KP"));
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -122,7 +131,15 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
 
   useEffect(() => {
     getInitialCommunity();
+    getLocation();
   }, []);
+
+  const getLocation = async () => {
+    // let countries = await getCountries();
+    // console.log(countries);
+    // let states = getStates("gb");
+    // console.log(states);
+  };
 
   const getInitialCommunity = async () => {
     setCommunityLoading(true);
