@@ -23,12 +23,36 @@ export const kinds = [
 ];
 
 export const categories = [
+  { label: "Vehicles", key: "truck" },
+  { label: "Real Estate", key: "estate" },
   {
-    label: "Items For sale",
+    label: "Electronics and Appliances",
     key: "sales",
   },
-  { label: "Real Estate", key: "estate" },
-  { label: "Vehicles", key: "truck" },
+  {
+    label: "Homes and Garden",
+    key: "garden",
+  },
   { label: "Services", key: "service" },
-  { label: "Pets", key: "pet" },
+  {
+    label: "Fashion and Beauty",
+    key: "fashion",
+  },
+  {
+    label: "Sports and Leisure",
+    key: "sports",
+  },
+  {
+    label: "Children’s Items",
+    key: "children",
+  },
+  { label: "Pets and Animals", key: "pet" },
+  {
+    label: "Collectibles and Art",
+    key: "art",
+  },
+  {
+    label: "Books and Education",
+    key: "education",
+  },
 ];
