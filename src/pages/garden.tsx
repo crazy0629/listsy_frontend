@@ -2,7 +2,7 @@ import React from "react";
 import { AppLayout } from "@/layouts";
 import { GardenPageSection } from "@/modules/main/Garden";
 
-const SalesPage: React.FC = () => {
+const GardenPage: React.FC = () => {
   return (
     <AppLayout name="sales">
       <GardenPageSection />
@@ -10,4 +10,4 @@ const SalesPage: React.FC = () => {
   );
 };
 
-export default SalesPage;
+export default GardenPage;
