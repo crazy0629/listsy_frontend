@@ -150,6 +150,30 @@ export const Details: React.FC<Props> = ({
     }
   };
 
+  const handleEducationFormSave = async (data: any) => {
+    if (Number(price) === 0) {
+      toast.error("Enter the Price!");
+    } else {
+      const res = await axios.post(
+        `${SERVER_URI}/education/loadEducationInfo`,
+        {
+          ...data,
+          price,
+          priceUnit,
+          adId,
+          userId: authContext.user?.id,
+          ...location,
+        }
+      );
+      if (res.data.success) {
+        toast.success(res.data.message);
+        onNext();
+      } else {
+        toast.error(res.data.message);
+      }
+    }
+  };
+
   const handleArtFormSave = async (data: any) => {
     if (Number(price) === 0) {
       toast.error("Enter the Price!");
@@ -220,6 +244,7 @@ export const Details: React.FC<Props> = ({
     sports: <ForSaleForm onSave={handleSportsFormSave} />,
     children: <ForSaleForm onSave={handleChildrenFormSave} />,
     art: <ForSaleForm onSave={handleArtFormSave} />,
+    education: <ForSaleForm onSave={handleEducationFormSave} />,
     estate: <EstateForm onSave={handleEstateFormSave} />,
     truck: <TruckForm onSave={handleTruckFormSave} />,
     service: "service",

@@ -112,7 +112,7 @@ const mainNav = [
   },
   {
     label: "Books and Education",
-    href: "/book",
+    href: "/education",
     icon: <FaBook />,
   },
   // {

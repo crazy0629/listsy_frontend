@@ -11,7 +11,7 @@ import { JobPost } from "./JobPost";
 type Props = {
   open: boolean;
   onClose: (adId: string, adType: string) => void;
-  onFinish: () => void;
+  onFinish: (kind: string) => void;
 };
 
 export const UploadModal: React.FC<Props> = ({ open, onClose, onFinish }) => {
@@ -104,9 +104,20 @@ export const UploadModal: React.FC<Props> = ({ open, onClose, onFinish }) => {
             />
           )}
           {uploadStep === "image" && (
-            <UploadThumb adId={adId} onFinish={onFinish} />
+            <UploadThumb
+              adId={adId}
+              onFinish={() => {
+                onFinish(category);
+              }}
+            />
           )}
-          {uploadStep === "job" && <JobPost onFinish={onFinish} />}
+          {uploadStep === "job" && (
+            <JobPost
+              onFinish={() => {
+                onFinish(category);
+              }}
+            />
+          )}
         </Styled.UploadModalBody>
       </Styled.UploadModalContainer>
       <Styled.UploadModalOverlay onClick={handleClose} />

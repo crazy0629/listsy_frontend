@@ -15,8 +15,8 @@ import Image from "next/image";
 
 const pageFilter = [
   {
-    label: "For Sale",
-    key: "sale",
+    label: "Vehicles",
+    key: "truck",
     type: "grid",
   },
   {
@@ -25,8 +25,13 @@ const pageFilter = [
     type: "grid",
   },
   {
-    label: "Vehicles",
-    key: "truck",
+    label: "Electronics and Appliances",
+    key: "sale",
+    type: "grid",
+  },
+  {
+    label: "Home and Garden",
+    key: "garden",
     type: "grid",
   },
   {
@@ -34,16 +39,42 @@ const pageFilter = [
     key: "service",
     type: "grid",
   },
+
   {
-    label: "Pets",
+    label: "Fashion and Beauty",
+    key: "fashion",
+    type: "grid",
+  },
+  {
+    label: "Sports and Leisure",
+    key: "sports",
+    type: "grid",
+  },
+  {
+    label: "Children’s Items",
+    key: "children",
+    type: "grid",
+  },
+  {
+    label: "Pets and Animals",
     key: "pet",
     type: "grid",
   },
   {
-    label: "Jobs",
-    key: "job",
-    type: "list",
+    label: "Collectibles and Art",
+    key: "art",
+    type: "grid",
   },
+  {
+    label: "Books and Education",
+    key: "education",
+    type: "grid",
+  },
+  // {
+  //   label: "Jobs",
+  //   key: "job",
+  //   type: "list",
+  // },
 ];
 
 const status = [
@@ -61,9 +92,13 @@ const status = [
   },
 ];
 
-export const MyPosts: React.FC = () => {
+type Props = {
+  category: String;
+};
+
+export const MyPosts: React.FC<Props> = ({ category = "" }) => {
   const [data, setData] = useState<any>([]);
-  const [selectedPage, setSelectedPage] = useState(pageFilter[1]);
+  const [selectedPage, setSelectedPage] = useState(pageFilter[0]);
   const [adStatus, setAdStatus] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [index, setIndex] = useState(0);
@@ -96,6 +131,10 @@ export const MyPosts: React.FC = () => {
   useEffect(() => {
     if (authContext.user) {
       getData(selectedPage.key, "", 0);
+      if (category != "") {
+        let item = pageFilter.filter((item) => item.key == category)[0];
+        setSelectedPage(item);
+      }
     }
   }, [authContext.user]);
 
