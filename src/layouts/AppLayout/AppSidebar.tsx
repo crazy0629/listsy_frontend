@@ -10,6 +10,7 @@ import {
   FaCarSide,
   FaShoppingBag,
   FaRegQuestionCircle,
+  FaArtstation,
 } from "react-icons/fa";
 import {
   MdLocationOn,
@@ -21,8 +22,16 @@ import {
   MdOutlineEmojiEmotions,
 } from "react-icons/md";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import { RiMessage2Fill, RiServiceLine } from "react-icons/ri";
+import {
+  RiHomeOfficeFill,
+  RiMessage2Fill,
+  RiServiceLine,
+} from "react-icons/ri";
+import { CiHeart } from "react-icons/ci";
+import { IoCarSportSharp } from "react-icons/io5";
 import { PiPlusBold } from "react-icons/pi";
+import { FaChildren } from "react-icons/fa6";
+import { FaBook } from "react-icons/fa";
 import * as Styled from "./layout.styles";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -52,9 +61,9 @@ const mainNav = [
     icon: <MdHome />,
   },
   {
-    label: "Items For Sale",
-    href: "/sales",
-    icon: <MdShoppingCartCheckout />,
+    label: "Vehicles",
+    href: "/trucks",
+    icon: <FaCarSide />,
   },
   {
     label: "Real Estate",
@@ -62,9 +71,14 @@ const mainNav = [
     icon: <FaBuilding />,
   },
   {
-    label: "Vehicles",
-    href: "/trucks",
-    icon: <FaCarSide />,
+    label: "Electronics and Appliances",
+    href: "/sales",
+    icon: <MdShoppingCartCheckout />,
+  },
+  {
+    label: "Home and Garden",
+    href: "/garden",
+    icon: <RiHomeOfficeFill />,
   },
   {
     label: "Services",
@@ -72,15 +86,40 @@ const mainNav = [
     icon: <RiServiceLine />,
   },
   {
-    label: "Pets",
+    label: "Fashion and Beauty",
+    href: "/fashion",
+    icon: <CiHeart />,
+  },
+  {
+    label: "Sports and Leisure",
+    href: "/sports",
+    icon: <IoCarSportSharp />,
+  },
+  {
+    label: "Children’s Items",
+    href: "/children",
+    icon: <FaChildren />,
+  },
+  {
+    label: "Pets and Animals",
     href: "/pets",
     icon: <MdPets />,
   },
   {
-    label: "Jobs",
-    href: "/jobs",
-    icon: <FaShoppingBag />,
+    label: "Collectibles and Art",
+    href: "/art",
+    icon: <FaArtstation />,
   },
+  {
+    label: "Books and Education",
+    href: "/book",
+    icon: <FaBook />,
+  },
+  // {
+  //   label: "Jobs",
+  //   href: "/jobs",
+  //   icon: <FaShoppingBag />,
+  // },
 ];
 
 export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
