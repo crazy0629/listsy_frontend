@@ -199,6 +199,7 @@ export const AdsDetailsSection: React.FC = () => {
               {type === "sports" && <ForSale data={data} />}
               {type === "fashion" && <ForSale data={data} />}
               {type === "garden" && <ForSale data={data} />}
+              {type === "art" && <ForSale data={data} />}
             </Styled.AdsDetailsInfoWrapper>
           </Styled.AdsDetailsThumbWrapper>
         </Styled.AdsDetailsContainer>
