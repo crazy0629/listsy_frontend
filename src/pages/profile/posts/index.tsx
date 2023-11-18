@@ -5,7 +5,7 @@ import { MainSection } from "@/modules/profile/MainSection";
 const MyPostPage: React.FC = () => {
   return (
     <AppLayout name="myPosts" noSidebar>
-      <MainSection page="posts" />
+      <MainSection page="posts" category="" />
     </AppLayout>
   );
 };
