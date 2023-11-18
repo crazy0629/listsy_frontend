@@ -2,7 +2,7 @@ import React from "react";
 import { AppLayout } from "@/layouts";
 import { FashionPageSection } from "@/modules/main/Fashion";
 
-const SalesPage: React.FC = () => {
+const FashionPage: React.FC = () => {
   return (
     <AppLayout name="sales">
       <FashionPageSection />
@@ -10,4 +10,4 @@ const SalesPage: React.FC = () => {
   );
 };
 
-export default SalesPage;
+export default FashionPage;
