@@ -129,10 +129,31 @@ export const Details: React.FC<Props> = ({
     }
   };
 
+  const handleFashionFormSave = async (data: any) => {
+    if (Number(price) === 0) {
+      toast.error("Enter the Price!");
+    } else {
+      const res = await axios.post(`${SERVER_URI}/fashion/loadFashionInfo`, {
+        ...data,
+        price,
+        priceUnit,
+        adId,
+        userId: authContext.user?.id,
+        ...location,
+      });
+      if (res.data.success) {
+        toast.success(res.data.message);
+        onNext();
+      } else {
+        toast.error(res.data.message);
+      }
+    }
+  };
+
   const formComp: any = {
     sales: <ForSaleForm onSave={handleForSaleFormSave} />,
     garden: <ForSaleForm onSave={handleGardenFormSave} />,
-    fashion: <ForSaleForm onSave={handleForSaleFormSave} />,
+    fashion: <ForSaleForm onSave={handleFashionFormSave} />,
     estate: <EstateForm onSave={handleEstateFormSave} />,
     truck: <TruckForm onSave={handleTruckFormSave} />,
     service: "service",
