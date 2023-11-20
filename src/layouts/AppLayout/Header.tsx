@@ -71,7 +71,6 @@ export const Header: React.FC<{
   };
 
   const handleUploadCancel = async () => {
-    console.log(uploadInfo);
     if (uploadInfo.adId) {
       const res = await axios.post(`${SERVER_URI}/upload/cancel`, uploadInfo);
       if (res.data.success) {

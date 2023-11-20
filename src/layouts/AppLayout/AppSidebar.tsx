@@ -8,14 +8,13 @@ import {
   FaGoogle,
   FaBuilding,
   FaCarSide,
-  FaShoppingBag,
   FaRegQuestionCircle,
   FaArtstation,
+  FaBook,
 } from "react-icons/fa";
 import {
   MdLocationOn,
   MdSearch,
-  MdOutlineKeyboardArrowDown,
   MdHome,
   MdShoppingCartCheckout,
   MdPets,
@@ -31,16 +30,16 @@ import { CiHeart } from "react-icons/ci";
 import { IoCarSportSharp } from "react-icons/io5";
 import { PiPlusBold } from "react-icons/pi";
 import { FaChildren } from "react-icons/fa6";
-import { FaBook } from "react-icons/fa";
 import * as Styled from "./layout.styles";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { SERVER_URI, SERVER_UPLOAD_URI } from "@/config";
 import { Auth as AuthContext } from "@/context/contexts";
-import Image from "next/image";
-import { calcCompareTime } from "@/utils";
 import { CommunityViewModal } from "@/modules/community";
-import { useRouter } from "next/router";
+import { LocationModal } from "@/modules/location";
+import { calcCompareTime } from "@/utils";
 
 let Country = require("country-state-city").Country;
 let State = require("country-state-city").State;
@@ -132,7 +131,9 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
   const [communityValue, setCommunityValue] = useState("");
   const [initCommunityData, setInitCommunityData] = useState<any>([]);
   const [communityModal, setCommunityModal] = useState(false);
+  const [locationModal, setLocationModal] = useState(false);
   const [communityLoading, setCommunityLoading] = useState(true);
+
   const emojiRef = useRef<any>(null);
   const communityRef = useRef<any>(null);
   const router = useRouter();
@@ -231,12 +232,23 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
           onClose={() => setCommunityModal(false)}
           open={communityModal}
         />
+        <LocationModal
+          open={locationModal}
+          onClose={() => {
+            setLocationModal(false);
+          }}
+        />
         <Styled.AppSidebarContainer>
           <Styled.SidebarCountrySelect>
             <p>
               <MdLocationOn size={15} />
-              <span>Las Vegas, NV, United States</span>
-              <MdOutlineKeyboardArrowDown size={15} />
+              <span
+                onClick={() => {
+                  setLocationModal(true);
+                }}
+              >
+                Las Vegas, NV, United States
+              </span>
             </p>
           </Styled.SidebarCountrySelect>
           <div>
