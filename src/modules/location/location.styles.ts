@@ -58,8 +58,10 @@ export const LocationModalBody = styled.div`
   flex-direction: column;
   justify-content: center;
   div {
-    /* border: 1px solid red; */
     padding: 5px;
+    span {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -70,4 +72,42 @@ export const LocationModalOverlay = styled.div`
   bottom: 0;
   left: 0;
   background: #00000050;
+`;
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .cancel_btn {
+    display: block;
+    margin-left: auto;
+    width: 85px;
+    height: 36px;
+    border-radius: 5px;
+    background: #fff;
+    color: #ff6f00;
+    border: 1px solid #ff6f00;
+    outline: none;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20.4px; /* 145.714% */
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  .choose_btn {
+    display: block;
+    margin-right: auto;
+    width: 85px;
+    height: 36px;
+    border-radius: 5px;
+    background: #ff6f00;
+    color: #fff;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20.4px; /* 145.714% */
+    margin-top: 20px;
+    cursor: pointer;
+  }
 `;

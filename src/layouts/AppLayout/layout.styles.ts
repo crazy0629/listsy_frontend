@@ -365,9 +365,8 @@ export const SidebarCountrySelect = styled.div`
   margin-bottom: 20px;
   p {
     display: flex;
-    align-items: center;
     cursor: pointer;
-    justify-content: center;
+    margin-left: 24px;
     span {
       margin: 0 4px;
       color: #000;
