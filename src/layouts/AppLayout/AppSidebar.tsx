@@ -6,16 +6,14 @@ import {
   FaTwitter,
   FaFacebookSquare,
   FaGoogle,
-  FaBuilding,
-  FaCarSide,
   FaRegQuestionCircle,
   FaArtstation,
-  FaBook,
 } from "react-icons/fa";
+import { IoHomeOutline } from "react-icons/io5";
+import { PiTruckThin } from "react-icons/pi";
 import {
   MdLocationOn,
   MdSearch,
-  MdHome,
   MdShoppingCartCheckout,
   MdPets,
   MdOutlineEmojiEmotions,
@@ -27,6 +25,7 @@ import {
   RiServiceLine,
 } from "react-icons/ri";
 import { CiHeart } from "react-icons/ci";
+import { FiBook } from "react-icons/fi";
 import { IoCarSportSharp } from "react-icons/io5";
 import { PiPlusBold } from "react-icons/pi";
 import { FaChildren } from "react-icons/fa6";
@@ -40,16 +39,7 @@ import { Auth as AuthContext } from "@/context/contexts";
 import { CommunityViewModal } from "@/modules/community";
 import { LocationModal } from "@/modules/location";
 import { calcCompareTime } from "@/utils";
-
-let Country = require("country-state-city").Country;
-let State = require("country-state-city").State;
-let City = require("country-state-city").City;
-
-import { getCountries, getStates } from "country-state-picker";
-
-// console.log(123123, Country.getAllCountries());
-// console.log(234234, State.getAllStates());
-// console.log(345345345, City.getCitiesOfCountry("KP"));
+import { TbBuildingEstate } from "react-icons/tb";
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -57,17 +47,17 @@ const mainNav = [
   {
     label: "Home",
     href: "/",
-    icon: <MdHome />,
+    icon: <IoHomeOutline />,
   },
   {
     label: "Vehicles",
     href: "/trucks",
-    icon: <FaCarSide />,
+    icon: <PiTruckThin />,
   },
   {
     label: "Real Estate",
     href: "/estate",
-    icon: <FaBuilding />,
+    icon: <TbBuildingEstate />,
   },
   {
     label: "Electronics and Appliances",
@@ -112,7 +102,7 @@ const mainNav = [
   {
     label: "Books and Education",
     href: "/education",
-    icon: <FaBook />,
+    icon: <FiBook />,
   },
   // {
   //   label: "Jobs",
@@ -133,6 +123,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
   const [communityModal, setCommunityModal] = useState(false);
   const [locationModal, setLocationModal] = useState(false);
   const [communityLoading, setCommunityLoading] = useState(true);
+  const [location, setLocation] = useState("World Wide");
 
   const emojiRef = useRef<any>(null);
   const communityRef = useRef<any>(null);
@@ -171,14 +162,16 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
 
   useEffect(() => {
     getInitialCommunity();
-    getLocation();
+    setLocationInfo();
   }, []);
 
-  const getLocation = async () => {
-    // let countries = await getCountries();
-    // console.log(countries);
-    // let states = getStates("gb");
-    // console.log(states);
+  const setLocationInfo = () => {
+    chooseLocationHandle(
+      localStorage.worldWide,
+      localStorage.selectedCountry,
+      localStorage.selectedState,
+      localStorage.selectedCity
+    );
   };
 
   const getInitialCommunity = async () => {
@@ -225,6 +218,30 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
     }
   };
 
+  const chooseLocationHandle = (
+    worldWide,
+    selectedCountry,
+    selectedState,
+    selectedCity
+  ) => {
+    setLocationModal(false);
+    localStorage.setItem("worldWide", worldWide);
+    localStorage.setItem("selectedCountry", selectedCountry);
+    localStorage.setItem("selectedState", selectedState);
+    localStorage.setItem("selectedCity", selectedCity);
+    window.dispatchEvent(new Event("location-change"));
+
+    if (worldWide == true || worldWide == "true" || worldWide == `undefined`) {
+      setLocation("World Wide");
+    } else if (selectedCity != "") {
+      setLocation(`${selectedCity}, ${selectedState}, ${selectedCountry}`);
+    } else if (selectedState != "") {
+      setLocation(`${selectedState}, ${selectedCountry}`);
+    } else {
+      setLocation(`${selectedCountry}`);
+    }
+  };
+
   return (
     <>
       <Styled.AppSidebarWrapper className={open ? "show" : ""}>
@@ -237,6 +254,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
           onClose={() => {
             setLocationModal(false);
           }}
+          onChoose={chooseLocationHandle}
         />
         <Styled.AppSidebarContainer>
           <Styled.SidebarCountrySelect>
@@ -247,7 +265,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
                   setLocationModal(true);
                 }}
               >
-                Las Vegas, NV, United States
+                {location}
               </span>
             </p>
           </Styled.SidebarCountrySelect>

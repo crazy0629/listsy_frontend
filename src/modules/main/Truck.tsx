@@ -19,15 +19,36 @@ export const TruckPageSection: React.FC = () => {
     year: [] as string[],
     gearBox: [] as string[],
   });
+  const [locationFilter, setLocationFilter] = useState(null);
 
   useEffect(() => {
-    getData(0);
+    setLocationFilter({
+      worldWide: localStorage.worldWide == "false" ? false : true,
+      country: localStorage.selectedCountry,
+      state: localStorage.selectedState,
+      city: localStorage.selectedCity,
+    });
   }, []);
+
+  useEffect(() => {
+    if (locationFilter == null) return;
+    getData(0);
+  }, [locationFilter]);
+
+  window.addEventListener("location-change", () => {
+    setLocationFilter({
+      worldWide: localStorage.worldWide == "false" ? false : true,
+      country: localStorage.selectedCountry,
+      state: localStorage.selectedState,
+      city: localStorage.selectedCity,
+    });
+  });
 
   const getData = async (index: number) => {
     const res = await axios.post(`${SERVER_URI}/truck/getMoreVehicleAds`, {
       ...filter,
       index,
+      locationFilter,
     });
     if (res.data.success) {
       if (index > 0) {
