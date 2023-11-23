@@ -123,7 +123,8 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
   const [communityModal, setCommunityModal] = useState(false);
   const [locationModal, setLocationModal] = useState(false);
   const [communityLoading, setCommunityLoading] = useState(true);
-  const [location, setLocation] = useState("World Wide");
+  const [location, setLocation] = useState("");
+  const [flagUrl, setFlagUrl] = useState("");
 
   const emojiRef = useRef<any>(null);
   const communityRef = useRef<any>(null);
@@ -165,13 +166,20 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
     setLocationInfo();
   }, []);
 
-  const setLocationInfo = () => {
-    chooseLocationHandle(
-      localStorage.worldWide,
-      localStorage.selectedCountry,
-      localStorage.selectedState,
-      localStorage.selectedCity
+  const setLocationInfo = async () => {
+    const locationInfo = await axios.get(
+      "https://api.ipdata.co?api-key=0facca59c5b02048913c6c3000dbd3faa00bcfb3df9e28230c82c93d"
     );
+    setLocation(locationInfo.data.country_name);
+    setFlagUrl(locationInfo.data.flag);
+    console.log(123, locationInfo);
+    console.log(234, locationInfo.data.country_name);
+    // chooseLocationHandle(
+    //   localStorage.worldWide,
+    //   localStorage.selectedCountry,
+    //   localStorage.selectedState,
+    //   localStorage.selectedCity
+    // );
   };
 
   const getInitialCommunity = async () => {
@@ -217,7 +225,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
       router.push("/auth/login");
     }
   };
-
+  /*
   const chooseLocationHandle = (
     worldWide,
     selectedCountry,
@@ -241,7 +249,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
       setLocation(`${selectedCountry}`);
     }
   };
-
+*/
   return (
     <>
       <Styled.AppSidebarWrapper className={open ? "show" : ""}>
@@ -249,25 +257,28 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
           onClose={() => setCommunityModal(false)}
           open={communityModal}
         />
-        <LocationModal
+
+        {/* <LocationModal
           open={locationModal}
           onClose={() => {
             setLocationModal(false);
           }}
           onChoose={chooseLocationHandle}
-        />
+        /> */}
+
         <Styled.AppSidebarContainer>
           <Styled.SidebarCountrySelect>
             <p>
               <MdLocationOn size={15} />
               <span
                 onClick={() => {
-                  setLocationModal(true);
+                  // setLocationModal(true);
                 }}
               >
                 {location}
               </span>
             </p>
+            <img src={flagUrl} alt="" />
           </Styled.SidebarCountrySelect>
           <div>
             {mainNav.map((item, key) => (

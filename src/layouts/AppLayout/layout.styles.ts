@@ -362,6 +362,10 @@ export const SidebarMainNavItem = styled(Link)`
 `;
 
 export const SidebarCountrySelect = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   margin-bottom: 20px;
   p {
     display: flex;
