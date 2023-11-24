@@ -33,8 +33,8 @@ const mapContainerStyle = {
   height: "100vh",
 };
 const center = {
-  lat: 7.2905715, // default latitude
-  lng: 80.6337262, // default longitude
+  lat: 40.7128, // default latitude
+  lng: -74.006, // default longitude
 };
 
 const cities = [
@@ -61,6 +61,7 @@ export const NotFound: React.FC = () => {
   const handleMarkerClick = (city: any) => {
     console.log(123, city);
   };
+
   return (
     <div>
       <GoogleMap
