@@ -26,6 +26,8 @@ import {
   Marker,
   Libraries,
 } from "@react-google-maps/api";
+// import { Google_Api_Key } from "@/config";
+import axios from "axios";
 
 const libraries: Libraries = ["places"];
 const mapContainerStyle = {
@@ -50,8 +52,6 @@ export const NotFound: React.FC = () => {
     libraries,
   });
 
-  const [googleApiKey, setGoogleApiKey] = useState("");
-
   if (loadError) {
     return <div>Error loading maps</div>;
   }
@@ -63,8 +63,6 @@ export const NotFound: React.FC = () => {
   const handleMarkerClick = (city: any) => {
     console.log(123, city);
   };
-
-  useEffect(() => {}, []);
 
   return (
     <div>
