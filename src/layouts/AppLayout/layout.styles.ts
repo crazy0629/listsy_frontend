@@ -131,7 +131,7 @@ export const AuthListWrapper = styled.div<{ visible?: string }>`
   opacity: ${({ visible }) => (visible ? 1 : 0)};
   visibility: ${({ visible }) => (visible ? "visible" : "hidden")};
   position: absolute;
-  z-index: 99;
+  z-index: 10;
   top: 38px;
   right: 0;
   display: flex;
@@ -388,7 +388,7 @@ export const AppSidebarWrapper = styled.div`
   flex-direction: column;
   transition: all 0.3s;
   background: #fff;
-  z-index: 9999;
+  z-index: 10;
   left: 0;
   @media screen and (max-width: 1024px) {
     &.show {
@@ -409,7 +409,7 @@ export const AppSidebarOverlay = styled.div`
     right: 0;
     bottom: 0;
     background: #00000050;
-    z-index: 9998;
+    z-index: 9;
     position: fixed;
     transition: all 0.3s;
     opacity: 0;

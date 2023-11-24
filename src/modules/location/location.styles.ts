@@ -15,7 +15,7 @@ export const LocationModalWrapper = styled.div<{ open?: string }>`
     opacity: 1;
     visibility: visible;
   }
-  z-index: 99998;
+  z-index: 50;
 `;
 
 export const LocationModalContainer = styled.div`
@@ -25,19 +25,16 @@ export const LocationModalContainer = styled.div`
   overflow: auto;
   margin-top: 5vh;
   background: #fff;
-  max-width: 600px;
   width: 95%;
   overflow: auto;
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
-  @media screen and (max-width: 400px) {
-    width: 100%;
-    height: 100%;
-    max-height: 100%;
-    margin-top: 0;
-  }
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  margin-top: 0;
 `;
 
 export const LocationModalHeader = styled.div`
@@ -48,6 +45,42 @@ export const LocationModalHeader = styled.div`
   align-items: center;
   svg {
     cursor: pointer;
+  }
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    .cancel_btn {
+      display: block;
+      margin-left: auto;
+
+      width: 85px;
+      height: 36px;
+      border-radius: 5px;
+      background: #fff;
+      color: #ff6f00;
+      border: 1px solid #ff6f00;
+      outline: none;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20.4px; /* 145.714% */
+    }
+    .select_btn {
+      display: block;
+      margin-left: auto;
+      margin-right: 10px;
+      width: 85px;
+      height: 36px;
+      border-radius: 5px;
+      background: #ff6f00;
+      color: #fff;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20.4px; /* 145.714% */
+    }
   }
 `;
 
@@ -72,42 +105,4 @@ export const LocationModalOverlay = styled.div`
   bottom: 0;
   left: 0;
   background: #00000050;
-`;
-
-export const ButtonGroup = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .cancel_btn {
-    display: block;
-    margin-left: auto;
-    width: 85px;
-    height: 36px;
-    border-radius: 5px;
-    background: #fff;
-    color: #ff6f00;
-    border: 1px solid #ff6f00;
-    outline: none;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20.4px; /* 145.714% */
-    margin-top: 20px;
-    cursor: pointer;
-  }
-  .choose_btn {
-    display: block;
-    margin-right: auto;
-    width: 85px;
-    height: 36px;
-    border-radius: 5px;
-    background: #ff6f00;
-    color: #fff;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20.4px; /* 145.714% */
-    margin-top: 20px;
-    cursor: pointer;
-  }
 `;

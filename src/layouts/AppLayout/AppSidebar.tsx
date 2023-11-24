@@ -172,14 +172,6 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
     );
     setLocation(locationInfo.data.country_name);
     setFlagUrl(locationInfo.data.flag);
-    console.log(123, locationInfo);
-    console.log(234, locationInfo.data.country_name);
-    // chooseLocationHandle(
-    //   localStorage.worldWide,
-    //   localStorage.selectedCountry,
-    //   localStorage.selectedState,
-    //   localStorage.selectedCity
-    // );
   };
 
   const getInitialCommunity = async () => {
@@ -225,31 +217,11 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
       router.push("/auth/login");
     }
   };
-  /*
-  const chooseLocationHandle = (
-    worldWide,
-    selectedCountry,
-    selectedState,
-    selectedCity
-  ) => {
-    setLocationModal(false);
-    localStorage.setItem("worldWide", worldWide);
-    localStorage.setItem("selectedCountry", selectedCountry);
-    localStorage.setItem("selectedState", selectedState);
-    localStorage.setItem("selectedCity", selectedCity);
-    window.dispatchEvent(new Event("location-change"));
 
-    if (worldWide == true || worldWide == "true" || worldWide == `undefined`) {
-      setLocation("World Wide");
-    } else if (selectedCity != "") {
-      setLocation(`${selectedCity}, ${selectedState}, ${selectedCountry}`);
-    } else if (selectedState != "") {
-      setLocation(`${selectedState}, ${selectedCountry}`);
-    } else {
-      setLocation(`${selectedCountry}`);
-    }
+  const chooseLocationHandle = () => {
+    setLocationModal(false);
   };
-*/
+
   return (
     <>
       <Styled.AppSidebarWrapper className={open ? "show" : ""}>
@@ -258,13 +230,14 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
           open={communityModal}
         />
 
-        {/* <LocationModal
+        <LocationModal
           open={locationModal}
+          flag="filter"
           onClose={() => {
             setLocationModal(false);
           }}
           onChoose={chooseLocationHandle}
-        /> */}
+        />
 
         <Styled.AppSidebarContainer>
           <Styled.SidebarCountrySelect>
@@ -272,7 +245,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
               <MdLocationOn size={15} />
               <span
                 onClick={() => {
-                  // setLocationModal(true);
+                  setLocationModal(true);
                 }}
               >
                 {location}

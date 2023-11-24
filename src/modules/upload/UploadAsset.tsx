@@ -17,7 +17,6 @@ export const UploadAsset: React.FC<Props> = ({ fileType, onNext }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
       setFile(e.target.files[0]);
-      console.log(e.target.files[0].size);
     }
   };
 
