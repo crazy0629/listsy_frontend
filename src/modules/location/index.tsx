@@ -1,153 +1,178 @@
 import React, { useState, useEffect } from "react";
 import * as Styled from "./location.styles";
-import { MdClose } from "react-icons/md";
-import { SingleSelection } from "@/components";
 import { toast } from "react-toastify";
 
-let Country = require("country-state-city").Country;
-let State = require("country-state-city").State;
-let City = require("country-state-city").City;
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  Libraries,
+} from "@react-google-maps/api";
+import axios from "axios";
+import { SERVER_URI } from "@/config";
 
 type Props = {
   open: boolean;
+  flag: string;
   onClose: () => void;
-  onChoose: (
-    worldWide: boolean,
-    selectedCountry: string,
-    selectedState: string,
-    selectedCity: string
-  ) => void;
+  onChoose: (lat: number, lng: number, address: string) => void;
 };
 
-export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
-  const countryList = Country.getAllCountries();
-  const stateList = State.getAllStates();
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedStateLists, setSelectedStateLists] = useState([]);
-  const [selectedState, setSelectedState] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
-  const [selectedCityList, setSelectedCityList] = useState([]);
-  const [worldWide, setWorldWide] = useState(true);
+const libraries: Libraries = ["places"];
+const mapContainerStyle = {
+  width: "100vw",
+  height: "100vh",
+};
+const center = {
+  lat: 51.509865, // default latitude
+  lng: -0.118092, // default longitude
+};
+
+export const LocationModal: React.FC<Props> = ({
+  open,
+  flag,
+  onClose,
+  onChoose,
+}) => {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: "",
+    libraries,
+  });
+  const [clickedAddress, setClickedAddress] = useState(null);
+  const [address, setAddress] = useState("Please choose location");
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  const [adCityList, setAdCityList] = useState([]);
 
   useEffect(() => {
-    const isoCode = countryList.filter(
-      (item) => item.name == selectedCountry
-    )[0]?.isoCode;
-    setSelectedStateLists(
-      stateList.filter((item) => item.countryCode == isoCode)
-    );
-  }, [selectedCountry]);
+    if (flag == "filter") {
+      getLocationList();
+    }
+  }, []);
 
-  useEffect(() => {
-    if (selectedState == "") return;
-    const countryISOCode = countryList.filter(
-      (item) => item.name == selectedCountry
-    )[0]?.isoCode;
-    const stateCode = selectedStateLists.filter(
-      (item) => item.name == selectedState
-    )[0]?.isoCode;
-    const cityList = City.getCitiesOfCountry(countryISOCode);
-    setSelectedCityList(cityList.filter((item) => item.stateCode == stateCode));
-  }, [selectedState]);
+  const getLocationList = async () => {
+    const result = await axios.post(`${SERVER_URI}/ad/getLocationList`);
+    setAdCityList(result.data.data);
+  };
+  const handleChoose = () => {
+    if (clickedAddress == null) {
+      toast.error("Please select location");
+      return;
+    }
+    onChoose(lat, lng, address);
+  };
 
   const handleClose = () => {
     onClose();
   };
 
-  const handleChoose = () => {
-    if (!worldWide && selectedCountry == "") {
-      toast.error("Please choose correct location!");
-      return;
-    }
-    onChoose(worldWide, selectedCountry, selectedState, selectedCity);
+  const handleSelectLocation = (e) => {
+    setLat(e.latLng.lat());
+    setLng(e.latLng.lng());
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${e.latLng.lat()},${e.latLng.lng()}&key=`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.results && data.results.length > 0) {
+          const addressComponents = data.results[0].address_components;
+          const country = addressComponents.find((component) =>
+            component.types.includes("country")
+          );
+          const state = addressComponents.find((component) =>
+            component.types.includes("administrative_area_level_1")
+          );
+          const city = addressComponents.find((component) =>
+            component.types.includes("locality")
+          );
+          let newAddress = "";
+          if (city != undefined) {
+            (newAddress = city.long_name), (newAddress += ", ");
+          }
+          if (state != undefined) {
+            (newAddress += state.long_name), (newAddress += ", ");
+          }
+          if (country != undefined) {
+            newAddress += country.long_name;
+          }
+          setAddress(newAddress);
+          setClickedAddress({
+            country: country?.long_name,
+            state: state?.long_name,
+            city: city?.long_name,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching address information:", error);
+      });
+  };
+  const handleMarkerClick = (city: any) => {
+    console.log(123, city);
   };
 
   return (
     <Styled.LocationModalWrapper className={open ? "open" : ""}>
       <Styled.LocationModalContainer>
         <Styled.LocationModalHeader>
-          <h3>Please choose location</h3>
-          <MdClose
-            size={20}
-            color="#AFAFAF"
-            onClick={() => {
-              handleClose();
-            }}
-          />
+          <h3>{address}</h3>
+          <div className="btn_group">
+            <button
+              className="select_btn"
+              onClick={() => {
+                handleChoose();
+              }}
+            >
+              Select
+            </button>
+            <button
+              className="cancel_btn"
+              onClick={() => {
+                handleClose();
+              }}
+            >
+              Cancel
+            </button>
+          </div>
         </Styled.LocationModalHeader>
         <Styled.LocationModalBody>
-          <div>
-            <SingleSelection
-              data={countryList.map((item) => {
-                return item.name;
-              })}
-              label="Country"
-              placeholder="Select Country"
-              value={selectedCountry}
-              onChange={(value) => {
-                setSelectedCountry(value);
-                setSelectedState("");
-                setSelectedCity("");
-              }}
-            />
-          </div>
-          <div>
-            <SingleSelection
-              data={selectedStateLists.map((item) => {
-                return item.name;
-              })}
-              label="State"
-              placeholder="Select State"
-              value={selectedState}
-              onChange={(value) => {
-                setSelectedState(value);
-                setSelectedCity("");
-              }}
-            />
-          </div>
-          <div>
-            <SingleSelection
-              data={selectedCityList.map((item) => {
-                return item.name;
-              })}
-              label="City"
-              placeholder="Select City"
-              value={selectedCity}
-              onChange={(value) => setSelectedCity(value)}
-            />
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              name="share"
-              id="share"
-              checked={worldWide}
-              onChange={() => {
-                setWorldWide((prev) => !prev);
-              }}
-            />
-            <span>worldwide</span>
-          </div>
-          <div>
-            <Styled.ButtonGroup>
-              <button
-                className="choose_btn"
-                onClick={() => {
-                  handleChoose();
+          {loadError && <div>Error loading maps</div>}
+          {!isLoaded && <div>Loading maps</div>}
+          {isLoaded && flag == "upload" && (
+            <div>
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                zoom={10}
+                center={center}
+                onClick={(e) => {
+                  handleSelectLocation(e);
                 }}
               >
-                Choose
-              </button>
-              <button
-                className="cancel_btn"
-                onClick={() => {
-                  handleClose();
-                }}
+                {clickedAddress && <Marker position={{ lat, lng }} />}
+              </GoogleMap>
+            </div>
+          )}
+
+          {isLoaded && flag == "filter" && (
+            <div>
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                zoom={10}
+                center={center}
               >
-                Cancel
-              </button>
-            </Styled.ButtonGroup>
-          </div>
+                {adCityList.map((city, index) => {
+                  return (
+                    <Marker
+                      key={index}
+                      position={{ lat: city.lat, lng: city.lng }}
+                      label={city.address}
+                      onClick={() => handleMarkerClick(city)}
+                    />
+                  );
+                })}
+              </GoogleMap>
+            </div>
+          )}
         </Styled.LocationModalBody>
       </Styled.LocationModalContainer>
       <Styled.LocationModalOverlay onClick={handleClose} />

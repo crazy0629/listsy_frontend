@@ -15,7 +15,7 @@ export const UploadModalWrapper = styled.div<{ open?: string }>`
     opacity: 1;
     visibility: visible;
   }
-  z-index: 99998;
+  z-index: 20;
 `;
 
 export const UploadModalContainer = styled.div`
@@ -447,64 +447,7 @@ export const LocationWrapper = styled.div`
 `;
 
 export const LocationSelectWrapper = styled.div`
-  margin-bottom: 12px;
-  & > p {
-    color: #000;
-    font-size: 12px;
-    font-weight: 400;
-    margin-bottom: 8px;
-  }
-  .stdropdown-container {
-    border: 1px solid #afafaf !important;
-    height: 34px;
-    .stdropdown-input {
-      padding: 0;
-      height: 100%;
-      input {
-        height: 100%;
-        border: none;
-        font-size: 12px;
-        outline: none;
-        font-weight: 400;
-        padding: 6px;
-        &::placeholder {
-          color: #afafaf;
-        }
-      }
-      .stdropdown-tools {
-        .stdropdown-tool {
-          display: flex;
-          padding-right: 6px;
-          svg {
-            width: 18px;
-            height: 18px;
-            path {
-              fill: #afafaf;
-            }
-          }
-        }
-      }
-    }
-    .stdropdown-menu {
-      padding: 6px 0;
-      background: #fff;
-      box-shadow: 0px 18px 40px 0px rgba(180, 180, 180, 0.25);
-      border: none;
-      max-height: 300px;
-      border-radius: 5px;
-      .stdropdown-item {
-        color: #000;
-        font-size: 12px;
-        transition: all 0.3s;
-        font-weight: 400;
-        padding: 8px 6px;
-        &:hover {
-          background: #00000010;
-        }
-        &.selected {
-          background: #00000010;
-        }
-      }
-    }
-  }
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 10px;
 `;

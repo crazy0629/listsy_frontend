@@ -7,11 +7,7 @@ import { EstateForm, ForSaleForm, TruckForm } from "./detailsform";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Auth as AuthContext } from "@/context/contexts";
-import {
-  CitySelect,
-  CountrySelect,
-  StateSelect,
-} from "react-country-state-city";
+import { LocationModal } from "@/modules/location";
 
 type Props = {
   adLink: string;
@@ -26,17 +22,13 @@ export const Details: React.FC<Props> = ({
   adId,
   onNext,
 }) => {
-  const [countryid, setCountryid] = useState(0);
-  const [stateid, setstateid] = useState(0);
+  const [locationModal, setLocationModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [price, setPrice] = useState("0");
   const [priceUnit, setPriceUnit] = useState("$");
   const { authContext } = useContext<any>(AuthContext);
-  const [location, setLocation] = useState({
-    addressCountry: "",
-    addressState: "",
-    addressCity: "",
-  });
+  const [addressSelected, setAddressSelected] = useState(false);
+  const [location, setLocation] = useState(null);
 
   const handleCopyClick = () => {
     setCopied(true);
@@ -46,7 +38,9 @@ export const Details: React.FC<Props> = ({
   };
 
   const handleEstateFormSave = async (data: any) => {
-    if (Number(price) === 0) {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
       toast.error("Enter the Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/estate/loadEstateInfo`, {
@@ -67,7 +61,9 @@ export const Details: React.FC<Props> = ({
   };
 
   const handleTruckFormSave = async (data: any) => {
-    if (Number(price) === 0) {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
       toast.error("Enter the Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/truck/loadVehicleInfo`, {
@@ -88,7 +84,9 @@ export const Details: React.FC<Props> = ({
   };
 
   const handleForSaleFormSave = async (data: any) => {
-    if (Number(price) === 0) {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
       toast.error("Enter the Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/sale/loadForSaleInfo`, {
@@ -109,7 +107,9 @@ export const Details: React.FC<Props> = ({
   };
 
   const handleChildrenFormSave = async (data: any) => {
-    if (Number(price) === 0) {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
       toast.error("Enter the Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/children/loadChildrenInfo`, {
@@ -130,7 +130,9 @@ export const Details: React.FC<Props> = ({
   };
 
   const handleGardenFormSave = async (data: any) => {
-    if (Number(price) === 0) {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
       toast.error("Enter the Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/garden/loadGardenInfo`, {
@@ -151,7 +153,9 @@ export const Details: React.FC<Props> = ({
   };
 
   const handleEducationFormSave = async (data: any) => {
-    if (Number(price) === 0) {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
       toast.error("Enter the Price!");
     } else {
       const res = await axios.post(
@@ -175,7 +179,9 @@ export const Details: React.FC<Props> = ({
   };
 
   const handleArtFormSave = async (data: any) => {
-    if (Number(price) === 0) {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
       toast.error("Enter the Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/art/loadArtInfo`, {
@@ -196,7 +202,9 @@ export const Details: React.FC<Props> = ({
   };
 
   const handleSportsFormSave = async (data: any) => {
-    if (Number(price) === 0) {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
       toast.error("Enter the Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/sports/loadSportsInfo`, {
@@ -217,7 +225,9 @@ export const Details: React.FC<Props> = ({
   };
 
   const handleFashionFormSave = async (data: any) => {
-    if (Number(price) === 0) {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
       toast.error("Enter the Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/fashion/loadFashionInfo`, {
@@ -251,8 +261,26 @@ export const Details: React.FC<Props> = ({
     pet: "pet",
   };
 
+  const chooseLocationHandle = (lat, lng, address) => {
+    setLocationModal(false);
+    setLocation({
+      address,
+      lat,
+      lng,
+    });
+    setAddressSelected(true);
+  };
+
   return (
     <Styled.DetailsWrapper>
+      <LocationModal
+        open={locationModal}
+        flag="upload"
+        onClose={() => {
+          setLocationModal(false);
+        }}
+        onChoose={chooseLocationHandle}
+      />
       <Styled.DetailsFormWrapper>
         {formComp[category]}
       </Styled.DetailsFormWrapper>
@@ -298,53 +326,15 @@ export const Details: React.FC<Props> = ({
           </Styled.PriceInputWrapper>
           <Styled.LocationWrapper>
             <Styled.LocationSelectWrapper>
-              <p>Location</p>
-              <CountrySelect
-                onChange={(e: any) => {
-                  setCountryid(e.id);
-                  setstateid(0);
-                  setLocation({
-                    addressCountry: e.name,
-                    addressCity: "",
-                    addressState: "",
-                  });
+              <div
+                onClick={() => {
+                  setLocationModal(true);
                 }}
-                showFlag={false}
-                placeHolder="Select Country"
-              />
-            </Styled.LocationSelectWrapper>
-            <Styled.LocationSelectWrapper>
-              {/* <p>State</p> */}
-              <StateSelect
-                countryid={countryid}
-                onChange={(e: any) => {
-                  if (location.addressCountry) {
-                    setstateid(e.id);
-                    setLocation((prev) => ({
-                      ...prev,
-                      addressState: e.name,
-                      addressCity: "",
-                    }));
-                  } else {
-                    toast.error("Select Country first.");
-                  }
-                }}
-                placeHolder="Select State"
-              />
-            </Styled.LocationSelectWrapper>
-            <Styled.LocationSelectWrapper>
-              {/* <p>City</p> */}
-              <CitySelect
-                countryid={countryid}
-                stateid={stateid}
-                onChange={(e: any) => {
-                  setLocation((prev) => ({
-                    ...prev,
-                    addressCity: e.name,
-                  }));
-                }}
-                placeHolder="Select City"
-              />
+              >
+                {!addressSelected
+                  ? "Select Location Here ..."
+                  : location.address}
+              </div>
             </Styled.LocationSelectWrapper>
           </Styled.LocationWrapper>
         </Styled.VideoWrapper>
