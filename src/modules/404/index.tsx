@@ -19,7 +19,7 @@
 //   );
 // };
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -46,9 +46,11 @@ const cities = [
 
 export const NotFound: React.FC = () => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBk6ecfD2JJMGaTdDP6zszpjsFTea58KJI",
+    googleMapsApiKey: "",
     libraries,
   });
+
+  const [googleApiKey, setGoogleApiKey] = useState("");
 
   if (loadError) {
     return <div>Error loading maps</div>;
@@ -61,6 +63,8 @@ export const NotFound: React.FC = () => {
   const handleMarkerClick = (city: any) => {
     console.log(123, city);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <div>
