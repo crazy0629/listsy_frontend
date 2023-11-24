@@ -26,7 +26,6 @@ import {
   Marker,
   Libraries,
 } from "@react-google-maps/api";
-// import { Google_Api_Key } from "@/config";
 import axios from "axios";
 
 const libraries: Libraries = ["places"];
