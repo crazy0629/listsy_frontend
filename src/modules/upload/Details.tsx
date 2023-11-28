@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import * as Styled from "./upload.styles";
 import { SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
 import { MdOutlineContentCopy, MdCheck } from "react-icons/md";
@@ -7,7 +7,7 @@ import { EstateForm, ForSaleForm, TruckForm } from "./detailsform";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Auth as AuthContext } from "@/context/contexts";
-import { LocationModal } from "@/modules/location";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 type Props = {
   adLink: string;
@@ -22,13 +22,13 @@ export const Details: React.FC<Props> = ({
   adId,
   onNext,
 }) => {
-  const [locationModal, setLocationModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [price, setPrice] = useState("0");
   const [priceUnit, setPriceUnit] = useState("$");
   const { authContext } = useContext<any>(AuthContext);
   const [addressSelected, setAddressSelected] = useState(false);
   const [location, setLocation] = useState(null);
+  const [locationInfo, setLocationInfo] = useState(null);
 
   const handleCopyClick = () => {
     setCopied(true);
@@ -261,26 +261,35 @@ export const Details: React.FC<Props> = ({
     pet: "pet",
   };
 
-  const chooseLocationHandle = (lat, lng, address) => {
-    setLocationModal(false);
-    setLocation({
-      address,
-      lat,
-      lng,
-    });
-    setAddressSelected(true);
-  };
+  useEffect(() => {
+    if (locationInfo == null) return;
+    console.log(123123, locationInfo);
+
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${locationInfo.value.place_id}&key=`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const location = data.results[0].geometry.location;
+        const lat = location.lat;
+        const lng = location.lng;
+        console.log("Latitude:", lat, "Longitude:", lng);
+
+        setLocation({
+          address: locationInfo.label,
+          lat,
+          lng,
+        });
+
+        setAddressSelected(true);
+      })
+      .catch((error) => {
+        console.error("Error fetching location info:", error);
+      });
+  }, [locationInfo]);
 
   return (
     <Styled.DetailsWrapper>
-      <LocationModal
-        open={locationModal}
-        flag="upload"
-        onClose={() => {
-          setLocationModal(false);
-        }}
-        onChoose={chooseLocationHandle}
-      />
       <Styled.DetailsFormWrapper>
         {formComp[category]}
       </Styled.DetailsFormWrapper>
@@ -326,14 +335,15 @@ export const Details: React.FC<Props> = ({
           </Styled.PriceInputWrapper>
           <Styled.LocationWrapper>
             <Styled.LocationSelectWrapper>
-              <div
-                onClick={() => {
-                  setLocationModal(true);
-                }}
-              >
-                {!addressSelected
-                  ? "Select Location Here ..."
-                  : location.address}
+              <div>
+                <GooglePlacesAutocomplete
+                  apiKey=""
+                  selectProps={{
+                    placeholder: "Select location here...",
+                    value: locationInfo,
+                    onChange: setLocationInfo,
+                  }}
+                />
               </div>
             </Styled.LocationSelectWrapper>
           </Styled.LocationWrapper>

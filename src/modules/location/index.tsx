@@ -13,7 +13,6 @@ import { SERVER_URI } from "@/config";
 
 type Props = {
   open: boolean;
-  flag: string;
   onClose: () => void;
   onChoose: (lat: number, lng: number, address: string) => void;
 };
@@ -28,26 +27,19 @@ const center = {
   lng: -0.118092, // default longitude
 };
 
-export const LocationModal: React.FC<Props> = ({
-  open,
-  flag,
-  onClose,
-  onChoose,
-}) => {
+export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "",
     libraries,
   });
   const [clickedAddress, setClickedAddress] = useState(null);
-  const [address, setAddress] = useState("Please choose location");
+  const [filterAddress, setFilterAddress] = useState("Please choose location");
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
   const [adCityList, setAdCityList] = useState([]);
 
   useEffect(() => {
-    if (flag == "filter") {
-      getLocationList();
-    }
+    getLocationList();
   }, []);
 
   const getLocationList = async () => {
@@ -59,63 +51,21 @@ export const LocationModal: React.FC<Props> = ({
       toast.error("Please select location");
       return;
     }
-    onChoose(lat, lng, address);
+    onChoose(lat, lng, filterAddress);
   };
 
   const handleClose = () => {
     onClose();
   };
-
-  const handleSelectLocation = (e) => {
-    setLat(e.latLng.lat());
-    setLng(e.latLng.lng());
-    fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${e.latLng.lat()},${e.latLng.lng()}&key=`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.results && data.results.length > 0) {
-          const addressComponents = data.results[0].address_components;
-          const country = addressComponents.find((component) =>
-            component.types.includes("country")
-          );
-          const state = addressComponents.find((component) =>
-            component.types.includes("administrative_area_level_1")
-          );
-          const city = addressComponents.find((component) =>
-            component.types.includes("locality")
-          );
-          let newAddress = "";
-          if (city != undefined) {
-            (newAddress = city.long_name), (newAddress += ", ");
-          }
-          if (state != undefined) {
-            (newAddress += state.long_name), (newAddress += ", ");
-          }
-          if (country != undefined) {
-            newAddress += country.long_name;
-          }
-          setAddress(newAddress);
-          setClickedAddress({
-            country: country?.long_name,
-            state: state?.long_name,
-            city: city?.long_name,
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching address information:", error);
-      });
-  };
   const handleMarkerClick = (city: any) => {
-    console.log(123, city);
+    setFilterAddress(city.address);
   };
 
   return (
     <Styled.LocationModalWrapper className={open ? "open" : ""}>
       <Styled.LocationModalContainer>
         <Styled.LocationModalHeader>
-          <h3>{address}</h3>
+          <h3>{filterAddress}</h3>
           <div className="btn_group">
             <button
               className="select_btn"
@@ -138,22 +88,7 @@ export const LocationModal: React.FC<Props> = ({
         <Styled.LocationModalBody>
           {loadError && <div>Error loading maps</div>}
           {!isLoaded && <div>Loading maps</div>}
-          {isLoaded && flag == "upload" && (
-            <div>
-              <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                zoom={10}
-                center={center}
-                onClick={(e) => {
-                  handleSelectLocation(e);
-                }}
-              >
-                {clickedAddress && <Marker position={{ lat, lng }} />}
-              </GoogleMap>
-            </div>
-          )}
-
-          {isLoaded && flag == "filter" && (
+          {isLoaded && (
             <div>
               <GoogleMap
                 mapContainerStyle={mapContainerStyle}
