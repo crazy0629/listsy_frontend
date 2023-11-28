@@ -232,7 +232,6 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
 
         <LocationModal
           open={locationModal}
-          flag="filter"
           onClose={() => {
             setLocationModal(false);
           }}
