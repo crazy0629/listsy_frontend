@@ -8,6 +8,7 @@ import { BsClock } from "react-icons/bs";
 import { VideoPlayIcon } from "..";
 import { calcCompareTime, getTimestamp } from "@/utils";
 import { useRouter } from "next/router";
+import { NavItem } from "@/modules/profile/profile.styles";
 
 type Props = {
   link: string;
@@ -26,9 +27,7 @@ type Props = {
   adStatus?: string;
   id: string;
   duration: number;
-  country: string;
-  state: string;
-  city: string;
+  address: string;
   type: string;
 };
 
@@ -46,9 +45,7 @@ export const CardItem: React.FC<Props> = ({
   isBoost,
   title,
   firstName,
-  country,
-  state,
-  city,
+  address,
   lastName,
   userAvatar,
   adStatus,
@@ -114,13 +111,7 @@ export const CardItem: React.FC<Props> = ({
           <div className="location">
             <p>
               <MdLocationOn size={12} />
-              {country ? (
-                <span>
-                  {city && city}, {state && state}, {country}
-                </span>
-              ) : (
-                <span>Worldwide</span>
-              )}
+              <span>{address}</span>
             </p>
             <p>
               <BsClock size={12} />

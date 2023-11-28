@@ -19,36 +19,14 @@ export const TruckPageSection: React.FC = () => {
     year: [] as string[],
     gearBox: [] as string[],
   });
-  const [locationFilter, setLocationFilter] = useState(null);
-
   useEffect(() => {
-    setLocationFilter({
-      worldWide: localStorage.worldWide == "false" ? false : true,
-      country: localStorage.selectedCountry,
-      state: localStorage.selectedState,
-      city: localStorage.selectedCity,
-    });
-  }, []);
-
-  useEffect(() => {
-    if (locationFilter == null) return;
     getData(0);
-  }, [locationFilter]);
-
-  window.addEventListener("location-change", () => {
-    setLocationFilter({
-      worldWide: localStorage.worldWide == "false" ? false : true,
-      country: localStorage.selectedCountry,
-      state: localStorage.selectedState,
-      city: localStorage.selectedCity,
-    });
-  });
+  }, []);
 
   const getData = async (index: number) => {
     const res = await axios.post(`${SERVER_URI}/truck/getMoreVehicleAds`, {
       ...filter,
       index,
-      locationFilter,
     });
     if (res.data.success) {
       if (index > 0) {
@@ -172,9 +150,7 @@ export const TruckPageSection: React.FC = () => {
                 reviewMark={item.userId?.reviewMark}
                 subtitle={item.subTitle}
                 title={item.title}
-                country={item.addressCountry}
-                state={item.addressState}
-                city={item.addressCity}
+                address={item.address}
                 userAvatar={item.userId?.avatar}
                 firstName={item.userId?.firstName}
                 lastName={item.userId?.lastName}

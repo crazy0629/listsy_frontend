@@ -218,8 +218,13 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
     }
   };
 
-  const chooseLocationHandle = () => {
+  const chooseLocationHandle = (
+    filterAddress: string,
+    countryFlagUrl: string
+  ) => {
     setLocationModal(false);
+    setFlagUrl(countryFlagUrl);
+    setLocation(filterAddress);
   };
 
   return (

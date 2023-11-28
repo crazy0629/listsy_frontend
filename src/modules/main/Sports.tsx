@@ -117,9 +117,7 @@ export const SportsPageSection: React.FC = () => {
                 reviewMark={item.userId?.reviewMark}
                 subtitle={item.subTitle}
                 title={item.title}
-                country={item.addressCountry}
-                state={item.addressState}
-                city={item.addressCity}
+                address={item.address}
                 userAvatar={item.userId?.avatar}
                 firstName={item.userId?.firstName}
                 lastName={item.userId?.lastName}

@@ -378,6 +378,10 @@ export const SidebarCountrySelect = styled.div`
       font-weight: 400;
     }
   }
+  img {
+    width: 30px;
+    height: 20px;
+  }
 `;
 
 export const AppSidebarWrapper = styled.div`

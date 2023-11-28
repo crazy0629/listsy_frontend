@@ -14,7 +14,7 @@ import { SERVER_URI } from "@/config";
 type Props = {
   open: boolean;
   onClose: () => void;
-  onChoose: (lat: number, lng: number, address: string) => void;
+  onChoose: (address: string, countryFlag: string) => void;
 };
 
 const libraries: Libraries = ["places"];
@@ -32,11 +32,9 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
     googleMapsApiKey: "",
     libraries,
   });
-  const [clickedAddress, setClickedAddress] = useState(null);
   const [filterAddress, setFilterAddress] = useState("Please choose location");
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
   const [adCityList, setAdCityList] = useState([]);
+  const [flagUrl, setFlagUrl] = useState("");
 
   useEffect(() => {
     getLocationList();
@@ -46,19 +44,70 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
     const result = await axios.post(`${SERVER_URI}/ad/getLocationList`);
     setAdCityList(result.data.data);
   };
+
   const handleChoose = () => {
-    if (clickedAddress == null) {
+    if (filterAddress == null) {
       toast.error("Please select location");
       return;
     }
-    onChoose(lat, lng, filterAddress);
+    onChoose(filterAddress, flagUrl);
   };
 
   const handleClose = () => {
     onClose();
   };
+
+  const getCountryCode = (lat, lng) => {
+    return fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const country = data.results.find((result) => {
+          return result.types.includes("country");
+        });
+        return country
+          ? country.address_components.find((component) =>
+              component.types.includes("country")
+            ).short_name
+          : null;
+      })
+      .catch((error) => {
+        console.error("Error fetching country code:", error);
+        return null;
+      });
+  };
+
+  const getCountryFlag = (countryCode) => {
+    return fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
+      .then((response) => response.json())
+      .then((data) => {
+        return data[0].flags.png;
+      })
+      .catch((error) => {
+        console.error("Error fetching country flag:", error);
+        return null;
+      });
+  };
+
   const handleMarkerClick = (city: any) => {
     setFilterAddress(city.address);
+    getCountryCode(city.lat, city.lng)
+      .then((countryCode) => {
+        if (countryCode) {
+          return getCountryFlag(countryCode);
+        } else {
+          console.error("Country code not found");
+          return null;
+        }
+      })
+      .then((countryFlag) => {
+        if (countryFlag) {
+          setFlagUrl(countryFlag);
+        } else {
+          console.error("Country flag not found");
+        }
+      });
   };
 
   return (
