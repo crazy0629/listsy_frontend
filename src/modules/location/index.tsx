@@ -29,7 +29,7 @@ const center = {
 
 export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBk6ecfD2JJMGaTdDP6zszpjsFTea58KJI",
+    googleMapsApiKey: "",
     libraries,
   });
   const [filterAddress, setFilterAddress] = useState("Please choose location");
@@ -59,7 +59,7 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
 
   const getCountryCode = (lat, lng) => {
     return fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBk6ecfD2JJMGaTdDP6zszpjsFTea58KJI`
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=`
     )
       .then((response) => response.json())
       .then((data) => {

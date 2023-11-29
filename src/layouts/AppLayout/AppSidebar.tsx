@@ -167,7 +167,9 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
   }, []);
 
   const setLocationInfo = async () => {
-    const locationInfo = await axios.get("https://api.ipdata.co?api-key=");
+    const locationInfo = await axios.get(
+      "https://api.ipdata.co?api-key=0facca59c5b02048913c6c3000dbd3faa00bcfb3df9e28230c82c93d"
+    );
     setLocation(locationInfo.data.country_name);
     setFlagUrl(locationInfo.data.flag);
   };

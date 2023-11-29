@@ -266,7 +266,7 @@ export const Details: React.FC<Props> = ({
     console.log(123123, locationInfo);
 
     fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${locationInfo.value.place_id}&key=AIzaSyBk6ecfD2JJMGaTdDP6zszpjsFTea58KJI`
+      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${locationInfo.value.place_id}&key=`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -337,7 +337,7 @@ export const Details: React.FC<Props> = ({
             <Styled.LocationSelectWrapper>
               <div>
                 <GooglePlacesAutocomplete
-                  apiKey="AIzaSyBk6ecfD2JJMGaTdDP6zszpjsFTea58KJI"
+                  apiKey=""
                   selectProps={{
                     placeholder: "Select location here...",
                     value: locationInfo,
