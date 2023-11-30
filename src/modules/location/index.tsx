@@ -22,10 +22,6 @@ const mapContainerStyle = {
   width: "100vw",
   height: "100vh",
 };
-const center = {
-  lat: 51.509865, // default latitude
-  lng: -0.118092, // default longitude
-};
 
 export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
   const { isLoaded, loadError } = useLoadScript({
@@ -35,6 +31,11 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
   const [filterAddress, setFilterAddress] = useState("Please choose location");
   const [adCityList, setAdCityList] = useState([]);
   const [flagUrl, setFlagUrl] = useState("");
+
+  const center = {
+    lat: Number(localStorage.getItem("centerlat")), // default latitude
+    lng: Number(localStorage.getItem("centerlng")), // default longitude
+  };
 
   useEffect(() => {
     getLocationList();
@@ -92,6 +93,8 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
 
   const handleMarkerClick = (city: any) => {
     setFilterAddress(city.address);
+    localStorage.setItem("centerlat", city.lat);
+    localStorage.setItem("centerlng", city.lng);
     getCountryCode(city.lat, city.lng)
       .then((countryCode) => {
         if (countryCode) {
