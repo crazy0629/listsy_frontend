@@ -173,7 +173,6 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
       );
       setLocation(locationInfo.data.country_name);
       setFlagUrl(locationInfo.data.flag);
-      console.log(locationInfo.data);
       localStorage.setItem("centerlat", locationInfo.data.latitude);
       localStorage.setItem("centerlng", locationInfo.data.longitude);
       localStorage.setItem("locationSelected", "false");
