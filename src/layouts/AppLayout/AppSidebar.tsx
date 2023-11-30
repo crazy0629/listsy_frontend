@@ -168,7 +168,9 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
 
   const setLocationInfo = async () => {
     if (localStorage.getItem("locationSelected") == null) {
-      const locationInfo = await axios.get("https://api.ipdata.co?api-key=");
+      const locationInfo = await axios.get(
+        `https://api.ipdata.co?api-key=${process.env.NEXT_PUBLIC_IPDATA_API_KEY}`
+      );
       setLocation(locationInfo.data.country_name);
       setFlagUrl(locationInfo.data.flag);
       console.log(locationInfo.data);

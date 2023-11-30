@@ -25,7 +25,7 @@ const mapContainerStyle = {
 
 export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "",
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
     libraries,
   });
   const [filterAddress, setFilterAddress] = useState("Please choose location");
@@ -60,7 +60,7 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
 
   const getCountryCode = (lat, lng) => {
     return fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=`
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`
     )
       .then((response) => response.json())
       .then((data) => {
