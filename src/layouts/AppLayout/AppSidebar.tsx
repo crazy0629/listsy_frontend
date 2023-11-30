@@ -167,11 +167,25 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
   }, []);
 
   const setLocationInfo = async () => {
-    const locationInfo = await axios.get(
-      "https://api.ipdata.co?api-key=0facca59c5b02048913c6c3000dbd3faa00bcfb3df9e28230c82c93d"
-    );
-    setLocation(locationInfo.data.country_name);
-    setFlagUrl(locationInfo.data.flag);
+    if (localStorage.getItem("locationSelected") == null) {
+      const locationInfo = await axios.get(
+        "https://api.ipdata.co?api-key=0facca59c5b02048913c6c3000dbd3faa00bcfb3df9e28230c82c93d"
+      );
+      setLocation(locationInfo.data.country_name);
+      setFlagUrl(locationInfo.data.flag);
+      console.log(locationInfo.data);
+      localStorage.setItem("locationSelected", "false");
+      localStorage.setItem("flagUrl", locationInfo.data.flag);
+      localStorage.setItem("locationAddress", locationInfo.data.country_name);
+      localStorage.setItem(
+        "locationCountryCode",
+        locationInfo.data.country_code
+      );
+      window.dispatchEvent(new Event("localStorageChanged"));
+    } else {
+      setFlagUrl(localStorage.getItem("flagUrl"));
+      setLocation(localStorage.getItem("locationAddress"));
+    }
   };
 
   const getInitialCommunity = async () => {
@@ -225,6 +239,10 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
     setLocationModal(false);
     setFlagUrl(countryFlagUrl);
     setLocation(filterAddress);
+    localStorage.setItem("locationSelected", "true");
+    localStorage.setItem("locationAddress", filterAddress);
+    localStorage.setItem("flagUrl", countryFlagUrl);
+    window.dispatchEvent(new Event("localStorageChanged"));
   };
 
   return (

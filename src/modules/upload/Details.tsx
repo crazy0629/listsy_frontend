@@ -263,22 +263,23 @@ export const Details: React.FC<Props> = ({
 
   useEffect(() => {
     if (locationInfo == null) return;
-    console.log(123123, locationInfo);
-
     fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?place_id=${locationInfo.value.place_id}&key=`
     )
       .then((response) => response.json())
       .then((data) => {
+        const countryCode = data.results[0].address_components.find(
+          (component) => component.types.includes("country")
+        ).short_name;
+
         const location = data.results[0].geometry.location;
         const lat = location.lat;
         const lng = location.lng;
-        console.log("Latitude:", lat, "Longitude:", lng);
-
         setLocation({
           address: locationInfo.label,
           lat,
           lng,
+          countryCode,
         });
 
         setAddressSelected(true);
