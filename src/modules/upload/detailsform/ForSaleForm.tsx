@@ -88,7 +88,8 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
           setForm((prev) => ({ ...prev, itemCategory: value }))
         }
       />
-      <SingleSelection
+
+      {/* <SingleSelection
         data={selectData.forSale.condition}
         label="Item Condition"
         placeholder="Select Item Condition"
@@ -200,8 +201,8 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
             <option value="pound">Pound</option>
             <option value="ton">Ton</option>
           </select>
-        </Styled.InputSelectWrapper>
-      </Styled.InputFormItem>
+        </Styled.InputSelectWrapper> 
+      </Styled.InputFormItem>*/}
 
       <Styled.SaveButton onClick={handleSave}>Save</Styled.SaveButton>
     </Styled.FormContainer>
