@@ -6,6 +6,13 @@ import { toast } from "react-toastify";
 import { Television } from "./Electronics/Television";
 import { Laptops } from "./Electronics/Laptops";
 import { Ipad } from "./Electronics/Ipad";
+import { TheaterSystems } from "./Electronics/TheaterSystems";
+import { Kitchen } from "./Electronics/Kitchen";
+import { Laundry } from "./Electronics/Laundry";
+import { Cleaning } from "./Electronics/Cleaning";
+import { Heating } from "./Electronics/Heating";
+import { PersonalCare } from "./Electronics/PersonalCare";
+import { Miscellaneous } from "./Electronics/Miscellaneous";
 
 type Props = {
   onSave: (data: any) => void;
@@ -17,16 +24,6 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
     subTitle: "",
     description: "",
     itemCategory: "",
-    // ItemInfo: "",
-    // itemCondition: "",
-    // brandName: "",
-    // manufacturer: "",
-    // itemColor: "",
-    // dimensionW: "",
-    // dimensionH: "",
-    // dimensionUnit: "meter",
-    // itemWeight: "",
-    // itemUnit: "gram",
   });
 
   const handleSave = () => {
@@ -102,6 +99,27 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
 
       {form.itemCategory == "iPad, Tablets & eReaders" && (
         <Ipad onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Home Theater Systems" && (
+        <TheaterSystems onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Kitchen Appliances" && (
+        <Kitchen onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Laundry Appliances" && (
+        <Laundry onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Cleaning Appliances" && (
+        <Cleaning onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Heating, Cooling, and Air Quality" && (
+        <Heating onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Personal Care Appliances" && (
+        <PersonalCare onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Miscellaneous Appliances" && (
+        <Miscellaneous onSave={subFormSave} />
       )}
 
       {/* 
