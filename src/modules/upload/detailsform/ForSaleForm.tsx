@@ -3,6 +3,9 @@ import * as Styled from "./details.styles";
 import { SingleSelection } from "@/components";
 import { selectData } from "./data";
 import { toast } from "react-toastify";
+import { Television } from "./Electronics/Television";
+import { Laptops } from "./Electronics/Laptops";
+import { Ipad } from "./Electronics/Ipad";
 
 type Props = {
   onSave: (data: any) => void;
@@ -14,15 +17,16 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
     subTitle: "",
     description: "",
     itemCategory: "",
-    itemCondition: "",
-    brandName: "",
-    manufacturer: "",
-    itemColor: "",
-    dimensionW: "",
-    dimensionH: "",
-    dimensionUnit: "meter",
-    itemWeight: "",
-    itemUnit: "gram",
+    // ItemInfo: "",
+    // itemCondition: "",
+    // brandName: "",
+    // manufacturer: "",
+    // itemColor: "",
+    // dimensionW: "",
+    // dimensionH: "",
+    // dimensionUnit: "meter",
+    // itemWeight: "",
+    // itemUnit: "gram",
   });
 
   const handleSave = () => {
@@ -34,12 +38,12 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
       toast.error("Enter the subtitle!");
     } else if (!form.itemCategory) {
       toast.error("Select the Item Category!");
-    } else if (!form.itemCondition) {
-      toast.error("Select the Item Condition!");
     } else {
       onSave(form);
     }
   };
+
+  const subFormSave = () => {};
 
   return (
     <Styled.FormContainer>
@@ -84,30 +88,23 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
         label="Item Category"
         placeholder="Select Item Condition"
         value={form.itemCategory}
-        onChange={(value) =>
-          setForm((prev) => ({ ...prev, itemCategory: value }))
-        }
+        onChange={(value) => {
+          setForm((prev) => ({ ...prev, itemCategory: value, ItemInfo: null }));
+        }}
       />
+      {form.itemCategory == "Televisions" && (
+        <Television onSave={subFormSave} />
+      )}
 
-      {/* <SingleSelection
-        data={selectData.forSale.condition}
-        label="Item Condition"
-        placeholder="Select Item Condition"
-        value={form.itemCondition}
-        onChange={(value) =>
-          setForm((prev) => ({ ...prev, itemCondition: value }))
-        }
-      />
-      <Styled.InputFormItem>
-        <input
-          type="text"
-          placeholder="Brand Name"
-          onChange={(e) =>
-            setForm((prev) => ({ ...prev, brandName: e.target.value }))
-          }
-          value={form.brandName}
-        />
-      </Styled.InputFormItem>
+      {form.itemCategory == "Laptops and Desktop Computers" && (
+        <Laptops onSave={subFormSave} />
+      )}
+
+      {form.itemCategory == "iPad, Tablets & eReaders" && (
+        <Ipad onSave={subFormSave} />
+      )}
+
+      {/* 
       <Styled.InputFormItem>
         <input
           type="text"
@@ -202,9 +199,9 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
             <option value="ton">Ton</option>
           </select>
         </Styled.InputSelectWrapper> 
-      </Styled.InputFormItem>*/}
+      </Styled.InputFormItem>
 
-      <Styled.SaveButton onClick={handleSave}>Save</Styled.SaveButton>
+      <Styled.SaveButton onClick={handleSave}>Save</Styled.SaveButton>*/}
     </Styled.FormContainer>
   );
 };
