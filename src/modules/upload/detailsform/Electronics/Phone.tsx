@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as Styled from "../details.styles";
-import { MultiSelection, SingleSelection } from "@/components";
+import { SingleSelection } from "@/components";
 import { selectData } from "../data";
 import { toast } from "react-toastify";
 
@@ -44,9 +44,65 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
 
   const handleSave = () => {
     if (!form.type) {
-      toast.error("Enter type");
-    } else {
-      onSave(form);
+      toast.error("Enter phone type");
+    } else if (form.type == "Cell Phones") {
+      if (!form.cellPhone.batteryCapacity) {
+        toast.error("Enter battery capacity");
+      } else if (!form.cellPhone.brand) {
+        toast.error("Enter brand");
+      } else if (!form.cellPhone.cameraResolution) {
+        toast.error("Enter camera resolution");
+      } else if (!form.cellPhone.colour) {
+        toast.error("Enter colour");
+      } else if (!form.cellPhone.condition) {
+        toast.error("Enter item condition");
+      } else if (!form.cellPhone.memoryCapacity) {
+        toast.error("Enter memory capacity");
+      } else if (!form.cellPhone.networkProvider) {
+        toast.error("Enter network provider");
+      } else if (!form.cellPhone.operatingSystem) {
+        toast.error("Enter operating system");
+      } else if (!form.cellPhone.screenSizeRange) {
+        toast.error("Enter screen size range");
+      } else if (!form.cellPhone.warrantyInformation) {
+        toast.error("Enter warranty information");
+      } else {
+        onSave({ type: form.type, ...form.cellPhone });
+      }
+    } else if (form.type == "Cell Phone Accessories") {
+      if (!form.cellPhoneAccessories.condition) {
+        toast.error("Enter condition");
+      } else if (!form.cellPhoneAccessories.accessoryType) {
+        toast.error("Enter accessory type");
+      } else if (!form.cellPhoneAccessories.warrantyInformation) {
+        toast.error("Enter warranty information");
+      } else {
+        onSave({ type: form.type, ...form.cellPhoneAccessories });
+      }
+    } else if (form.type == "Landlines") {
+      if (!form.landLine.condition) {
+        toast.error("Enter condition");
+      } else if (!form.landLine.brand) {
+        toast.error("Enter brand");
+      } else if (!form.landLine.landLineType) {
+        toast.error("Enter landLine type");
+      } else if (!form.landLine.warrantyInformation) {
+        toast.error("Enter warranty information");
+      } else {
+        onSave({ type: form.type, ...form.landLine });
+      }
+    } else if (form.type == "Walkie Talkies") {
+      if (!form.walkieTalkies.condition) {
+        toast.error("Enter condition");
+      } else if (!form.walkieTalkies.brand) {
+        toast.error("Enter brand");
+      } else if (!form.walkieTalkies.walkieTalkiesType) {
+        toast.error("Enter walkie talkies type");
+      } else if (!form.walkieTalkies.warrantyInformation) {
+        toast.error("Enter warranty information");
+      } else {
+        onSave({ type: form.type, ...form.walkieTalkies });
+      }
     }
   };
 

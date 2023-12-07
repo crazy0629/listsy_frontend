@@ -38,7 +38,6 @@ export const AdsDetailsSection: React.FC = () => {
     const res = await axios.post(`${SERVER_URI}/${type}/getAdDetailInfo`, {
       adId: id,
     });
-    console.log(123123123, res.data);
     if (res.data.success) {
       setData(res.data.data);
     } else {
