@@ -25,7 +25,27 @@ export const Laptops: React.FC<Props> = ({ onSave }) => {
 
   const handleSave = () => {
     if (!form.itemCondition) {
-      toast.error("Enter itemCondition");
+      toast.error("Enter item condition");
+    } else if (!form.type) {
+      toast.error("Enter type");
+    } else if (!form.brand) {
+      toast.error("Enter brand");
+    } else if (!form.ramSize) {
+      toast.error("Enter ram size");
+    } else if (!form.processor) {
+      toast.error("Enter processor");
+    } else if (!form.screenSize) {
+      toast.error("Enter screen size");
+    } else if (!form.storageCapacity) {
+      toast.error("Enter storage capacity");
+    } else if (!form.operatingSystem) {
+      toast.error("Enter operating system");
+    } else if (!form.colour) {
+      toast.error("Enter colour");
+    } else if (!form.batteryLife) {
+      toast.error("Enter battery life");
+    } else if (!form.warrantyInformation) {
+      toast.error("Enter Warranty Information");
     } else {
       onSave(form);
     }

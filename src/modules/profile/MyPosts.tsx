@@ -130,7 +130,6 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
 
   useEffect(() => {
     if (authContext.user) {
-      console.log(12345, category);
       // getData(selectedPage.key, "", 0);
       if (category != "") {
         let item = pageFilter.filter((item) => item.key == category)[0];
@@ -155,7 +154,6 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
       adState,
       index: getIndex,
     });
-    console.log(123123, res.data);
     if (res.data.success) {
       if (getIndex > 0) {
         setData((prev: any) => [...prev, ...res.data.data]);
