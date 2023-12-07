@@ -4,7 +4,7 @@ import { EducationPageSection } from "@/modules/main/Education";
 
 const EducationPage: React.FC = () => {
   return (
-    <AppLayout name="sales">
+    <AppLayout name="sale">
       <EducationPageSection />
     </AppLayout>
   );

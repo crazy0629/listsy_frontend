@@ -4,7 +4,7 @@ import { FashionPageSection } from "@/modules/main/Fashion";
 
 const FashionPage: React.FC = () => {
   return (
-    <AppLayout name="sales">
+    <AppLayout name="sale">
       <FashionPageSection />
     </AppLayout>
   );

@@ -4,7 +4,7 @@ import { ArtPageSection } from "@/modules/main/Art";
 
 const ArtPage: React.FC = () => {
   return (
-    <AppLayout name="sales">
+    <AppLayout name="sale">
       <ArtPageSection />
     </AppLayout>
   );

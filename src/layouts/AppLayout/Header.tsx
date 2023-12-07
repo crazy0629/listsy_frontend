@@ -105,6 +105,7 @@ export const Header: React.FC<{
         }}
         onFinish={(category: string) => {
           setUploadModal(false);
+          console.log("haha", category);
           router.push(`/profile/posts/${category}`);
         }}
       />
