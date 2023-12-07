@@ -13,6 +13,9 @@ import { Cleaning } from "./Electronics/Cleaning";
 import { Heating } from "./Electronics/Heating";
 import { PersonalCare } from "./Electronics/PersonalCare";
 import { Miscellaneous } from "./Electronics/Miscellaneous";
+import { Camera } from "./Electronics/Camera";
+import { Music } from "./Electronics/Music";
+import { Phone } from "./Electronics/Phone";
 
 type Props = {
   onSave: (data: any) => void;
@@ -121,7 +124,13 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
       {form.itemCategory == "Miscellaneous Appliances" && (
         <Miscellaneous onSave={subFormSave} />
       )}
-
+      {form.itemCategory == "Cameras and Camcorders" && (
+        <Camera onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Portable Music Players" && (
+        <Music onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Phones" && <Phone onSave={subFormSave} />}
       {/* 
       <Styled.InputFormItem>
         <input
