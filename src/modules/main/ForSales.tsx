@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import * as Styled from "./main.styles";
-import { CardItem, MultiSelection } from "@/components";
+import { CardItem, MultiSelection, SingleSelection } from "@/components";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { selectData } from "../upload/detailsform/data";
 
 export const SalesPageSection: React.FC = () => {
   const [getIndex, setGetIndex] = useState(0);
   const [data, setData] = useState<any>([]);
   const [hasMore, setHasMore] = useState(true);
   const [filter, setFilter] = useState({
-    itemCategory: [] as string[],
+    itemCategory: "",
     itemCondition: [] as string[],
   });
 
@@ -70,41 +71,8 @@ export const SalesPageSection: React.FC = () => {
   return (
     <Styled.MainPageSectionWrapper>
       <Styled.FilterWrapper>
-        <MultiSelection
-          data={[
-            "Appliances",
-            "Art & Crafts",
-            "Audio & Stereo Equipment",
-            "Automotive Items & Parts",
-            "Baby & Kids Stuff",
-            "Bicycles",
-            "Books ,Comics & Magazines",
-            "Cameras & Photography Equipment",
-            "Christmas Decorations",
-            "Clothes, Shoes & Accessories",
-            "Collectibles &  Sports Memorabilia",
-            "Computers,Tablets, Software  & Hardware",
-            "DIY Tools & Materials",
-            "Freebies",
-            "Health & Beauty",
-            "Heavy Equipment",
-            "Home & Garden",
-            "Household & Furniture",
-            "Jewellery & Watches",
-            "Films & TV",
-            "Music & CDs",
-            "Musical Instruments & DJ Equipment",
-            "Office Furniture & Equipment",
-            "Mobile Phones, Smart Watches & Accessories",
-            "Sports, Leisure & Travel",
-            "Stuff Wanted",
-            "Tickets",
-            " Video Games & Consoles",
-            "Food & Drink",
-            "Tyres",
-            "Toys & Hobbies",
-            "Digital Goods",
-          ]}
+        <SingleSelection
+          data={selectData.forSale.category}
           placeholder="Select Item Category"
           value={filter.itemCategory}
           onChange={(value) =>
