@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as Styled from "../details.styles";
-import { MultiSelection, SingleSelection } from "@/components";
+import { SingleSelection } from "@/components";
 import { selectData } from "../data";
 import { toast } from "react-toastify";
 
@@ -17,7 +17,11 @@ export const Miscellaneous: React.FC<Props> = ({ onSave }) => {
 
   const handleSave = () => {
     if (!form.itemCondition) {
-      toast.error("Enter itemCondition");
+      toast.error("Enter item condition");
+    } else if (!form.type) {
+      toast.error("Enter type");
+    } else if (!form.warrantyInformation) {
+      toast.error("Enter Warranty Information");
     } else {
       onSave(form);
     }

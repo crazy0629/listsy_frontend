@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as Styled from "../details.styles";
-import { MultiSelection, SingleSelection } from "@/components";
+import { SingleSelection } from "@/components";
 import { selectData } from "../data";
 import { toast } from "react-toastify";
 

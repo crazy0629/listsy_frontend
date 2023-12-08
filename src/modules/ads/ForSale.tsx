@@ -125,7 +125,25 @@ export const ForSale: React.FC<{ data: any }> = ({ data }) => {
           <span>{data?.itemDetailInfo.memory}</span>
         </Styled.InfoItemWrapper>
       )}
-      {data.itemDetailInfo.features.length && (
+      {data.itemDetailInfo.megapixels && (
+        <Styled.InfoItemWrapper>
+          <span>Megapixels</span>
+          <span>{data?.itemDetailInfo.megapixels}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.connectivity && (
+        <Styled.InfoItemWrapper>
+          <span>Connectivity</span>
+          <span>{data?.itemDetailInfo.connectivity}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.supportedStandards && (
+        <Styled.InfoItemWrapper>
+          <span>Supported Standards</span>
+          <span>{data?.itemDetailInfo.supportedStandards}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.features?.length && (
         <Styled.InfoItemWrapper2>
           <span>Features</span>
           <ul>
@@ -137,6 +155,60 @@ export const ForSale: React.FC<{ data: any }> = ({ data }) => {
             ))}
           </ul>
         </Styled.InfoItemWrapper2>
+      )}
+      {data.itemDetailInfo.batteryCapacity && (
+        <Styled.InfoItemWrapper>
+          <span>Battery Capacity</span>
+          <span>{data?.itemDetailInfo.batteryCapacity}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.cameraResolution && (
+        <Styled.InfoItemWrapper>
+          <span>Camera Resolution</span>
+          <span>{data?.itemDetailInfo.cameraResolution}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.condition && (
+        <Styled.InfoItemWrapper>
+          <span>Condition</span>
+          <span>{data?.itemDetailInfo.condition}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.memoryCapacity && (
+        <Styled.InfoItemWrapper>
+          <span>Memory Capacity</span>
+          <span>{data?.itemDetailInfo.memoryCapacity}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.networkProvider && (
+        <Styled.InfoItemWrapper>
+          <span>Network Provider</span>
+          <span>{data?.itemDetailInfo.networkProvider}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.screenSizeRange && (
+        <Styled.InfoItemWrapper>
+          <span>Screen Size Range</span>
+          <span>{data?.itemDetailInfo.screenSizeRange}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.accessoryType && (
+        <Styled.InfoItemWrapper>
+          <span>Accessory Type</span>
+          <span>{data?.itemDetailInfo.accessoryType}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.landLineType && (
+        <Styled.InfoItemWrapper>
+          <span>Landline Type</span>
+          <span>{data?.itemDetailInfo.landLineType}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.walkieTalkiesType && (
+        <Styled.InfoItemWrapper>
+          <span>WalkieTalkies Type</span>
+          <span>{data?.itemDetailInfo.walkieTalkiesType}</span>
+        </Styled.InfoItemWrapper>
       )}
     </>
   );
