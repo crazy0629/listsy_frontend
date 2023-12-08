@@ -113,6 +113,31 @@ export const ForSale: React.FC<{ data: any }> = ({ data }) => {
           <span>{data?.itemDetailInfo.storageCapacity}</span>
         </Styled.InfoItemWrapper>
       )}
+      {data.itemDetailInfo.storage && (
+        <Styled.InfoItemWrapper>
+          <span>Storage</span>
+          <span>{data?.itemDetailInfo.storage}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.memory && (
+        <Styled.InfoItemWrapper>
+          <span>Memory</span>
+          <span>{data?.itemDetailInfo.memory}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.features.length && (
+        <Styled.InfoItemWrapper2>
+          <span>Features</span>
+          <ul>
+            {data.itemDetailInfo.features.map((item: any, key: number) => (
+              <li key={key}>
+                <MdCheck />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </Styled.InfoItemWrapper2>
+      )}
     </>
   );
 };

@@ -19,7 +19,13 @@ export const TheaterSystems: React.FC<Props> = ({ onSave }) => {
 
   const handleSave = () => {
     if (!form.itemCondition) {
-      toast.error("Enter itemCondition");
+      toast.error("Enter item condition");
+    } else if (!form.type) {
+      toast.error("Enter type");
+    } else if (!form.brand) {
+      toast.error("Enter brand");
+    } else if (!form.warrantyInformation) {
+      toast.error("Enter Warranty Information");
     } else {
       onSave(form);
     }

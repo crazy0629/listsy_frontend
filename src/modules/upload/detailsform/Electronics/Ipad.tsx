@@ -23,7 +23,23 @@ export const Ipad: React.FC<Props> = ({ onSave }) => {
 
   const handleSave = () => {
     if (!form.itemCondition) {
-      toast.error("Enter itemCondition");
+      toast.error("Enter item condition");
+    } else if (!form.type) {
+      toast.error("Enter type");
+    } else if (!form.brand) {
+      toast.error("Enter brand");
+    } else if (!form.screenSize) {
+      toast.error("Enter screen size");
+    } else if (!form.storage) {
+      toast.error("Enter storage");
+    } else if (!form.memory) {
+      toast.error("Enter memory");
+    } else if (!form.colour) {
+      toast.error("Enter colour");
+    } else if (!form.batteryLife) {
+      toast.error("Enter battery life");
+    } else if (!form.warrantyInformation) {
+      toast.error("Enter Warranty Information");
     } else {
       onSave(form);
     }
