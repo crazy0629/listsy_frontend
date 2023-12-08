@@ -130,13 +130,18 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
 
   useEffect(() => {
     if (authContext.user) {
-      getData(selectedPage.key, "", 0);
+      console.log(12345, category);
+      // getData(selectedPage.key, "", 0);
       if (category != "") {
         let item = pageFilter.filter((item) => item.key == category)[0];
         setSelectedPage(item);
       }
     }
   }, [authContext.user]);
+
+  useEffect(() => {
+    getData(selectedPage.key, "", 0);
+  }, [selectedPage.key]);
 
   const getData = async (
     postType: string,
@@ -150,6 +155,7 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
       adState,
       index: getIndex,
     });
+    console.log(123123, res.data);
     if (res.data.success) {
       if (getIndex > 0) {
         setData((prev: any) => [...prev, ...res.data.data]);
@@ -206,13 +212,20 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
             <span
               key={key}
               onClick={() => handlePageFilterClick(item)}
-              className={item.key === selectedPage.key ? "active" : ""}
+              className={
+                selectedPage != undefined && item.key === selectedPage.key
+                  ? "active"
+                  : ""
+              }
             >
               {item.label}
             </span>
           ))}
         </Styled.PostsPageFilterWrapper>
-        {!(selectedPage.key === "job" || selectedPage.key === "community") && (
+        {!(
+          selectedPage != undefined &&
+          (selectedPage.key === "job" || selectedPage.key === "community")
+        ) && (
           <Styled.StatusWrapper>
             {status.map((item, key) => (
               <span
@@ -228,7 +241,7 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
           </Styled.StatusWrapper>
         )}
       </Styled.PostsFilterWrapper>
-      {selectedPage.type === "grid" && (
+      {selectedPage != undefined && selectedPage.type === "grid" && (
         <Styled.PostsGridWrapper>
           {loading ? (
             <h4>Loading...</h4>
@@ -269,7 +282,7 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
           )}
         </Styled.PostsGridWrapper>
       )}
-      {selectedPage.type === "list" && (
+      {selectedPage != undefined && selectedPage.type === "list" && (
         <Styled.PostsListWrapper>
           <JobListWrapper style={{ height: "100%" }}>
             <JobListContainer style={{ padding: 0 }}>

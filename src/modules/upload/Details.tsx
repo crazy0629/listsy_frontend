@@ -248,7 +248,7 @@ export const Details: React.FC<Props> = ({
   };
 
   const formComp: any = {
-    sales: <ForSaleForm onSave={handleForSaleFormSave} />,
+    sale: <ForSaleForm onSave={handleForSaleFormSave} />,
     garden: <ForSaleForm onSave={handleGardenFormSave} />,
     fashion: <ForSaleForm onSave={handleFashionFormSave} />,
     sports: <ForSaleForm onSave={handleSportsFormSave} />,

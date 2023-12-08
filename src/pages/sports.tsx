@@ -4,7 +4,7 @@ import { SportsPageSection } from "@/modules/main/Sports";
 
 const SportsPage: React.FC = () => {
   return (
-    <AppLayout name="sales">
+    <AppLayout name="sale">
       <SportsPageSection />
     </AppLayout>
   );

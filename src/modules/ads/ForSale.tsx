@@ -15,44 +15,60 @@ export const ForSale: React.FC<{ data: any }> = ({ data }) => {
         <span>{data?.itemCategory}</span>
       </Styled.InfoItemWrapper>
       <Styled.InfoItemWrapper>
-        <span>Item Condition</span>
-        <span>{data?.itemCondition}</span>
+        <span>Address</span>
+        <span>{data?.address}</span>
       </Styled.InfoItemWrapper>
-      {data?.brandName && (
+      <Styled.InfoItemWrapper>
+        <span>Price</span>
+        <span>
+          {data?.priceUnit}
+          {data?.price}
+        </span>
+      </Styled.InfoItemWrapper>
+      <Styled.InfoItemWrapper>
+        <span>View Count</span>
+        <span>{data?.viewCount}</span>
+      </Styled.InfoItemWrapper>
+      {data.itemDetailInfo.brand && (
         <Styled.InfoItemWrapper>
-          <span>Brand Name</span>
-          <span>{data?.brandName}</span>
+          <span>Brand</span>
+          <span>{data?.itemDetailInfo.brand}</span>
         </Styled.InfoItemWrapper>
       )}
-      {data?.manufacturer && (
+      {data.itemDetailInfo.colour && (
         <Styled.InfoItemWrapper>
-          <span>Manufacturer</span>
-          <span>{data?.manufacturer}</span>
+          <span>Colour</span>
+          <span>{data?.itemDetailInfo.colour}</span>
         </Styled.InfoItemWrapper>
       )}
-      {data?.color && (
+      {data.itemDetailInfo.itemCondition && (
         <Styled.InfoItemWrapper>
-          <span>Colour/Color</span>
-          <span>{data?.color}</span>
+          <span>Item Condition</span>
+          <span>{data?.itemDetailInfo.itemCondition}</span>
         </Styled.InfoItemWrapper>
       )}
-      {data?.dimensionW && data?.dimensionH && (
+      {data.itemDetailInfo.resolution && (
         <Styled.InfoItemWrapper>
-          <span>Item Dimensions W * H</span>
-          <span>
-            {data?.dimensionW +
-              " * " +
-              data?.dimensionH +
-              " " +
-              data?.dimensionUnit}
-          </span>
+          <span>Resolution</span>
+          <span>{data?.itemDetailInfo.resolution}</span>
+        </Styled.InfoItemWrapper>
+      )}{" "}
+      {data.itemDetailInfo.screenSize && (
+        <Styled.InfoItemWrapper>
+          <span>Screen Size</span>
+          <span>{data?.itemDetailInfo.screenSize}</span>
         </Styled.InfoItemWrapper>
       )}
-
-      {data?.itemWeight && (
+      {data.itemDetailInfo.smartTV && (
         <Styled.InfoItemWrapper>
-          <span>Year Built</span>
-          <span>{data?.itemWeight + data?.itemUnit}</span>
+          <span>Smart TV</span>
+          <span>{data?.itemDetailInfo.smartTV}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.warrantyInformation && (
+        <Styled.InfoItemWrapper>
+          <span>Warranty Information</span>
+          <span>{data?.itemDetailInfo.warrantyInformation}</span>
         </Styled.InfoItemWrapper>
       )}
     </>

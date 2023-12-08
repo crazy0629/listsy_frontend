@@ -61,7 +61,7 @@ const mainNav = [
   },
   {
     label: "Electronics and Appliances",
-    href: "/sales",
+    href: "/sale",
     icon: <MdShoppingCartCheckout />,
   },
   {

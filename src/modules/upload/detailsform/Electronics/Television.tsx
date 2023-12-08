@@ -21,7 +21,19 @@ export const Television: React.FC<Props> = ({ onSave }) => {
 
   const handleSave = () => {
     if (!form.itemCondition) {
-      toast.error("Enter itemCondition");
+      toast.error("Enter item condition");
+    } else if (!form.screenSize) {
+      toast.error("Enter screen size");
+    } else if (!form.resolution) {
+      toast.error("Enter resolution");
+    } else if (!form.brand) {
+      toast.error("Enter brand");
+    } else if (!form.smartTV) {
+      toast.error("Enter if this is smart TV or not");
+    } else if (!form.colour) {
+      toast.error("Enter colour");
+    } else if (!form.warrantyInformation) {
+      toast.error("Enter Warranty Information");
     } else {
       onSave(form);
     }

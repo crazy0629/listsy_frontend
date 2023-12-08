@@ -4,7 +4,7 @@ import { ChildrenPageSection } from "@/modules/main/Children";
 
 const ChildrenPage: React.FC = () => {
   return (
-    <AppLayout name="sales">
+    <AppLayout name="sale">
       <ChildrenPageSection />
     </AppLayout>
   );

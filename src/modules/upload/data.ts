@@ -27,7 +27,7 @@ export const categories = [
   { label: "Real Estate", key: "estate" },
   {
     label: "Electronics and Appliances",
-    key: "sales",
+    key: "sale",
   },
   {
     label: "Homes and Garden",

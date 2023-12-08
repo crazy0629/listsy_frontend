@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Styled from "./details.styles";
 import { SingleSelection } from "@/components";
 import { selectData } from "./data";
@@ -27,23 +27,28 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
     subTitle: "",
     description: "",
     itemCategory: "",
+    itemDetailInfo: null,
   });
 
-  const handleSave = () => {
+  const subFormSave = (details: any) => {
     if (!form.title) {
       toast.error("Enter the title!");
     } else if (!form.subTitle) {
       toast.error("Enter the subtitle!");
     } else if (!form.description) {
-      toast.error("Enter the subtitle!");
+      toast.error("Enter the description!");
     } else if (!form.itemCategory) {
       toast.error("Select the Item Category!");
     } else {
-      onSave(form);
+      if (form.itemDetailInfo == details) onSave(form);
+      else setForm((prev) => ({ ...prev, itemDetailInfo: details }));
     }
   };
 
-  const subFormSave = () => {};
+  useEffect(() => {
+    if (form.itemDetailInfo == null) return;
+    onSave(form);
+  }, [form.itemDetailInfo]);
 
   return (
     <Styled.FormContainer>
@@ -86,10 +91,14 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
       <SingleSelection
         data={selectData.forSale.category}
         label="Item Category"
-        placeholder="Select Item Condition"
+        placeholder="Select Item Category"
         value={form.itemCategory}
         onChange={(value) => {
-          setForm((prev) => ({ ...prev, itemCategory: value, ItemInfo: null }));
+          setForm((prev) => ({
+            ...prev,
+            itemCategory: value,
+            itemDetailInfo: null,
+          }));
         }}
       />
       {form.itemCategory == "Televisions" && (
@@ -131,6 +140,7 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
         <Music onSave={subFormSave} />
       )}
       {form.itemCategory == "Phones" && <Phone onSave={subFormSave} />}
+
       {/* 
       <Styled.InputFormItem>
         <input
