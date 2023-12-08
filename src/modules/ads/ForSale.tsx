@@ -47,6 +47,12 @@ export const ForSale: React.FC<{ data: any }> = ({ data }) => {
           <span>{data?.itemDetailInfo.itemCondition}</span>
         </Styled.InfoItemWrapper>
       )}
+      {data.itemDetailInfo.type && (
+        <Styled.InfoItemWrapper>
+          <span>Item Type</span>
+          <span>{data?.itemDetailInfo.type}</span>
+        </Styled.InfoItemWrapper>
+      )}
       {data.itemDetailInfo.resolution && (
         <Styled.InfoItemWrapper>
           <span>Resolution</span>
@@ -69,6 +75,42 @@ export const ForSale: React.FC<{ data: any }> = ({ data }) => {
         <Styled.InfoItemWrapper>
           <span>Warranty Information</span>
           <span>{data?.itemDetailInfo.warrantyInformation}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.batteryLife && (
+        <Styled.InfoItemWrapper>
+          <span>Battery Life</span>
+          <span>{data?.itemDetailInfo.batteryLife}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.operatingSystem && (
+        <Styled.InfoItemWrapper>
+          <span>Operating System</span>
+          <span>{data?.itemDetailInfo.operatingSystem}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.processor && (
+        <Styled.InfoItemWrapper>
+          <span>Processor</span>
+          <span>{data?.itemDetailInfo.processor}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.ramSize && (
+        <Styled.InfoItemWrapper>
+          <span>ram Size</span>
+          <span>{data?.itemDetailInfo.ramSize}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.screenSize && (
+        <Styled.InfoItemWrapper>
+          <span>Screen Size</span>
+          <span>{data?.itemDetailInfo.screenSize}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.storageCapacity && (
+        <Styled.InfoItemWrapper>
+          <span>Storage Capacity</span>
+          <span>{data?.itemDetailInfo.storageCapacity}</span>
         </Styled.InfoItemWrapper>
       )}
     </>
