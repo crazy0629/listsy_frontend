@@ -6,6 +6,9 @@ import { SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { selectData } from "../upload/detailsform/data";
+import { TelevisionFilter } from "./filters/electronics/TelevisionFilter";
+import { LapTopFilter } from "./filters/electronics/LaptopFilter";
+import { IpadFilter } from "./filters/electronics/IpadFilter";
 
 export const SalesPageSection: React.FC = () => {
   const [getIndex, setGetIndex] = useState(0);
@@ -79,15 +82,11 @@ export const SalesPageSection: React.FC = () => {
             setFilter((prev) => ({ ...prev, itemCategory: value }))
           }
         />
-        <MultiSelection
-          data={["New", "Refurbished", "Used", "For parts or not working"]}
-          placeholder="Select Item Condition"
-          value={filter.itemCondition}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, itemCondition: value }))
-          }
-        />
-
+        {filter.itemCategory == "Televisions" && <TelevisionFilter />}
+        {filter.itemCategory == "Laptops and Desktop Computers" && (
+          <LapTopFilter />
+        )}
+        {filter.itemCategory == "iPad, Tablets & eReaders" && <IpadFilter />}
         <button onClick={() => getData(0)}>Search</button>
       </Styled.FilterWrapper>
       <Styled.MainGridWrapper>
