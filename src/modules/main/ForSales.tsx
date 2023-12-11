@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as Styled from "./main.styles";
-import { CardItem, MultiSelection, SingleSelection } from "@/components";
+import { CardItem, SingleSelection } from "@/components";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
@@ -12,7 +12,6 @@ import { IpadFilter } from "./filters/electronics/IpadFilter";
 import { TheaterSystemFilter } from "./filters/electronics/TheaterSystemFilter";
 import { KitchenFilter } from "./filters/electronics/KitchenFilter";
 import { LaundryFilter } from "./filters/electronics/LaundryFilter";
-import { GamingConsole } from "../upload/detailsform/Electronics/GamingConsole";
 
 export const SalesPageSection: React.FC = () => {
   const [getIndex, setGetIndex] = useState(0);

@@ -17,14 +17,42 @@ export const EstatePageSection: React.FC = () => {
     bathroomCount: [] as string[],
   });
 
+  const [address, setAddress] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+
   useEffect(() => {
-    getData(0);
+    window.addEventListener("localStorageChanged", function (e: Event) {
+      getLocationInfo();
+    });
+    getLocationInfo();
   }, []);
+
+  useEffect(() => {
+    if (address == "") return;
+    setGetIndex(0);
+    getData(0);
+  }, [address, countryCode]);
+
+  const getLocationInfo = () => {
+    let locationSelected = localStorage.getItem("locationSelected");
+    if (locationSelected == "true") {
+      let locationAddress = localStorage.getItem("locationAddress");
+      setAddress(locationAddress);
+      setCountryCode("");
+    } else if (locationSelected == "false") {
+      let locationAddress = localStorage.getItem("locationAddress");
+      let countryCode = localStorage.getItem("locationCountryCode");
+      setAddress(locationAddress);
+      setCountryCode(countryCode);
+    }
+  };
 
   const getData = async (index: number) => {
     const res = await axios.post(`${SERVER_URI}/estate/getEstateObjects`, {
       ...filter,
       index,
+      address,
+      countryCode,
     });
     if (res.data.success) {
       if (index > 0) {
