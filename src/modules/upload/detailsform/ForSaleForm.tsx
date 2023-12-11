@@ -16,6 +16,15 @@ import { Miscellaneous } from "./Electronics/Miscellaneous";
 import { Camera } from "./Electronics/Camera";
 import { Music } from "./Electronics/Music";
 import { Phone } from "./Electronics/Phone";
+import { GamingConsole } from "./Electronics/GamingConsole";
+import { Wearable } from "./Electronics/Wearable";
+import { Networking } from "./Electronics/Networking";
+import { ComputerComponents } from "./Electronics/ComputerComponents";
+import { Office } from "./Electronics/Office";
+import { Security } from "./Electronics/Security";
+import { Audio } from "./Electronics/Audtio";
+import { HomeDevice } from "./Electronics/HomeDevice";
+import { Battery } from "./Electronics/Battery";
 
 type Props = {
   onSave: (data: any) => void;
@@ -140,7 +149,31 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
         <Music onSave={subFormSave} />
       )}
       {form.itemCategory == "Phones" && <Phone onSave={subFormSave} />}
-
+      {form.itemCategory == "Gaming Consoles and Accessories" && (
+        <GamingConsole onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Wearable Technology" && (
+        <Wearable onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Networking Devices" && (
+        <Networking onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Computer Components and Storage" && (
+        <ComputerComponents onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Office Equipment" && (
+        <Office onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Security and Surveillance Equipment" && (
+        <Security onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Audio Equipment" && <Audio onSave={subFormSave} />}
+      {form.itemCategory == "Smart Home Devices" && (
+        <HomeDevice onSave={subFormSave} />
+      )}
+      {form.itemCategory == "Batteries and Power Supplies" && (
+        <Battery onSave={subFormSave} />
+      )}
       {/* 
       <Styled.InputFormItem>
         <input
