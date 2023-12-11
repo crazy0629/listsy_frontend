@@ -2378,7 +2378,7 @@ export const selectData = {
       SellerRating: ["5*", "4*", "3*", "2*", "1*"],
     },
     Wearable: {
-      SearchWithin: [
+      SearchWithIn: [
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",

@@ -12,6 +12,22 @@ import { IpadFilter } from "./filters/electronics/IpadFilter";
 import { TheaterSystemFilter } from "./filters/electronics/TheaterSystemFilter";
 import { KitchenFilter } from "./filters/electronics/KitchenFilter";
 import { LaundryFilter } from "./filters/electronics/LaundryFilter";
+import { CleaningFilter } from "./filters/electronics/CleaningFilter";
+import { HeatingFilter } from "./filters/electronics/HeatingFilter";
+import { PersonalCareFilter } from "./filters/electronics/PersonalCareFilter";
+import { MiscellaneousFilter } from "./filters/electronics/MiscellaneousFilter";
+import { CameraFilter } from "./filters/electronics/CameraFilter";
+import { MusicFilter } from "./filters/electronics/MusicFilter";
+import { WearableFilter } from "./filters/electronics/WearableFilter";
+import { NetworkingFilter } from "./filters/electronics/NetworkingFilter";
+import { ComputerComponentFilter } from "./filters/electronics/ComputerComponentsFilter";
+import { OfficeFilter } from "./filters/electronics/OfficeFilter";
+import { SecurityFilter } from "./filters/electronics/SecurityFilter";
+import { AudioFilter } from "./filters/electronics/AudioFilter";
+import { HomeDeviceFilter } from "./filters/electronics/HomeDeviceFilter";
+import { BatteryFilter } from "./filters/electronics/BatteryFilter";
+import { GamingConsoleFilter } from "./filters/electronics/GamingConsoleFilter";
+import { PhoneFilter } from "./filters/electronics/PhoneFilter";
 
 export const SalesPageSection: React.FC = () => {
   const [getIndex, setGetIndex] = useState(0);
@@ -95,7 +111,36 @@ export const SalesPageSection: React.FC = () => {
         )}
         {filter.itemCategory == "Kitchen Appliances" && <KitchenFilter />}
         {filter.itemCategory == "Laundry Appliances" && <LaundryFilter />}
-
+        {filter.itemCategory == "Cleaning Appliances" && <CleaningFilter />}
+        {filter.itemCategory == "Heating, Cooling, and Air Quality" && (
+          <HeatingFilter />
+        )}
+        {filter.itemCategory == "Personal Care Appliances" && (
+          <PersonalCareFilter />
+        )}
+        {filter.itemCategory == "Miscellaneous Appliances" && (
+          <MiscellaneousFilter />
+        )}
+        {filter.itemCategory == "Cameras and Camcorders" && <CameraFilter />}
+        {filter.itemCategory == "Portable Music Players" && <MusicFilter />}
+        {filter.itemCategory == "Wearable Technology" && <WearableFilter />}
+        {filter.itemCategory == "Networking Devices" && <NetworkingFilter />}
+        {filter.itemCategory == "Computer Components and Storage" && (
+          <ComputerComponentFilter />
+        )}
+        {filter.itemCategory == "Office Equipment" && <OfficeFilter />}
+        {filter.itemCategory == "Security and Surveillance Equipment" && (
+          <SecurityFilter />
+        )}
+        {filter.itemCategory == "Audio Equipment" && <AudioFilter />}
+        {filter.itemCategory == "Smart Home Devices" && <HomeDeviceFilter />}
+        {filter.itemCategory == "Batteries and Power Supplies" && (
+          <BatteryFilter />
+        )}
+        {filter.itemCategory == "Gaming Consoles and Accessories" && (
+          <GamingConsoleFilter />
+        )}
+        {filter.itemCategory == "Phones" && <PhoneFilter />}
         <button onClick={() => getData(0)}>Search</button>
       </Styled.FilterWrapper>
       <Styled.MainGridWrapper>
