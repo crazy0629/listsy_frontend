@@ -9,6 +9,10 @@ import { selectData } from "../upload/detailsform/data";
 import { TelevisionFilter } from "./filters/electronics/TelevisionFilter";
 import { LapTopFilter } from "./filters/electronics/LaptopFilter";
 import { IpadFilter } from "./filters/electronics/IpadFilter";
+import { TheaterSystemFilter } from "./filters/electronics/TheaterSystemFilter";
+import { KitchenFilter } from "./filters/electronics/KitchenFilter";
+import { LaundryFilter } from "./filters/electronics/LaundryFilter";
+import { GamingConsole } from "../upload/detailsform/Electronics/GamingConsole";
 
 export const SalesPageSection: React.FC = () => {
   const [getIndex, setGetIndex] = useState(0);
@@ -87,6 +91,12 @@ export const SalesPageSection: React.FC = () => {
           <LapTopFilter />
         )}
         {filter.itemCategory == "iPad, Tablets & eReaders" && <IpadFilter />}
+        {filter.itemCategory == "Home Theater Systems" && (
+          <TheaterSystemFilter />
+        )}
+        {filter.itemCategory == "Kitchen Appliances" && <KitchenFilter />}
+        {filter.itemCategory == "Laundry Appliances" && <LaundryFilter />}
+
         <button onClick={() => getData(0)}>Search</button>
       </Styled.FilterWrapper>
       <Styled.MainGridWrapper>
