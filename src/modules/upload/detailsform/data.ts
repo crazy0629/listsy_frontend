@@ -2963,7 +2963,7 @@ export const selectData = {
   },
 
   estate: {
-    listing: ["Buying", "Renting", "Selling"],
+    listing: ["Buy", "Rent", "Sell", "International", "Holiday Rentals"],
     property: [
       "House",
       "Condominium",
@@ -2975,8 +2975,8 @@ export const selectData = {
       "Room",
       "Other",
     ],
-    bedrooms: ["1", "2", "3", "4", "5+", "None"],
-    bathrooms: ["1", "2", "3", "4", "5+", "None"],
+    bedrooms: ["0", "1", "2", "3", "4", "5+"],
+    bathrooms: ["0", "1", "2", "3", "4", "5+"],
     tenure: ["Freehold", "Leasehold", "Unknown"],
     propertyCondition: ["Excellent", "Good", "In need of repair"],
     key: [
@@ -3000,7 +3000,6 @@ export const selectData = {
       "Shopping centre",
       "Public park",
       "Beach",
-      "None",
     ],
     facilities: [
       "Private parking",
