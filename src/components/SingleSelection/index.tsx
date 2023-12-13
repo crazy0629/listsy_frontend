@@ -8,6 +8,7 @@ type Props = {
   value?: string;
   data: string[];
   direction?: "top" | "bottom";
+  countList?: any;
   onChange?: (value: string) => void;
 };
 
@@ -17,6 +18,7 @@ export const SingleSelection: React.FC<Props> = ({
   placeholder,
   direction = "bottom",
   value,
+  countList,
   onChange = () => {},
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +63,17 @@ export const SingleSelection: React.FC<Props> = ({
               setIsOpen(false);
             }}
           >
-            {item}
+            <span>{item}</span>
+            {countList && (
+              <span>
+                (
+                {
+                  countList.filter((element) => element.itemCategory == item)[0]
+                    ?.count
+                }
+                )
+              </span>
+            )}
           </p>
         ))}
       </Styled.SelectOptionWrapper>

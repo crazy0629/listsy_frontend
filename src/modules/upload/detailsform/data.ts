@@ -1,6 +1,7 @@
 export const selectData = {
   forSale: {
     category: [
+      "All",
       "Televisions",
       "Laptops and Desktop Computers",
       "iPad, Tablets & eReaders",
