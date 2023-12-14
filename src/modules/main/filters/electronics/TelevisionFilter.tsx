@@ -1,7 +1,9 @@
 import { MultiSelection, SingleSelection } from "@/components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FilterWrapper } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/data";
+import axios from "axios";
+import { SERVER_URI } from "@/config";
 
 export const TelevisionFilter: React.FC = () => {
   const [filter, setFilter] = useState({
@@ -16,6 +18,50 @@ export const TelevisionFilter: React.FC = () => {
     warrantyInformation: [] as string[],
     sellerRating: [] as string[],
   });
+
+  const [address, setAddress] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [adCnt, setAdCnt] = useState([]);
+
+  const getLocationInfo = () => {
+    let locationSelected = localStorage.getItem("locationSelected");
+    if (locationSelected == "true") {
+      let locationAddress = localStorage.getItem("locationAddress");
+      setAddress(locationAddress);
+      setCountryCode("");
+    } else if (locationSelected == "false") {
+      let locationAddress = localStorage.getItem("locationAddress");
+      let countryCode = localStorage.getItem("locationCountryCode");
+      setAddress(locationAddress);
+      setCountryCode(countryCode);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("localStorageChanged", function (e: Event) {
+      getLocationInfo();
+    });
+    getLocationInfo();
+  }, []);
+
+  useEffect(() => {
+    if (address == "") return;
+    getCount();
+  }, [address, countryCode]);
+
+  const getCount = async () => {
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/sale/getCountPerItemCondition`,
+      {
+        itemCategory: "Televisions",
+        itemCondition: selectData.forSale.Televisions.Condition,
+        address,
+        countryCode,
+      }
+    );
+
+    console.log(123123, adsCountData);
+  };
 
   return (
     <FilterWrapper>

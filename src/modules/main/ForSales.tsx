@@ -40,6 +40,7 @@ export const SalesPageSection: React.FC = () => {
 
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
+  const [adCnt, setAdCnt] = useState([]);
 
   const getLocationInfo = () => {
     let locationSelected = localStorage.getItem("locationSelected");
@@ -69,6 +70,16 @@ export const SalesPageSection: React.FC = () => {
   }, [address, countryCode]);
 
   const getData = async (index: number) => {
+    const categoryList = selectData.forSale.category;
+
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/sale/getCountForEachCategory`,
+      { itemCategory: categoryList, address, countryCode }
+    );
+
+    const adCnt = adsCountData.data.countList;
+    setAdCnt(adsCountData.data.countList);
+
     const res = await axios.post(`${SERVER_URI}/sale/getForSaleAds`, {
       ...filter,
       index,
@@ -100,6 +111,7 @@ export const SalesPageSection: React.FC = () => {
           onChange={(value) =>
             setFilter((prev) => ({ ...prev, itemCategory: value }))
           }
+          countList={adCnt}
         />
         {filter.itemCategory == "Televisions" && <TelevisionFilter />}
         {filter.itemCategory == "Laptops and Desktop Computers" && (

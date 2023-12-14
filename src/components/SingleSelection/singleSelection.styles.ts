@@ -22,7 +22,10 @@ export const SelectOptionWrapper = styled.div`
     opacity: 1;
     visibility: visible;
   }
-
+  p {
+    display: flex;
+    justify-content: space-between;
+  }
   p,
   label {
     margin-bottom: 0 !important;
