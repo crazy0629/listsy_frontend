@@ -27,6 +27,7 @@ export const selectData = {
     ],
     Televisions: {
       SearchWithin: [
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -172,7 +173,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Laptops: {
       SearchWithin: [

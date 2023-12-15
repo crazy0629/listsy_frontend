@@ -327,6 +327,19 @@ export const PriceInputWrapper = styled.div`
       font-size: 12px;
       font-weight: 400;
     }
+    span {
+      display: flex;
+      align-items: center; /* Center vertically */
+      justify-content: center; /* Center horizontally */
+      height: 100%;
+      width: 44px;
+      border: none;
+      border-radius: 5px 0px 0px 5px;
+      background: #eaeaea;
+      color: #afafaf;
+      font-size: 12px;
+      font-weight: 400;
+    }
     input {
       padding: 0 8px;
       height: 100%;

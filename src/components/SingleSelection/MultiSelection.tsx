@@ -8,6 +8,8 @@ type Props = {
   value: string[];
   data: string[];
   direction?: "top" | "bottom";
+  countList?: any;
+  type?: string;
   onChange?: (value: string[]) => void;
 };
 
@@ -17,6 +19,8 @@ export const MultiSelection: React.FC<Props> = ({
   placeholder,
   direction = "bottom",
   value,
+  type,
+  countList,
   onChange = () => {},
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,6 +77,34 @@ export const MultiSelection: React.FC<Props> = ({
               onChange={() => {}}
             />
             <span>{item}</span>
+            {countList && (
+              <span>
+                (
+                {
+                  countList.filter((element) => {
+                    if (type === "itemCondition") {
+                      return element.itemCondition === item;
+                    } else if (type === "itemResolution") {
+                      return element.itemResolution === item;
+                    } else if (type == "screenSize") {
+                      return element.itemScreenSize === item;
+                    } else if (type == "itemBrand") {
+                      return element.itemBrand === item;
+                    } else if (type == "itemSmartTV") {
+                      return element.itemSmartTV === item;
+                    } else if (type == "itemColour") {
+                      return element.itemColour === item;
+                    } else if (type == "itemWarrantyInformation") {
+                      return element.itemWarrantyInformation === item;
+                    } else if (type == "itemSellerRating") {
+                      return element.itemSellerRating === item;
+                    }
+                    return false; // Default case if type is neither "itemCondition" nor "itemResolution"
+                  })[0]?.count
+                }
+                )
+              </span>
+            )}
           </p>
         ))}
       </Styled.SelectOptionWrapper>

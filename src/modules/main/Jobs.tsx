@@ -42,7 +42,6 @@ export const JobsPageSection: React.FC = () => {
       index,
     });
     if (res.data.success) {
-      // console.log(res.data.data);
       if (index > 0) {
         setData((prev: any) => [...prev, ...res.data.data]);
       } else {
