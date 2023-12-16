@@ -9,6 +9,7 @@ type Props = {
   data: string[];
   direction?: "top" | "bottom";
   countList?: any;
+  type?: any;
   onChange?: (value: string) => void;
 };
 
@@ -19,6 +20,7 @@ export const SingleSelection: React.FC<Props> = ({
   direction = "bottom",
   value,
   countList,
+  type,
   onChange = () => {},
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +66,7 @@ export const SingleSelection: React.FC<Props> = ({
             }}
           >
             <span>{item}</span>
-            {countList && (
+            {countList && type == "itemCategory" && (
               <span>
                 (
                 {
@@ -73,6 +75,9 @@ export const SingleSelection: React.FC<Props> = ({
                 }
                 )
               </span>
+            )}
+            {countList && type == "itemSearchRange" && (
+              <span>({countList[key].distance})</span>
             )}
           </p>
         ))}

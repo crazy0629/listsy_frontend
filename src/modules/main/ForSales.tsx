@@ -66,6 +66,7 @@ export const SalesPageSection: React.FC = () => {
   useEffect(() => {
     if (address == "") return;
     setGetIndex(0);
+    setFilter((prev) => ({ ...prev, itemCategory: "All" }));
     getData(0);
   }, [address, countryCode]);
 
@@ -111,6 +112,7 @@ export const SalesPageSection: React.FC = () => {
           onChange={(value) =>
             setFilter((prev) => ({ ...prev, itemCategory: value }))
           }
+          type="itemCategory"
           countList={adCnt}
         />
         {filter.itemCategory == "Televisions" && <TelevisionFilter />}

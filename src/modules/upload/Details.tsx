@@ -247,6 +247,48 @@ export const Details: React.FC<Props> = ({
     }
   };
 
+  const getCountryCode = async () => {
+    const locationInfo = await axios.get(
+      `https://api.ipdata.co?api-key=${process.env.NEXT_PUBLIC_IPDATA_API_KEY}`
+    );
+
+    return fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationInfo.data.latitude},${locationInfo.data.longitude}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const country = data.results.find((result) => {
+          return result.types.includes("country");
+        });
+        const countryCode = country
+          ? country.address_components.find((component) =>
+              component.types.includes("country")
+            ).short_name
+          : null;
+
+        fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
+          .then((response) => response.json())
+          .then((countryData) => {
+            let currencySymbol = "";
+
+            for (const key in countryData[0].currencies) {
+              if (countryData[0].currencies.hasOwnProperty(key)) {
+                currencySymbol = countryData[0].currencies[key].symbol;
+                break; // Exit the loop after the first property
+              }
+            }
+            setPriceUnit(currencySymbol);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error fetching country code:", error);
+        return null;
+      });
+  };
+
   const formComp: any = {
     sale: <ForSaleForm onSave={handleForSaleFormSave} />,
     garden: <ForSaleForm onSave={handleGardenFormSave} />,
@@ -262,7 +304,12 @@ export const Details: React.FC<Props> = ({
   };
 
   useEffect(() => {
+    getCountryCode();
+  }, []);
+
+  useEffect(() => {
     if (locationInfo == null) return;
+
     fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?place_id=${locationInfo.value.place_id}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`
     )
@@ -316,17 +363,7 @@ export const Details: React.FC<Props> = ({
           <Styled.PriceInputWrapper>
             <p>Price</p>
             <div>
-              <select
-                value={priceUnit}
-                onChange={(e) => setPriceUnit(e.target.value)}
-              >
-                <option value="$">$</option>
-                <option value="€">€</option>
-                <option value="£">£</option>
-                <option value="¥">¥</option>
-                <option value="₣">₣</option>
-                <option value="₹">₹</option>
-              </select>
+              <span>{priceUnit}</span>
               <input
                 type="number"
                 onChange={(e) => setPrice(e.target.value)}
