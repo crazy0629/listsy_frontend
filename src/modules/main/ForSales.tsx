@@ -35,7 +35,6 @@ export const SalesPageSection: React.FC = () => {
   const [hasMore, setHasMore] = useState(true);
   const [filter, setFilter] = useState({
     itemCategory: "",
-    itemCondition: [] as string[],
   });
 
   const [address, setAddress] = useState("");
@@ -155,7 +154,7 @@ export const SalesPageSection: React.FC = () => {
           <GamingConsoleFilter />
         )}
         {filter.itemCategory == "Phones" && <PhoneFilter />}
-        <button onClick={() => getData(0)}>Search</button>
+        {/* <button onClick={() => getData(0)}>Search</button> */}
       </Styled.FilterWrapper>
       <Styled.MainGridWrapper>
         <InfiniteScroll

@@ -17,6 +17,8 @@ export const TelevisionFilter: React.FC = () => {
     colour: [] as string[],
     warrantyInformation: [] as string[],
     sellerRating: [] as string[],
+    minPrice: "",
+    maxPrice: "",
   });
 
   const [address, setAddress] = useState("");
@@ -25,8 +27,6 @@ export const TelevisionFilter: React.FC = () => {
   const [currency, setCurrency] = useState("$");
 
   const [isLoading, setIsLoading] = useState(false);
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
 
   const getLocationInfo = () => {
     let locationSelected = localStorage.getItem("locationSelected");
@@ -52,6 +52,10 @@ export const TelevisionFilter: React.FC = () => {
       Number(localStorage.getItem("centerlng"))
     );
   }, []);
+
+  useEffect(() => {
+    console.log(123456, filter);
+  }, [filter]);
 
   useEffect(() => {
     if (address == "") return;
@@ -123,14 +127,19 @@ export const TelevisionFilter: React.FC = () => {
   };
 
   const handleMinPrice = async (e) => {
-    if (maxPrice != "" && Number(e.target.value) > Number(maxPrice)) return;
-    setMinPrice(e.target.value);
+    if (
+      filter.maxPrice != "" &&
+      Number(e.target.value) > Number(filter.maxPrice)
+    )
+      return;
+    setFilter((prev) => ({ ...prev, minPrice: e.target.value }));
+
     setIsLoading(true);
     const adsCountData = await axios.post(
       `${SERVER_URI}/sale/getCountOfEachFilter`,
       {
         minPrice: e.target.value,
-        maxPrice: maxPrice,
+        maxPrice: filter.maxPrice,
         itemCategory: "Televisions",
         itemSellerRating: selectData.forSale.Televisions.SellerRating,
         itemCondition: selectData.forSale.Televisions.Condition,
@@ -153,15 +162,13 @@ export const TelevisionFilter: React.FC = () => {
   };
 
   const handleMaxPrice = async (e) => {
-    setMaxPrice(e.target.value);
+    setFilter((prev) => ({ ...prev, maxPrice: e.target.value }));
 
-    if (minPrice != "" && Number(e.target.value) < Number(minPrice)) return;
-    setMaxPrice(e.target.value);
     setIsLoading(true);
     const adsCountData = await axios.post(
       `${SERVER_URI}/sale/getCountOfEachFilter`,
       {
-        minPrice: minPrice,
+        minPrice: filter.minPrice,
         maxPrice: e.target.value,
         itemCategory: "Televisions",
         itemSellerRating: selectData.forSale.Televisions.SellerRating,
@@ -221,7 +228,7 @@ export const TelevisionFilter: React.FC = () => {
             <input
               type="text"
               placeholder="min price"
-              value={minPrice}
+              value={filter.minPrice}
               onChange={handleMinPrice}
               onInput={validateNumberInput}
             />
@@ -230,7 +237,7 @@ export const TelevisionFilter: React.FC = () => {
             <input
               type="text"
               placeholder="max price"
-              value={maxPrice}
+              value={filter.maxPrice}
               onChange={handleMaxPrice}
               onInput={validateNumberInput}
             />
