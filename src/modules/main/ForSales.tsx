@@ -64,6 +64,16 @@ export const SalesPageSection: React.FC = () => {
 
   useEffect(() => {
     if (address == "") return;
+    getData(0);
+  }, [filter]);
+
+  useEffect(() => {
+    if (address == "") return;
+    getData(0);
+  }, [filter.itemCategory]);
+
+  useEffect(() => {
+    if (address == "") return;
     setGetIndex(0);
     setFilter((prev) => ({ ...prev, itemCategory: "All" }));
     getData(0);
@@ -101,6 +111,10 @@ export const SalesPageSection: React.FC = () => {
     }
   };
 
+  const subFormChanged = (data) => {
+    setFilter((prev) => ({ ...prev, ...data }));
+  };
+
   return (
     <Styled.MainPageSectionWrapper>
       <Styled.FilterWrapper>
@@ -108,13 +122,13 @@ export const SalesPageSection: React.FC = () => {
           data={selectData.forSale.category}
           placeholder="Select Item Category"
           value={filter.itemCategory}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, itemCategory: value }))
-          }
+          onChange={(value) => setFilter({ itemCategory: value })}
           type="itemCategory"
           countList={adCnt}
         />
-        {filter.itemCategory == "Televisions" && <TelevisionFilter />}
+        {filter.itemCategory == "Televisions" && (
+          <TelevisionFilter onChange={subFormChanged} />
+        )}
         {filter.itemCategory == "Laptops and Desktop Computers" && (
           <LapTopFilter />
         )}
