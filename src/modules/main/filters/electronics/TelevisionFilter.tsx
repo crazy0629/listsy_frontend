@@ -1,11 +1,16 @@
 import { MultiSelection, SingleSelection } from "@/components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FilterWrapper } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/data";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
-export const TelevisionFilter: React.FC = () => {
+type Props = {
+  onChange: (data: any) => void;
+};
+
+export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
     priceRange: [] as string[],
@@ -17,16 +22,20 @@ export const TelevisionFilter: React.FC = () => {
     colour: [] as string[],
     warrantyInformation: [] as string[],
     sellerRating: [] as string[],
-    minPrice: "",
-    maxPrice: "",
+    centerLocationSelected: false,
+    selectedLocation: null,
   });
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [adCnt, setAdCnt] = useState(null);
   const [currency, setCurrency] = useState("$");
-
   const [isLoading, setIsLoading] = useState(false);
+  const typingTimer = useRef(null);
+  const [priceChanged, setPriceChanged] = useState(false);
+  const [locationInfo, setLocationInfo] = useState(null);
 
   const getLocationInfo = () => {
     let locationSelected = localStorage.getItem("locationSelected");
@@ -43,6 +52,44 @@ export const TelevisionFilter: React.FC = () => {
   };
 
   useEffect(() => {
+    if (locationInfo == null) return;
+
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${locationInfo.value.place_id}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const countryCode = data.results[0].address_components.find(
+          (component) => component.types.includes("country")
+        ).short_name;
+
+        const location = data.results[0].geometry.location;
+        const lat = location.lat;
+        const lng = location.lng;
+
+        setFilter((prev) => ({
+          ...prev,
+          selectedLocation: {
+            address: locationInfo.label,
+            lat,
+            lng,
+            countryCode,
+          },
+        }));
+
+        setFilter((prev) => ({ ...prev, centerLocationSelected: true }));
+      })
+      .catch((error) => {
+        console.error("Error fetching location info:", error);
+      });
+  }, [locationInfo]);
+
+  useEffect(() => {
+    if (filter.centerLocationSelected == false) return;
+    doneTypeing();
+  }, [filter.centerLocationSelected, filter.selectedLocation]);
+
+  useEffect(() => {
     window.addEventListener("localStorageChanged", function (e: Event) {
       getLocationInfo();
     });
@@ -54,13 +101,31 @@ export const TelevisionFilter: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(123456, filter);
+    onChange(filter);
   }, [filter]);
+
+  useEffect(() => {
+    if (adCnt == null) return;
+    setIsLoading(false);
+  }, [adCnt]);
+
+  useEffect(() => {
+    if (priceChanged == false) return;
+    typingTimer.current = setTimeout(() => {
+      doneTypeing();
+      onChange({ minPrice, maxPrice });
+      // Perform any action here after 5 seconds of inactivity
+    }, 500);
+
+    return () => {
+      clearTimeout(typingTimer.current);
+    };
+  }, [minPrice, maxPrice]);
 
   useEffect(() => {
     if (address == "") return;
     setIsLoading(true);
-    getCount();
+    doneTypeing();
   }, [address, countryCode]);
 
   const getCountryCode = (lat, lng) => {
@@ -86,7 +151,7 @@ export const TelevisionFilter: React.FC = () => {
             for (const key in countryData[0].currencies) {
               if (countryData[0].currencies.hasOwnProperty(key)) {
                 currencySymbol = countryData[0].currencies[key].symbol;
-                break; // Exit the loop after the first property
+                break;
               }
             }
             setCurrency(currencySymbol);
@@ -101,10 +166,13 @@ export const TelevisionFilter: React.FC = () => {
       });
   };
 
-  const getCount = async () => {
+  const doneTypeing = async () => {
+    setIsLoading(true);
     const adsCountData = await axios.post(
       `${SERVER_URI}/sale/getCountOfEachFilter`,
       {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
         itemCategory: "Televisions",
         itemSellerRating: selectData.forSale.Televisions.SellerRating,
         itemCondition: selectData.forSale.Televisions.Condition,
@@ -118,8 +186,9 @@ export const TelevisionFilter: React.FC = () => {
         itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
         address,
         countryCode,
-        lat: Number(localStorage.getItem("centerlat")),
-        lng: Number(localStorage.getItem("centerlng")),
+        selectedLocation: filter.selectedLocation,
+        centerLocationAvailable: filter.centerLocationSelected,
+        filter,
       }
     );
     setAdCnt(adsCountData.data);
@@ -127,68 +196,14 @@ export const TelevisionFilter: React.FC = () => {
   };
 
   const handleMinPrice = async (e) => {
-    if (
-      filter.maxPrice != "" &&
-      Number(e.target.value) > Number(filter.maxPrice)
-    )
-      return;
-    setFilter((prev) => ({ ...prev, minPrice: e.target.value }));
-
-    setIsLoading(true);
-    const adsCountData = await axios.post(
-      `${SERVER_URI}/sale/getCountOfEachFilter`,
-      {
-        minPrice: e.target.value,
-        maxPrice: filter.maxPrice,
-        itemCategory: "Televisions",
-        itemSellerRating: selectData.forSale.Televisions.SellerRating,
-        itemCondition: selectData.forSale.Televisions.Condition,
-        itemScreenSize: selectData.forSale.Televisions.ScreenSize,
-        itemResolution: selectData.forSale.Televisions.Resolution,
-        itemBrand: selectData.forSale.Televisions.Brand,
-        itemSmartTV: selectData.forSale.Televisions.SmartTV,
-        itemColour: selectData.forSale.Televisions.Colour,
-        itemWarrantyInformation:
-          selectData.forSale.Televisions.WarrantyInformation,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
-        address,
-        countryCode,
-        lat: Number(localStorage.getItem("centerlat")),
-        lng: Number(localStorage.getItem("centerlng")),
-      }
-    );
-    setAdCnt(adsCountData.data);
-    setIsLoading(false);
+    if (maxPrice != "" && Number(e.target.value) > Number(maxPrice)) return;
+    setMinPrice(e.target.value);
+    setPriceChanged(true);
   };
 
   const handleMaxPrice = async (e) => {
-    setFilter((prev) => ({ ...prev, maxPrice: e.target.value }));
-
-    setIsLoading(true);
-    const adsCountData = await axios.post(
-      `${SERVER_URI}/sale/getCountOfEachFilter`,
-      {
-        minPrice: filter.minPrice,
-        maxPrice: e.target.value,
-        itemCategory: "Televisions",
-        itemSellerRating: selectData.forSale.Televisions.SellerRating,
-        itemCondition: selectData.forSale.Televisions.Condition,
-        itemScreenSize: selectData.forSale.Televisions.ScreenSize,
-        itemResolution: selectData.forSale.Televisions.Resolution,
-        itemBrand: selectData.forSale.Televisions.Brand,
-        itemSmartTV: selectData.forSale.Televisions.SmartTV,
-        itemColour: selectData.forSale.Televisions.Colour,
-        itemWarrantyInformation:
-          selectData.forSale.Televisions.WarrantyInformation,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
-        address,
-        countryCode,
-        lat: Number(localStorage.getItem("centerlat")),
-        lng: Number(localStorage.getItem("centerlng")),
-      }
-    );
-    setAdCnt(adsCountData.data);
-    setIsLoading(false);
+    setMaxPrice(e.target.value);
+    setPriceChanged(true);
   };
 
   const validateNumberInput = (e) => {
@@ -201,8 +216,18 @@ export const TelevisionFilter: React.FC = () => {
 
   return (
     <FilterWrapper>
-      {adCnt && (
+      {adCnt != null && (
         <>
+          <div>
+            <GooglePlacesAutocomplete
+              apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
+              selectProps={{
+                placeholder: "Select location here...",
+                value: locationInfo,
+                onChange: setLocationInfo,
+              }}
+            />
+          </div>
           <SingleSelection
             data={selectData.forSale.Televisions.SearchWithin}
             placeholder="Select Search Range"
@@ -213,22 +238,12 @@ export const TelevisionFilter: React.FC = () => {
             type="itemSearchRange"
             countList={adCnt.itemRangeInfo}
           />
-
-          {/* <MultiSelection
-            data={selectData.forSale.Televisions.PriceRange}
-            placeholder="Select Price Range"
-            value={filter.priceRange}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, priceRange: value }))
-            }
-            type="itemPriceRange"
-          /> */}
           <div>
             <span>{currency}</span>
             <input
               type="text"
               placeholder="min price"
-              value={filter.minPrice}
+              value={minPrice}
               onChange={handleMinPrice}
               onInput={validateNumberInput}
             />
@@ -237,7 +252,7 @@ export const TelevisionFilter: React.FC = () => {
             <input
               type="text"
               placeholder="max price"
-              value={filter.maxPrice}
+              value={maxPrice}
               onChange={handleMaxPrice}
               onInput={validateNumberInput}
             />

@@ -125,6 +125,10 @@ export const Header: React.FC<{
           <input type="text" placeholder="Search..." onChange={() => {}} />
           <IoIosSearch size={20} color="#AFAFAF" />
         </Styled.HeaderSearchInput>
+        <div className="icon-wrapper upload">
+          <AiOutlinePlusCircle size={24} onClick={handleUploadClick} />
+          <h6>List it</h6>
+        </div>
         <div
           className="icon-wrapper message"
           onClick={() => router.push("/message")}
@@ -132,10 +136,7 @@ export const Header: React.FC<{
           <MdMailOutline size={24} />
           {<span />}
         </div>
-        <div className="icon-wrapper upload">
-          <AiOutlinePlusCircle size={24} onClick={handleUploadClick} />
-          <h6>List it</h6>
-        </div>
+
         <div className="icon-wrapper">
           <IoMdNotificationsOutline size={24} />
           <span />
