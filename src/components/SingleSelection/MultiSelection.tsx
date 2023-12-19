@@ -98,6 +98,18 @@ export const MultiSelection: React.FC<Props> = ({
                       return element.itemWarrantyInformation === item;
                     } else if (type == "itemSellerRating") {
                       return element.itemSellerRating === item;
+                    } else if (type == "itemBatteryLife") {
+                      return element.itemBatteryLife === item;
+                    } else if (type == "itemOperatingSystem") {
+                      return element.itemOperatingSystem === item;
+                    } else if (type == "itemStorageCapacity") {
+                      return element.itemStorageCapacity === item;
+                    } else if (type == "itemProcessor") {
+                      return element.itemProcessor === item;
+                    } else if (type == "itemRamSize") {
+                      return element.itemRamSize === item;
+                    } else if (type == "itemType") {
+                      return element.itemType === item;
                     }
                     return false; // Default case if type is neither "itemCondition" nor "itemResolution"
                   })[0]?.count

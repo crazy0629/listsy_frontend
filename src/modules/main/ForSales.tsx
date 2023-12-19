@@ -34,7 +34,7 @@ export const SalesPageSection: React.FC = () => {
   const [data, setData] = useState<any>([]);
   const [hasMore, setHasMore] = useState(true);
   const [filter, setFilter] = useState({
-    itemCategory: "",
+    itemCategory: "All",
   });
 
   const [address, setAddress] = useState("");
@@ -60,7 +60,7 @@ export const SalesPageSection: React.FC = () => {
       getLocationInfo();
     });
     getLocationInfo();
-  }, []);
+  });
 
   useEffect(() => {
     if (address == "") return;
@@ -78,6 +78,10 @@ export const SalesPageSection: React.FC = () => {
     setFilter((prev) => ({ ...prev, itemCategory: "All" }));
     getData(0);
   }, [address, countryCode]);
+
+  const handleCategoryClicked = (value) => {
+    setFilter({ itemCategory: value });
+  };
 
   const getData = async (index: number) => {
     const categoryList = selectData.forSale.category;
@@ -118,19 +122,29 @@ export const SalesPageSection: React.FC = () => {
   return (
     <Styled.MainPageSectionWrapper>
       <Styled.FilterWrapper>
-        <SingleSelection
-          data={selectData.forSale.category}
-          placeholder="Select Item Category"
-          value={filter.itemCategory}
-          onChange={(value) => setFilter({ itemCategory: value })}
-          type="itemCategory"
-          countList={adCnt}
-        />
+        <Styled.PostsPageFilterWrapper>
+          {selectData.forSale.category.map((item, key) => (
+            <span
+              key={key}
+              onClick={() => handleCategoryClicked(item)}
+              className={item === filter.itemCategory ? "active" : ""}
+            >
+              {item}
+
+              {adCnt &&
+                adCnt.length > 0 &&
+                "  (" +
+                  adCnt.filter((element) => element.itemCategory == item)[0]
+                    ?.count +
+                  ")"}
+            </span>
+          ))}
+        </Styled.PostsPageFilterWrapper>
         {filter.itemCategory == "Televisions" && (
           <TelevisionFilter onChange={subFormChanged} />
         )}
         {filter.itemCategory == "Laptops and Desktop Computers" && (
-          <LapTopFilter />
+          <LapTopFilter onChange={subFormChanged} />
         )}
         {filter.itemCategory == "iPad, Tablets & eReaders" && <IpadFilter />}
         {filter.itemCategory == "Home Theater Systems" && (

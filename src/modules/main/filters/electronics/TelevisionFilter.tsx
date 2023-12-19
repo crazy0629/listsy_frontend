@@ -4,7 +4,6 @@ import { FilterWrapper } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/data";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 type Props = {
   onChange: (data: any) => void;
@@ -35,7 +34,6 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   const typingTimer = useRef(null);
   const [priceChanged, setPriceChanged] = useState(false);
-  const [locationInfo, setLocationInfo] = useState(null);
 
   const getLocationInfo = () => {
     let locationSelected = localStorage.getItem("locationSelected");
@@ -52,41 +50,8 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
   };
 
   useEffect(() => {
-    if (locationInfo == null) return;
-
-    fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${locationInfo.value.place_id}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const countryCode = data.results[0].address_components.find(
-          (component) => component.types.includes("country")
-        ).short_name;
-
-        const location = data.results[0].geometry.location;
-        const lat = location.lat;
-        const lng = location.lng;
-
-        setFilter((prev) => ({
-          ...prev,
-          selectedLocation: {
-            address: locationInfo.label,
-            lat,
-            lng,
-            countryCode,
-          },
-        }));
-
-        setFilter((prev) => ({ ...prev, centerLocationSelected: true }));
-      })
-      .catch((error) => {
-        console.error("Error fetching location info:", error);
-      });
-  }, [locationInfo]);
-
-  useEffect(() => {
     if (filter.centerLocationSelected == false) return;
-    doneTypeing();
+    donetyping();
   }, [filter.centerLocationSelected, filter.selectedLocation]);
 
   useEffect(() => {
@@ -112,7 +77,7 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
   useEffect(() => {
     if (priceChanged == false) return;
     typingTimer.current = setTimeout(() => {
-      doneTypeing();
+      donetyping();
       onChange({ minPrice, maxPrice });
       // Perform any action here after 5 seconds of inactivity
     }, 500);
@@ -125,7 +90,7 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
   useEffect(() => {
     if (address == "") return;
     setIsLoading(true);
-    doneTypeing();
+    donetyping();
   }, [address, countryCode]);
 
   const getCountryCode = (lat, lng) => {
@@ -137,13 +102,25 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
         const country = data.results.find((result) => {
           return result.types.includes("country");
         });
-        const countryCode = country
+        const cCode = country
           ? country.address_components.find((component) =>
               component.types.includes("country")
             ).short_name
           : null;
 
-        fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
+        setFilter((prev) => ({
+          ...prev,
+          selectedLocation: {
+            address: localStorage.getItem("locationAddress"),
+            lat: Number(localStorage.getItem("centerlat")),
+            lng: Number(localStorage.getItem("centerlng")),
+            countryCode: cCode,
+          },
+        }));
+
+        setFilter((prev) => ({ ...prev, centerLocationSelected: true }));
+
+        fetch(`https://restcountries.com/v3.1/alpha/${cCode}`)
           .then((response) => response.json())
           .then((countryData) => {
             let currencySymbol = "";
@@ -166,7 +143,7 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
       });
   };
 
-  const doneTypeing = async () => {
+  const donetyping = async () => {
     setIsLoading(true);
     const adsCountData = await axios.post(
       `${SERVER_URI}/sale/getCountOfEachFilter`,
@@ -218,16 +195,6 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
     <FilterWrapper>
       {adCnt != null && (
         <>
-          <div>
-            <GooglePlacesAutocomplete
-              apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
-              selectProps={{
-                placeholder: "Select location here...",
-                value: locationInfo,
-                onChange: setLocationInfo,
-              }}
-            />
-          </div>
           <SingleSelection
             data={selectData.forSale.Televisions.SearchWithin}
             placeholder="Select Search Range"
