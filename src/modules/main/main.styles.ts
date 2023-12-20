@@ -8,6 +8,32 @@ export const MainPageSectionWrapper = styled.div`
   width: 100%;
 `;
 
+export const PostsPageFilterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  span {
+    border-radius: 100px;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    margin-right: 8px;
+    white-space: nowrap;
+    transition: all 0.3s;
+    font-size: 10px;
+    font-weight: 400;
+    background: #eaeaea;
+    color: #000;
+    line-height: 20.4px; /* 145.714% */
+    cursor: pointer;
+    &.active {
+      background: #ff6f00;
+      color: #fff;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    flex-wrap: wrap;
+  }
+`;
+
 export const FilterWrapper = styled.div`
   padding: 0 20px 16px;
   display: flex;

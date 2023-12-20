@@ -66,16 +66,6 @@ export const SingleSelection: React.FC<Props> = ({
             }}
           >
             <span>{item}</span>
-            {countList && type == "itemCategory" && (
-              <span>
-                (
-                {
-                  countList.filter((element) => element.itemCategory == item)[0]
-                    ?.count
-                }
-                )
-              </span>
-            )}
             {countList && countList.length > 0 && type == "itemSearchRange" && (
               <span>({countList[key].distance})</span>
             )}

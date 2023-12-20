@@ -10,10 +10,10 @@ import {
 } from "@react-google-maps/api";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 type Props = {
   open: boolean;
-  onClose: () => void;
   onChoose: (address: string, countryFlag: string) => void;
 };
 
@@ -23,7 +23,7 @@ const mapContainerStyle = {
   height: "100vh",
 };
 
-export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
+export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
     libraries,
@@ -31,6 +31,7 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
   const [filterAddress, setFilterAddress] = useState("Please choose location");
   const [adCityList, setAdCityList] = useState([]);
   const [flagUrl, setFlagUrl] = useState("");
+  const [locationInfo, setLocationInfo] = useState(null);
 
   const center = {
     lat: Number(localStorage.getItem("centerlat")), // default latitude
@@ -39,6 +40,8 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
 
   useEffect(() => {
     getLocationList();
+    setFlagUrl(localStorage.getItem("flagUrl"));
+    setFilterAddress(localStorage.getItem("locationAddress"));
   }, []);
 
   const getLocationList = async () => {
@@ -46,37 +49,12 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
     setAdCityList(result.data.data);
   };
 
-  const handleChoose = () => {
+  const handleClose = () => {
     if (filterAddress == null) {
       toast.error("Please select location");
       return;
     }
     onChoose(filterAddress, flagUrl);
-  };
-
-  const handleClose = () => {
-    onClose();
-  };
-
-  const getCountryCode = (lat, lng) => {
-    return fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const country = data.results.find((result) => {
-          return result.types.includes("country");
-        });
-        return country
-          ? country.address_components.find((component) =>
-              component.types.includes("country")
-            ).short_name
-          : null;
-      })
-      .catch((error) => {
-        console.error("Error fetching country code:", error);
-        return null;
-      });
   };
 
   const getCountryFlag = (countryCode) => {
@@ -91,49 +69,60 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
       });
   };
 
-  const handleMarkerClick = (city: any) => {
-    setFilterAddress(city.address);
-    localStorage.setItem("centerlat", city.lat);
-    localStorage.setItem("centerlng", city.lng);
-    getCountryCode(city.lat, city.lng)
-      .then((countryCode) => {
-        if (countryCode) {
-          return getCountryFlag(countryCode);
-        } else {
-          console.error("Country code not found");
-          return null;
-        }
+  useEffect(() => {
+    if (locationInfo == null) return;
+
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${locationInfo.value.place_id}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const countryCode = data.results[0].address_components.find(
+          (component) => component.types.includes("country")
+        ).short_name;
+        localStorage.setItem("locationCountryCode", countryCode);
+        const location = data.results[0].geometry.location;
+        const lat = location.lat;
+        const lng = location.lng;
+        localStorage.setItem("centerlat", lat);
+        localStorage.setItem("centerlng", lng);
+        setFilterAddress(locationInfo.label);
+        getCountryFlag(countryCode).then((countryFlag) => {
+          if (countryFlag) {
+            setFlagUrl(countryFlag);
+          } else {
+            console.error("Country flag not found");
+          }
+        });
       })
-      .then((countryFlag) => {
-        if (countryFlag) {
-          setFlagUrl(countryFlag);
-        } else {
-          console.error("Country flag not found");
-        }
+      .catch((error) => {
+        console.error("Error fetching location info:", error);
       });
-  };
+  }, [locationInfo]);
 
   return (
     <Styled.LocationModalWrapper className={open ? "open" : ""}>
       <Styled.LocationModalContainer>
         <Styled.LocationModalHeader>
-          <h3>{filterAddress}</h3>
+          {/* <h3>{filterAddress}</h3> */}
+          <div className="location_selector">
+            <GooglePlacesAutocomplete
+              apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
+              selectProps={{
+                placeholder: filterAddress,
+                value: locationInfo,
+                onChange: setLocationInfo,
+              }}
+            />
+          </div>
           <div className="btn_group">
             <button
               className="select_btn"
               onClick={() => {
-                handleChoose();
-              }}
-            >
-              Select
-            </button>
-            <button
-              className="cancel_btn"
-              onClick={() => {
                 handleClose();
               }}
             >
-              Cancel
+              OK
             </button>
           </div>
         </Styled.LocationModalHeader>
@@ -153,7 +142,7 @@ export const LocationModal: React.FC<Props> = ({ open, onClose, onChoose }) => {
                       key={index}
                       position={{ lat: city.lat, lng: city.lng }}
                       label={city.address}
-                      onClick={() => handleMarkerClick(city)}
+                      // onClick={() => handleMarkerClick(city)}
                     />
                   );
                 })}

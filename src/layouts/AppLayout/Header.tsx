@@ -126,14 +126,7 @@ export const Header: React.FC<{
           <IoIosSearch size={20} color="#AFAFAF" />
         </Styled.HeaderSearchInput>
         <div className="icon-wrapper upload">
-          <Image
-            src="/assets/images/listit.png"
-            width={24}
-            height={24}
-            alt="App logo"
-            onClick={handleUploadClick}
-          />
-          <h6>List it</h6>
+          <AiOutlinePlusCircle size={24} onClick={handleUploadClick} />
         </div>
         <div
           className="icon-wrapper message"

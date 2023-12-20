@@ -46,7 +46,11 @@ export const LocationModalHeader = styled.div`
   svg {
     cursor: pointer;
   }
-  div {
+  .location_selector {
+    width: 500px;
+  }
+
+  .btn_group {
     display: flex;
     flex-direction: row;
     justify-content: center;
