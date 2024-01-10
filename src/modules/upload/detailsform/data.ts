@@ -459,7 +459,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
       BatteryLife: [
         "Up to 4 hours",
         "5 to 7 hours",
