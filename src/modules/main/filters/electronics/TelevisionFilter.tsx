@@ -66,6 +66,9 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
   }, []);
 
   useEffect(() => {
+    console.log("filter-changed");
+    console.log(11111, filter);
+    donetyping();
     onChange(filter);
   }, [filter]);
 
@@ -168,6 +171,7 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
         filter,
       }
     );
+    console.log(123, adsCountData.data);
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };

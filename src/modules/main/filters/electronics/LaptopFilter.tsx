@@ -226,17 +226,6 @@ export const LapTopFilter: React.FC<Props> = ({ onChange }) => {
     <FilterWrapper>
       {adCnt != null && (
         <>
-          <div>
-            <GooglePlacesAutocomplete
-              apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
-              selectProps={{
-                placeholder: "Select location here...",
-                value: locationInfo,
-                onChange: setLocationInfo,
-              }}
-            />
-          </div>
-
           <SingleSelection
             data={selectData.forSale.Laptops.SearchWithin}
             placeholder="Select Search Range"
