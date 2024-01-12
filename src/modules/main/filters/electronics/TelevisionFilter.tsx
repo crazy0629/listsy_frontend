@@ -1,5 +1,11 @@
 import { MultiSelection, SingleSelection } from "@/components";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { FilterWrapper } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/data";
 import axios from "axios";
@@ -47,6 +53,35 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
       setAddress(locationAddress);
       setCountryCode(countryCode);
     }
+  };
+
+  const donetyping = async () => {
+    setIsLoading(true);
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/sale/getCountOfEachFilter`,
+      {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        itemCategory: "Televisions",
+        itemSellerRating: selectData.forSale.Televisions.SellerRating,
+        itemCondition: selectData.forSale.Televisions.Condition,
+        itemScreenSize: selectData.forSale.Televisions.ScreenSize,
+        itemResolution: selectData.forSale.Televisions.Resolution,
+        itemBrand: selectData.forSale.Televisions.Brand,
+        itemSmartTV: selectData.forSale.Televisions.SmartTV,
+        itemColour: selectData.forSale.Televisions.Colour,
+        itemWarrantyInformation:
+          selectData.forSale.Televisions.WarrantyInformation,
+        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        address,
+        countryCode,
+        selectedLocation: filter.selectedLocation,
+        centerLocationAvailable: filter.centerLocationSelected,
+        filter,
+      }
+    );
+    setAdCnt(adsCountData.data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -143,37 +178,6 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
         return null;
       });
   };
-
-  const donetyping = async () => {
-    setIsLoading(true);
-    const adsCountData = await axios.post(
-      `${SERVER_URI}/sale/getCountOfEachFilter`,
-      {
-        minPrice: minPrice,
-        maxPrice: maxPrice,
-        itemCategory: "Televisions",
-        itemSellerRating: selectData.forSale.Televisions.SellerRating,
-        itemCondition: selectData.forSale.Televisions.Condition,
-        itemScreenSize: selectData.forSale.Televisions.ScreenSize,
-        itemResolution: selectData.forSale.Televisions.Resolution,
-        itemBrand: selectData.forSale.Televisions.Brand,
-        itemSmartTV: selectData.forSale.Televisions.SmartTV,
-        itemColour: selectData.forSale.Televisions.Colour,
-        itemWarrantyInformation:
-          selectData.forSale.Televisions.WarrantyInformation,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
-        address,
-        countryCode,
-        selectedLocation: filter.selectedLocation,
-        centerLocationAvailable: filter.centerLocationSelected,
-        filter,
-      }
-    );
-    console.log(123, adsCountData.data);
-    setAdCnt(adsCountData.data);
-    setIsLoading(false);
-  };
-
   const handleMinPrice = async (e) => {
     if (maxPrice != "" && Number(e.target.value) > Number(maxPrice)) return;
     setMinPrice(e.target.value);
