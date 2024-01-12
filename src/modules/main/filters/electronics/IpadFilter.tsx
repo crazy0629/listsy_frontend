@@ -77,7 +77,6 @@ export const IpadFilter: React.FC<Props> = ({ onChange }) => {
         filter,
       }
     );
-    console.log(111111, adsCountData.data);
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };

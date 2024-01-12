@@ -187,7 +187,7 @@ export const SalesPageSection: React.FC = () => {
           <BatteryFilter />
         )}
         {filter.itemCategory == "Gaming Consoles and Accessories" && (
-          <GamingConsoleFilter />
+          <GamingConsoleFilter onChange={subFormChanged} />
         )}
         {filter.itemCategory == "Phones" && <PhoneFilter />}
         {/* <button onClick={() => getData(0)}>Search</button> */}
