@@ -24,6 +24,7 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
     centerLocationSelected: false,
     selectedLocation: null,
   });
+
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
