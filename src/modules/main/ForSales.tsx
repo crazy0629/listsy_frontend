@@ -101,7 +101,6 @@ export const SalesPageSection: React.FC = () => {
       countryCode,
     });
     if (res.data.success) {
-      console.log(123123123, res.data.data);
       if (index > 0) {
         setData((prev: any) => [...prev, ...res.data.data]);
       } else {
@@ -153,7 +152,9 @@ export const SalesPageSection: React.FC = () => {
         {filter.itemCategory == "Laptops and Desktop Computers" && (
           <LapTopFilter onChange={subFormChanged} />
         )}
-        {filter.itemCategory == "iPad, Tablets & eReaders" && <IpadFilter />}
+        {filter.itemCategory == "iPad, Tablets & eReaders" && (
+          <IpadFilter onChange={subFormChanged} />
+        )}
         {filter.itemCategory == "Home Theater Systems" && (
           <TheaterSystemFilter />
         )}

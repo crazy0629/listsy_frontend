@@ -1,5 +1,5 @@
 import { MultiSelection, SingleSelection } from "@/components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FilterWrapper } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/data";
 import axios from "axios";
@@ -53,6 +53,38 @@ export const LapTopFilter: React.FC<Props> = ({ onChange }) => {
       setAddress(locationAddress);
       setCountryCode(countryCode);
     }
+  };
+
+  const donetyping = async () => {
+    setIsLoading(true);
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/sale/getCountOfEachFilter`,
+      {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        itemCategory: "Laptops and Desktop Computers",
+        itemRamSize: selectData.forSale.Laptops.ramSize,
+        itemSellerRating: selectData.forSale.Laptops.SellerRating,
+        itemStorageCapacity: selectData.forSale.Laptops.StorageCapacity,
+        itemType: selectData.forSale.Laptops.Type,
+        itemProcessor: selectData.forSale.Laptops.processor,
+        itemOperatingSystem: selectData.forSale.Laptops.OperatingSystem,
+        itemCondition: selectData.forSale.Laptops.Condition,
+        itemScreenSize: selectData.forSale.Laptops.ScreenSize,
+        itemBrand: selectData.forSale.Laptops.Brand,
+        itemColour: selectData.forSale.Laptops.Colour,
+        itemWarrantyInformation: selectData.forSale.Laptops.WarrantyInformation,
+        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        itemBatteryLife: selectData.forSale.Laptops.BatteryLife,
+        address,
+        countryCode,
+        selectedLocation: filter.selectedLocation,
+        centerLocationAvailable: filter.centerLocationSelected,
+        filter,
+      }
+    );
+    setAdCnt(adsCountData.data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -148,37 +180,6 @@ export const LapTopFilter: React.FC<Props> = ({ onChange }) => {
         console.error("Error fetching country code:", error);
         return null;
       });
-  };
-  const donetyping = async () => {
-    setIsLoading(true);
-    const adsCountData = await axios.post(
-      `${SERVER_URI}/sale/getCountOfEachFilter`,
-      {
-        minPrice: minPrice,
-        maxPrice: maxPrice,
-        itemCategory: "Laptops and Desktop Computers",
-        itemRamSize: selectData.forSale.Laptops.ramSize,
-        itemSellerRating: selectData.forSale.Laptops.SellerRating,
-        itemStorageCapacity: selectData.forSale.Laptops.StorageCapacity,
-        itemType: selectData.forSale.Laptops.Type,
-        itemProcessor: selectData.forSale.Laptops.processor,
-        itemOperatingSystem: selectData.forSale.Laptops.OperatingSystem,
-        itemCondition: selectData.forSale.Laptops.Condition,
-        itemScreenSize: selectData.forSale.Laptops.ScreenSize,
-        itemBrand: selectData.forSale.Laptops.Brand,
-        itemColour: selectData.forSale.Laptops.Colour,
-        itemWarrantyInformation: selectData.forSale.Laptops.WarrantyInformation,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
-        itemBatteryLife: selectData.forSale.Laptops.BatteryLife,
-        address,
-        countryCode,
-        selectedLocation: filter.selectedLocation,
-        centerLocationAvailable: filter.centerLocationSelected,
-        filter,
-      }
-    );
-    setAdCnt(adsCountData.data);
-    setIsLoading(false);
   };
 
   const handleMinPrice = async (e) => {
