@@ -156,7 +156,7 @@ export const SalesPageSection: React.FC = () => {
           <IpadFilter onChange={subFormChanged} />
         )}
         {filter.itemCategory == "Home Theater Systems" && (
-          <TheaterSystemFilter />
+          <TheaterSystemFilter onChange={subFormChanged} />
         )}
         {filter.itemCategory == "Kitchen Appliances" && <KitchenFilter />}
         {filter.itemCategory == "Laundry Appliances" && <LaundryFilter />}

@@ -114,6 +114,8 @@ export const MultiSelection: React.FC<Props> = ({
                       return element.itemStorage === item;
                     } else if (type == "itemMemory") {
                       return element.itemMemory === item;
+                    } else if (type == "itemFeatures") {
+                      return element.itemFeatures === item;
                     }
                     return false; // Default case if type is neither "itemCondition" nor "itemResolution"
                   })[0]?.count
