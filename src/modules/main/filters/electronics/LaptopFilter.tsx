@@ -4,7 +4,6 @@ import { FilterWrapper } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/data";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 type Props = {
   onChange: (data: any) => void;
@@ -57,39 +56,6 @@ export const LapTopFilter: React.FC<Props> = ({ onChange }) => {
   };
 
   useEffect(() => {
-    if (locationInfo == null) return;
-
-    fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?place_id=${locationInfo.value.place_id}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const countryCode = data.results[0].address_components.find(
-          (component) => component.types.includes("country")
-        ).short_name;
-
-        const location = data.results[0].geometry.location;
-        const lat = location.lat;
-        const lng = location.lng;
-
-        setFilter((prev) => ({
-          ...prev,
-          selectedLocation: {
-            address: locationInfo.label,
-            lat,
-            lng,
-            countryCode,
-          },
-        }));
-
-        setFilter((prev) => ({ ...prev, centerLocationSelected: true }));
-      })
-      .catch((error) => {
-        console.error("Error fetching location info:", error);
-      });
-  }, [locationInfo]);
-
-  useEffect(() => {
     if (filter.centerLocationSelected == false) return;
     donetyping();
   }, [filter.centerLocationSelected, filter.selectedLocation]);
@@ -106,6 +72,7 @@ export const LapTopFilter: React.FC<Props> = ({ onChange }) => {
   }, []);
 
   useEffect(() => {
+    donetyping();
     onChange(filter);
   }, [filter]);
 
@@ -142,13 +109,25 @@ export const LapTopFilter: React.FC<Props> = ({ onChange }) => {
         const country = data.results.find((result) => {
           return result.types.includes("country");
         });
-        const countryCode = country
+        const cCode = country
           ? country.address_components.find((component) =>
               component.types.includes("country")
             ).short_name
           : null;
 
-        fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
+        setFilter((prev) => ({
+          ...prev,
+          selectedLocation: {
+            address: localStorage.getItem("locationAddress"),
+            lat: Number(localStorage.getItem("centerlat")),
+            lng: Number(localStorage.getItem("centerlng")),
+            countryCode: cCode,
+          },
+        }));
+
+        setFilter((prev) => ({ ...prev, centerLocationSelected: true }));
+
+        fetch(`https://restcountries.com/v3.1/alpha/${cCode}`)
           .then((response) => response.json())
           .then((countryData) => {
             let currencySymbol = "";
@@ -170,7 +149,6 @@ export const LapTopFilter: React.FC<Props> = ({ onChange }) => {
         return null;
       });
   };
-
   const donetyping = async () => {
     setIsLoading(true);
     const adsCountData = await axios.post(

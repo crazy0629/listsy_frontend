@@ -66,8 +66,6 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
   }, []);
 
   useEffect(() => {
-    console.log("filter-changed");
-    console.log(11111, filter);
     donetyping();
     onChange(filter);
   }, [filter]);
