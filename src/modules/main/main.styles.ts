@@ -11,6 +11,7 @@ export const MainPageSectionWrapper = styled.div`
 export const PostsPageFilterWrapper = styled.div`
   display: flex;
   align-items: center;
+  overflow: auto;
   span {
     border-radius: 100px;
     margin-bottom: 12px;

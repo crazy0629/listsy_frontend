@@ -10,8 +10,6 @@
     "pm2:build": "npm run build && pm2 start npm --name listsy_frontend -- run start"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
     "@react-google-maps/api": "^2.19.2",
     "@types/node": "20.6.3",
     "@types/react": "18.2.22",

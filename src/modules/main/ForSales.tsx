@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as Styled from "./main.styles";
 import { CardItem, SingleSelection } from "@/components";
 import axios from "axios";
@@ -118,6 +118,12 @@ export const SalesPageSection: React.FC = () => {
 
   const subFormChanged = (data) => {
     setFilter((prev) => ({ ...prev, ...data }));
+  };
+
+  const navRef = useRef(null);
+
+  const scroll = (scrollOffset) => {
+    navRef.current.scrollLeft += scrollOffset;
   };
 
   return (
