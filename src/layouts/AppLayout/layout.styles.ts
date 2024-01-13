@@ -337,10 +337,32 @@ export const EmojiWrapper = styled.div`
     }
   }
 `;
-
+export const ShowMoreOrLess = styled.div`
+  padding: 0 24px;
+  height: 50px;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  color: #4b4b4b;
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+  span {
+    margin-left: 24px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20.4px; /* 145.714% */
+    color: black;
+    cursor: pointer;
+  }
+  &:hover {
+    background: #eaeaea70;
+  }
+`;
 export const SidebarMainNavItem = styled(Link)`
   padding: 0 24px;
-  height: 40px;
+  height: 50px;
   transition: all 0.3s;
   display: flex;
   align-items: center;
