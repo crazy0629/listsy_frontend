@@ -46,6 +46,7 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
 
   const getLocationList = async () => {
     const result = await axios.post(`${SERVER_URI}/ad/getLocationList`);
+    console.log(123, result.data);
     setAdCityList(result.data.data);
   };
 
@@ -141,7 +142,10 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
                     <Marker
                       key={index}
                       position={{ lat: city.lat, lng: city.lng }}
-                      label={city.address}
+                      label={{
+                        text: `${city.count.toString()} .`,
+                        color: "black",
+                      }}
                       // onClick={() => handleMarkerClick(city)}
                     />
                   );
