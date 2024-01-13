@@ -38,7 +38,9 @@ export const LoginForm: React.FC = () => {
 
   const handleLogin = async () => {
     if (!form.email || !form.password) {
-      toast.error("Please complete all inputs.");
+      toast.error(
+        "To sign in, make sure you've entered both your email and password"
+      );
     } else {
       const res = await axios.post(`${SERVER_URI}/auth/signin`, {
         email: form.email,

@@ -99,7 +99,7 @@ export const FashionPageSection: React.FC = () => {
           dataLength={data.length}
           next={() => getData(getIndex)}
           hasMore={hasMore}
-          endMessage={<h4>All data is Loaded</h4>}
+          endMessage={<h4></h4>}
           scrollableTarget="community-list"
           loader={<h4>Loading...</h4>}
         >
