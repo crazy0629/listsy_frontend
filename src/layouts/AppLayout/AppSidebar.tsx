@@ -281,7 +281,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
               .map((item, key) => (
                 <Styled.SidebarMainNavItem href={item.href} key={key}>
                   <Image
-                    src={`/assets/images/${item.icon}.png`}
+                    src={`/assets/images/categoryImage/${item.icon}.png`}
                     alt={`${item.icon}`}
                     width={24}
                     height={24}
