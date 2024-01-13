@@ -7,28 +7,11 @@ import {
   FaFacebookSquare,
   FaGoogle,
   FaRegQuestionCircle,
-  FaArtstation,
 } from "react-icons/fa";
-import { IoHomeOutline } from "react-icons/io5";
-import { PiTruckThin } from "react-icons/pi";
-import {
-  MdLocationOn,
-  MdSearch,
-  MdShoppingCartCheckout,
-  MdPets,
-  MdOutlineEmojiEmotions,
-} from "react-icons/md";
+import { MdLocationOn, MdSearch, MdOutlineEmojiEmotions } from "react-icons/md";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import {
-  RiHomeOfficeFill,
-  RiMessage2Fill,
-  RiServiceLine,
-} from "react-icons/ri";
-import { CiHeart } from "react-icons/ci";
-import { FiBook } from "react-icons/fi";
-import { IoCarSportSharp } from "react-icons/io5";
+import { RiMessage2Fill } from "react-icons/ri";
 import { PiPlusBold } from "react-icons/pi";
-import { FaChildren } from "react-icons/fa6";
 import * as Styled from "./layout.styles";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -39,7 +22,6 @@ import { Auth as AuthContext } from "@/context/contexts";
 import { CommunityViewModal } from "@/modules/community";
 import { LocationModal } from "@/modules/location";
 import { calcCompareTime } from "@/utils";
-import { TbBuildingEstate } from "react-icons/tb";
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -47,62 +29,82 @@ const mainNav = [
   {
     label: "Home",
     href: "/",
-    icon: <IoHomeOutline />,
+    icon: "all",
   },
   {
-    label: "Vehicles",
+    label: "Vehicles and Automotive",
     href: "/trucks",
-    icon: <PiTruckThin />,
+    icon: "vehicles",
   },
   {
-    label: "Real Estate",
+    label: "Real Estate and Property Listings",
     href: "/estate",
-    icon: <TbBuildingEstate />,
+    icon: "realestate",
   },
   {
-    label: "Electronics and Appliances",
+    label: "Electronics and Gadgets",
     href: "/sale",
-    icon: <MdShoppingCartCheckout />,
+    icon: "electronics",
   },
   {
-    label: "Home and Garden",
-    href: "/garden",
-    icon: <RiHomeOfficeFill />,
+    label: "Toys and Games",
+    href: "/toys",
+    icon: "toys",
   },
   {
-    label: "Services",
-    href: "/services",
-    icon: <RiServiceLine />,
-  },
-  {
-    label: "Fashion and Beauty",
-    href: "/fashion",
-    icon: <CiHeart />,
-  },
-  {
-    label: "Sports and Leisure",
-    href: "/sports",
-    icon: <IoCarSportSharp />,
-  },
-  {
-    label: "Children’s Items",
-    href: "/children",
-    icon: <FaChildren />,
-  },
-  {
-    label: "Pets and Animals",
+    label: "Pets and Pet Supplies",
     href: "/pets",
-    icon: <MdPets />,
+    icon: "pets",
   },
   {
-    label: "Collectibles and Art",
+    label: "Furniture and Home Décor",
+    href: "/furniture",
+    icon: "furniture",
+  },
+  {
+    label: "Fashion and Apparel",
+    href: "/fashion",
+    icon: "fashion",
+  },
+  {
+    label: "Beauty and Personal Care Products",
+    href: "/beauty",
+    icon: "beauty",
+  },
+  {
+    label: "Sports and Fitness Equipment",
+    href: "/sports",
+    icon: "sports",
+  },
+  {
+    label: "Art and Collectibles",
     href: "/art",
-    icon: <FaArtstation />,
+    icon: "art",
   },
   {
-    label: "Books and Education",
-    href: "/education",
-    icon: <FiBook />,
+    label: "Garden and Outdoor Equipment",
+    href: "/garden",
+    icon: "garden",
+  },
+  {
+    label: "Musical Instruments",
+    href: "/music",
+    icon: "music",
+  },
+  {
+    label: "Services and Experiences",
+    href: "/services",
+    icon: "service",
+  },
+  {
+    label: "DIY and Craft Items",
+    href: "/diy",
+    icon: "craft",
+  },
+  {
+    label: "Food and Culinary Products",
+    href: "/food",
+    icon: "food",
   },
   // {
   //   label: "Jobs",
@@ -125,6 +127,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
   const [communityLoading, setCommunityLoading] = useState(true);
   const [location, setLocation] = useState("");
   const [flagUrl, setFlagUrl] = useState("");
+  const [isReadMore, setIsReadMore] = useState(true);
 
   const emojiRef = useRef<any>(null);
   const communityRef = useRef<any>(null);
@@ -246,6 +249,10 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
     window.dispatchEvent(new Event("localStorageChanged"));
   };
 
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+
   return (
     <>
       <Styled.AppSidebarWrapper className={open ? "show" : ""}>
@@ -253,9 +260,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
           onClose={() => setCommunityModal(false)}
           open={communityModal}
         />
-
         <LocationModal open={locationModal} onChoose={chooseLocationHandle} />
-
         <Styled.AppSidebarContainer>
           <Styled.SidebarCountrySelect>
             <p>
@@ -271,12 +276,34 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
             <img src={flagUrl} alt="" />
           </Styled.SidebarCountrySelect>
           <div>
-            {mainNav.map((item, key) => (
-              <Styled.SidebarMainNavItem href={item.href} key={key}>
-                {item.icon}
-                <span>{item.label}</span>
-              </Styled.SidebarMainNavItem>
-            ))}
+            {mainNav
+              .slice(0, isReadMore ? mainNav.length / 3 : mainNav.length)
+              .map((item, key) => (
+                <Styled.SidebarMainNavItem href={item.href} key={key}>
+                  <Image
+                    src={`/assets/images/${item.icon}.png`}
+                    alt={`${item.icon}`}
+                    width={24}
+                    height={24}
+                  />
+                  <span>{item.label}</span>
+                </Styled.SidebarMainNavItem>
+              ))}
+            <Styled.ShowMoreOrLess>
+              <Image
+                src={
+                  isReadMore
+                    ? `/assets/images/plus.png`
+                    : `/assets/images/minus.png`
+                }
+                alt="showmore"
+                width={20}
+                height={20}
+              />
+              <span onClick={toggleReadMore}>
+                {isReadMore ? "Show More" : " Show Less"}
+              </span>
+            </Styled.ShowMoreOrLess>
           </div>
           <Styled.SidebarCommunity>
             <h1>
