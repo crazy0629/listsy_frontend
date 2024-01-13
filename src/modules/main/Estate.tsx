@@ -128,7 +128,7 @@ export const EstatePageSection: React.FC = () => {
           {data.length > 0 &&
             data.map((item: any, key: number) => (
               <CardItem
-                id={item.adId._id}
+                id={item.adId?._id}
                 key={key}
                 type={"estate"}
                 link={item.adId?.adFileName}
