@@ -41,10 +41,7 @@ export const ResetPasswordForm: React.FC = () => {
         height={67}
         onClick={() => router.push("/")}
       />
-      <p>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry.
-      </p>
+      <p>Reset your password</p>
       <Styled.LoginFormGroup>
         <input
           type="password"
