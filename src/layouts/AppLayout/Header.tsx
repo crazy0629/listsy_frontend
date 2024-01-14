@@ -5,7 +5,6 @@ import {
   IoIosSearch,
   IoMdNotificationsOutline,
 } from "react-icons/io";
-import { PiUploadSimple } from "react-icons/pi";
 import { TbLogin, TbUserPlus, TbUser, TbLogout } from "react-icons/tb";
 import * as Styled from "./layout.styles";
 import Link from "next/link";
@@ -126,7 +125,8 @@ export const Header: React.FC<{
           <IoIosSearch size={20} color="#AFAFAF" />
         </Styled.HeaderSearchInput>
         <div className="icon-wrapper upload">
-          <AiOutlinePlusCircle size={24} onClick={handleUploadClick} />
+          {/* <AiOutlinePlusCircle size={24} onClick={handleUploadClick} /> */}
+          <h5 onClick={handleUploadClick}>+ Upload</h5>
         </div>
         <div
           className="icon-wrapper message"
