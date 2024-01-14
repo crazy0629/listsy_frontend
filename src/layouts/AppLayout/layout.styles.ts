@@ -54,6 +54,11 @@ export const HeaderNavWrapper = styled.div`
           display: none;
         }
       }
+      h5 {
+        border: 1px solid #afafaf;
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
     }
     span {
       position: absolute;
