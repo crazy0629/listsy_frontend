@@ -16,7 +16,31 @@ export const UploadAsset: React.FC<Props> = ({ fileType, onNext }) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      setFile(e.target.files[0]);
+      const file = e.target.files[0];
+
+      // Create a video element
+      const video = document.createElement("video");
+      video.preload = "metadata";
+
+      // Create a file reader
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        video.src = event.target.result as string;
+
+        // Load metadata of the video
+        video.onloadedmetadata = () => {
+          window.URL.revokeObjectURL(video.src);
+          // Check if video duration is less than 60 seconds
+          if (video.duration < 60) {
+            setFile(file); // If less than 60 secs, set the file
+          } else {
+            // Handle video longer than 60 seconds here
+            toast.error("Video is longer than 60 seconds!");
+          }
+        };
+      };
+
+      reader.readAsDataURL(file);
     }
   };
 
