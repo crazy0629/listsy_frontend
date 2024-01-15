@@ -23,36 +23,52 @@ export const kinds = [
 ];
 
 export const categories = [
-  { label: "Vehicles", key: "truck" },
-  { label: "Real Estate", key: "estate" },
+  { label: "Vehicles and Automotive", key: "truck" },
+  { label: "Real Estate and Property Listings", key: "estate" },
   {
-    label: "Electronics and Appliances",
+    label: "Electronics and Gadgets",
     key: "sale",
   },
   {
-    label: "Homes and Garden",
-    key: "garden",
+    label: "Toys and Games",
+    key: "toys",
   },
-  { label: "Services", key: "service" },
+  { label: "Pets and Pet Supplies", key: "pets" },
   {
-    label: "Fashion and Beauty",
+    label: "Furniture and Home Décor",
+    key: "furniture",
+  },
+  {
+    label: "Fashion and Apparel",
     key: "fashion",
   },
   {
-    label: "Sports and Leisure",
-    key: "sports",
+    label: "Beauty and Personal Care Products",
+    key: "beauty",
   },
+  { label: "Sports and Fitness Equipment", key: "sports" },
   {
-    label: "Children’s Items",
-    key: "children",
-  },
-  { label: "Pets and Animals", key: "pet" },
-  {
-    label: "Collectibles and Art",
+    label: "Art and Collectibles",
     key: "art",
   },
   {
-    label: "Books and Education",
-    key: "education",
+    label: "Garden and Outdoor Equipment",
+    key: "garden",
+  },
+  {
+    label: "Musical Instruments",
+    key: "music",
+  },
+  {
+    label: "Services and Experiences",
+    key: "services",
+  },
+  {
+    label: "DIY and Craft Items",
+    key: "diy",
+  },
+  {
+    label: "Food and Culinary Products",
+    key: "food",
   },
 ];

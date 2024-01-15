@@ -18,24 +18,19 @@ export const UploadAsset: React.FC<Props> = ({ fileType, onNext }) => {
     if (e.target.files?.length) {
       const file = e.target.files[0];
 
-      // Create a video element
       const video = document.createElement("video");
       video.preload = "metadata";
 
-      // Create a file reader
       const reader = new FileReader();
       reader.onload = (event) => {
         video.src = event.target.result as string;
 
-        // Load metadata of the video
         video.onloadedmetadata = () => {
           window.URL.revokeObjectURL(video.src);
-          // Check if video duration is less than 60 seconds
-          if (video.duration < 60) {
-            setFile(file); // If less than 60 secs, set the file
+          if (video.duration < 120) {
+            setFile(file);
           } else {
-            // Handle video longer than 60 seconds here
-            toast.error("Video is longer than 60 seconds!");
+            toast.error("Video is longer than 120 seconds!");
           }
         };
       };
@@ -83,6 +78,7 @@ export const UploadAsset: React.FC<Props> = ({ fileType, onNext }) => {
           </span>
           <h3>Select the {fileType} file to upload</h3>
           <p>Your video files will be private until you publish them.</p>
+          <p className="timeLimit">Up to 2 mins</p>
           <div className="button">Select file</div>
           <input
             type="file"

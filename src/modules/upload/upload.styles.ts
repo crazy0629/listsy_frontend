@@ -136,6 +136,9 @@ export const UploadAssetWrapper = styled.label`
   text-align: center;
   border-radius: 20px;
   margin: 50px auto;
+  .timeLimit {
+    color: red;
+  }
   span {
     display: flex;
     justify-content: center;
