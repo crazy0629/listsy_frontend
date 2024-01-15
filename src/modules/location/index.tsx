@@ -46,7 +46,6 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
 
   const getLocationList = async () => {
     const result = await axios.post(`${SERVER_URI}/ad/getLocationList`);
-    console.log(123, result.data);
     setAdCityList(result.data.data);
   };
 
