@@ -234,12 +234,23 @@ export const FormGroup = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 40px;
-  align-items: flex-end;
+  align-items: center;
   p {
     color: #afafaf;
     font-size: 14px;
     font-weight: 400;
     line-height: 20.4px; /* 145.714% */
+  }
+  div {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    .phoneInput {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: center;
+    }
   }
   @media screen and (max-width: 500px) {
     grid-template-columns: 1fr;

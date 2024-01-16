@@ -27,7 +27,7 @@ export const SocialButtonGroup: React.FC = () => {
   return (
     <Styled.SocialButtonGroupWrapper>
       <GoogleLogin
-        clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+        clientId="501481973818-j69gvvq3gqif2qrjeadtiacbqctpo97k.apps.googleusercontent.com"
         render={(renderProps) => (
           <Styled.SocialButtonWrapper onClick={renderProps.onClick}>
             <Comp.GoogleIcon />
