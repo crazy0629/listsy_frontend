@@ -15,7 +15,6 @@ export const RegisterForm: React.FC = () => {
     fName: "",
     lName: "",
     email: "",
-    telephoneNumber: "",
     password: "",
     rPassword: "",
   });
@@ -26,8 +25,7 @@ export const RegisterForm: React.FC = () => {
       !form.lName ||
       !form.email ||
       !form.password ||
-      !form.rPassword ||
-      !form.telephoneNumber
+      !form.rPassword
     ) {
       toast.error("Please complete all inputs.");
     } else if (form.password !== form.rPassword) {
@@ -38,7 +36,6 @@ export const RegisterForm: React.FC = () => {
         lastName: form.lName,
         email: form.email,
         password: form.password,
-        telephoneNumber: form.telephoneNumber,
       });
       if (res.data.success) {
         toast.success(res.data.message);
@@ -89,7 +86,7 @@ export const RegisterForm: React.FC = () => {
             setForm((prev) => ({ ...prev, email: e.target.value }))
           }
         />
-        <PhoneInput
+        {/* <PhoneInput
           specialLabel={""}
           country={"us"}
           // disableDropdown={!editable}
@@ -98,7 +95,7 @@ export const RegisterForm: React.FC = () => {
             setForm((prev) => ({ ...prev, telephoneNumber: value }))
           }
           value={form.telephoneNumber}
-        />
+        /> */}
         <input
           type="password"
           placeholder="Password"

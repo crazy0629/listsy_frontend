@@ -5,6 +5,7 @@ import PhoneInput from "react-phone-input-2";
 import { Auth as AuthContext } from "@/context/contexts";
 import * as Styled from "./profile.styles";
 import { SERVER_URI } from "@/config";
+import { isValidPhoneNumber } from "libphonenumber-js";
 
 export const ProfileSetting: React.FC = () => {
   const { authContext, setAuthContext } = useContext<any>(AuthContext);
@@ -126,30 +127,34 @@ export const ProfileSetting: React.FC = () => {
           }
           readOnly={!editable}
         ></textarea>
-        <Styled.FormGroup>
-          <PhoneInput
-            specialLabel={""}
-            country={"us"}
-            disableDropdown={!editable}
-            disabled={!editable}
-            onChange={(value) =>
-              setForm((prev) => ({ ...prev, telephoneNumber: value }))
-            }
-            value={form.telephoneNumber}
-          />
-          <div className="phoneNumberShare">
-            <input
-              type="checkbox"
-              name="share"
-              id="share"
-              checked={phoneNumberShare}
-              onChange={(e) => {
-                handlePhoneNumberShare(e);
-              }}
-            />
-            <label htmlFor="share"> Keep phone number hidden on Ad</label>
-          </div>
-        </Styled.FormGroup>
+        {authContext.user.telephoneNumber && (
+          <Styled.FormGroup>
+            <div>
+              <PhoneInput
+                specialLabel={""}
+                country={"us"}
+                disableDropdown={!editable}
+                disabled={!editable}
+                onChange={(value) =>
+                  setForm((prev) => ({ ...prev, telephoneNumber: value }))
+                }
+                value={form.telephoneNumber}
+              />
+            </div>
+            <div className="phoneNumberShare">
+              <input
+                type="checkbox"
+                name="share"
+                id="share"
+                checked={phoneNumberShare}
+                onChange={(e) => {
+                  handlePhoneNumberShare(e);
+                }}
+              />
+              <label htmlFor="share"> Keep phone number hidden on Ad</label>
+            </div>
+          </Styled.FormGroup>
+        )}
       </Styled.SettingFormWrapper>
       {editable ? (
         <Styled.EditButtonGroup>

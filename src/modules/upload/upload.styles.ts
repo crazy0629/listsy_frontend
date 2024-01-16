@@ -460,10 +460,33 @@ export const SaveButtonWrapper = styled.div`
 
 export const LocationWrapper = styled.div`
   margin-top: 20px;
+  div {
+    p {
+      color: #000;
+      font-size: 12px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+  }
+`;
+
+export const PhoneNumberWrapper = styled.div`
+  margin-top: 20px;
+  div {
+    .error {
+      color: red;
+    }
+    p {
+      color: #000;
+      font-size: 12px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+  }
 `;
 
 export const LocationSelectWrapper = styled.div`
-  border: 1px solid gray;
+  border: 1px solid #afafaf;
   border-radius: 5px;
   padding: 10px;
 `;

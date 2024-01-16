@@ -8,6 +8,9 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Auth as AuthContext } from "@/context/contexts";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
+import { isValidPhoneNumber } from "libphonenumber-js";
 
 type Props = {
   adLink: string;
@@ -25,10 +28,12 @@ export const Details: React.FC<Props> = ({
   const [copied, setCopied] = useState(false);
   const [price, setPrice] = useState("0");
   const [priceUnit, setPriceUnit] = useState("$");
-  const { authContext } = useContext<any>(AuthContext);
+  const { authContext, setAuthContext } = useContext<any>(AuthContext);
   const [addressSelected, setAddressSelected] = useState(false);
   const [location, setLocation] = useState(null);
   const [locationInfo, setLocationInfo] = useState(null);
+  const [phoneNumberShare, setPhoneNumberShare] = useState(false);
+  const [telephoneNumber, setTelephoneNumber] = useState("");
 
   const handleCopyClick = () => {
     setCopied(true);
@@ -88,6 +93,11 @@ export const Details: React.FC<Props> = ({
       toast.error("Select location!");
     } else if (Number(price) === 0) {
       toast.error("Enter the Price!");
+    } else if (
+      !isValidPhoneNumber(telephoneNumber) &&
+      authContext.user?.telephoneNumber == undefined
+    ) {
+      toast.error("PhoneNumber is not valid!");
     } else {
       const res = await axios.post(`${SERVER_URI}/sale/loadForSaleInfo`, {
         ...data,
@@ -96,8 +106,12 @@ export const Details: React.FC<Props> = ({
         adId,
         userId: authContext.user?.id,
         ...location,
+        telephoneNumber,
+        phoneNumberShare,
       });
       if (res.data.success) {
+        setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
+        localStorage.setItem("token", res.data.token);
         toast.success(res.data.message);
         onNext();
       } else {
@@ -372,19 +386,50 @@ export const Details: React.FC<Props> = ({
             </div>
           </Styled.PriceInputWrapper>
           <Styled.LocationWrapper>
-            <Styled.LocationSelectWrapper>
+            <div>
+              <p>Location</p>
+              <GooglePlacesAutocomplete
+                apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
+                selectProps={{
+                  placeholder: "Select location here...",
+                  value: locationInfo,
+                  onChange: setLocationInfo,
+                }}
+              />
+            </div>
+          </Styled.LocationWrapper>
+          {authContext.user?.telephoneNumber == undefined && (
+            <Styled.PhoneNumberWrapper>
               <div>
-                <GooglePlacesAutocomplete
-                  apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
-                  selectProps={{
-                    placeholder: "Select location here...",
-                    value: locationInfo,
-                    onChange: setLocationInfo,
+                <p>Phone Number</p>
+                <PhoneInput
+                  defaultCountry="us"
+                  value={telephoneNumber}
+                  onChange={(phone) => {
+                    setTelephoneNumber(phone);
+                  }}
+                  inputStyle={{
+                    width: "100%",
                   }}
                 />
+                {!isValidPhoneNumber(telephoneNumber) && telephoneNumber && (
+                  <span className="error">Invalid phone number!</span>
+                )}
+                <div className="phoneNumberShare">
+                  <input
+                    type="checkbox"
+                    name="share"
+                    id="share"
+                    checked={!phoneNumberShare}
+                    onChange={() => {
+                      setPhoneNumberShare((prev) => !prev);
+                    }}
+                  />
+                  <label htmlFor="share"> Keep phone number hidden on Ad</label>
+                </div>
               </div>
-            </Styled.LocationSelectWrapper>
-          </Styled.LocationWrapper>
+            </Styled.PhoneNumberWrapper>
+          )}
         </Styled.VideoWrapper>
       </Styled.DetailsPreviewWrapper>
     </Styled.DetailsWrapper>
