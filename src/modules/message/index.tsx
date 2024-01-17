@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import * as Styled from "./message.styles";
 import { IoIosSearch, IoIosSend } from "react-icons/io";
 import Image from "next/image";
-import { MdClose, MdLocationOn, MdPhone } from "react-icons/md";
+import { MdClose, MdPhone } from "react-icons/md";
 import StarRatings from "react-star-ratings";
 import { ImAttachment, ImUsers } from "react-icons/im";
 import { GrEdit, GrEmoji } from "react-icons/gr";
@@ -116,6 +116,11 @@ export const MessageRoom: React.FC = () => {
             setReviewContent(res.data.data.reviewContent);
             setReivewMark(res.data.data.reviewMark);
             setHasReview(true);
+          } else {
+            if (res.data.message == "No exist") {
+              setReviewContent("");
+              setReivewMark(0);
+            }
           }
         });
     }
@@ -355,6 +360,7 @@ export const MessageRoom: React.FC = () => {
                     if (item._id === receiverId) {
                       setIsCurrentOpen(true);
                     } else {
+                      setMessageHistory([]);
                       router.push(`/message/${item._id}`);
                       setIsCurrentOpen(true);
                     }
