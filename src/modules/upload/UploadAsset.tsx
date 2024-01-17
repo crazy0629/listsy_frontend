@@ -30,7 +30,9 @@ export const UploadAsset: React.FC<Props> = ({ fileType, onNext }) => {
           if (video.duration < 120) {
             setFile(file);
           } else {
-            toast.error("Video is longer than 120 seconds!");
+            toast.error(
+              "Oops! It looks like your video exceeds the 2-minute maximum length.Please trim your video to 2 minutes or less and try uploading again. Need help? Check out our video editing tips [link to tips]. Thank you for your understanding"
+            );
           }
         };
       };
