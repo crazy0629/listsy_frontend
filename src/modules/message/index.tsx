@@ -116,9 +116,12 @@ export const MessageRoom: React.FC = () => {
             setReviewContent(res.data.data.reviewContent);
             setReivewMark(res.data.data.reviewMark);
             setHasReview(true);
+            setIsEdit(false);
           } else {
             if (res.data.message == "No exist") {
               setReviewContent("");
+              setHasReview(false);
+              setIsEdit(true);
               setReivewMark(0);
             }
           }
@@ -286,6 +289,7 @@ export const MessageRoom: React.FC = () => {
       if (res.data.success) {
         toast.success(res.data.message);
         setHasReview(false);
+        setIsEdit(true);
         setCurrentChatUser(res.data.reviewer);
         setReivewMark(0);
         setReviewContent("");
@@ -306,6 +310,7 @@ export const MessageRoom: React.FC = () => {
     const res = await axios.post(`${SERVER_URI}/review/addReview`, data);
     if (res.data.success) {
       setHasReview(true);
+      setIsEdit(false);
       setCurrentChatUser(res.data.reviewer);
       toast.success(res.data.message);
     } else {
