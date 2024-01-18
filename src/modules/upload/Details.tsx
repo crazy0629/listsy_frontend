@@ -34,6 +34,7 @@ export const Details: React.FC<Props> = ({
   const [locationInfo, setLocationInfo] = useState(null);
   const [phoneNumberShare, setPhoneNumberShare] = useState(false);
   const [telephoneNumber, setTelephoneNumber] = useState("");
+  const [telephoneNumberChanged, setTelephoneNumberChanged] = useState(false);
 
   const handleCopyClick = () => {
     setCopied(true);
@@ -319,6 +320,7 @@ export const Details: React.FC<Props> = ({
 
   useEffect(() => {
     getCountryCode();
+    setTelephoneNumberChanged(false);
   }, []);
 
   useEffect(() => {
@@ -407,14 +409,16 @@ export const Details: React.FC<Props> = ({
                   value={telephoneNumber}
                   onChange={(phone) => {
                     setTelephoneNumber(phone);
+                    setTelephoneNumberChanged(true);
                   }}
                   inputStyle={{
                     width: "100%",
                   }}
                 />
-                {!isValidPhoneNumber(telephoneNumber) && telephoneNumber && (
-                  <span className="error">Invalid phone number!</span>
-                )}
+                {!isValidPhoneNumber(telephoneNumber) &&
+                  telephoneNumberChanged && (
+                    <span className="error">Invalid phone number!</span>
+                  )}
                 <div className="phoneNumberShare">
                   <input
                     type="checkbox"
