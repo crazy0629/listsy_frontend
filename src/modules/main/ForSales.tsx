@@ -158,8 +158,13 @@ export const SalesPageSection: React.FC = () => {
         {filter.itemCategory == "Home Theater Systems" && (
           <TheaterSystemFilter onChange={subFormChanged} />
         )}
-        {filter.itemCategory == "Kitchen Appliances" && <KitchenFilter />}
-        {filter.itemCategory == "Laundry Appliances" && <LaundryFilter />}
+        {filter.itemCategory == "Kitchen Appliances" && (
+          <KitchenFilter onChange={subFormChanged} />
+        )}
+        {filter.itemCategory == "Laundry Appliances" && (
+          <LaundryFilter onChange={subFormChanged} />
+        )}
+
         {filter.itemCategory == "Cleaning Appliances" && <CleaningFilter />}
         {filter.itemCategory == "Heating, Cooling, and Air Quality" && (
           <HeatingFilter />

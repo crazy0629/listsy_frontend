@@ -37,14 +37,6 @@ export const selectData = {
         "Within 200 miles",
         "Nationwide",
       ],
-      PriceRange: [
-        "Under $50",
-        "$50 - $100",
-        "$100 - $300",
-        "$300 - $600",
-        "$600 - $1,000",
-        "Over $1,000",
-      ],
       Condition: [
         "Brand New",
         "Open Box",
@@ -185,14 +177,6 @@ export const selectData = {
         "Within 100 miles",
         "Within 200 miles",
         "Nationwide",
-      ],
-      PriceRange: [
-        "Under $50",
-        "$50 - $100",
-        "$100 - $300",
-        "$300 - $600",
-        "$600 - $1,000",
-        "Over $1,000",
       ],
       Condition: [
         "Brand New",
@@ -478,13 +462,6 @@ export const selectData = {
         "Within 200 miles",
         "Nationwide",
       ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
-      ],
       Condition: [
         "Brand New",
         "Open Box",
@@ -725,13 +702,6 @@ export const selectData = {
         "Streaming Devices",
         "Not Specified",
       ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
-      ],
       Condition: [
         "Brand New",
         "Open Box",
@@ -898,13 +868,6 @@ export const selectData = {
         "Indoor Herb Gardens",
         "Not Specified",
       ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
-      ],
       Condition: [
         "Brand New",
         "Open Box",
@@ -1042,7 +1005,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Laundry: {
       SearchWithin: [
@@ -1062,13 +1025,6 @@ export const selectData = {
         "Steamers",
         "Sewing Machines",
         "Not Specified",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -1127,7 +1083,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Cleaning: {
       SearchWithin: [
