@@ -44,7 +44,7 @@ export const MessageRoom: React.FC = () => {
   const [reviewMark, setReivewMark] = useState(0);
   const [reviewContent, setReviewContent] = useState<string>("");
   const [hasReview, setHasReview] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(true);
 
   useEffect(() => {
     if (authContext.user) {
@@ -251,7 +251,6 @@ export const MessageRoom: React.FC = () => {
   const reviewEditHandler = async () => {
     if (isEdit == false) {
       setIsEdit(true);
-      setHasReview(false);
       return;
     } else {
       const data = {
@@ -631,18 +630,10 @@ export const MessageRoom: React.FC = () => {
           </div>
         </div>
         <div className="write-review">
-          {hasReview == true ? <h3>Your feedback</h3> : <h3>Write Reviews</h3>}
+          {hasReview ? <h3>Your feedback</h3> : <h3>Write Reviews</h3>}
           <div className="score-review">
             <span>Score: </span>
-            {hasReview == true ? (
-              <StarRatings
-                rating={reviewMark}
-                starRatedColor="gold"
-                starEmptyColor="gray"
-                starDimension="24px"
-                starSpacing="2px"
-              />
-            ) : (
+            {(hasReview && isEdit) || !hasReview ? (
               <StarRatings
                 rating={reviewMark}
                 starRatedColor="gold"
@@ -651,11 +642,19 @@ export const MessageRoom: React.FC = () => {
                 starSpacing="2px"
                 changeRating={(e) => setReivewMark(Number(e))}
               />
+            ) : (
+              <StarRatings
+                rating={reviewMark}
+                starRatedColor="gold"
+                starEmptyColor="gray"
+                starDimension="24px"
+                starSpacing="2px"
+              />
             )}
           </div>
           <div className="review-textbox">
             <p>Review:</p>
-            {hasReview == false ? (
+            {hasReview == false || (hasReview && isEdit) ? (
               <div>
                 <textarea
                   placeholder="Write Review here..."
@@ -668,7 +667,7 @@ export const MessageRoom: React.FC = () => {
               <textarea value={reviewContent} readOnly />
             )}
           </div>
-          {hasReview == false && !isEdit ? (
+          {hasReview == false ? (
             <button onClick={reviewSaveHandler}>Save</button>
           ) : (
             <div className="button-group">
