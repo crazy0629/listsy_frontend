@@ -165,15 +165,17 @@ export const SalesPageSection: React.FC = () => {
           <LaundryFilter onChange={subFormChanged} />
         )}
 
-        {filter.itemCategory == "Cleaning Appliances" && <CleaningFilter />}
+        {filter.itemCategory == "Cleaning Appliances" && (
+          <CleaningFilter onChange={subFormChanged} />
+        )}
         {filter.itemCategory == "Heating, Cooling, and Air Quality" && (
-          <HeatingFilter />
+          <HeatingFilter onChange={subFormChanged} />
         )}
         {filter.itemCategory == "Personal Care Appliances" && (
-          <PersonalCareFilter />
+          <PersonalCareFilter onChange={subFormChanged} />
         )}
         {filter.itemCategory == "Miscellaneous Appliances" && (
-          <MiscellaneousFilter />
+          <MiscellaneousFilter onChange={subFormChanged} />
         )}
         {filter.itemCategory == "Cameras and Camcorders" && <CameraFilter />}
         {filter.itemCategory == "Portable Music Players" && <MusicFilter />}
