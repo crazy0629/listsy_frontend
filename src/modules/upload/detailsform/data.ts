@@ -1105,13 +1105,6 @@ export const selectData = {
         "Humidifiers",
         "Not Specified",
       ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
-      ],
       Condition: [
         "Brand New",
         "Open Box",
@@ -1183,7 +1176,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Heating: {
       SearchWithin: [
@@ -1303,7 +1296,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     PersonalCare: {
       SearchWithin: [
@@ -1323,13 +1316,6 @@ export const selectData = {
         "Shavers & Trimmers",
         "Massagers",
         "Not Specified",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -1416,7 +1402,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Miscellaneous: {
       SearchWithin: [
@@ -1461,7 +1447,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Camera: {
       SearchWithin: [
