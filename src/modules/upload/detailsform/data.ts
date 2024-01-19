@@ -1197,13 +1197,7 @@ export const selectData = {
         "Air Filters",
         "Not Specified",
       ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
-      ],
+
       Condition: [
         "Brand New",
         "Open Box",
@@ -1423,13 +1417,6 @@ export const selectData = {
         "Garbage Disposals",
         "Not Listed",
       ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
-      ],
       Condition: [
         "Brand New",
         "Open Box",
@@ -1459,13 +1446,6 @@ export const selectData = {
         "Within 100 miles",
         "Within 200 miles",
         "Nationwide",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -1636,7 +1616,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Music: {
       SearchWithin: [
@@ -1648,13 +1628,6 @@ export const selectData = {
         "Within 100 miles",
         "Within 200 miles",
         "Nationwide",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -1743,7 +1716,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Phone: {
       SearchWithin: [
@@ -2203,13 +2176,6 @@ export const selectData = {
         "Within 200 miles",
         "Nationwide",
       ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
-      ],
       Condition: [
         "Brand New",
         "Open Box",
@@ -2332,13 +2298,6 @@ export const selectData = {
         "Within 200 miles",
         "Nationwide",
       ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
-      ],
       Condition: [
         "Brand New",
         "Open Box",
@@ -2400,10 +2359,10 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Networking: {
-      SearchWithIn: [
+      SearchWithin: [
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2412,13 +2371,6 @@ export const selectData = {
         "Within 100 miles",
         "Within 200 miles",
         "Nationwide",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -2527,10 +2479,10 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     ComputerComponents: {
-      SearchWithIn: [
+      SearchWithin: [
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2539,13 +2491,6 @@ export const selectData = {
         "Within 100 miles",
         "Within 200 miles",
         "Nationwide",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -2599,10 +2544,10 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     OfficeEquipment: {
-      SearchWithIn: [
+      SearchWithin: [
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2611,13 +2556,6 @@ export const selectData = {
         "Within 100 miles",
         "Within 200 miles",
         "Nationwide",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -2664,10 +2602,10 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Security: {
-      SearchWithIn: [
+      SearchWithin: [
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2676,13 +2614,6 @@ export const selectData = {
         "Within 100 miles",
         "Within 200 miles",
         "Nationwide",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -2729,7 +2660,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Audio: {
       SearchWithIn: [
@@ -2741,13 +2672,6 @@ export const selectData = {
         "Within 100 miles",
         "Within 200 miles",
         "Nationwide",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -2801,10 +2725,10 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     HomeDevice: {
-      SearchWithIn: [
+      SearchWithin: [
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2813,13 +2737,6 @@ export const selectData = {
         "Within 100 miles",
         "Within 200 miles",
         "Nationwide",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -2859,10 +2776,10 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Batteries: {
-      SearchWithIn: [
+      SearchWithin: [
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2871,13 +2788,6 @@ export const selectData = {
         "Within 100 miles",
         "Within 200 miles",
         "Nationwide",
-      ],
-      PriceRange: [
-        "Under $25",
-        "$25 to $50",
-        "$50 to $100",
-        "$100 to $200",
-        "$200 & Above",
       ],
       Condition: [
         "Brand New",
@@ -2902,7 +2812,7 @@ export const selectData = {
         "Implied Warranty",
         "No Warranty / As-Is",
       ],
-      SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+      SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
   },
 
