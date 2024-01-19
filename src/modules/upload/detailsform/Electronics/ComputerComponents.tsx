@@ -11,7 +11,6 @@ type Props = {
 export const ComputerComponents: React.FC<Props> = ({ onSave }) => {
   const [form, setForm] = useState({
     itemCondition: "",
-    type: "",
     brand: "",
     warrantyInformation: "",
   });
@@ -21,8 +20,6 @@ export const ComputerComponents: React.FC<Props> = ({ onSave }) => {
       toast.error("Enter item condition");
     } else if (!form.brand) {
       toast.error("Enter brand");
-    } else if (!form.type) {
-      toast.error("Enter type");
     } else if (!form.warrantyInformation) {
       toast.error("Enter Warranty Information");
     } else {

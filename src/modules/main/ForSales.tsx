@@ -177,26 +177,41 @@ export const SalesPageSection: React.FC = () => {
         {filter.itemCategory == "Miscellaneous Appliances" && (
           <MiscellaneousFilter onChange={subFormChanged} />
         )}
-        {filter.itemCategory == "Cameras and Camcorders" && <CameraFilter />}
-        {filter.itemCategory == "Portable Music Players" && <MusicFilter />}
-        {filter.itemCategory == "Wearable Technology" && <WearableFilter />}
-        {filter.itemCategory == "Networking Devices" && <NetworkingFilter />}
+        {filter.itemCategory == "Cameras and Camcorders" && (
+          <CameraFilter onChange={subFormChanged} />
+        )}
+        {filter.itemCategory == "Portable Music Players" && (
+          <MusicFilter onChange={subFormChanged} />
+        )}
+        {filter.itemCategory == "Wearable Technology" && (
+          <WearableFilter onChange={subFormChanged} />
+        )}
+        {filter.itemCategory == "Networking Devices" && (
+          <NetworkingFilter onChange={subFormChanged} />
+        )}
         {filter.itemCategory == "Computer Components and Storage" && (
-          <ComputerComponentFilter />
+          <ComputerComponentFilter onChange={subFormChanged} />
         )}
-        {filter.itemCategory == "Office Equipment" && <OfficeFilter />}
+        {filter.itemCategory == "Office Equipment" && (
+          <OfficeFilter onChange={subFormChanged} />
+        )}
         {filter.itemCategory == "Security and Surveillance Equipment" && (
-          <SecurityFilter />
+          <SecurityFilter onChange={subFormChanged} />
         )}
-        {filter.itemCategory == "Audio Equipment" && <AudioFilter />}
-        {filter.itemCategory == "Smart Home Devices" && <HomeDeviceFilter />}
+        {filter.itemCategory == "Audio Equipment" && (
+          <AudioFilter onChange={subFormChanged} />
+        )}
+        {filter.itemCategory == "Smart Home Devices" && (
+          <HomeDeviceFilter onChange={subFormChanged} />
+        )}
         {filter.itemCategory == "Batteries and Power Supplies" && (
-          <BatteryFilter />
+          <BatteryFilter onChange={subFormChanged} />
         )}
         {filter.itemCategory == "Gaming Consoles and Accessories" && (
           <GamingConsoleFilter onChange={subFormChanged} />
         )}
         {filter.itemCategory == "Phones" && <PhoneFilter />}
+
         {/* <button onClick={() => getData(0)}>Search</button> */}
       </Styled.FilterWrapper>
       <Styled.MainGridWrapper>

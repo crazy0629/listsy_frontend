@@ -280,12 +280,10 @@ export const Details: React.FC<Props> = ({
               component.types.includes("country")
             ).short_name
           : null;
-
         fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
           .then((response) => response.json())
           .then((countryData) => {
             let currencySymbol = "";
-
             for (const key in countryData[0].currencies) {
               if (countryData[0].currencies.hasOwnProperty(key)) {
                 currencySymbol = countryData[0].currencies[key].symbol;
