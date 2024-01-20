@@ -61,6 +61,7 @@ export const CameraFilter: React.FC<Props> = ({ onChange }) => {
         itemBrand: selectData.forSale.Camera.Brands,
         itemWarrantyInformation: selectData.forSale.Camera.WarrantyInformation,
         itemType: selectData.forSale.Camera.Type,
+        itemMegapixels: selectData.forSale.Camera.Megapixels,
         itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
         address,
         countryCode,

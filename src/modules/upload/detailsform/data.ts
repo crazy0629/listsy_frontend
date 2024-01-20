@@ -1736,15 +1736,6 @@ export const selectData = {
         "Walkie Talkies",
       ],
       CellPhones: {
-        PriceRange: [
-          "Up to $50",
-          "$50 to $100",
-          "$100 to $150",
-          "$150 to $250",
-          "$250 to $400",
-          "$400 to $600",
-          "$600 & above",
-        ],
         Condition: [
           "Brand New",
           "Open Box",
@@ -1865,8 +1856,6 @@ export const selectData = {
         ScreenSizeRange: [
           '5"& under',
           '5" to 5.9"',
-          '5" to 5.9"',
-          '6" to 6.9"',
           '6" to 6.9"',
           '7" and over',
           "Foldable phones",
@@ -1942,7 +1931,7 @@ export const selectData = {
           "Implied Warranty",
           "No Warranty / As-Is",
         ],
-        SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+        SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
       },
       CellPhoneAccessories: {
         AccessoryType: [
@@ -1960,13 +1949,6 @@ export const selectData = {
           "Lightning Cables",
           "Not Specified",
         ],
-        PriceRange: [
-          "Under $25",
-          "$25 to $50",
-          "$50 to $100",
-          "$100 to $200",
-          "$200 & Above",
-        ],
         Condition: [
           "Brand New",
           "Open Box",
@@ -1984,7 +1966,7 @@ export const selectData = {
           "Implied Warranty",
           "No Warranty / As-Is",
         ],
-        SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+        SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
       },
       LandLine: {
         LandLineType: [
@@ -1992,13 +1974,6 @@ export const selectData = {
           "Corded Phones",
           "Coded & Cordless Combos",
         ],
-        PriceRange: [
-          "Under $25",
-          "$25 to $50",
-          "$50 to $100",
-          "$100 to $200",
-          "$200 & Above",
-        ],
         Condition: [
           "Brand New",
           "Open Box",
@@ -2073,7 +2048,7 @@ export const selectData = {
           "Implied Warranty",
           "No Warranty / As-Is",
         ],
-        SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+        SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
       },
       WalkieTalkies: {
         LandLineType: [
@@ -2081,13 +2056,6 @@ export const selectData = {
           "Corded Phones",
           "Coded & Cordless Combos",
         ],
-        PriceRange: [
-          "Under $25",
-          "$25 to $50",
-          "$50 to $100",
-          "$100 to $200",
-          "$200 & Above",
-        ],
         Condition: [
           "Brand New",
           "Open Box",
@@ -2162,7 +2130,7 @@ export const selectData = {
           "Implied Warranty",
           "No Warranty / As-Is",
         ],
-        SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+        SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
       },
     },
     GamingConsole: {
