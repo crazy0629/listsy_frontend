@@ -120,6 +120,24 @@ export const MultiSelection: React.FC<Props> = ({
                       return element.itemConnectivity === item;
                     } else if (type == "itemSupportedStandards") {
                       return element.itemSupportedStandards === item;
+                    } else if (type == "itemMegapixels") {
+                      return element.itemMegapixels === item;
+                    } else if (type == "itemWalkieTalkiesType") {
+                      return element.itemWalkieTalkiesType === item;
+                    } else if (type == "itemLandLineType") {
+                      return element.itemLandLineType === item;
+                    } else if (type == "itemAccessoryType") {
+                      return element.itemAccessoryType === item;
+                    } else if (type == "itemNetworkProvider") {
+                      return element.itemNetworkProvider === item;
+                    } else if (type == "itemScreenSizeRange") {
+                      return element.itemScreenSizeRange === item;
+                    } else if (type == "itemMemoryCapacity") {
+                      return element.itemMemoryCapacity === item;
+                    } else if (type == "itemCameraResolution") {
+                      return element.itemCameraResolution === item;
+                    } else if (type == "itemBatteryCapacity") {
+                      return element.itemBatteryCapacity === item;
                     }
                     return false; // Default case if type is neither "itemCondition" nor "itemResolution"
                   })[0]?.count

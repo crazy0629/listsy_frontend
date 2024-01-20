@@ -210,7 +210,9 @@ export const SalesPageSection: React.FC = () => {
         {filter.itemCategory == "Gaming Consoles and Accessories" && (
           <GamingConsoleFilter onChange={subFormChanged} />
         )}
-        {filter.itemCategory == "Phones" && <PhoneFilter />}
+        {filter.itemCategory == "Phones" && (
+          <PhoneFilter onChange={subFormChanged} />
+        )}
 
         {/* <button onClick={() => getData(0)}>Search</button> */}
       </Styled.FilterWrapper>

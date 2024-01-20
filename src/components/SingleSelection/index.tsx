@@ -69,6 +69,9 @@ export const SingleSelection: React.FC<Props> = ({
             {countList && countList.length > 0 && type == "itemSearchRange" && (
               <span>({countList[key].distance})</span>
             )}
+            {countList && countList.length > 0 && type == "itemType" && (
+              <span>({countList[key].count})</span>
+            )}
           </p>
         ))}
       </Styled.SelectOptionWrapper>

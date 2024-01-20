@@ -12,7 +12,7 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
   const [form, setForm] = useState({
     type: "",
     cellPhone: {
-      condition: "",
+      itemCondition: "",
       networkProvider: "",
       brand: "",
       operatingSystem: "",
@@ -25,18 +25,18 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
     },
     cellPhoneAccessories: {
       accessoryType: "",
-      condition: "",
+      itemCondition: "",
       warrantyInformation: "",
     },
     landLine: {
       landLineType: "",
-      condition: "",
+      itemCondition: "",
       brand: "",
       warrantyInformation: "",
     },
     walkieTalkies: {
       walkieTalkiesType: "",
-      condition: "",
+      itemCondition: "",
       brand: "",
       warrantyInformation: "",
     },
@@ -54,7 +54,7 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
         toast.error("Enter camera resolution");
       } else if (!form.cellPhone.colour) {
         toast.error("Enter colour");
-      } else if (!form.cellPhone.condition) {
+      } else if (!form.cellPhone.itemCondition) {
         toast.error("Enter item condition");
       } else if (!form.cellPhone.memoryCapacity) {
         toast.error("Enter memory capacity");
@@ -70,7 +70,7 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
         onSave({ type: form.type, ...form.cellPhone });
       }
     } else if (form.type == "Cell Phone Accessories") {
-      if (!form.cellPhoneAccessories.condition) {
+      if (!form.cellPhoneAccessories.itemCondition) {
         toast.error("Enter condition");
       } else if (!form.cellPhoneAccessories.accessoryType) {
         toast.error("Enter accessory type");
@@ -80,7 +80,7 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
         onSave({ type: form.type, ...form.cellPhoneAccessories });
       }
     } else if (form.type == "Landlines") {
-      if (!form.landLine.condition) {
+      if (!form.landLine.itemCondition) {
         toast.error("Enter condition");
       } else if (!form.landLine.brand) {
         toast.error("Enter brand");
@@ -92,7 +92,7 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
         onSave({ type: form.type, ...form.landLine });
       }
     } else if (form.type == "Walkie Talkies") {
-      if (!form.walkieTalkies.condition) {
+      if (!form.walkieTalkies.itemCondition) {
         toast.error("Enter condition");
       } else if (!form.walkieTalkies.brand) {
         toast.error("Enter brand");
@@ -122,11 +122,11 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
             data={selectData.forSale.Phone.CellPhones.Condition}
             label="Condition"
             placeholder="Select Condition"
-            value={form.cellPhone.condition}
+            value={form.cellPhone.itemCondition}
             onChange={(value) =>
               setForm((prev) => ({
                 ...prev,
-                cellPhone: { ...prev.cellPhone, condition: value },
+                cellPhone: { ...prev.cellPhone, itemCondition: value },
               }))
             }
           />
@@ -261,13 +261,13 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
             data={selectData.forSale.Phone.CellPhoneAccessories.Condition}
             label="Condition"
             placeholder="Select Condition"
-            value={form.cellPhoneAccessories.condition}
+            value={form.cellPhoneAccessories.itemCondition}
             onChange={(value) =>
               setForm((prev) => ({
                 ...prev,
                 cellPhoneAccessories: {
                   ...prev.cellPhoneAccessories,
-                  condition: value,
+                  itemCondition: value,
                 },
               }))
             }
@@ -312,13 +312,13 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
             data={selectData.forSale.Phone.LandLine.Condition}
             label="Condition"
             placeholder="Select Condition"
-            value={form.landLine.condition}
+            value={form.landLine.itemCondition}
             onChange={(value) =>
               setForm((prev) => ({
                 ...prev,
                 landLine: {
                   ...prev.landLine,
-                  condition: value,
+                  itemCondition: value,
                 },
               }))
             }
@@ -376,13 +376,13 @@ export const Phone: React.FC<Props> = ({ onSave }) => {
             data={selectData.forSale.Phone.WalkieTalkies.Condition}
             label="Condition"
             placeholder="Select Condition"
-            value={form.walkieTalkies.condition}
+            value={form.walkieTalkies.itemCondition}
             onChange={(value) =>
               setForm((prev) => ({
                 ...prev,
                 walkieTalkies: {
                   ...prev.walkieTalkies,
-                  condition: value,
+                  itemCondition: value,
                 },
               }))
             }
