@@ -11,6 +11,7 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { isValidPhoneNumber } from "libphonenumber-js";
+import { PetForm } from "./detailsform/PetForm";
 
 type Props = {
   adLink: string;
@@ -101,6 +102,38 @@ export const Details: React.FC<Props> = ({
       toast.error("PhoneNumber is not valid!");
     } else {
       const res = await axios.post(`${SERVER_URI}/sale/loadForSaleInfo`, {
+        ...data,
+        price,
+        priceUnit,
+        adId,
+        userId: authContext.user?.id,
+        ...location,
+        telephoneNumber,
+        phoneNumberShare,
+      });
+      if (res.data.success) {
+        setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
+        localStorage.setItem("token", res.data.token);
+        toast.success(res.data.message);
+        onNext();
+      } else {
+        toast.error(res.data.message);
+      }
+    }
+  };
+
+  const handlePetFormSave = async (data: any) => {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
+      toast.error("Enter the Price!");
+    } else if (
+      !isValidPhoneNumber(telephoneNumber) &&
+      authContext.user?.telephoneNumber == undefined
+    ) {
+      toast.error("PhoneNumber is not valid!");
+    } else {
+      const res = await axios.post(`${SERVER_URI}/pet/loadPetInfo`, {
         ...data,
         price,
         priceUnit,
@@ -304,6 +337,7 @@ export const Details: React.FC<Props> = ({
 
   const formComp: any = {
     sale: <ForSaleForm onSave={handleForSaleFormSave} />,
+    pet: <PetForm onSave={handlePetFormSave} />,
     garden: <ForSaleForm onSave={handleGardenFormSave} />,
     fashion: <ForSaleForm onSave={handleFashionFormSave} />,
     sports: <ForSaleForm onSave={handleSportsFormSave} />,
@@ -313,7 +347,6 @@ export const Details: React.FC<Props> = ({
     estate: <EstateForm onSave={handleEstateFormSave} />,
     truck: <TruckForm onSave={handleTruckFormSave} />,
     service: "service",
-    pet: "pet",
   };
 
   useEffect(() => {

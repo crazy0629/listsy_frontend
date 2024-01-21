@@ -5,7 +5,7 @@ import axios from "axios";
 import { SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { selectData } from "../upload/detailsform/data";
+import { selectData } from "../upload/detailsform/data-electronics";
 import { TelevisionFilter } from "./filters/electronics/TelevisionFilter";
 import { LapTopFilter } from "./filters/electronics/LaptopFilter";
 import { IpadFilter } from "./filters/electronics/IpadFilter";

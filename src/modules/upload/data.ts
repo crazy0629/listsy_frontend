@@ -33,7 +33,7 @@ export const categories = [
     label: "Toys and Games",
     key: "toys",
   },
-  { label: "Pets and Pet Supplies", key: "pets" },
+  { label: "Pets and Pet Supplies", key: "pet" },
   {
     label: "Furniture and Home Décor",
     key: "furniture",
