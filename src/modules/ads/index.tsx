@@ -19,6 +19,7 @@ import { ForSale } from "./ForSale";
 import { Auth as AuthContext } from "@/context/contexts";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { PetAd } from "./PetAd";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
@@ -193,14 +194,8 @@ export const AdsDetailsSection: React.FC = () => {
             </Swiper>
             <Styled.AdsDetailsInfoWrapper>
               {type === "sale" && <ForSale data={data} />}
-              {type === "estate" && <Estate data={data} />}
+              {type === "pet" && <PetAd data={data} />}
               {type === "truck" && <Truck data={data} />}
-              {type === "children" && <ForSale data={data} />}
-              {type === "sports" && <ForSale data={data} />}
-              {type === "fashion" && <ForSale data={data} />}
-              {type === "garden" && <ForSale data={data} />}
-              {type === "art" && <ForSale data={data} />}
-              {type === "education" && <ForSale data={data} />}
             </Styled.AdsDetailsInfoWrapper>
           </Styled.AdsDetailsThumbWrapper>
         </Styled.AdsDetailsContainer>

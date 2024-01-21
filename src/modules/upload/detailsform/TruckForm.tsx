@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as Styled from "./details.styles";
 import { SingleSelection } from "@/components";
-import { selectData } from "./data";
+import { selectData } from "./data-electronics";
 import { toast } from "react-toastify";
 
 type Props = {
