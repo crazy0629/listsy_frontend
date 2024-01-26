@@ -213,8 +213,6 @@ export const SalesPageSection: React.FC = () => {
         {filter.itemCategory == "Phones" && (
           <PhoneFilter onChange={subFormChanged} />
         )}
-
-        {/* <button onClick={() => getData(0)}>Search</button> */}
       </Styled.FilterWrapper>
       <Styled.MainGridWrapper>
         <InfiniteScroll
@@ -228,7 +226,7 @@ export const SalesPageSection: React.FC = () => {
           {data.length > 0 &&
             data.map((item: any, key: number) => (
               <CardItem
-                id={item.adId._id}
+                id={item.adId?._id}
                 key={key}
                 type={"sale"}
                 link={item.adId?.adFileName}
