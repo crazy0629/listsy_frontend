@@ -1,6 +1,6 @@
 export const selectData = {
   pet: {
-    category: ["Pets for sale", "Pets for adoption", "Pet Supplies"],
+    category: ["All", "Pets for sale", "Pets for adoption", "Pet Supplies"],
     PetsSupplies: {
       Type: [
         "Food",
@@ -27,6 +27,17 @@ export const selectData = {
       SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     },
     Petsforsale: {
+      SearchWithin: [
+        "Current location",
+        "Within 1 mile",
+        "Within 5 miles",
+        "Within 15 miles",
+        "Within 30 miles",
+        "Within 50 miles",
+        "Within 100 miles",
+        "Within 200 miles",
+        "Nationwide",
+      ],
       Type: [
         "Dogs",
         "Cats",
@@ -40,17 +51,6 @@ export const selectData = {
         "Amphibian",
       ],
       Dogs: {
-        SearchWithin: [
-          "Current location",
-          "Within 1 mile",
-          "Within 5 miles",
-          "Within 15 miles",
-          "Within 30 miles",
-          "Within 50 miles",
-          "Within 100 miles",
-          "Within 200 miles",
-          "Nationwide",
-        ],
         Breed: [
           "Affenpinscher",
           "Afghan Hound",

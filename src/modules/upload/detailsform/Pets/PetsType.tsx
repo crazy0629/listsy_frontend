@@ -76,8 +76,124 @@ export const PetsType: React.FC<Props> = ({ onSave }) => {
   const handleSave = () => {
     if (!form.petsType) {
       toast.error("Select pet type");
-    } else {
-      onSave(form);
+    } else if (form.petsType == "Dogs") {
+      if (!form.dogs.breed) {
+        toast.error("Select breed");
+      } else if (!form.dogs.age) {
+        toast.error("Select age");
+      } else if (!form.dogs.gender) {
+        toast.error("Select gender");
+      } else if (!form.dogs.vaccinations) {
+        toast.error("Select vaccinations");
+      } else {
+        onSave({ petKind: form.petsType, ...form.dogs });
+      }
+    } else if (form.petsType == "Cats") {
+      if (!form.cats.breed) {
+        toast.error("Select breed");
+      } else if (!form.cats.age) {
+        toast.error("Select age");
+      } else if (!form.cats.gender) {
+        toast.error("Select gender");
+      } else if (!form.cats.vaccinations) {
+        toast.error("Select vaccinations");
+      } else {
+        onSave({ petKind: form.petsType, ...form.cats });
+      }
+    } else if (form.petsType == "Birds") {
+      if (!form.birds.breed) {
+        toast.error("Select breed");
+      } else if (!form.birds.age) {
+        toast.error("Select age");
+      } else if (!form.birds.gender) {
+        toast.error("Select gender");
+      } else {
+        onSave({ petKind: form.petsType, ...form.birds });
+      }
+    } else if (form.petsType == "Fish") {
+      if (!form.fish.species) {
+        toast.error("Select species");
+      } else if (!form.fish.tankSize) {
+        toast.error("Select tank size requirements");
+      } else if (!form.fish.careLevel) {
+        toast.error("Select gender");
+      } else {
+        onSave({ petKind: form.petsType, ...form.fish });
+      }
+    } else if (form.petsType == "Reptile") {
+      if (!form.reptiles.species) {
+        toast.error("Select species");
+      } else if (!form.reptiles.age) {
+        toast.error("Select age");
+      } else if (!form.reptiles.gender) {
+        toast.error("Select gender");
+      } else if (!form.reptiles.size) {
+        toast.error("Select size");
+      } else {
+        onSave({ petKind: form.petsType, ...form.reptiles });
+      }
+    } else if (form.petsType == "Rabbits") {
+      if (!form.rabbits.breed) {
+        toast.error("Select breed");
+      } else if (!form.rabbits.age) {
+        toast.error("Select age");
+      } else if (!form.rabbits.gender) {
+        toast.error("Select gender");
+      } else if (!form.rabbits.vaccinations) {
+        toast.error("Select vaccinations");
+      } else {
+        onSave({ petKind: form.petsType, ...form.rabbits });
+      }
+    } else if (form.petsType == "Rodents") {
+      if (!form.rodents.species) {
+        toast.error("Select species");
+      } else if (!form.rodents.age) {
+        toast.error("Select age");
+      } else if (!form.rodents.gender) {
+        toast.error("Select gender");
+      } else {
+        onSave({ petKind: form.petsType, ...form.rodents });
+      }
+    } else if (form.petsType == "Livestock") {
+      if (!form.livestock.type) {
+        toast.error("Select type");
+      } else if (!form.livestock.age) {
+        toast.error("Select age");
+      } else if (!form.livestock.gender) {
+        toast.error("Select gender");
+      } else {
+        onSave({ petKind: form.petsType, ...form.livestock });
+      }
+    } else if (form.petsType == "Horses") {
+      if (!form.horses.breed) {
+        toast.error("Select breed");
+      } else if (!form.horses.age) {
+        toast.error("Select age");
+      } else if (!form.horses.gender) {
+        toast.error("Select gender");
+      } else if (!form.horses.trainingLevel) {
+        toast.error("Select training level");
+      } else if (!form.horses.vaccinations) {
+        toast.error("Select vaccinations");
+      } else if (!form.horses.healthCertification) {
+        toast.error("Select health certification");
+      } else if (!form.horses.hoofCare) {
+        toast.error("Select hoof care");
+      } else if (!form.horses.insurance) {
+        toast.error("Select insurance");
+      } else {
+        onSave({ petKind: form.petsType, ...form.horses });
+      }
+    } else if (form.petsType == "Amphibian") {
+      if (!form.amphibian.species) {
+        toast.error("Select species");
+      } else if (!form.amphibian.age) {
+        toast.error("Select age");
+      } else if (!form.amphibian.gender) {
+        toast.error("Select gender");
+      } else {
+        onSave({ petKind: form.petsType, ...form.amphibian });
+      }
     }
   };
 
