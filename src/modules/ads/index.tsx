@@ -12,7 +12,6 @@ import { Rating } from "react-simple-star-rating";
 import { BsBookmark, BsClock, BsFlag } from "react-icons/bs";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { BiLike } from "react-icons/bi";
-import { Estate } from "./Estate";
 import { Truck } from "./Truck";
 import { ImageModal } from "./ImageModal";
 import { ForSale } from "./ForSale";
@@ -25,9 +24,11 @@ export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
   const { id, type } = router.query;
   const [data, setData] = useState<any>(null);
+  const [reviews, setReviews] = useState<any>(null);
   const [imageModal, setImageModal] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const { authContext } = useContext<any>(AuthContext);
+  const [showReview, setShowReview] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -61,6 +62,22 @@ export const AdsDetailsSection: React.FC = () => {
       return;
     }
     router.push(`/message/${receiverId}`);
+  };
+
+  const handleShowReview = async () => {
+    if (showReview) {
+      setShowReview(false);
+    } else {
+      const res = await axios.post(`${SERVER_URI}/review/getAllReviews`, {
+        toUserId: data.userId._id,
+      });
+
+      if (res.data.success) {
+        setShowReview(true);
+        console.log(res.data.data);
+        setReviews(res.data.data);
+      }
+    }
   };
 
   return (
@@ -158,7 +175,6 @@ export const AdsDetailsSection: React.FC = () => {
                 </div>
               </Styled.UserInfoWrapper>
               <p>{data?.description}</p>
-              <span>Show Reviews</span>
               <div className="action">
                 <button>
                   <MdOutlineShare size={20} />
@@ -169,6 +185,59 @@ export const AdsDetailsSection: React.FC = () => {
                   <span>Report</span>
                 </button>
               </div>
+              {/* {!showReview && ( */}
+              <span onClick={handleShowReview}>
+                {showReview ? "Less" : "Show"} Reviews
+              </span>
+              {/* )} */}
+              {showReview && (
+                <Styled.ReviewsWrapper>
+                  <Styled.ReviewItemWrapper>
+                    {reviews.map((item: any, key: number) => (
+                      <div className="user-info" key={key}>
+                        {item?.fromUserId?.avatar ? (
+                          <Image
+                            src={`${
+                              SERVER_UPLOAD_URI + item?.fromUserId?.avatar
+                            }`}
+                            alt="avatar"
+                            width={40}
+                            height={40}
+                          />
+                        ) : (
+                          <Styled.UserAvatar className="review-avatar">
+                            {item?.fromUserId?.firstName[0] +
+                              item?.fromUserId?.lastName[0]}
+                          </Styled.UserAvatar>
+                        )}
+                        <div className="review-name">
+                          <h5>
+                            <span>
+                              {item?.fromUserId?.firstName +
+                                " " +
+                                item?.fromUserId?.lastName}
+                            </span>
+                          </h5>
+                        </div>
+                        <div className="review">
+                          <Rating
+                            initialValue={item?.reviewMark}
+                            size={12}
+                            disableFillHover
+                            allowHover={false}
+                            readonly
+                            onClick={() => {}}
+                          />
+                          <p>{Number(item?.reviewMark).toFixed(1)}</p>
+                        </div>
+                        <p className="review-description">
+                          {item?.reviewContent}
+                        </p>
+                      </div>
+                    ))}
+                  </Styled.ReviewItemWrapper>
+                </Styled.ReviewsWrapper>
+              )}
             </Styled.VideoInfoWrapper>
           </Styled.AdsDetailsVideoInfoWrapper>
           <Styled.AdsDetailsThumbWrapper>

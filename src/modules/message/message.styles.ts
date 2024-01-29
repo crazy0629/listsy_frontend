@@ -38,6 +38,10 @@ export const MessageUserListWrapper = styled.div`
   border-right: 1px solid #eaeaea;
   display: flex;
   flex-direction: column;
+  h5 {
+    text-align: center;
+    padding-top: 20px;
+  }
   .user-search {
     padding: 18px 40px;
     display: flex;
@@ -131,26 +135,66 @@ export const MessageUserListItem = styled.div`
     background: #eaeaea70;
   }
   img {
+    min-width: 50px;
     object-fit: cover;
     margin-right: 24px;
     border-radius: 999px;
   }
-  div {
+  & > div.message-user {
+    flex: 1;
     h3 {
       color: #000;
       font-size: 16px;
       font-weight: 600;
       margin-bottom: 4px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
-    p {
+    /* p {
       color: #000;
       font-size: 14px;
       font-weight: 400;
-      line-height: 20.4px; /* 145.714% */
-    }
+      line-height: 20.4px; 
+    } */
   }
   @media screen and (max-width: 768px) {
     padding: 16px 20px;
+  }
+`;
+
+export const MessageAction = styled.div`
+  position: relative;
+  span {
+    width: 30px;
+    height: 30px;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background: #00000020;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+  }
+  div {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    background-color: #fff;
+    border: 1px solid #00000020;
+    padding: 10px 0;
+    border-radius: 10px;
+    p {
+      font-size: 14px;
+      white-space: nowrap;
+      padding: 10px;
+      cursor: pointer;
+      &:hover {
+        background: #00000020;
+      }
+    }
   }
 `;
 

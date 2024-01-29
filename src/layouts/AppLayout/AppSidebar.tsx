@@ -279,7 +279,11 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
             {mainNav
               .slice(0, isReadMore ? mainNav.length / 3 : mainNav.length)
               .map((item, key) => (
-                <Styled.SidebarMainNavItem href={item.href} key={key}>
+                <Styled.SidebarMainNavItem
+                  href={item.href}
+                  key={key}
+                  data-tooltip-id={`sidebar-${key}`}
+                >
                   <Image
                     src={`/assets/images/categoryImage/${item.icon}.png`}
                     alt={`${item.icon}`}
@@ -287,9 +291,15 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
                     height={24}
                   />
                   <span>{item.label}</span>
+                  <ReactTooltip
+                    id={"sidebar-" + key}
+                    place="top"
+                    content={item.label}
+                    style={{ width: 240, textAlign: "center" }}
+                  />
                 </Styled.SidebarMainNavItem>
               ))}
-            <Styled.ShowMoreOrLess>
+            <Styled.ShowMoreOrLess onClick={toggleReadMore}>
               <Image
                 src={
                   isReadMore
@@ -300,9 +310,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
                 width={20}
                 height={20}
               />
-              <span onClick={toggleReadMore}>
-                {isReadMore ? "Show More" : " Show Less"}
-              </span>
+              <span>{isReadMore ? "Show More" : " Show Less"}</span>
             </Styled.ShowMoreOrLess>
           </div>
           <Styled.SidebarCommunity>

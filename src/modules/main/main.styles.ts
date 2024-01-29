@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const MainPageSectionWrapper = styled.div`
-  border-top: 1px solid #eaeaea;
+  /* border-top: 1px solid #eaeaea; */
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -9,16 +9,20 @@ export const MainPageSectionWrapper = styled.div`
 `;
 
 export const PostsPageFilterWrapper = styled.div`
-  display: flex;
-  align-items: center;
+  width: 100%;
+  /* align-items: center; */
   overflow: auto;
+  display: flex;
   span {
-    border-radius: 100px;
-    margin-bottom: 12px;
-    padding: 6px 12px;
+    display: flex;
+    width: fit-content;
     margin-right: 8px;
+    max-width: 250px;
+    border-radius: 100px;
+    padding: 6px 12px;
     white-space: nowrap;
     transition: all 0.3s;
+    margin-bottom: 10px;
     font-size: 10px;
     font-weight: 400;
     background: #eaeaea;
@@ -29,6 +33,23 @@ export const PostsPageFilterWrapper = styled.div`
       background: #ff6f00;
       color: #fff;
     }
+  }
+  .swiper-wrapper {
+    padding: 5px 0;
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    &::after {
+      font-size: 20px;
+      font-weight: 900;
+      color: black;
+    }
+  }
+  .swiper-button-next {
+    right: 0;
+  }
+  .swiper-button-prev {
+    left: 0;
   }
   @media screen and (max-width: 500px) {
     flex-wrap: wrap;

@@ -145,6 +145,7 @@ export const VideoInfoWrapper = styled.div`
   .action {
     display: flex;
     justify-content: flex-end;
+
     button {
       margin-left: 16px;
       span {
@@ -361,4 +362,42 @@ export const ImageModalOverlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+`;
+
+export const ReviewsWrapper = styled.div`
+  margin-top: 20px;
+  border-top: 1px solid #00000010;
+`;
+
+export const ReviewItemWrapper = styled.div`
+  margin-left: 60px;
+
+  .user-info {
+    border-bottom: 1px solid #00000010;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    .review {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      p {
+        font-size: 12px;
+        margin-left: 8px;
+      }
+    }
+    .review-name {
+      margin-left: 12px;
+    }
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+    }
+    .review-description {
+      margin-top: 12px;
+    }
+  }
 `;

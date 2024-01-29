@@ -12,12 +12,13 @@ import { SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
 import { Auth as AuthContext } from "@/context/contexts";
 import io from "socket.io-client";
-import { BsCheck, BsCheck2All, BsReply } from "react-icons/bs";
+import { BsCheck, BsCheck2All, BsReply, BsThreeDots } from "react-icons/bs";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { FaRegCopy } from "react-icons/fa";
 import axios from "axios";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { ConfirmModal } from "@/components";
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -40,11 +41,23 @@ export const MessageRoom: React.FC = () => {
   const [recentMessageTime, setRecentMessageTime] = useState("");
   const [showMenu, setShowMenu] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const [messageActionData, setMessageActionData] = useState({
+    fromUserId: "",
+    toUserId: "",
+  });
 
   const [reviewMark, setReivewMark] = useState(0);
   const [reviewContent, setReviewContent] = useState<string>("");
   const [hasReview, setHasReview] = useState(false);
   const [isEdit, setIsEdit] = useState(true);
+  const [isMessageAction, setIsMessageAction] = useState(-1);
+  const [uploadCancelModal, setUploadCancelModal] = useState({
+    visible: false,
+    title: "",
+    description: "",
+    // func: () => {},
+  });
+  const messageActionRef = useRef<any>(null);
 
   useEffect(() => {
     if (authContext.user) {
@@ -59,6 +72,26 @@ export const MessageRoom: React.FC = () => {
       router.push("/auth/login");
     }
   }, []);
+
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
+    const handleClickOutside = (event: any) => {
+      if (
+        messageActionRef.current &&
+        !messageActionRef.current.contains(event.target)
+      ) {
+        setIsMessageAction(-1);
+      }
+    };
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [messageActionRef]);
 
   useEffect(() => {
     const handleAddNewMsgEvent = (data) => {
@@ -337,8 +370,74 @@ export const MessageRoom: React.FC = () => {
   };
 */
 
+  const handleDeleteMessageClick = (toUserId: string) => {
+    setMessageActionData({
+      fromUserId: authContext.user.id,
+      toUserId: toUserId,
+    });
+
+    setUploadCancelModal({
+      visible: true,
+      title: "Are you sure?",
+      description:
+        "If you delete message history, You can't recover it again. Are you sure you want to delete it?",
+      // func: handleDeleteMessage,
+    });
+  };
+
+  const handleBlockMessageClick = () => {
+    setUploadCancelModal({
+      visible: true,
+      title: "Are you sure?",
+      description:
+        "If you block user, You can't send or receive message from that user. Are you sure you want to block it?",
+      // func: handleBlockMessage,
+    });
+  };
+
+  const handleDeleteMessage = async () => {
+    const res = await axios.post(
+      `${SERVER_URI}/chat/deleteConversation`,
+      messageActionData
+    );
+    if (res.data.success) {
+      socket.emit("addChatUserList", {
+        senderId: authContext.user.id,
+        receiverId: "no-user",
+      });
+      setUploadCancelModal({
+        visible: false,
+        title: "",
+        description: "",
+        // func: () => {},
+      });
+    } else {
+      toast.warn(res.data.message);
+    }
+  };
+
+  const handleBlockMessage = () => {};
+
   return (
     <Styled.MessageRoomWrapper>
+      <ConfirmModal
+        onCancel={() => {
+          setUploadCancelModal({
+            visible: false,
+            title: "",
+            description: "",
+            // func: () => {},
+          });
+          setMessageActionData({ fromUserId: "", toUserId: "" });
+        }}
+        open={uploadCancelModal.visible}
+        cancelText="No"
+        okText="Yes"
+        onOk={handleDeleteMessage}
+        type="warning"
+        description={uploadCancelModal.description}
+        title={uploadCancelModal.title}
+      />
       <div
         className={`mobile-user-list ${isMobileUserList ? "open" : ""}`}
         onClick={() => setIsMobileUserList((prev) => !prev)}
@@ -384,9 +483,22 @@ export const MessageRoom: React.FC = () => {
                         item.lastName[0].toString().toUpperCase()}
                     </h6>
                   )}
-                  <div>
+                  <div className="message-user">
                     <h3>{item.firstName + " " + item.lastName}</h3>
                   </div>
+                  <Styled.MessageAction>
+                    <span onClick={() => setIsMessageAction(key)}>
+                      <BsThreeDots />
+                    </span>
+                    {key === isMessageAction && (
+                      <div ref={messageActionRef}>
+                        <p onClick={() => handleDeleteMessageClick(item._id)}>
+                          Delete Conversation
+                        </p>
+                        <p onClick={handleBlockMessageClick}>Block User</p>
+                      </div>
+                    )}
+                  </Styled.MessageAction>
                 </Styled.MessageUserListItem>
               </React.Fragment>
             ))

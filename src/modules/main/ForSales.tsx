@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as Styled from "./main.styles";
-import { CardItem, SingleSelection } from "@/components";
+import { CardItem } from "@/components";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Navigation } from "swiper/modules";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { selectData } from "../upload/detailsform/data-electronics";
