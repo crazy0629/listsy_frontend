@@ -16,7 +16,6 @@ import { UploadModal } from "@/modules/upload";
 import { ConfirmModal } from "@/components";
 import axios from "axios";
 import { MdMailOutline } from "react-icons/md";
-import { AiOutlinePlusCircle } from "react-icons/ai";
 
 export const Header: React.FC<{
   onSidebar: () => void;

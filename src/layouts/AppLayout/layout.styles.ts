@@ -49,6 +49,7 @@ export const HeaderNavWrapper = styled.div`
     &.upload {
       flex-direction: column;
       justify-content: flex-start;
+      white-space: nowrap;
       h6 {
         @media screen and (max-width: 1000px) {
           display: none;
@@ -382,6 +383,9 @@ export const SidebarMainNavItem = styled(Link)`
     font-size: 14px;
     font-weight: 400;
     line-height: 20.4px; /* 145.714% */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
   &:hover {
     background: #eaeaea70;
@@ -412,6 +416,7 @@ export const SidebarCountrySelect = styled.div`
 `;
 
 export const AppSidebarWrapper = styled.div`
+  box-shadow: 0 0 5px 5px solid #00000030;
   width: 240px;
   position: fixed;
   height: calc(100vh - 85px);
