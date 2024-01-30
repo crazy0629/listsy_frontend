@@ -1,6 +1,6 @@
-import { MultiSelection, SingleSelection } from "@/components";
+import { InputRange, MultiSelection, SingleSelection } from "@/components";
 import React, { useEffect, useRef, useState } from "react";
-import { FilterWrapper } from "../../main.styles";
+import { FilterOptionWrapper, ShowAdvancedFilter } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/data-electronics";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
@@ -24,6 +24,7 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
     centerLocationSelected: false,
     selectedLocation: null,
   });
+  const [isAdvancedFilter, setIsAdvancedFilter] = useState(false);
 
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -184,132 +185,130 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
     setPriceChanged(true);
   };
 
-  const validateNumberInput = (e) => {
-    const regex = /^[0-9]*$/; // Regular expression to match numbers from 0 to 9
-
-    if (!regex.test(e.target.value)) {
-      e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove any non-numeric characters
-    }
-  };
-
   return (
-    <FilterWrapper>
-      {adCnt != null && (
-        <>
-          <SingleSelection
-            data={selectData.forSale.Televisions.SearchWithin}
-            placeholder="Select Search Range"
-            value={filter.SearchWithin}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, SearchWithin: value }))
-            }
-            type="itemSearchRange"
-            countList={adCnt.itemRangeInfo}
-          />
-          <div>
-            <span>{currency}</span>
-            <input
-              type="text"
-              placeholder="min price"
-              value={minPrice}
-              onChange={handleMinPrice}
-              onInput={validateNumberInput}
+    adCnt != null && (
+      <>
+        <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
+        <SingleSelection
+          data={selectData.forSale.Televisions.SearchWithin}
+          placeholder="Select Search Range"
+          value={filter.SearchWithin}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, SearchWithin: value }))
+          }
+          type="itemSearchRange"
+          countList={adCnt.itemRangeInfo}
+        />
+        <InputRange
+          value1={minPrice}
+          value2={maxPrice}
+          placeholder1="Min price"
+          placeholder2="Max price"
+          type1="number"
+          type2="number"
+          onChange1={handleMinPrice}
+          onChange2={handleMaxPrice}
+          prefix1={currency}
+          prefix2={currency}
+          suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+        />
+
+        <MultiSelection
+          data={selectData.forSale.Televisions.Condition}
+          placeholder="Select Item Condition"
+          value={filter.itemCondition}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, itemCondition: value }))
+          }
+          type="itemCondition"
+          countList={adCnt.itemCondition}
+        />
+        <MultiSelection
+          data={selectData.forSale.Televisions.Brand}
+          placeholder="Select Brand"
+          value={filter.brand}
+          onChange={(value) => setFilter((prev) => ({ ...prev, brand: value }))}
+          type="itemBrand"
+          countList={adCnt.itemBrand}
+        />
+
+        {isAdvancedFilter && (
+          <>
+            <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+            <MultiSelection
+              data={selectData.forSale.Televisions.ScreenSize}
+              placeholder="Select Screen Size"
+              value={filter.screenSize}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, screenSize: value }))
+              }
+              type="screenSize"
+              countList={adCnt.screenSize}
             />
-            <span>-</span>
-            <span>{currency}</span>
-            <input
-              type="text"
-              placeholder="max price"
-              value={maxPrice}
-              onChange={handleMaxPrice}
-              onInput={validateNumberInput}
+            <MultiSelection
+              data={selectData.forSale.Televisions.Resolution}
+              placeholder="Select Resolution"
+              value={filter.resolution}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, resolution: value }))
+              }
+              type="itemResolution"
+              countList={adCnt.itemResolution}
             />
-            {adCnt.itemPriceRange != -1 && (
-              <span>({adCnt.itemPriceRange})</span>
-            )}
-          </div>
-          <MultiSelection
-            data={selectData.forSale.Televisions.Condition}
-            placeholder="Select Item Condition"
-            value={filter.itemCondition}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, itemCondition: value }))
-            }
-            type="itemCondition"
-            countList={adCnt.itemCondition}
-          />
-          <MultiSelection
-            data={selectData.forSale.Televisions.ScreenSize}
-            placeholder="Select Screen Size"
-            value={filter.screenSize}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, screenSize: value }))
-            }
-            type="screenSize"
-            countList={adCnt.screenSize}
-          />
-          <MultiSelection
-            data={selectData.forSale.Televisions.Resolution}
-            placeholder="Select Resolution"
-            value={filter.resolution}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, resolution: value }))
-            }
-            type="itemResolution"
-            countList={adCnt.itemResolution}
-          />
-          <MultiSelection
-            data={selectData.forSale.Televisions.Brand}
-            placeholder="Select Brand"
-            value={filter.brand}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, brand: value }))
-            }
-            type="itemBrand"
-            countList={adCnt.itemBrand}
-          />
-          <MultiSelection
-            data={selectData.forSale.Televisions.SmartTV}
-            placeholder="Select Smart TV"
-            value={filter.smartTV}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, smartTV: value }))
-            }
-            type="itemSmartTV"
-            countList={adCnt.itemSmartTV}
-          />
-          <MultiSelection
-            data={selectData.forSale.Televisions.Colour}
-            placeholder="Select Colour"
-            value={filter.colour}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, colour: value }))
-            }
-            type="itemColour"
-            countList={adCnt.itemColour}
-          />
-          <MultiSelection
-            data={selectData.forSale.Televisions.WarrantyInformation}
-            placeholder="Select Warranty Information"
-            value={filter.warrantyInformation}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, warrantyInformation: value }))
-            }
-            type="itemWarrantyInformation"
-            countList={adCnt.itemWarrantyInformation}
-          />
-          <MultiSelection
-            data={selectData.forSale.Televisions.SellerRating}
-            placeholder="Select Sellor Rating"
-            value={filter.sellerRating}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, sellerRating: value }))
-            }
-            type="itemSellerRating"
-            countList={adCnt.itemSellerRating}
-          />
-        </>
-      )}
-    </FilterWrapper>
+
+            <MultiSelection
+              data={selectData.forSale.Televisions.SmartTV}
+              placeholder="Select Smart TV"
+              value={filter.smartTV}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, smartTV: value }))
+              }
+              type="itemSmartTV"
+              countList={adCnt.itemSmartTV}
+            />
+            <MultiSelection
+              data={selectData.forSale.Televisions.Colour}
+              placeholder="Select Colour"
+              value={filter.colour}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, colour: value }))
+              }
+              type="itemColour"
+              countList={adCnt.itemColour}
+              direction="top"
+            />
+            <MultiSelection
+              data={selectData.forSale.Televisions.WarrantyInformation}
+              placeholder="Select Warranty Information"
+              value={filter.warrantyInformation}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, warrantyInformation: value }))
+              }
+              type="itemWarrantyInformation"
+              countList={adCnt.itemWarrantyInformation}
+              direction="top"
+            />
+            <MultiSelection
+              data={selectData.forSale.Televisions.SellerRating}
+              placeholder="Select Sellor Rating"
+              value={filter.sellerRating}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, sellerRating: value }))
+              }
+              type="itemSellerRating"
+              countList={adCnt.itemSellerRating}
+              direction="top"
+            />
+          </>
+        )}
+        <ShowAdvancedFilter
+          onClick={() => setIsAdvancedFilter((prev) => !prev)}
+        >
+          {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+        </ShowAdvancedFilter>
+      </>
+      // )}
+      // </FilterWrapper>
+    )
   );
 };

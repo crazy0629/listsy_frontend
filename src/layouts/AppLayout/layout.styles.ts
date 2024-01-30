@@ -383,9 +383,9 @@ export const SidebarMainNavItem = styled(Link)`
     font-size: 14px;
     font-weight: 400;
     line-height: 20.4px; /* 145.714% */
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
+    overflow: hidden; */
   }
   &:hover {
     background: #eaeaea70;

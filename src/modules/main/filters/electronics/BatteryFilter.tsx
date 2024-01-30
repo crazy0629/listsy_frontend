@@ -1,6 +1,10 @@
-import { MultiSelection, SingleSelection } from "@/components";
+import { InputRange, MultiSelection, SingleSelection } from "@/components";
 import React, { useEffect, useRef, useState } from "react";
-import { FilterWrapper } from "../../main.styles";
+import {
+  FilterOptionWrapper,
+  FilterWrapper,
+  ShowAdvancedFilter,
+} from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/data-electronics";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
@@ -23,6 +27,7 @@ export const BatteryFilter: React.FC<Props> = ({ onChange }) => {
 
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [isAdvancedFilter, setIsAdvancedFilter] = useState(false);
 
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
@@ -176,92 +181,82 @@ export const BatteryFilter: React.FC<Props> = ({ onChange }) => {
     setPriceChanged(true);
   };
 
-  const validateNumberInput = (e) => {
-    const regex = /^[0-9]*$/; // Regular expression to match numbers from 0 to 9
-
-    if (!regex.test(e.target.value)) {
-      e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove any non-numeric characters
-    }
-  };
-
   return (
-    <FilterWrapper>
-      {adCnt != null && (
-        <>
-          <SingleSelection
-            data={selectData.forSale.Batteries.SearchWithin}
-            placeholder="Select Search Range"
-            value={filter.SearchWithin}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, SearchWithin: value }))
-            }
-            type="itemSearchRange"
-            countList={adCnt.itemRangeInfo}
-          />
-          <div>
-            <span>{currency}</span>
-            <input
-              type="text"
-              placeholder="min price"
-              value={minPrice}
-              onChange={handleMinPrice}
-              onInput={validateNumberInput}
+    adCnt != null && (
+      <>
+        <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
+        <SingleSelection
+          data={selectData.forSale.Batteries.SearchWithin}
+          placeholder="Select Search Range"
+          value={filter.SearchWithin}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, SearchWithin: value }))
+          }
+          type="itemSearchRange"
+          countList={adCnt.itemRangeInfo}
+        />
+        <InputRange
+          value1={minPrice}
+          value2={maxPrice}
+          placeholder1="Min price"
+          placeholder2="Max price"
+          type1="number"
+          type2="number"
+          onChange1={handleMinPrice}
+          onChange2={handleMaxPrice}
+          prefix1={currency}
+          prefix2={currency}
+          suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+        />
+        <MultiSelection
+          data={selectData.forSale.Batteries.Condition}
+          placeholder="Select Item Condition"
+          value={filter.itemCondition}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, itemCondition: value }))
+          }
+          type="itemCondition"
+          countList={adCnt.itemCondition}
+        />
+        <MultiSelection
+          data={selectData.forSale.Batteries.Type}
+          placeholder="Select Type"
+          value={filter.type}
+          onChange={(value) => setFilter((prev) => ({ ...prev, type: value }))}
+          type="itemType"
+          countList={adCnt.itemType}
+        />
+        {isAdvancedFilter && (
+          <>
+            <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+            <MultiSelection
+              data={selectData.forSale.Batteries.WarrantyInformation}
+              placeholder="Select Warranty Information"
+              value={filter.warrantyInformation}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, warrantyInformation: value }))
+              }
+              type="itemWarrantyInformation"
+              countList={adCnt.itemWarrantyInformation}
             />
-            <span>-</span>
-            <span>{currency}</span>
-            <input
-              type="text"
-              placeholder="max price"
-              value={maxPrice}
-              onChange={handleMaxPrice}
-              onInput={validateNumberInput}
+            <MultiSelection
+              data={selectData.forSale.Batteries.SellerRating}
+              placeholder="Select Sellor Rating"
+              value={filter.sellerRating}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, sellerRating: value }))
+              }
+              type="itemSellerRating"
+              countList={adCnt.itemSellerRating}
             />
-            {adCnt.itemPriceRange != -1 && (
-              <span>({adCnt.itemPriceRange})</span>
-            )}
-          </div>
-          <MultiSelection
-            data={selectData.forSale.Batteries.Condition}
-            placeholder="Select Item Condition"
-            value={filter.itemCondition}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, itemCondition: value }))
-            }
-            type="itemCondition"
-            countList={adCnt.itemCondition}
-          />
-          <MultiSelection
-            data={selectData.forSale.Batteries.Type}
-            placeholder="Select Type"
-            value={filter.type}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, type: value }))
-            }
-            type="itemType"
-            countList={adCnt.itemType}
-          />
-          <MultiSelection
-            data={selectData.forSale.Batteries.WarrantyInformation}
-            placeholder="Select Warranty Information"
-            value={filter.warrantyInformation}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, warrantyInformation: value }))
-            }
-            type="itemWarrantyInformation"
-            countList={adCnt.itemWarrantyInformation}
-          />
-          <MultiSelection
-            data={selectData.forSale.Batteries.SellerRating}
-            placeholder="Select Sellor Rating"
-            value={filter.sellerRating}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, sellerRating: value }))
-            }
-            type="itemSellerRating"
-            countList={adCnt.itemSellerRating}
-          />
-        </>
-      )}
-    </FilterWrapper>
+          </>
+        )}
+        <ShowAdvancedFilter
+          onClick={() => setIsAdvancedFilter((prev) => !prev)}
+        >
+          {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+        </ShowAdvancedFilter>
+      </>
+    )
   );
 };

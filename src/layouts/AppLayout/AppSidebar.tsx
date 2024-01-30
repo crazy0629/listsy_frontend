@@ -43,7 +43,7 @@ const mainNav = [
   },
   {
     label: "Electronics and Gadgets",
-    href: "/sale",
+    href: "/for-sale/electronics/all",
     icon: "electronics",
   },
   {
@@ -279,11 +279,7 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
             {mainNav
               .slice(0, isReadMore ? mainNav.length / 3 : mainNav.length)
               .map((item, key) => (
-                <Styled.SidebarMainNavItem
-                  href={item.href}
-                  key={key}
-                  data-tooltip-id={`sidebar-${key}`}
-                >
+                <Styled.SidebarMainNavItem href={item.href} key={key}>
                   <Image
                     src={`/assets/images/categoryImage/${item.icon}.png`}
                     alt={`${item.icon}`}
@@ -291,12 +287,6 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
                     height={24}
                   />
                   <span>{item.label}</span>
-                  <ReactTooltip
-                    id={"sidebar-" + key}
-                    place="top"
-                    content={item.label}
-                    style={{ width: 240, textAlign: "center" }}
-                  />
                 </Styled.SidebarMainNavItem>
               ))}
             <Styled.ShowMoreOrLess onClick={toggleReadMore}>

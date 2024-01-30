@@ -24,7 +24,9 @@ export const SelectOptionWrapper = styled.div`
   }
   p {
     display: flex;
-    justify-content: space-between;
+    span.checkbox-label {
+      flex: 1;
+    }
   }
   p,
   label {

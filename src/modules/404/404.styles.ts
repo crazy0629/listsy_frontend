@@ -11,6 +11,12 @@ export const NotFoundWrapper = styled.div`
   align-items: center;
   border-radius: 20px;
   color: white;
+  div {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: fit-content;
+  }
   h1 {
     text-align: center;
     font-size: 100px;

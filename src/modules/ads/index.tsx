@@ -54,14 +54,19 @@ export const AdsDetailsSection: React.FC = () => {
   };
 
   const sendMessageClicked = () => {
-    const receiverId = data.userId._id;
-    if (authContext.user.id == receiverId) {
-      toast.error(
-        "Cannot send messages to yourself. Please select a different recipient."
-      );
-      return;
+    if (authContext?.user?.id) {
+      const receiverId = data.userId._id;
+      if (authContext.user.id == receiverId) {
+        toast.error(
+          "Cannot send messages to yourself. Please select a different recipient."
+        );
+        return;
+      }
+      router.push(`/message/${receiverId}`);
+    } else {
+      toast.error("Log in to continue!");
+      router.push("/auth/login");
     }
-    router.push(`/message/${receiverId}`);
   };
 
   const handleShowReview = async () => {
@@ -218,6 +223,7 @@ export const AdsDetailsSection: React.FC = () => {
                                 item?.fromUserId?.lastName}
                             </span>
                           </h5>
+                          <p>{new Date(item?.createdAt).toDateString()}</p>
                         </div>
                         <div className="review">
                           <Rating

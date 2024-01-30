@@ -8,6 +8,30 @@ export const MainPageSectionWrapper = styled.div`
   width: 100%;
 `;
 
+export const FilterOptionWrapper = styled.div`
+  margin-bottom: 12px !important;
+  font-size: 14px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  &::after,
+  &::before {
+    content: "";
+    flex: 1;
+    margin: 0 10px;
+    height: 1px;
+    background-color: #00000020;
+  }
+`;
+
+export const ShowAdvancedFilter = styled.div`
+  text-decoration: underline;
+  text-align: center;
+  color: #00000080;
+  font-size: 14px;
+  cursor: pointer;
+`;
+
 export const PostsPageFilterWrapper = styled.div`
   width: 100%;
   /* align-items: center; */
@@ -61,6 +85,10 @@ export const FilterWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  .filter-wrapper {
+    padding: 0;
+    margin-top: 0;
+  }
   & > * {
     margin-top: 16px;
     margin-right: 12px;
@@ -83,6 +111,7 @@ export const FilterWrapper = styled.div`
 export const MainGridWrapper = styled.div`
   flex: 1;
   overflow: auto;
+  display: flex;
   /* & > div {
     height: 100%;
   } */
@@ -94,33 +123,57 @@ export const MainGridWrapper = styled.div`
     /* @media screen and (max-width: ) {
       
     } */
+    &.filtered {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  & > div {
+    width: 100%;
+  }
+  .no-data {
+    text-align: center;
   }
   @media screen and (max-width: 1440px) {
     .infinite-scroll-component {
       grid-template-columns: repeat(4, 1fr);
+      &.filtered {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
   }
   @media screen and (max-width: 1280px) {
     .infinite-scroll-component {
       grid-template-columns: repeat(3, 1fr);
+      &.filtered {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   }
   @media screen and (max-width: 1024px) {
     .infinite-scroll-component {
       grid-template-columns: repeat(4, 1fr);
       grid-gap: 24px;
+      &.filtered {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
   }
   @media screen and (max-width: 920px) {
     .infinite-scroll-component {
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 24px;
+      &.filtered {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   }
   @media screen and (max-width: 680px) {
     .infinite-scroll-component {
       grid-template-columns: repeat(2, 1fr);
       grid-gap: 24px;
+      &.filtered {
+        grid-template-columns: 1fr;
+      }
     }
   }
   @media screen and (max-width: 480px) {
@@ -128,6 +181,20 @@ export const MainGridWrapper = styled.div`
       grid-template-columns: 1fr;
       grid-gap: 24px;
     }
+  }
+`;
+
+export const FilterSection = styled.div`
+  max-width: 360px;
+  margin-left: 20px;
+  border-left: 1px solid #00000010;
+  padding: 0 20px 20px;
+  overflow: auto;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  & > * {
+    margin-bottom: 20px;
   }
 `;
 

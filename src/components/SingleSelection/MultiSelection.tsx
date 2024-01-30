@@ -76,7 +76,7 @@ export const MultiSelection: React.FC<Props> = ({
               checked={value.filter((f) => f === item).length > 0}
               onChange={() => {}}
             />
-            <span>{item}</span>
+            <span className="checkbox-label">{item}</span>
             {countList && (
               <span>
                 (

@@ -1,6 +1,10 @@
-import { MultiSelection, SingleSelection } from "@/components";
+import { InputRange, MultiSelection, SingleSelection } from "@/components";
 import React, { useEffect, useRef, useState } from "react";
-import { FilterWrapper } from "../../main.styles";
+import {
+  FilterOptionWrapper,
+  FilterWrapper,
+  ShowAdvancedFilter,
+} from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/data-electronics";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
@@ -55,6 +59,7 @@ export const PhoneFilter: React.FC<Props> = ({ onChange }) => {
 
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [isAdvancedFilter, setIsAdvancedFilter] = useState(false);
 
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
@@ -311,523 +316,504 @@ export const PhoneFilter: React.FC<Props> = ({ onChange }) => {
     setPriceChanged(true);
   };
 
-  const validateNumberInput = (e) => {
-    const regex = /^[0-9]*$/; // Regular expression to match numbers from 0 to 9
-
-    if (!regex.test(e.target.value)) {
-      e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove any non-numeric characters
-    }
-  };
-
   return (
-    <FilterWrapper>
-      {adCnt != null && (
-        <>
-          <SingleSelection
-            data={selectData.forSale.Phone.SearchWithin}
-            placeholder="Select Search Range"
-            value={filter.SearchWithin}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, SearchWithin: value }))
-            }
-            type="itemSearchRange"
-            countList={adCnt?.itemRangeInfo}
-          />
-          <SingleSelection
-            data={selectData.forSale.Phone.Type}
-            placeholder="Select Type"
-            value={filter.type}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, type: value }))
-            }
-            type="itemType"
-            countList={adCnt?.itemType}
-          />
-          {filter.type == "Cell Phones" && (
-            <>
-              <div>
-                <span>{currency}</span>
-                <input
-                  type="text"
-                  placeholder="min price"
-                  value={minPrice}
-                  onChange={handleMinPrice}
-                  onInput={validateNumberInput}
+    adCnt != null && (
+      <>
+        <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
+        <SingleSelection
+          data={selectData.forSale.Phone.SearchWithin}
+          placeholder="Select Search Range"
+          value={filter.SearchWithin}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, SearchWithin: value }))
+          }
+          type="itemSearchRange"
+          countList={adCnt?.itemRangeInfo}
+        />
+        <SingleSelection
+          data={selectData.forSale.Phone.Type}
+          placeholder="Select Type"
+          value={filter.type}
+          onChange={(value) => setFilter((prev) => ({ ...prev, type: value }))}
+          type="itemType"
+          countList={adCnt?.itemType}
+        />
+        {filter.type == "Cell Phones" && (
+          <>
+            <InputRange
+              value1={minPrice}
+              value2={maxPrice}
+              placeholder1="Min price"
+              placeholder2="Max price"
+              type1="number"
+              type2="number"
+              onChange1={handleMinPrice}
+              onChange2={handleMaxPrice}
+              prefix1={currency}
+              prefix2={currency}
+              suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+            />
+            <MultiSelection
+              data={selectData.forSale.Phone.CellPhones.Condition}
+              placeholder="Select Item Condition"
+              value={filter.cellPhone.itemCondition}
+              onChange={(value) =>
+                setFilter((prev) => ({
+                  ...prev,
+                  cellPhone: { ...prev.cellPhone, itemCondition: value },
+                }))
+              }
+              type="itemCondition"
+              countList={adCnt?.itemCondition}
+            />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.forSale.Phone.CellPhones.NetworkProvider}
+                  placeholder="Select Network Provider"
+                  value={filter.cellPhone.networkProvider}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhone: { ...prev.cellPhone, networkProvider: value },
+                    }))
+                  }
+                  type="itemNetworkProvider"
+                  countList={adCnt?.itemNetworkProvider}
                 />
-                <span>-</span>
-                <span>{currency}</span>
-                <input
-                  type="text"
-                  placeholder="max price"
-                  value={maxPrice}
-                  onChange={handleMaxPrice}
-                  onInput={validateNumberInput}
+                <MultiSelection
+                  data={selectData.forSale.Phone.CellPhones.Brand}
+                  placeholder="Select Brand"
+                  value={filter.cellPhone.brand}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhone: { ...prev.cellPhone, brand: value },
+                    }))
+                  }
+                  type="itemBrand"
+                  countList={adCnt?.itemBrand}
                 />
-                {adCnt.itemPriceRange != -1 && (
-                  <span>({adCnt.itemPriceRange})</span>
-                )}
-              </div>
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.Condition}
-                placeholder="Select Item Condition"
-                value={filter.cellPhone.itemCondition}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: { ...prev.cellPhone, itemCondition: value },
-                  }))
-                }
-                type="itemCondition"
-                countList={adCnt?.itemCondition}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.NetworkProvider}
-                placeholder="Select Network Provider"
-                value={filter.cellPhone.networkProvider}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: { ...prev.cellPhone, networkProvider: value },
-                  }))
-                }
-                type="itemNetworkProvider"
-                countList={adCnt?.itemNetworkProvider}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.Brand}
-                placeholder="Select Brand"
-                value={filter.cellPhone.brand}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: { ...prev.cellPhone, brand: value },
-                  }))
-                }
-                type="itemBrand"
-                countList={adCnt?.itemBrand}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.OperatingSystem}
-                placeholder="Select Operating System"
-                value={filter.cellPhone.operatingSystem}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: { ...prev.cellPhone, operatingSystem: value },
-                  }))
-                }
-                type="itemOperatingSystem"
-                countList={adCnt?.itemOperatingSystem}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.ScreenSizeRange}
-                placeholder="Select ScreenSize Range"
-                value={filter.cellPhone.screenSizeRange}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: { ...prev.cellPhone, screenSizeRange: value },
-                  }))
-                }
-                type="itemScreenSizeRange"
-                countList={adCnt?.itemScreenSizeRange}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.MemoryCapacity}
-                placeholder="Select Memory Capacity"
-                value={filter.cellPhone.memoryCapacity}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: { ...prev.cellPhone, memoryCapacity: value },
-                  }))
-                }
-                type="itemMemoryCapacity"
-                countList={adCnt?.itemMemoryCapacity}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.CameraResolution}
-                placeholder="Select Camera Resolution"
-                value={filter.cellPhone.cameraResolution}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: { ...prev.cellPhone, cameraResolution: value },
-                  }))
-                }
-                type="itemCameraResolution"
-                countList={adCnt?.itemCameraResolution}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.BatteryCapacity}
-                placeholder="Select Battery Capacity"
-                value={filter.cellPhone.batteryCapacity}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: { ...prev.cellPhone, batteryCapacity: value },
-                  }))
-                }
-                type="itemBatteryCapacity"
-                countList={adCnt?.itemBatteryCapacity}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.Colour}
-                placeholder="Select Colour"
-                value={filter.cellPhone.colour}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: { ...prev.cellPhone, colour: value },
-                  }))
-                }
-                type="itemColour"
-                countList={adCnt?.itemColour}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.WarrantyInformation}
-                placeholder="Select Warranty Information"
-                value={filter.cellPhone.warrantyInformation}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: {
-                      ...prev.cellPhone,
-                      warrantyInformation: value,
-                    },
-                  }))
-                }
-                type="itemWarrantyInformation"
-                countList={adCnt?.itemWarrantyInformation}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhones.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.cellPhone.sellerRating}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhone: { ...prev.cellPhone, sellerRating: value },
-                  }))
-                }
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          {filter.type == "Cell Phone Accessories" && (
-            <>
-              <div>
-                <span>{currency}</span>
-                <input
-                  type="text"
-                  placeholder="min price"
-                  value={minPrice}
-                  onChange={handleMinPrice}
-                  onInput={validateNumberInput}
+                <MultiSelection
+                  data={selectData.forSale.Phone.CellPhones.OperatingSystem}
+                  placeholder="Select Operating System"
+                  value={filter.cellPhone.operatingSystem}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhone: { ...prev.cellPhone, operatingSystem: value },
+                    }))
+                  }
+                  type="itemOperatingSystem"
+                  countList={adCnt?.itemOperatingSystem}
                 />
-                <span>-</span>
-                <span>{currency}</span>
-                <input
-                  type="text"
-                  placeholder="max price"
-                  value={maxPrice}
-                  onChange={handleMaxPrice}
-                  onInput={validateNumberInput}
+                <MultiSelection
+                  data={selectData.forSale.Phone.CellPhones.ScreenSizeRange}
+                  placeholder="Select ScreenSize Range"
+                  value={filter.cellPhone.screenSizeRange}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhone: { ...prev.cellPhone, screenSizeRange: value },
+                    }))
+                  }
+                  type="itemScreenSizeRange"
+                  countList={adCnt?.itemScreenSizeRange}
                 />
-                {adCnt.itemPriceRange != -1 && (
-                  <span>({adCnt.itemPriceRange})</span>
-                )}
-              </div>
-              <MultiSelection
-                data={
-                  selectData.forSale.Phone.CellPhoneAccessories.AccessoryType
-                }
-                placeholder="Select Accessory Type"
-                value={filter.cellPhoneAccessories.accessoryType}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhoneAccessories: {
-                      ...prev.cellPhoneAccessories,
-                      accessoryType: value,
-                    },
-                  }))
-                }
-                type="itemAccessoryType"
-                countList={adCnt?.itemAccessoryType}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.CellPhoneAccessories.Condition}
-                placeholder="Select Item Condition"
-                value={filter.cellPhoneAccessories.itemCondition}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhoneAccessories: {
-                      ...prev.cellPhoneAccessories,
-                      itemCondition: value,
-                    },
-                  }))
-                }
-                type="itemCondition"
-                countList={adCnt?.itemCondition}
-              />
-              <MultiSelection
-                data={
-                  selectData.forSale.Phone.CellPhoneAccessories
-                    .WarrantyInformation
-                }
-                placeholder="Select Warranty Information"
-                value={filter.cellPhoneAccessories.warrantyInformation}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhoneAccessories: {
-                      ...prev.cellPhoneAccessories,
-                      warrantyInformation: value,
-                    },
-                  }))
-                }
-                type="itemWarrantyInformation"
-                countList={adCnt?.itemWarrantyInformation}
-              />
-              <MultiSelection
-                data={
-                  selectData.forSale.Phone.CellPhoneAccessories.SellerRating
-                }
-                placeholder="Select Seller Rating"
-                value={filter.cellPhoneAccessories.sellerRating}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    cellPhoneAccessories: {
-                      ...prev.cellPhoneAccessories,
-                      sellerRating: value,
-                    },
-                  }))
-                }
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          {filter.type == "Landlines" && (
-            <>
-              <div>
-                <span>{currency}</span>
-                <input
-                  type="text"
-                  placeholder="min price"
-                  value={minPrice}
-                  onChange={handleMinPrice}
-                  onInput={validateNumberInput}
+                <MultiSelection
+                  data={selectData.forSale.Phone.CellPhones.MemoryCapacity}
+                  placeholder="Select Memory Capacity"
+                  value={filter.cellPhone.memoryCapacity}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhone: { ...prev.cellPhone, memoryCapacity: value },
+                    }))
+                  }
+                  type="itemMemoryCapacity"
+                  countList={adCnt?.itemMemoryCapacity}
                 />
-                <span>-</span>
-                <span>{currency}</span>
-                <input
-                  type="text"
-                  placeholder="max price"
-                  value={maxPrice}
-                  onChange={handleMaxPrice}
-                  onInput={validateNumberInput}
+                <MultiSelection
+                  data={selectData.forSale.Phone.CellPhones.CameraResolution}
+                  placeholder="Select Camera Resolution"
+                  value={filter.cellPhone.cameraResolution}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhone: { ...prev.cellPhone, cameraResolution: value },
+                    }))
+                  }
+                  type="itemCameraResolution"
+                  countList={adCnt?.itemCameraResolution}
                 />
-                {adCnt.itemPriceRange != -1 && (
-                  <span>({adCnt.itemPriceRange})</span>
-                )}
-              </div>
-              <MultiSelection
-                data={selectData.forSale.Phone.LandLine.LandLineType}
-                placeholder="Select LandLine Type"
-                value={filter.landLine.landLineType}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    landLine: {
-                      ...prev.landLine,
-                      landLineType: value,
-                    },
-                  }))
-                }
-                type="itemLandLineType"
-                countList={adCnt?.itemLandLineType}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.LandLine.Condition}
-                placeholder="Select Item Condition"
-                value={filter.landLine.itemCondition}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    landLine: {
-                      ...prev.landLine,
-                      itemCondition: value,
-                    },
-                  }))
-                }
-                type="itemCondition"
-                countList={adCnt?.itemCondition}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.LandLine.Brand}
-                placeholder="Select Brand"
-                value={filter.landLine.brand}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    landLine: {
-                      ...prev.landLine,
-                      brand: value,
-                    },
-                  }))
-                }
-                type="itemBrand"
-                countList={adCnt?.itemBrand}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.LandLine.WarrantyInformation}
-                placeholder="Select Warranty Information"
-                value={filter.landLine.warrantyInformation}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    landLine: {
-                      ...prev.landLine,
-                      warrantyInformation: value,
-                    },
-                  }))
-                }
-                type="itemWarrantyInformation"
-                countList={adCnt?.itemWarrantyInformation}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.LandLine.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.landLine.sellerRating}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    landLine: {
-                      ...prev.landLine,
-                      sellerRating: value,
-                    },
-                  }))
-                }
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          {filter.type == "Walkie Talkies" && (
-            <>
-              <div>
-                <span>{currency}</span>
-                <input
-                  type="text"
-                  placeholder="min price"
-                  value={minPrice}
-                  onChange={handleMinPrice}
-                  onInput={validateNumberInput}
+                <MultiSelection
+                  data={selectData.forSale.Phone.CellPhones.BatteryCapacity}
+                  placeholder="Select Battery Capacity"
+                  value={filter.cellPhone.batteryCapacity}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhone: { ...prev.cellPhone, batteryCapacity: value },
+                    }))
+                  }
+                  type="itemBatteryCapacity"
+                  countList={adCnt?.itemBatteryCapacity}
+                  direction="top"
                 />
-                <span>-</span>
-                <span>{currency}</span>
-                <input
-                  type="text"
-                  placeholder="max price"
-                  value={maxPrice}
-                  onChange={handleMaxPrice}
-                  onInput={validateNumberInput}
+                <MultiSelection
+                  data={selectData.forSale.Phone.CellPhones.Colour}
+                  placeholder="Select Colour"
+                  value={filter.cellPhone.colour}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhone: { ...prev.cellPhone, colour: value },
+                    }))
+                  }
+                  type="itemColour"
+                  countList={adCnt?.itemColour}
+                  direction="top"
                 />
-                {adCnt.itemPriceRange != -1 && (
-                  <span>({adCnt.itemPriceRange})</span>
-                )}
-              </div>
-              <MultiSelection
-                data={selectData.forSale.Phone.WalkieTalkies.LandLineType}
-                placeholder="Select walkieTalkies Type"
-                value={filter.walkieTalkies.walkieTalkiesType}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    walkieTalkies: {
-                      ...prev.walkieTalkies,
-                      walkieTalkiesType: value,
-                    },
-                  }))
-                }
-                type="itemWalkieTalkiesType"
-                countList={adCnt?.itemWalkieTalkiesType}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.WalkieTalkies.Condition}
-                placeholder="Select Item Condition"
-                value={filter.walkieTalkies.itemCondition}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    walkieTalkies: {
-                      ...prev.walkieTalkies,
-                      itemCondition: value,
-                    },
-                  }))
-                }
-                type="itemCondition"
-                countList={adCnt?.itemCondition}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.WalkieTalkies.Brand}
-                placeholder="Select Brand"
-                value={filter.walkieTalkies.brand}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    walkieTalkies: {
-                      ...prev.walkieTalkies,
-                      brand: value,
-                    },
-                  }))
-                }
-                type="itemBrand"
-                countList={adCnt?.itemBrand}
-              />
-              <MultiSelection
-                data={
-                  selectData.forSale.Phone.WalkieTalkies.WarrantyInformation
-                }
-                placeholder="Select Warranty Information"
-                value={filter.walkieTalkies.warrantyInformation}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    walkieTalkies: {
-                      ...prev.walkieTalkies,
-                      warrantyInformation: value,
-                    },
-                  }))
-                }
-                type="itemWarrantyInformation"
-                countList={adCnt?.itemWarrantyInformation}
-              />
-              <MultiSelection
-                data={selectData.forSale.Phone.WalkieTalkies.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.walkieTalkies.sellerRating}
-                onChange={(value) =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    walkieTalkies: {
-                      ...prev.walkieTalkies,
-                      sellerRating: value,
-                    },
-                  }))
-                }
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-        </>
-      )}
-    </FilterWrapper>
+                <MultiSelection
+                  data={selectData.forSale.Phone.CellPhones.WarrantyInformation}
+                  placeholder="Select Warranty Information"
+                  value={filter.cellPhone.warrantyInformation}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhone: {
+                        ...prev.cellPhone,
+                        warrantyInformation: value,
+                      },
+                    }))
+                  }
+                  type="itemWarrantyInformation"
+                  countList={adCnt?.itemWarrantyInformation}
+                  direction="top"
+                />
+                <MultiSelection
+                  data={selectData.forSale.Phone.CellPhones.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.cellPhone.sellerRating}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhone: { ...prev.cellPhone, sellerRating: value },
+                    }))
+                  }
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                  direction="top"
+                />
+              </>
+            )}
+          </>
+        )}
+        {filter.type == "Cell Phone Accessories" && (
+          <>
+            <InputRange
+              value1={minPrice}
+              value2={maxPrice}
+              placeholder1="Min price"
+              placeholder2="Max price"
+              type1="number"
+              type2="number"
+              onChange1={handleMinPrice}
+              onChange2={handleMaxPrice}
+              prefix1={currency}
+              prefix2={currency}
+              suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+            />
+            <MultiSelection
+              data={selectData.forSale.Phone.CellPhoneAccessories.AccessoryType}
+              placeholder="Select Accessory Type"
+              value={filter.cellPhoneAccessories.accessoryType}
+              onChange={(value) =>
+                setFilter((prev) => ({
+                  ...prev,
+                  cellPhoneAccessories: {
+                    ...prev.cellPhoneAccessories,
+                    accessoryType: value,
+                  },
+                }))
+              }
+              type="itemAccessoryType"
+              countList={adCnt?.itemAccessoryType}
+            />
+            <MultiSelection
+              data={selectData.forSale.Phone.CellPhoneAccessories.Condition}
+              placeholder="Select Item Condition"
+              value={filter.cellPhoneAccessories.itemCondition}
+              onChange={(value) =>
+                setFilter((prev) => ({
+                  ...prev,
+                  cellPhoneAccessories: {
+                    ...prev.cellPhoneAccessories,
+                    itemCondition: value,
+                  },
+                }))
+              }
+              type="itemCondition"
+              countList={adCnt?.itemCondition}
+            />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={
+                    selectData.forSale.Phone.CellPhoneAccessories
+                      .WarrantyInformation
+                  }
+                  placeholder="Select Warranty Information"
+                  value={filter.cellPhoneAccessories.warrantyInformation}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhoneAccessories: {
+                        ...prev.cellPhoneAccessories,
+                        warrantyInformation: value,
+                      },
+                    }))
+                  }
+                  type="itemWarrantyInformation"
+                  countList={adCnt?.itemWarrantyInformation}
+                />
+                <MultiSelection
+                  data={
+                    selectData.forSale.Phone.CellPhoneAccessories.SellerRating
+                  }
+                  placeholder="Select Seller Rating"
+                  value={filter.cellPhoneAccessories.sellerRating}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      cellPhoneAccessories: {
+                        ...prev.cellPhoneAccessories,
+                        sellerRating: value,
+                      },
+                    }))
+                  }
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+          </>
+        )}
+        {filter.type == "Landlines" && (
+          <>
+            <InputRange
+              value1={minPrice}
+              value2={maxPrice}
+              placeholder1="Min price"
+              placeholder2="Max price"
+              type1="number"
+              type2="number"
+              onChange1={handleMinPrice}
+              onChange2={handleMaxPrice}
+              prefix1={currency}
+              prefix2={currency}
+              suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+            />
+            <MultiSelection
+              data={selectData.forSale.Phone.LandLine.Condition}
+              placeholder="Select Item Condition"
+              value={filter.landLine.itemCondition}
+              onChange={(value) =>
+                setFilter((prev) => ({
+                  ...prev,
+                  landLine: {
+                    ...prev.landLine,
+                    itemCondition: value,
+                  },
+                }))
+              }
+              type="itemCondition"
+              countList={adCnt?.itemCondition}
+            />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.forSale.Phone.LandLine.LandLineType}
+                  placeholder="Select LandLine Type"
+                  value={filter.landLine.landLineType}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      landLine: {
+                        ...prev.landLine,
+                        landLineType: value,
+                      },
+                    }))
+                  }
+                  type="itemLandLineType"
+                  countList={adCnt?.itemLandLineType}
+                />
+
+                <MultiSelection
+                  data={selectData.forSale.Phone.LandLine.Brand}
+                  placeholder="Select Brand"
+                  value={filter.landLine.brand}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      landLine: {
+                        ...prev.landLine,
+                        brand: value,
+                      },
+                    }))
+                  }
+                  type="itemBrand"
+                  countList={adCnt?.itemBrand}
+                />
+                <MultiSelection
+                  data={selectData.forSale.Phone.LandLine.WarrantyInformation}
+                  placeholder="Select Warranty Information"
+                  value={filter.landLine.warrantyInformation}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      landLine: {
+                        ...prev.landLine,
+                        warrantyInformation: value,
+                      },
+                    }))
+                  }
+                  type="itemWarrantyInformation"
+                  countList={adCnt?.itemWarrantyInformation}
+                />
+                <MultiSelection
+                  data={selectData.forSale.Phone.LandLine.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.landLine.sellerRating}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      landLine: {
+                        ...prev.landLine,
+                        sellerRating: value,
+                      },
+                    }))
+                  }
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+          </>
+        )}
+        {filter.type == "Walkie Talkies" && (
+          <>
+            <InputRange
+              value1={minPrice}
+              value2={maxPrice}
+              placeholder1="Min price"
+              placeholder2="Max price"
+              type1="number"
+              type2="number"
+              onChange1={handleMinPrice}
+              onChange2={handleMaxPrice}
+              prefix1={currency}
+              prefix2={currency}
+              suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+            />
+            <MultiSelection
+              data={selectData.forSale.Phone.WalkieTalkies.Condition}
+              placeholder="Select Item Condition"
+              value={filter.walkieTalkies.itemCondition}
+              onChange={(value) =>
+                setFilter((prev) => ({
+                  ...prev,
+                  walkieTalkies: {
+                    ...prev.walkieTalkies,
+                    itemCondition: value,
+                  },
+                }))
+              }
+              type="itemCondition"
+              countList={adCnt?.itemCondition}
+            />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.forSale.Phone.WalkieTalkies.LandLineType}
+                  placeholder="Select walkieTalkies Type"
+                  value={filter.walkieTalkies.walkieTalkiesType}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      walkieTalkies: {
+                        ...prev.walkieTalkies,
+                        walkieTalkiesType: value,
+                      },
+                    }))
+                  }
+                  type="itemWalkieTalkiesType"
+                  countList={adCnt?.itemWalkieTalkiesType}
+                />
+                <MultiSelection
+                  data={selectData.forSale.Phone.WalkieTalkies.Brand}
+                  placeholder="Select Brand"
+                  value={filter.walkieTalkies.brand}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      walkieTalkies: {
+                        ...prev.walkieTalkies,
+                        brand: value,
+                      },
+                    }))
+                  }
+                  type="itemBrand"
+                  countList={adCnt?.itemBrand}
+                />
+                <MultiSelection
+                  data={
+                    selectData.forSale.Phone.WalkieTalkies.WarrantyInformation
+                  }
+                  placeholder="Select Warranty Information"
+                  value={filter.walkieTalkies.warrantyInformation}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      walkieTalkies: {
+                        ...prev.walkieTalkies,
+                        warrantyInformation: value,
+                      },
+                    }))
+                  }
+                  type="itemWarrantyInformation"
+                  countList={adCnt?.itemWarrantyInformation}
+                />
+                <MultiSelection
+                  data={selectData.forSale.Phone.WalkieTalkies.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.walkieTalkies.sellerRating}
+                  onChange={(value) =>
+                    setFilter((prev) => ({
+                      ...prev,
+                      walkieTalkies: {
+                        ...prev.walkieTalkies,
+                        sellerRating: value,
+                      },
+                    }))
+                  }
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+          </>
+        )}
+        <ShowAdvancedFilter
+          onClick={() => setIsAdvancedFilter((prev) => !prev)}
+        >
+          {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+        </ShowAdvancedFilter>
+      </>
+    )
   );
 };

@@ -1,5 +1,6 @@
 export * from "./CardItem";
 export * from "./ConfirmModal";
+export * from "./InputRange";
 export * from "./Loading";
 export * from "./Seo";
 export * from "./SocialButtonGroup";
