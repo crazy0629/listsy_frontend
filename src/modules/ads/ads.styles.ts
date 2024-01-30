@@ -379,6 +379,10 @@ export const ReviewItemWrapper = styled.div`
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    img {
+      object-fit: cover;
+      border-radius: 99px;
+    }
     .review {
       width: 100%;
       display: flex;
@@ -390,6 +394,11 @@ export const ReviewItemWrapper = styled.div`
     }
     .review-name {
       margin-left: 12px;
+      p {
+        font-size: 12px;
+        color: #000000f0;
+        margin-top: 4px;
+      }
     }
     .review-avatar {
       width: 40px;

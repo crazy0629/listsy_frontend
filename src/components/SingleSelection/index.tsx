@@ -45,7 +45,7 @@ export const SingleSelection: React.FC<Props> = ({
 
   return (
     <Styled.SelectFormItem ref={ref}>
-      <p>{label}</p>
+      {label && <p>{label}</p>}
       <Styled.Select onClick={() => setIsOpen((prev) => !prev)}>
         <span className={value ? "" : "placeholder"}>
           {value || placeholder}
@@ -65,7 +65,7 @@ export const SingleSelection: React.FC<Props> = ({
               setIsOpen(false);
             }}
           >
-            <span>{item}</span>
+            <span className="checkbox-label">{item}</span>
             {countList && countList.length > 0 && type == "itemSearchRange" && (
               <span>({countList[key].distance})</span>
             )}

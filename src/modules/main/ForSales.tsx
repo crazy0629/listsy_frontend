@@ -3,35 +3,17 @@ import * as Styled from "./main.styles";
 import { CardItem } from "@/components";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Navigation } from "swiper/modules";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { selectData } from "../upload/detailsform/data-electronics";
-import { TelevisionFilter } from "./filters/electronics/TelevisionFilter";
-import { LapTopFilter } from "./filters/electronics/LaptopFilter";
-import { IpadFilter } from "./filters/electronics/IpadFilter";
-import { TheaterSystemFilter } from "./filters/electronics/TheaterSystemFilter";
-import { KitchenFilter } from "./filters/electronics/KitchenFilter";
-import { LaundryFilter } from "./filters/electronics/LaundryFilter";
-import { CleaningFilter } from "./filters/electronics/CleaningFilter";
-import { HeatingFilter } from "./filters/electronics/HeatingFilter";
-import { PersonalCareFilter } from "./filters/electronics/PersonalCareFilter";
-import { MiscellaneousFilter } from "./filters/electronics/MiscellaneousFilter";
-import { CameraFilter } from "./filters/electronics/CameraFilter";
-import { MusicFilter } from "./filters/electronics/MusicFilter";
-import { WearableFilter } from "./filters/electronics/WearableFilter";
-import { NetworkingFilter } from "./filters/electronics/NetworkingFilter";
-import { ComputerComponentFilter } from "./filters/electronics/ComputerComponentsFilter";
-import { OfficeFilter } from "./filters/electronics/OfficeFilter";
-import { SecurityFilter } from "./filters/electronics/SecurityFilter";
-import { AudioFilter } from "./filters/electronics/AudioFilter";
-import { HomeDeviceFilter } from "./filters/electronics/HomeDeviceFilter";
-import { BatteryFilter } from "./filters/electronics/BatteryFilter";
-import { GamingConsoleFilter } from "./filters/electronics/GamingConsoleFilter";
-import { PhoneFilter } from "./filters/electronics/PhoneFilter";
+import * as Filter from "./filters/electronics";
+import { useRouter } from "next/router";
 
-export const SalesPageSection: React.FC = () => {
+type ForSalesProps = {
+  page?: string;
+};
+
+export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
   const [getIndex, setGetIndex] = useState(0);
   const [data, setData] = useState<any>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -42,6 +24,7 @@ export const SalesPageSection: React.FC = () => {
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [adCnt, setAdCnt] = useState([]);
+  const router = useRouter();
 
   const getLocationInfo = () => {
     let locationSelected = localStorage.getItem("locationSelected");
@@ -64,25 +47,9 @@ export const SalesPageSection: React.FC = () => {
     getLocationInfo();
   });
 
-  useEffect(() => {
-    if (address == "") return;
-    getData(0);
-  }, [filter]);
-
-  useEffect(() => {
-    if (address == "") return;
-    getData(0);
-  }, [filter.itemCategory]);
-
-  useEffect(() => {
-    if (address == "") return;
-    setGetIndex(0);
-    setFilter((prev) => ({ ...prev, itemCategory: "All" }));
-    getData(0);
-  }, [address, countryCode]);
-
-  const handleCategoryClicked = (value) => {
-    setFilter({ itemCategory: value });
+  const handleCategoryClicked = (item: any) => {
+    setFilter({ itemCategory: item.label });
+    router.push(item.value);
   };
 
   const getData = async (index: number) => {
@@ -93,11 +60,12 @@ export const SalesPageSection: React.FC = () => {
       { itemCategory: categoryList, address, countryCode }
     );
 
-    const adCnt = adsCountData.data.countList;
     setAdCnt(adsCountData.data.countList);
 
+    const tempFilter = filterData.filter((f) => f.value === page)[0].label;
     const res = await axios.post(`${SERVER_URI}/sale/getForSaleAds`, {
       ...filter,
+      itemCategory: tempFilter,
       index,
       address,
       countryCode,
@@ -121,133 +89,197 @@ export const SalesPageSection: React.FC = () => {
     setFilter((prev) => ({ ...prev, ...data }));
   };
 
-  const navRef = useRef(null);
+  const filterData = [
+    { label: "All", value: "all", comp: <></> },
+    {
+      label: "Televisions",
+      value: "televisions",
+      comp: <Filter.TelevisionFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Laptops and Desktop Computers",
+      value: "laptops-desktop-computers",
+      comp: <Filter.LapTopFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "iPad, Tablets & eReaders",
+      value: "ipad-tablets-ereaders",
+      comp: <Filter.IpadFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Phones",
+      value: "phones",
+      comp: <Filter.PhoneFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Gaming Consoles and Accessories",
+      value: "gaming-consoles-accessories",
+      comp: <Filter.GamingConsoleFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Home Theater Systems",
+      value: "home-theater-systems",
+      comp: <Filter.TheaterSystemFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Kitchen Appliances",
+      value: "kitchen",
+      comp: <Filter.KitchenFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Laundry Appliances",
+      value: "laundry",
+      comp: <Filter.LaundryFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Cleaning Appliances",
+      value: "cleaning",
+      comp: <Filter.CleaningFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Heating, Cooling, and Air Quality",
+      value: "heating-cooling-air-quality",
+      comp: <Filter.HeatingFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Personal Care Appliances",
+      value: "personal-care",
+      comp: <Filter.PersonalCareFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Miscellaneous Appliances",
+      value: "miscellaneous",
+      comp: <Filter.MiscellaneousFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Cameras and Camcorders",
+      value: "cameras-camcorders",
+      comp: <Filter.CameraFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Portable Music Players",
+      value: "portable-music-players",
+      comp: <Filter.MusicFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Wearable Technology",
+      value: "wearable-technology",
+      comp: <Filter.WearableFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Networking Devices",
+      value: "networking-devices",
+      comp: <Filter.NetworkingFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Computer Components and Storage",
+      value: "computer-components-storage",
+      comp: <Filter.ComputerComponentFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Office Equipment",
+      value: "office-equipment",
+      comp: <Filter.OfficeFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Security and Surveillance Equipment",
+      value: "security-surveillance",
+      comp: <Filter.SecurityFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Audio Equipment",
+      value: "audio-equipment",
+      comp: <Filter.AudioFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Smart Home Devices",
+      value: "smart-home-devices",
+      comp: <Filter.HomeDeviceFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Batteries and Power Supplies",
+      value: "batteries-power-supplies",
+      comp: <Filter.BatteryFilter onChange={subFormChanged} />,
+    },
+  ];
 
-  const scroll = (scrollOffset) => {
-    navRef.current.scrollLeft += scrollOffset;
-  };
+  useEffect(() => {
+    if (address == "") return;
+    getData(0);
+  }, [filter, filter.itemCategory]);
+
+  useEffect(() => {
+    if (address == "") return;
+    setGetIndex(0);
+    setFilter((prev) => ({ ...prev, itemCategory: "All" }));
+    getData(0);
+  }, [address, countryCode]);
 
   return (
     <Styled.MainPageSectionWrapper>
       <Styled.FilterWrapper>
         <Styled.PostsPageFilterWrapper>
-          {selectData.forSale.category.map((item, key) => (
+          {filterData.map((item, key) => (
             <span
               key={key}
               onClick={() => handleCategoryClicked(item)}
-              className={item === filter.itemCategory ? "active" : ""}
+              className={item.value === page ? "active" : ""}
             >
-              {item}
+              {item.label}
 
               {adCnt &&
                 adCnt.length > 0 &&
                 "  (" +
-                  adCnt.filter((element) => element.itemCategory == item)[0]
-                    ?.count +
+                  adCnt.filter(
+                    (element) => element.itemCategory === item.label
+                  )[0]?.count +
                   ")"}
             </span>
           ))}
         </Styled.PostsPageFilterWrapper>
-        {filter.itemCategory == "Televisions" && (
-          <TelevisionFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Laptops and Desktop Computers" && (
-          <LapTopFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "iPad, Tablets & eReaders" && (
-          <IpadFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Home Theater Systems" && (
-          <TheaterSystemFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Kitchen Appliances" && (
-          <KitchenFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Laundry Appliances" && (
-          <LaundryFilter onChange={subFormChanged} />
-        )}
-
-        {filter.itemCategory == "Cleaning Appliances" && (
-          <CleaningFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Heating, Cooling, and Air Quality" && (
-          <HeatingFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Personal Care Appliances" && (
-          <PersonalCareFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Miscellaneous Appliances" && (
-          <MiscellaneousFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Cameras and Camcorders" && (
-          <CameraFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Portable Music Players" && (
-          <MusicFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Wearable Technology" && (
-          <WearableFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Networking Devices" && (
-          <NetworkingFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Computer Components and Storage" && (
-          <ComputerComponentFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Office Equipment" && (
-          <OfficeFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Security and Surveillance Equipment" && (
-          <SecurityFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Audio Equipment" && (
-          <AudioFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Smart Home Devices" && (
-          <HomeDeviceFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Batteries and Power Supplies" && (
-          <BatteryFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Gaming Consoles and Accessories" && (
-          <GamingConsoleFilter onChange={subFormChanged} />
-        )}
-        {filter.itemCategory == "Phones" && (
-          <PhoneFilter onChange={subFormChanged} />
-        )}
       </Styled.FilterWrapper>
       <Styled.MainGridWrapper>
-        <InfiniteScroll
-          dataLength={data.length}
-          next={() => getData(getIndex)}
-          hasMore={hasMore}
-          endMessage={<h4></h4>}
-          scrollableTarget="community-list"
-          loader={<h4>Loading...</h4>}
-        >
-          {data.length > 0 &&
-            data.map((item: any, key: number) => (
-              <CardItem
-                id={item.adId?._id}
-                key={key}
-                type={"sale"}
-                link={item.adId?.adFileName}
-                postDate={item.adId?.uploadDate}
-                price={item.price}
-                priceUnit={item.priceUnit}
-                reviewCount={item.userId?.reviewCount}
-                reviewMark={item.userId?.reviewMark}
-                subtitle={item.subTitle}
-                title={item.title}
-                address={item.address}
-                userAvatar={item.userId?.avatar}
-                firstName={item.userId?.firstName}
-                lastName={item.userId?.lastName}
-                viewCount={item.viewCount}
-                duration={item.adId?.duration}
-              />
-            ))}
-        </InfiniteScroll>
+        {data.length > 0 ? (
+          <InfiniteScroll
+            dataLength={data.length}
+            next={() => getData(getIndex)}
+            hasMore={hasMore}
+            endMessage={<h4></h4>}
+            scrollableTarget="community-list"
+            className={page !== "all" ? "filtered" : ""}
+            loader={<h4>Loading...</h4>}
+          >
+            {data.length > 0 &&
+              data.map((item: any, key: number) => (
+                <CardItem
+                  id={item.adId?._id}
+                  key={key}
+                  type={"sale"}
+                  link={item.adId?.adFileName}
+                  postDate={item.adId?.uploadDate}
+                  price={item.price}
+                  priceUnit={item.priceUnit}
+                  reviewCount={item.userId?.reviewCount}
+                  reviewMark={item.userId?.reviewMark}
+                  subtitle={item.subTitle}
+                  title={item.title}
+                  address={item.address}
+                  userAvatar={item.userId?.avatar}
+                  firstName={item.userId?.firstName}
+                  lastName={item.userId?.lastName}
+                  viewCount={item.viewCount}
+                  duration={item.adId?.duration}
+                />
+              ))}
+          </InfiniteScroll>
+        ) : (
+          <div className="no-data">No Data</div>
+        )}
+        {page !== "all" && (
+          <Styled.FilterSection>
+            {filterData.filter((f) => f.value === page)[0].comp}
+          </Styled.FilterSection>
+        )}
       </Styled.MainGridWrapper>
     </Styled.MainPageSectionWrapper>
   );
