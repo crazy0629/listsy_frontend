@@ -5,7 +5,7 @@ import { SalesPageSection } from "@/modules/main/ForSales";
 const SalesCameraPage: React.FC = () => {
   return (
     <AppLayout name="sale_ele_camera">
-      <SalesPageSection page="cameras-camcorders" />
+      <SalesPageSection page="/for-sale/electronics/cameras-camcorders" />
     </AppLayout>
   );
 };
