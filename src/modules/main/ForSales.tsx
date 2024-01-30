@@ -90,115 +90,115 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
   };
 
   const filterData = [
-    { label: "All", value: "all", comp: <></> },
+    { label: "All", value: "/for-sale/electronics/all", comp: <></> },
     {
       label: "Televisions",
-      value: "televisions",
+      value: "/for-sale/electronics/televisions",
       comp: <Filter.TelevisionFilter onChange={subFormChanged} />,
     },
     {
       label: "Laptops and Desktop Computers",
-      value: "laptops-desktop-computers",
+      value: "/for-sale/electronics/laptops-desktop-computers",
       comp: <Filter.LapTopFilter onChange={subFormChanged} />,
     },
     {
       label: "iPad, Tablets & eReaders",
-      value: "ipad-tablets-ereaders",
+      value: "/for-sale/electronics/ipad-tablets-ereaders",
       comp: <Filter.IpadFilter onChange={subFormChanged} />,
     },
     {
       label: "Phones",
-      value: "phones",
+      value: "/for-sale/electronics/phones",
       comp: <Filter.PhoneFilter onChange={subFormChanged} />,
     },
     {
       label: "Gaming Consoles and Accessories",
-      value: "gaming-consoles-accessories",
+      value: "/for-sale/electronics/gaming-consoles-accessories",
       comp: <Filter.GamingConsoleFilter onChange={subFormChanged} />,
     },
     {
       label: "Home Theater Systems",
-      value: "home-theater-systems",
+      value: "/for-sale/electronics/home-theater-systems",
       comp: <Filter.TheaterSystemFilter onChange={subFormChanged} />,
     },
     {
       label: "Kitchen Appliances",
-      value: "kitchen",
+      value: "/for-sale/appliances/kitchen",
       comp: <Filter.KitchenFilter onChange={subFormChanged} />,
     },
     {
       label: "Laundry Appliances",
-      value: "laundry",
+      value: "/for-sale/appliances/laundry",
       comp: <Filter.LaundryFilter onChange={subFormChanged} />,
     },
     {
       label: "Cleaning Appliances",
-      value: "cleaning",
+      value: "/for-sale/appliances/cleaning",
       comp: <Filter.CleaningFilter onChange={subFormChanged} />,
     },
     {
       label: "Heating, Cooling, and Air Quality",
-      value: "heating-cooling-air-quality",
+      value: "/for-sale/appliances/heating-cooling-air-quality",
       comp: <Filter.HeatingFilter onChange={subFormChanged} />,
     },
     {
       label: "Personal Care Appliances",
-      value: "personal-care",
+      value: "/for-sale/appliances/personal-care",
       comp: <Filter.PersonalCareFilter onChange={subFormChanged} />,
     },
     {
       label: "Miscellaneous Appliances",
-      value: "miscellaneous",
+      value: "/for-sale/appliances/miscellaneous",
       comp: <Filter.MiscellaneousFilter onChange={subFormChanged} />,
     },
     {
       label: "Cameras and Camcorders",
-      value: "cameras-camcorders",
+      value: "/for-sale/electronics/cameras-camcorders",
       comp: <Filter.CameraFilter onChange={subFormChanged} />,
     },
     {
       label: "Portable Music Players",
-      value: "portable-music-players",
+      value: "/for-sale/electronics/portable-music-players",
       comp: <Filter.MusicFilter onChange={subFormChanged} />,
     },
     {
       label: "Wearable Technology",
-      value: "wearable-technology",
+      value: "/for-sale/electronics/wearable-technology",
       comp: <Filter.WearableFilter onChange={subFormChanged} />,
     },
     {
       label: "Networking Devices",
-      value: "networking-devices",
+      value: "/for-sale/electronics/networking-devices",
       comp: <Filter.NetworkingFilter onChange={subFormChanged} />,
     },
     {
       label: "Computer Components and Storage",
-      value: "computer-components-storage",
+      value: "/for-sale/electronics/computer-components-storage",
       comp: <Filter.ComputerComponentFilter onChange={subFormChanged} />,
     },
     {
       label: "Office Equipment",
-      value: "office-equipment",
+      value: "/for-sale/electronics/office-equipment",
       comp: <Filter.OfficeFilter onChange={subFormChanged} />,
     },
     {
       label: "Security and Surveillance Equipment",
-      value: "security-surveillance",
+      value: "/for-sale/electronics/security-surveillance",
       comp: <Filter.SecurityFilter onChange={subFormChanged} />,
     },
     {
       label: "Audio Equipment",
-      value: "audio-equipment",
+      value: "/for-sale/electronics/audio-equipment",
       comp: <Filter.AudioFilter onChange={subFormChanged} />,
     },
     {
       label: "Smart Home Devices",
-      value: "smart-home-devices",
+      value: "/for-sale/electronics/smart-home-devices",
       comp: <Filter.HomeDeviceFilter onChange={subFormChanged} />,
     },
     {
       label: "Batteries and Power Supplies",
-      value: "batteries-power-supplies",
+      value: "/for-sale/electronics/batteries-power-supplies",
       comp: <Filter.BatteryFilter onChange={subFormChanged} />,
     },
   ];
@@ -246,7 +246,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
             hasMore={hasMore}
             endMessage={<h4></h4>}
             scrollableTarget="community-list"
-            className={page !== "all" ? "filtered" : ""}
+            className={page !== "/for-sale/electronics/all" ? "filtered" : ""}
             loader={<h4>Loading...</h4>}
           >
             {data.length > 0 &&
@@ -275,7 +275,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
         ) : (
           <div className="no-data">No Data</div>
         )}
-        {page !== "all" && (
+        {page !== "/for-sale/electronics/all" && (
           <Styled.FilterSection>
             {filterData.filter((f) => f.value === page)[0].comp}
           </Styled.FilterSection>

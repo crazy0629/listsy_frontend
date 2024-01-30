@@ -5,7 +5,7 @@ import { SalesPageSection } from "@/modules/main/ForSales";
 const SalesAudioPage: React.FC = () => {
   return (
     <AppLayout name="sale_ele_audio">
-      <SalesPageSection page="audio-equipment" />
+      <SalesPageSection page="/for-sale/electronics/audio-equipment" />
     </AppLayout>
   );
 };
