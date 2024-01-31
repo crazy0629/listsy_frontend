@@ -50,7 +50,7 @@ export const SelectOptionWrapper = styled.div`
 
 export const SelectFormItem = styled.div`
   position: relative;
-  min-width: 300px;
+  /* min-width: 300px; */
   p,
   label {
     color: #000;

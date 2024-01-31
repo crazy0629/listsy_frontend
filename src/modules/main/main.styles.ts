@@ -32,11 +32,25 @@ export const ShowAdvancedFilter = styled.div`
   cursor: pointer;
 `;
 
+export const ArtistInput = styled.input`
+  width: 100%;
+  height: 34px;
+  padding: 0 6px;
+  border: 1px solid #afafaf;
+  outline: none;
+  border-radius: 5px;
+  font-size: 12px;
+  &::placeholder {
+    color: #afafaf;
+  }
+`;
+
 export const PostsPageFilterWrapper = styled.div`
   width: 100%;
   /* align-items: center; */
   overflow: auto;
   display: flex;
+  & > div,
   span {
     display: flex;
     width: fit-content;
@@ -52,10 +66,14 @@ export const PostsPageFilterWrapper = styled.div`
     background: #eaeaea;
     color: #000;
     line-height: 20.4px; /* 145.714% */
+    position: relative;
     cursor: pointer;
     &.active {
       background: #ff6f00;
       color: #fff;
+    }
+    &.sub-active {
+      background: #ff6f0080;
     }
   }
   .swiper-wrapper {
@@ -78,6 +96,10 @@ export const PostsPageFilterWrapper = styled.div`
   @media screen and (max-width: 500px) {
     flex-wrap: wrap;
   }
+`;
+
+export const SubFilterWrapper = styled.div`
+  padding: 0 20px 10px;
 `;
 
 export const FilterWrapper = styled.div`
@@ -115,6 +137,10 @@ export const MainGridWrapper = styled.div`
   /* & > div {
     height: 100%;
   } */
+  transition: all 0.3s;
+  &.filtered {
+    padding-right: 320px;
+  }
   .infinite-scroll-component {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -185,17 +211,42 @@ export const MainGridWrapper = styled.div`
 `;
 
 export const FilterSection = styled.div`
-  max-width: 360px;
+  max-width: 320px;
   margin-left: 20px;
   border-left: 1px solid #00000010;
-  padding: 0 20px 20px;
-  overflow: auto;
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
-  & > * {
-    margin-bottom: 20px;
+  background: #fff;
+  position: fixed;
+  height: calc(100% - 167px);
+  bottom: 0;
+  right: -320px;
+  transition: all 0.3s;
+  &.active {
+    right: 0;
   }
+  .filter-wrapper {
+    overflow: auto;
+    padding: 0 20px 20px;
+    height: 100%;
+    & > * {
+      margin-bottom: 20px;
+    }
+  }
+`;
+
+export const FilterToggleButton = styled.div`
+  position: absolute;
+  width: 30px;
+  background-color: #fff;
+  height: 30px;
+  cursor: pointer;
+  border: 1px solid #00000020;
+  border-radius: 5px 0 0 5px;
+  border-right: none;
+  top: 30px;
+  left: -30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const JobListWrapper = styled.div`

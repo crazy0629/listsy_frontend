@@ -116,12 +116,13 @@ export const PetsPageSection: React.FC = () => {
             >
               {item}
 
-              {adCnt &&
-                adCnt.length > 0 &&
-                "  (" +
-                  adCnt.filter((element) => element.itemCategory == item)[0]
-                    ?.count +
-                  ")"}
+              {adCnt
+                ? adCnt.length > 0 &&
+                  "  (" +
+                    adCnt.filter((element) => element.itemCategory == item)[0]
+                      ?.count +
+                    ")"
+                : " (0)"}
             </span>
           ))}
         </Styled.PostsPageFilterWrapper>
