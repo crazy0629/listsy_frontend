@@ -1,131 +1,128 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 import * as Styled from "./main.styles";
-import { CardItem, MultiSelection } from "@/components";
-import axios from "axios";
-import { SERVER_URI } from "@/config";
-import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { CardItem } from "@/components";
+import { MdArrowLeft, MdClose } from "react-icons/md";
+import { GardenFilter } from "./filters/garden";
+import { gardenFilter } from "./fiterData";
 
-export const GardenPageSection: React.FC = () => {
-  const [getIndex, setGetIndex] = useState(0);
-  const [data, setData] = useState<any>([]);
-  const [hasMore, setHasMore] = useState(true);
+type GardenProps = {
+  page?: string;
+};
+
+export const GardenSection: React.FC<GardenProps> = ({ page }) => {
+  const router = useRouter();
   const [filter, setFilter] = useState({
-    itemCategory: [] as string[],
-    itemCondition: [] as string[],
+    itemCategory: "All",
   });
+  const [adCnt, setAdCnt] = useState([]);
+  const [isShowFilter, setIsShowFilter] = useState(true);
+  const [data, setData] = useState<any>([]);
+  const [getIndex, setGetIndex] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    getData(0);
-  }, []);
+  const handleCategoryClicked = (item: any) => {
+    setFilter({ itemCategory: item.label });
+    router.push(item.page);
+  };
 
-  const getData = async (index: number) => {
-    const res = await axios.post(`${SERVER_URI}/garden/getGardenAds`, {
-      ...filter,
-      index,
-    });
-    if (res.data.success) {
-      if (index > 0) {
-        setData((prev: any) => [...prev, ...res.data.data]);
-      } else {
-        setData([...res.data.data]);
-      }
-      if (res.data.data.length < 50) {
-        setHasMore(false);
-      }
-      setGetIndex((prev) => prev + 1);
-    } else {
-      toast.error(res.data.message);
-    }
+  const getData = async (index: number) => {};
+
+  const subFormChanged = (data) => {
+    setFilter((prev) => ({ ...prev, ...data }));
   };
 
   return (
     <Styled.MainPageSectionWrapper>
       <Styled.FilterWrapper>
-        <MultiSelection
-          data={[
-            "Appliances",
-            "Art & Crafts",
-            "Audio & Stereo Equipment",
-            "Automotive Items & Parts",
-            "Baby & Kids Stuff",
-            "Bicycles",
-            "Books ,Comics & Magazines",
-            "Cameras & Photography Equipment",
-            "Christmas Decorations",
-            "Clothes, Shoes & Accessories",
-            "Collectibles &  Sports Memorabilia",
-            "Computers,Tablets, Software  & Hardware",
-            "DIY Tools & Materials",
-            "Freebies",
-            "Health & Beauty",
-            "Heavy Equipment",
-            "Home & Garden",
-            "Household & Furniture",
-            "Jewellery & Watches",
-            "Films & TV",
-            "Music & CDs",
-            "Musical Instruments & DJ Equipment",
-            "Office Furniture & Equipment",
-            "Mobile Phones, Smart Watches & Accessories",
-            "Sports, Leisure & Travel",
-            "Stuff Wanted",
-            "Tickets",
-            " Video Games & Consoles",
-            "Food & Drink",
-            "Tyres",
-            "Toys & Hobbies",
-            "Digital Goods",
-          ]}
-          placeholder="Select Item Category"
-          value={filter.itemCategory}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, itemCategory: value }))
-          }
-        />
-        <MultiSelection
-          data={["New", "Refurbished", "Used", "For parts or not working"]}
-          placeholder="Select Item Condition"
-          value={filter.itemCondition}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, itemCondition: value }))
-          }
-        />
+        <Styled.PostsPageFilterWrapper>
+          {gardenFilter.map((item, key) => (
+            <span
+              key={key}
+              onClick={() => handleCategoryClicked(item)}
+              className={item.page === page ? "active" : ""}
+            >
+              {item.label}
 
-        <button onClick={() => getData(0)}>Search</button>
+              {adCnt
+                ? adCnt.length > 0
+                  ? "  (" +
+                    adCnt.filter(
+                      (element) => element.itemCategory === item.label
+                    )[0]?.count +
+                    ")"
+                  : " (0)"
+                : " (0)"}
+            </span>
+          ))}
+        </Styled.PostsPageFilterWrapper>
       </Styled.FilterWrapper>
-      <Styled.MainGridWrapper>
-        <InfiniteScroll
-          dataLength={data.length}
-          next={() => getData(getIndex)}
-          hasMore={hasMore}
-          endMessage={<h4></h4>}
-          scrollableTarget="community-list"
-          loader={<h4>Loading...</h4>}
-        >
-          {data.length > 0 &&
-            data.map((item: any, key: number) => (
-              <CardItem
-                id={item.adId._id}
-                key={key}
-                type={"garden"}
-                link={item.adId?.adFileName}
-                postDate={item.adId?.uploadDate}
-                price={item.price}
-                priceUnit={item.priceUnit}
-                reviewCount={item.userId?.reviewCount}
-                reviewMark={item.userId?.reviewMark}
-                subtitle={item.subTitle}
-                title={item.title}
-                address={item.address}
-                userAvatar={item.userId?.avatar}
-                firstName={item.userId?.firstName}
-                lastName={item.userId?.lastName}
-                viewCount={item.viewCount}
-                duration={item.adId?.duration}
-              />
-            ))}
-        </InfiniteScroll>
+      <Styled.MainGridWrapper
+        className={
+          isShowFilter &&
+          page !== "/garden-outdoor-equipment/all-items-for-sale"
+            ? "filtered"
+            : ""
+        }
+      >
+        {data.length > 0 ? (
+          <InfiniteScroll
+            dataLength={data.length}
+            next={() => getData(getIndex)}
+            hasMore={hasMore}
+            endMessage={<h4></h4>}
+            scrollableTarget="community-list"
+            className={
+              isShowFilter &&
+              page !== "/garden-outdoor-equipment/all-items-for-sale"
+                ? "filtered"
+                : ""
+            }
+            loader={<h4>Loading...</h4>}
+          >
+            {data.length > 0 &&
+              data.map((item: any, key: number) => (
+                <CardItem
+                  id={item.adId?._id}
+                  key={key}
+                  type={"sale"}
+                  link={item.adId?.adFileName}
+                  postDate={item.adId?.uploadDate}
+                  price={item.price}
+                  priceUnit={item.priceUnit}
+                  reviewCount={item.userId?.reviewCount}
+                  reviewMark={item.userId?.reviewMark}
+                  subtitle={item.subTitle}
+                  title={item.title}
+                  address={item.address}
+                  userAvatar={item.userId?.avatar}
+                  firstName={item.userId?.firstName}
+                  lastName={item.userId?.lastName}
+                  viewCount={item.viewCount}
+                  duration={item.adId?.duration}
+                />
+              ))}
+          </InfiniteScroll>
+        ) : (
+          <div className="no-data">No Data</div>
+        )}
+        {page !== "/garden-outdoor-equipment/all-items-for-sale" && (
+          <Styled.FilterSection className={isShowFilter ? "active" : ""}>
+            <Styled.FilterToggleButton
+              onClick={() => setIsShowFilter((prev) => !prev)}
+            >
+              {!isShowFilter ? (
+                <MdArrowLeft color={"#00000080"} />
+              ) : (
+                <MdClose color={"#00000080"} />
+              )}
+            </Styled.FilterToggleButton>
+            <div className="filter-wrapper">
+              <GardenFilter onChange={subFormChanged} />
+            </div>
+          </Styled.FilterSection>
+        )}
       </Styled.MainGridWrapper>
     </Styled.MainPageSectionWrapper>
   );

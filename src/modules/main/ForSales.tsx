@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Styled from "./main.styles";
 import { CardItem } from "@/components";
 import axios from "axios";
@@ -8,6 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { selectData } from "../upload/detailsform/data-electronics";
 import * as Filter from "./filters/electronics";
 import { useRouter } from "next/router";
+import { MdArrowLeft, MdClose } from "react-icons/md";
 
 type ForSalesProps = {
   page?: string;
@@ -20,6 +21,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
   const [filter, setFilter] = useState({
     itemCategory: "All",
   });
+  const [isShowFilter, setIsShowFilter] = useState(true);
 
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
@@ -227,18 +229,24 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
             >
               {item.label}
 
-              {adCnt &&
-                adCnt.length > 0 &&
-                "  (" +
-                  adCnt.filter(
-                    (element) => element.itemCategory === item.label
-                  )[0]?.count +
-                  ")"}
+              {adCnt
+                ? adCnt.length > 0
+                  ? "  (" +
+                    adCnt.filter(
+                      (element) => element.itemCategory === item.label
+                    )[0]?.count +
+                    ")"
+                  : " (0)"
+                : " (0)"}
             </span>
           ))}
         </Styled.PostsPageFilterWrapper>
       </Styled.FilterWrapper>
-      <Styled.MainGridWrapper>
+      <Styled.MainGridWrapper
+        className={
+          isShowFilter && page !== "/for-sale/electronics/all" ? "filtered" : ""
+        }
+      >
         {data.length > 0 ? (
           <InfiniteScroll
             dataLength={data.length}
@@ -246,7 +254,11 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
             hasMore={hasMore}
             endMessage={<h4></h4>}
             scrollableTarget="community-list"
-            className={page !== "/for-sale/electronics/all" ? "filtered" : ""}
+            className={
+              isShowFilter && page !== "/for-sale/electronics/all"
+                ? "filtered"
+                : ""
+            }
             loader={<h4>Loading...</h4>}
           >
             {data.length > 0 &&
@@ -276,8 +288,19 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
           <div className="no-data">No Data</div>
         )}
         {page !== "/for-sale/electronics/all" && (
-          <Styled.FilterSection>
-            {filterData.filter((f) => f.value === page)[0].comp}
+          <Styled.FilterSection className={isShowFilter ? "active" : ""}>
+            <Styled.FilterToggleButton
+              onClick={() => setIsShowFilter((prev) => !prev)}
+            >
+              {!isShowFilter ? (
+                <MdArrowLeft color={"#00000080"} />
+              ) : (
+                <MdClose color={"#00000080"} />
+              )}
+            </Styled.FilterToggleButton>
+            <div className="filter-wrapper">
+              {filterData.filter((f) => f.value === page)[0].comp}
+            </div>
           </Styled.FilterSection>
         )}
       </Styled.MainGridWrapper>

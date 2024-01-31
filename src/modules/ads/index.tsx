@@ -85,6 +85,20 @@ export const AdsDetailsSection: React.FC = () => {
     }
   };
 
+  const bookmarkClicked = () => {
+    if (!authContext?.user?.id) {
+      toast.error("Log in to continue!");
+      router.push("/auth/login");
+    }
+  };
+
+  const likeClicked = () => {
+    if (!authContext?.user?.id) {
+      toast.error("Log in to continue!");
+      router.push("/auth/login");
+    }
+  };
+
   return (
     <Styled.AdsDetailsSectionWrapper>
       {data?.adId?.imagesFileName && (
@@ -175,8 +189,8 @@ export const AdsDetailsSection: React.FC = () => {
                     size={24}
                     onClick={() => sendMessageClicked()}
                   />
-                  <BsBookmark size={24} />
-                  <BiLike size={24} />
+                  <BsBookmark size={24} onClick={bookmarkClicked} />
+                  <BiLike size={24} onClick={likeClicked} />
                 </div>
               </Styled.UserInfoWrapper>
               <p>{data?.description}</p>

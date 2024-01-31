@@ -68,7 +68,7 @@ const mainNav = [
   },
   {
     label: "Beauty and Personal Care Products",
-    href: "/beauty",
+    href: "/for-sale/beauty-personal-care",
     icon: "beauty",
   },
   {
@@ -78,17 +78,17 @@ const mainNav = [
   },
   {
     label: "Art and Collectibles",
-    href: "/art",
+    href: "/art-collectibles/all-items-for-sale",
     icon: "art",
   },
   {
     label: "Garden and Outdoor Equipment",
-    href: "/garden",
+    href: "/garden-outdoor-equipment/all-items-for-sale",
     icon: "garden",
   },
   {
     label: "Musical Instruments",
-    href: "/music",
+    href: "/musical-instruments-for-sale/all-instruments",
     icon: "music",
   },
   {
@@ -98,12 +98,12 @@ const mainNav = [
   },
   {
     label: "DIY and Craft Items",
-    href: "/diy",
+    href: "/for-sale/diy-craft-items",
     icon: "craft",
   },
   {
     label: "Food and Culinary Products",
-    href: "/food",
+    href: "/culinary-products/world-cuisines",
     icon: "food",
   },
   // {
