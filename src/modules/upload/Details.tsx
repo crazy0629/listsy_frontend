@@ -12,6 +12,7 @@ import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { PetForm } from "./detailsform/PetForm";
+import { FoodForm } from "./detailsform/FoodForm";
 
 type Props = {
   adLink: string;
@@ -295,6 +296,29 @@ export const Details: React.FC<Props> = ({
     }
   };
 
+  const handleFoodFormSave = async (data: any) => {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
+      toast.error("Enter the Price!");
+    } else {
+      const res = await axios.post(`${SERVER_URI}/food/loadFoodInfo`, {
+        ...data,
+        price,
+        priceUnit,
+        adId,
+        userId: authContext.user?.id,
+        ...location,
+      });
+      if (res.data.success) {
+        toast.success(res.data.message);
+        onNext();
+      } else {
+        toast.error(res.data.message);
+      }
+    }
+  };
+
   const getCountryCode = async () => {
     const locationInfo = await axios.get(
       `https://api.ipdata.co?api-key=${process.env.NEXT_PUBLIC_IPDATA_API_KEY}`
@@ -338,6 +362,7 @@ export const Details: React.FC<Props> = ({
   const formComp: any = {
     sale: <ForSaleForm onSave={handleForSaleFormSave} />,
     pet: <PetForm onSave={handlePetFormSave} />,
+    food: <FoodForm onSave={handleFoodFormSave} />,
     garden: <ForSaleForm onSave={handleGardenFormSave} />,
     fashion: <ForSaleForm onSave={handleFashionFormSave} />,
     sports: <ForSaleForm onSave={handleSportsFormSave} />,

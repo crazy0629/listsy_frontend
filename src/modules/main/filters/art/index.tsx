@@ -5,7 +5,7 @@ import {
   FilterOptionWrapper,
   ShowAdvancedFilter,
 } from "../../main.styles";
-import { selectData } from "@/modules/upload/detailsform/data-art";
+import { selectData } from "@/modules/upload/detailsform/DataList/data-art";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
 

@@ -5,10 +5,11 @@ import axios from "axios";
 import { SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { selectData } from "../upload/detailsform/data-electronics";
+import { selectData } from "../upload/detailsform/DataList/data-electronics";
 import * as Filter from "./filters/electronics";
 import { useRouter } from "next/router";
 import { MdArrowLeft, MdClose } from "react-icons/md";
+import { Tabs, Tab } from "react-tabs-scrollable";
 
 type ForSalesProps = {
   page?: string;
@@ -21,7 +22,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
   const [filter, setFilter] = useState({
     itemCategory: "All",
   });
-  const [isShowFilter, setIsShowFilter] = useState(true);
+  const [isShowFilter, setIsShowFilter] = useState(false);
 
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
@@ -217,10 +218,41 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
     getData(0);
   }, [address, countryCode]);
 
+  const onTabClick = (_, value) => {
+    const selectedTab = filterData[value];
+    setFilter({ itemCategory: selectedTab.label });
+    router.push(selectedTab.value);
+  };
+
   return (
     <Styled.MainPageSectionWrapper>
-      <Styled.FilterWrapper>
-        <Styled.PostsPageFilterWrapper>
+      <Styled.FilterTabWrapper>
+        <Tabs
+          activeTab={filterData.indexOf(
+            filterData.filter((f) => f.value === page)[0]
+          )}
+          onTabClick={onTabClick}
+          hideNavBtnsOnMobile={false}
+          className="asdf"
+        >
+          {filterData.map((item, key) => (
+            <Tab key={key}>
+              {item.label}
+              {adCnt
+                ? adCnt.length > 0
+                  ? "  (" +
+                    adCnt.filter(
+                      (element) => element.itemCategory === item.label
+                    )[0]?.count +
+                    ")"
+                  : " (0)"
+                : " (0)"}
+            </Tab>
+          ))}
+        </Tabs>
+      </Styled.FilterTabWrapper>
+      {/* <Styled.FilterWrapper>
+       <Styled.PostsPageFilterWrapper>
           {filterData.map((item, key) => (
             <span
               key={key}
@@ -240,8 +272,8 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
                 : " (0)"}
             </span>
           ))}
-        </Styled.PostsPageFilterWrapper>
-      </Styled.FilterWrapper>
+        </Styled.PostsPageFilterWrapper> 
+      </Styled.FilterWrapper>*/}
       <Styled.MainGridWrapper
         className={
           isShowFilter && page !== "/for-sale/electronics/all" ? "filtered" : ""
@@ -291,12 +323,9 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>
             <Styled.FilterToggleButton
               onClick={() => setIsShowFilter((prev) => !prev)}
+              className={isShowFilter ? "active" : ""}
             >
-              {!isShowFilter ? (
-                <MdArrowLeft color={"#00000080"} />
-              ) : (
-                <MdClose color={"#00000080"} />
-              )}
+              {!isShowFilter ? "Filter" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               {filterData.filter((f) => f.value === page)[0].comp}

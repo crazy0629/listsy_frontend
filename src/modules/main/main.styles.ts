@@ -8,6 +8,49 @@ export const MainPageSectionWrapper = styled.div`
   width: 100%;
 `;
 
+export const FilterTabWrapper = styled.div`
+  padding: 0 0 16px;
+  .rts___tabs___container {
+    align-items: center;
+    .rts___nav___btn___container {
+      button {
+        height: 100%;
+        width: 20px;
+        padding: 0;
+        border: none;
+      }
+    }
+    .rts___tabs {
+      padding: 0;
+      margin: 0 10px;
+      button {
+        display: flex;
+        width: fit-content;
+        margin: 0;
+        margin-right: 8px;
+        max-width: 250px;
+        border-radius: 100px;
+        padding: 6px 12px;
+        white-space: nowrap;
+        transition: all 0.3s;
+        font-size: 10px;
+        box-shadow: none;
+        font-weight: 400;
+        background: #eaeaea;
+        color: #000;
+        line-height: 20.4px;
+        position: relative;
+        border: 1px solid transparent;
+
+        &.rts___tab___selected {
+          background: #ff6f00;
+          color: #fff;
+        }
+      }
+    }
+  }
+`;
+
 export const FilterOptionWrapper = styled.div`
   margin-bottom: 12px !important;
   font-size: 14px;
@@ -216,7 +259,7 @@ export const FilterSection = styled.div`
   border-left: 1px solid #00000010;
   background: #fff;
   position: fixed;
-  height: calc(100% - 167px);
+  height: calc(100% - 137px);
   bottom: 0;
   right: -320px;
   transition: all 0.3s;
@@ -235,18 +278,23 @@ export const FilterSection = styled.div`
 
 export const FilterToggleButton = styled.div`
   position: absolute;
-  width: 30px;
   background-color: #fff;
   height: 30px;
+  font-size: 14px;
   cursor: pointer;
   border: 1px solid #00000020;
   border-radius: 5px 0 0 5px;
   border-right: none;
   top: 30px;
-  left: -30px;
+  left: -50px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 50px;
+  &.active {
+    left: -30px;
+    width: 30px;
+  }
 `;
 
 export const JobListWrapper = styled.div`

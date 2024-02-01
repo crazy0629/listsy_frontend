@@ -6,6 +6,7 @@ import { CardItem } from "@/components";
 import { MdArrowLeft, MdClose } from "react-icons/md";
 import { DiyCraftFilter } from "./filters/diy";
 import { biyFilter } from "./fiterData";
+import { Tabs, Tab } from "react-tabs-scrollable";
 
 type DiyCraftProps = {
   page?: string;
@@ -17,7 +18,7 @@ export const DiyCraftSection: React.FC<DiyCraftProps> = ({ page }) => {
     itemCategory: "All",
   });
   const [adCnt, setAdCnt] = useState([]);
-  const [isShowFilter, setIsShowFilter] = useState(true);
+  const [isShowFilter, setIsShowFilter] = useState(false);
   const [data, setData] = useState<any>([]);
   const [getIndex, setGetIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -33,9 +34,40 @@ export const DiyCraftSection: React.FC<DiyCraftProps> = ({ page }) => {
     setFilter((prev) => ({ ...prev, ...data }));
   };
 
+  const onTabClick = (_, value) => {
+    const selectedTab = biyFilter[value];
+    setFilter({ itemCategory: selectedTab.label });
+    router.push(selectedTab.page);
+  };
+
   return (
     <Styled.MainPageSectionWrapper>
-      <Styled.FilterWrapper>
+      <Styled.FilterTabWrapper>
+        <Tabs
+          activeTab={biyFilter.indexOf(
+            biyFilter.filter((f) => f.page === page)[0]
+          )}
+          onTabClick={onTabClick}
+          hideNavBtnsOnMobile={false}
+          className="asdf"
+        >
+          {biyFilter.map((item, key) => (
+            <Tab key={key}>
+              {item.label}
+              {adCnt
+                ? adCnt.length > 0
+                  ? "  (" +
+                    adCnt.filter(
+                      (element) => element.itemCategory === item.label
+                    )[0]?.count +
+                    ")"
+                  : " (0)"
+                : " (0)"}
+            </Tab>
+          ))}
+        </Tabs>
+      </Styled.FilterTabWrapper>
+      {/* <Styled.FilterWrapper>
         <Styled.PostsPageFilterWrapper>
           {biyFilter.map((item, key) => (
             <span
@@ -57,7 +89,7 @@ export const DiyCraftSection: React.FC<DiyCraftProps> = ({ page }) => {
             </span>
           ))}
         </Styled.PostsPageFilterWrapper>
-      </Styled.FilterWrapper>
+      </Styled.FilterWrapper> */}
       <Styled.MainGridWrapper
         className={
           isShowFilter && page !== "/for-sale/diy-craft-items" ? "filtered" : ""
@@ -107,12 +139,9 @@ export const DiyCraftSection: React.FC<DiyCraftProps> = ({ page }) => {
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>
             <Styled.FilterToggleButton
               onClick={() => setIsShowFilter((prev) => !prev)}
+              className={isShowFilter ? "active" : ""}
             >
-              {!isShowFilter ? (
-                <MdArrowLeft color={"#00000080"} />
-              ) : (
-                <MdClose color={"#00000080"} />
-              )}
+              {!isShowFilter ? "Filter" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               <DiyCraftFilter onChange={subFormChanged} />
