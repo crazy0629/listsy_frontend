@@ -13,6 +13,7 @@ import { BsBookmark, BsClock, BsFlag } from "react-icons/bs";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { BiLike } from "react-icons/bi";
 import { Truck } from "./Truck";
+import { Food } from "./Food";
 import { ImageModal } from "./ImageModal";
 import { ForSale } from "./ForSale";
 import { Auth as AuthContext } from "@/context/contexts";
@@ -285,6 +286,7 @@ export const AdsDetailsSection: React.FC = () => {
               {type === "sale" && <ForSale data={data} />}
               {type === "pet" && <PetAd data={data} />}
               {type === "truck" && <Truck data={data} />}
+              {type === "food" && <Food data={data} />}
             </Styled.AdsDetailsInfoWrapper>
           </Styled.AdsDetailsThumbWrapper>
         </Styled.AdsDetailsContainer>

@@ -21,7 +21,7 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
     itemCategory: "All",
   });
   const [adCnt, setAdCnt] = useState([]);
-  const [isShowFilter, setIsShowFilter] = useState(true);
+  const [isShowFilter, setIsShowFilter] = useState(false);
   const [data, setData] = useState<any>([]);
   const [getIndex, setGetIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -172,12 +172,9 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>
             <Styled.FilterToggleButton
               onClick={() => setIsShowFilter((prev) => !prev)}
+              className={isShowFilter ? "active" : ""}
             >
-              {!isShowFilter ? (
-                <MdArrowLeft color={"#00000080"} />
-              ) : (
-                <MdClose color={"#00000080"} />
-              )}
+              {!isShowFilter ? "Filter" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               <ArtFilter onChange={subFormChanged} />

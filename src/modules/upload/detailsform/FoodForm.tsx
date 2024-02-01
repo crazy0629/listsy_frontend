@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import * as Styled from "./details.styles";
 import { SingleSelection } from "@/components";
-import { selectData } from "./DataList/data-pets";
 import { toast } from "react-toastify";
-import { PetsType } from "./Pets/PetsType";
-import { PetsSupplies } from "./Pets/PetSupplies";
+import { foodFilter } from "@/modules/main/fiterData";
+import { FoodDetail } from "./Food";
 
 type Props = {
   onSave: (data: any) => void;
 };
 
-export const PetForm: React.FC<Props> = ({ onSave }) => {
+export const FoodForm: React.FC<Props> = ({ onSave }) => {
   const [form, setForm] = useState({
     title: "",
     subTitle: "",
@@ -78,7 +77,8 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
         <span>{form.description.length} / 5000</span>
       </Styled.TextAreaFormItem>
       <SingleSelection
-        data={selectData.pet.category}
+        direction="top"
+        data={foodFilter.map((item) => item.label).slice(1)}
         label="Item Category"
         placeholder="Select Item Category"
         value={form.itemCategory}
@@ -90,13 +90,7 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
           }));
         }}
       />
-      {(form.itemCategory == "Pets for sale" ||
-        form.itemCategory == "Pets for adoption") && (
-        <PetsType onSave={subFormSave} />
-      )}
-      {form.itemCategory == "Pet Supplies" && (
-        <PetsSupplies onSave={subFormSave} />
-      )}
+      <FoodDetail onSave={subFormSave} />
     </Styled.FormContainer>
   );
 };

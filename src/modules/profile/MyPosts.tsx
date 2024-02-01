@@ -70,6 +70,11 @@ const pageFilter = [
     key: "education",
     type: "grid",
   },
+  {
+    label: "Food and Culinary Products",
+    key: "food",
+    type: "grid",
+  },
   // {
   //   label: "Jobs",
   //   key: "job",

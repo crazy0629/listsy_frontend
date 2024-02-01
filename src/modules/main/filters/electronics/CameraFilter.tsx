@@ -1,11 +1,7 @@
 import { InputRange, MultiSelection, SingleSelection } from "@/components";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  FilterOptionWrapper,
-  FilterWrapper,
-  ShowAdvancedFilter,
-} from "../../main.styles";
-import { selectData } from "@/modules/upload/detailsform/data-electronics";
+import { FilterOptionWrapper, ShowAdvancedFilter } from "../../main.styles";
+import { selectData } from "@/modules/upload/detailsform/DataList/data-electronics";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
 

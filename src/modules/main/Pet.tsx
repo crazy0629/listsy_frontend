@@ -5,7 +5,7 @@ import axios from "axios";
 import { SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { selectData } from "../upload/detailsform/data-pets";
+import { selectData } from "../upload/detailsform/DataList/data-pets";
 import { PetFilter } from "./filters/pet/PetFilter";
 
 export const PetsPageSection: React.FC = () => {

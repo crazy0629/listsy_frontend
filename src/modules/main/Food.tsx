@@ -6,6 +6,7 @@ import { CardItem } from "@/components";
 import { MdArrowLeft, MdClose } from "react-icons/md";
 import { FoodFilter } from "./filters/food";
 import { foodFilter } from "./fiterData";
+import { Tabs, Tab } from "react-tabs-scrollable";
 
 type FoodProps = {
   page?: string;
@@ -17,7 +18,7 @@ export const FoodSection: React.FC<FoodProps> = ({ page }) => {
     itemCategory: "All",
   });
   const [adCnt, setAdCnt] = useState([]);
-  const [isShowFilter, setIsShowFilter] = useState(true);
+  const [isShowFilter, setIsShowFilter] = useState(false);
   const [data, setData] = useState<any>([]);
   const [getIndex, setGetIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -33,9 +34,40 @@ export const FoodSection: React.FC<FoodProps> = ({ page }) => {
     setFilter((prev) => ({ ...prev, ...data }));
   };
 
+  const onTabClick = (_, value) => {
+    const selectedTab = foodFilter[value];
+    setFilter({ itemCategory: selectedTab.label });
+    router.push(selectedTab.page);
+  };
+
   return (
     <Styled.MainPageSectionWrapper>
-      <Styled.FilterWrapper>
+      <Styled.FilterTabWrapper>
+        <Tabs
+          activeTab={foodFilter.indexOf(
+            foodFilter.filter((f) => f.page === page)[0]
+          )}
+          onTabClick={onTabClick}
+          hideNavBtnsOnMobile={false}
+          className="asdf"
+        >
+          {foodFilter.map((item, key) => (
+            <Tab key={key}>
+              {item.label}
+              {adCnt
+                ? adCnt.length > 0
+                  ? "  (" +
+                    adCnt.filter(
+                      (element) => element.itemCategory === item.label
+                    )[0]?.count +
+                    ")"
+                  : " (0)"
+                : " (0)"}
+            </Tab>
+          ))}
+        </Tabs>
+      </Styled.FilterTabWrapper>
+      {/* <Styled.FilterWrapper>
         <Styled.PostsPageFilterWrapper>
           {foodFilter.map((item, key) => (
             <span
@@ -57,7 +89,7 @@ export const FoodSection: React.FC<FoodProps> = ({ page }) => {
             </span>
           ))}
         </Styled.PostsPageFilterWrapper>
-      </Styled.FilterWrapper>
+      </Styled.FilterWrapper> */}
       <Styled.MainGridWrapper
         className={
           isShowFilter && page !== "/culinary-products/world-cuisines"
@@ -109,12 +141,9 @@ export const FoodSection: React.FC<FoodProps> = ({ page }) => {
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>
             <Styled.FilterToggleButton
               onClick={() => setIsShowFilter((prev) => !prev)}
+              className={isShowFilter ? "active" : ""}
             >
-              {!isShowFilter ? (
-                <MdArrowLeft color={"#00000080"} />
-              ) : (
-                <MdClose color={"#00000080"} />
-              )}
+              {!isShowFilter ? "Filter" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               <FoodFilter onChange={subFormChanged} />
