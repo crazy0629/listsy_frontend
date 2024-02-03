@@ -7,9 +7,10 @@ import { SERVER_URI } from "@/config";
 
 type Props = {
   onChange: (data: any) => void;
+  itemCategory: string;
 };
 
-export const FoodFilter: React.FC<Props> = ({ onChange }) => {
+export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
     priceRange: [] as string[],
@@ -50,16 +51,16 @@ export const FoodFilter: React.FC<Props> = ({ onChange }) => {
   const donetyping = async () => {
     setIsLoading(true);
     // const adsCountData = await axios.post(
-    //   `${SERVER_URI}/sale/getCountOfEachFilter`,
+    //   `${SERVER_URI}/food/getCountOfEachFilter`,
     //   {
     //     minPrice: minPrice,
     //     maxPrice: maxPrice,
-    //     itemCategory: "Audio Equipment",
-    //     itemSellerRating: selectData.SellerRating,
-    //     itemCondition: selectData.forSale.Audio.Condition,
-    //     itemWarrantyInformation: selectData.forSale.Audio.WarrantyInformation,
-    //     itemType: selectData.forSale.Audio.Type,
-    //     itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+    //     itemCategory,
+    //     itemSellerRating: selectData.sellerRating,
+    //     itemMealType: selectData.mealType,
+    //     itemDietaryPreferences: selectData.dietaryPreferences,
+    //     itemDeliveryOptions: selectData.deliveryOptions,
+    //     itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
     //     address,
     //     countryCode,
     //     selectedLocation: filter.selectedLocation,
@@ -102,7 +103,6 @@ export const FoodFilter: React.FC<Props> = ({ onChange }) => {
     typingTimer.current = setTimeout(() => {
       donetyping();
       onChange({ minPrice, maxPrice });
-      // Perform any action here after 5 seconds of inactivity
     }, 500);
 
     return () => {

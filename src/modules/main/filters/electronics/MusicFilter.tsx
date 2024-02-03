@@ -106,7 +106,6 @@ export const MusicFilter: React.FC<Props> = ({ onChange }) => {
     typingTimer.current = setTimeout(() => {
       donetyping();
       onChange({ minPrice, maxPrice });
-      // Perform any action here after 5 seconds of inactivity
     }, 500);
 
     return () => {

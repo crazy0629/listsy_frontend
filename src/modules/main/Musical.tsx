@@ -173,7 +173,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
               onClick={() => setIsShowFilter((prev) => !prev)}
               className={isShowFilter ? "active" : ""}
             >
-              {!isShowFilter ? "Filter" : <MdClose color={"#00000080"} />}
+              {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               <MusicalFilter onChange={subFormChanged} />

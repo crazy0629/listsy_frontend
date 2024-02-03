@@ -49,7 +49,7 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
           )}
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
-          className="asdf"
+          className="categoryTab"
         >
           {gardenFilter.map((item, key) => (
             <Tab key={key}>
@@ -145,7 +145,7 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
               onClick={() => setIsShowFilter((prev) => !prev)}
               className={isShowFilter ? "active" : ""}
             >
-              {!isShowFilter ? "Filter" : <MdClose color={"#00000080"} />}
+              {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               <GardenFilter onChange={subFormChanged} />
