@@ -49,7 +49,7 @@ export const DiyCraftSection: React.FC<DiyCraftProps> = ({ page }) => {
           )}
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
-          className="asdf"
+          className="categoryTab"
         >
           {biyFilter.map((item, key) => (
             <Tab key={key}>
@@ -141,7 +141,7 @@ export const DiyCraftSection: React.FC<DiyCraftProps> = ({ page }) => {
               onClick={() => setIsShowFilter((prev) => !prev)}
               className={isShowFilter ? "active" : ""}
             >
-              {!isShowFilter ? "Filter" : <MdClose color={"#00000080"} />}
+              {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               <DiyCraftFilter onChange={subFormChanged} />

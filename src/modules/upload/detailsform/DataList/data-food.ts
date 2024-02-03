@@ -41,6 +41,7 @@ export const selectData = {
     "Other diet",
   ],
   searchWithin: [
+    "Nationwide",
     "Within 1 mile",
     "Within 5 miles",
     "Within 15 miles",
@@ -48,7 +49,6 @@ export const selectData = {
     "Within 50 miles",
     "Within 100 miles",
     "Within 200 miles",
-    "Nationwide",
   ],
   deliveryOptions: [
     "Local Pickup",

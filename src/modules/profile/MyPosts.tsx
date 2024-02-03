@@ -135,7 +135,6 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
 
   useEffect(() => {
     if (authContext.user) {
-      // getData(selectedPage.key, "", 0);
       if (category != "") {
         let item = pageFilter.filter((item) => item.key == category)[0];
         setSelectedPage(item);

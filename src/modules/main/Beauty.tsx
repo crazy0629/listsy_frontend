@@ -49,7 +49,7 @@ export const BeautySection: React.FC<BeautyProps> = ({ page }) => {
           )}
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
-          className="asdf"
+          className="categoryTab"
         >
           {beautyFilter.map((item, key) => (
             <Tab key={key}>
@@ -143,7 +143,7 @@ export const BeautySection: React.FC<BeautyProps> = ({ page }) => {
               onClick={() => setIsShowFilter((prev) => !prev)}
               className={isShowFilter ? "active" : ""}
             >
-              {!isShowFilter ? "Filter" : <MdClose color={"#00000080"} />}
+              {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               <BeautyFilter onChange={subFormChanged} />

@@ -174,7 +174,7 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
               onClick={() => setIsShowFilter((prev) => !prev)}
               className={isShowFilter ? "active" : ""}
             >
-              {!isShowFilter ? "Filter" : <MdClose color={"#00000080"} />}
+              {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               <ArtFilter onChange={subFormChanged} />

@@ -10,10 +10,6 @@ export const Food: React.FC<{ data: any }> = ({ data }) => {
         <p>{SERVER_UPLOAD_URI + data?.adId?.adFileName}</p>
       </Styled.InfoItemWrapper2>
       <Styled.InfoItemWrapper>
-        <span>Item Category</span>
-        <span>{data?.itemCategory}</span>
-      </Styled.InfoItemWrapper>
-      <Styled.InfoItemWrapper>
         <span>Address</span>
         <span>{data?.address}</span>
       </Styled.InfoItemWrapper>
@@ -27,6 +23,10 @@ export const Food: React.FC<{ data: any }> = ({ data }) => {
       <Styled.InfoItemWrapper>
         <span>View Count</span>
         <span>{data?.viewCount}</span>
+      </Styled.InfoItemWrapper>
+      <Styled.InfoItemWrapper>
+        <span>Cuisine Type</span>
+        <span>{data?.itemCategory}</span>
       </Styled.InfoItemWrapper>
       {data.itemDetailInfo.mealType && (
         <Styled.InfoItemWrapper>

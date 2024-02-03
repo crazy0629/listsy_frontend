@@ -50,11 +50,6 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
     getLocationInfo();
   });
 
-  const handleCategoryClicked = (item: any) => {
-    setFilter({ itemCategory: item.label });
-    router.push(item.value);
-  };
-
   const getData = async (index: number) => {
     const categoryList = selectData.forSale.category;
 
@@ -233,7 +228,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
           )}
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
-          className="asdf"
+          className="categoryTab"
         >
           {filterData.map((item, key) => (
             <Tab key={key}>
@@ -251,29 +246,6 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
           ))}
         </Tabs>
       </Styled.FilterTabWrapper>
-      {/* <Styled.FilterWrapper>
-       <Styled.PostsPageFilterWrapper>
-          {filterData.map((item, key) => (
-            <span
-              key={key}
-              onClick={() => handleCategoryClicked(item)}
-              className={item.value === page ? "active" : ""}
-            >
-              {item.label}
-
-              {adCnt
-                ? adCnt.length > 0
-                  ? "  (" +
-                    adCnt.filter(
-                      (element) => element.itemCategory === item.label
-                    )[0]?.count +
-                    ")"
-                  : " (0)"
-                : " (0)"}
-            </span>
-          ))}
-        </Styled.PostsPageFilterWrapper> 
-      </Styled.FilterWrapper>*/}
       <Styled.MainGridWrapper
         className={
           isShowFilter && page !== "/for-sale/electronics/all" ? "filtered" : ""
@@ -325,7 +297,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
               onClick={() => setIsShowFilter((prev) => !prev)}
               className={isShowFilter ? "active" : ""}
             >
-              {!isShowFilter ? "Filter" : <MdClose color={"#00000080"} />}
+              {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               {filterData.filter((f) => f.value === page)[0].comp}
