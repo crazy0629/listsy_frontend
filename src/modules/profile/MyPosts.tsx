@@ -71,6 +71,11 @@ const pageFilter = [
     type: "grid",
   },
   {
+    label: "DIY and Craft Items",
+    key: "diy",
+    type: "grid",
+  },
+  {
     label: "Food and Culinary Products",
     key: "food",
     type: "grid",
