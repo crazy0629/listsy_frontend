@@ -75,7 +75,7 @@ export const LapTopFilter: React.FC<Props> = ({ onChange }) => {
         itemBrand: selectData.forSale.Laptops.Brand,
         itemColour: selectData.forSale.Laptops.Colour,
         itemWarrantyInformation: selectData.forSale.Laptops.WarrantyInformation,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         itemBatteryLife: selectData.forSale.Laptops.BatteryLife,
         address,
         countryCode,

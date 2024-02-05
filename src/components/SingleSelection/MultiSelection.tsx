@@ -27,18 +27,13 @@ export const MultiSelection: React.FC<Props> = ({
   const ref = useRef<any>(null);
 
   useEffect(() => {
-    /**
-     * Alert if clicked on outside of element
-     */
     const handleClickOutside = (e: any) => {
       if (ref.current && !ref.current.contains(e.target)) {
         setIsOpen(false);
       }
     };
-    // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [ref]);
@@ -138,8 +133,14 @@ export const MultiSelection: React.FC<Props> = ({
                       return element.itemCameraResolution === item;
                     } else if (type == "itemBatteryCapacity") {
                       return element.itemBatteryCapacity === item;
+                    } else if (type == "itemMealType") {
+                      return element.itemMealType === item;
+                    } else if (type == "itemDietaryPreferences") {
+                      return element.itemDietaryPreferences === item;
+                    } else if (type == "itemDeliveryOptions") {
+                      return element.itemDeliveryOptions === item;
                     }
-                    return false; // Default case if type is neither "itemCondition" nor "itemResolution"
+                    return false;
                   })[0]?.count
                 }
                 )

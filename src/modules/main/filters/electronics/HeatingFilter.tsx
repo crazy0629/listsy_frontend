@@ -61,7 +61,7 @@ export const HeatingFilter: React.FC<Props> = ({ onChange }) => {
         itemBrand: selectData.forSale.Heating.Brands,
         itemWarrantyInformation: selectData.forSale.Heating.WarrantyInformation,
         itemType: selectData.forSale.Heating.Type,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
         selectedLocation: filter.selectedLocation,

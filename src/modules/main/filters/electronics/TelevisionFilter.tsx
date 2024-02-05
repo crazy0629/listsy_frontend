@@ -68,7 +68,7 @@ export const TelevisionFilter: React.FC<Props> = ({ onChange }) => {
         itemColour: selectData.forSale.Televisions.Colour,
         itemWarrantyInformation:
           selectData.forSale.Televisions.WarrantyInformation,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
         selectedLocation: filter.selectedLocation,

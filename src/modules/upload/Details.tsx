@@ -14,6 +14,7 @@ import { isValidPhoneNumber } from "libphonenumber-js";
 import { PetForm } from "./detailsform/PetForm";
 import { FoodForm } from "./detailsform/FoodForm";
 import { DiyForm } from "./detailsform/DiyForm";
+import { GardenForm } from "./detailsform/GardenForm";
 
 type Props = {
   adLink: string;
@@ -388,7 +389,7 @@ export const Details: React.FC<Props> = ({
     pet: <PetForm onSave={handlePetFormSave} />,
     food: <FoodForm onSave={handleFoodFormSave} />,
     diy: <DiyForm onSave={handleDiyFormSave} />,
-    garden: <ForSaleForm onSave={handleGardenFormSave} />,
+    garden: <GardenForm onSave={handleGardenFormSave} />,
     fashion: <ForSaleForm onSave={handleFashionFormSave} />,
     sports: <ForSaleForm onSave={handleSportsFormSave} />,
     children: <ForSaleForm onSave={handleChildrenFormSave} />,

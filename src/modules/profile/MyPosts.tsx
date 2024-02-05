@@ -30,7 +30,7 @@ const pageFilter = [
     type: "grid",
   },
   {
-    label: "Home and Garden",
+    label: "Garden ad Outdoor Equipment",
     key: "garden",
     type: "grid",
   },

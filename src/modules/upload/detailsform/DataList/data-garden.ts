@@ -9,7 +9,8 @@ export const selectData = {
     "Vintage/Antique",
   ],
   searchWithin: [
-    "Within 1 mile",
+    "Nationwide",
+    "Current location",
     "Within 5 miles",
     "Within 15 miles",
     "Within 30 miles",

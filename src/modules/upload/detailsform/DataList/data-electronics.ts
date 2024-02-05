@@ -27,6 +27,7 @@ export const selectData = {
     ],
     Televisions: {
       SearchWithin: [
+        "Nationwide",
         "Current location",
         "Within 1 mile",
         "Within 5 miles",
@@ -35,7 +36,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -169,6 +169,8 @@ export const selectData = {
     },
     Laptops: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -176,7 +178,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -453,6 +454,8 @@ export const selectData = {
     },
     Ipad: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -460,7 +463,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -675,6 +677,8 @@ export const selectData = {
     },
     TheaterSystems: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -682,7 +686,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Type: [
         "Receivers",
@@ -836,6 +839,8 @@ export const selectData = {
     },
     Kitchen: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -843,7 +848,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Type: [
         "Refrigerators and Freezers",
@@ -1009,14 +1013,15 @@ export const selectData = {
     },
     Laundry: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
-        "Within  30 miles",
-        "Within  50 miles",
+        "Within 30 miles",
+        "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Type: [
         "Washing Machines",
@@ -1087,6 +1092,8 @@ export const selectData = {
     },
     Cleaning: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -1094,7 +1101,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Type: [
         "Vacuum Cleaners",
@@ -1180,6 +1186,8 @@ export const selectData = {
     },
     Heating: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -1187,7 +1195,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Type: [
         "Air Conditioners",
@@ -1294,6 +1301,8 @@ export const selectData = {
     },
     PersonalCare: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -1301,7 +1310,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Type: [
         "Hair Dryers",
@@ -1400,6 +1408,8 @@ export const selectData = {
     },
     Miscellaneous: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -1407,7 +1417,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Type: [
         "Water Heaters",
@@ -1438,6 +1447,8 @@ export const selectData = {
     },
     Camera: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -1445,7 +1456,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -1620,6 +1630,8 @@ export const selectData = {
     },
     Music: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -1627,7 +1639,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -1720,6 +1731,8 @@ export const selectData = {
     },
     Phone: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -1727,7 +1740,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Type: [
         "Cell Phones",
@@ -2135,6 +2147,8 @@ export const selectData = {
     },
     GamingConsole: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2142,7 +2156,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -2257,6 +2270,8 @@ export const selectData = {
     },
     Wearable: {
       SearchWithIn: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2264,7 +2279,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -2331,6 +2345,8 @@ export const selectData = {
     },
     Networking: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2338,7 +2354,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -2451,6 +2466,8 @@ export const selectData = {
     },
     ComputerComponents: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2458,7 +2475,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -2516,6 +2532,8 @@ export const selectData = {
     },
     OfficeEquipment: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2523,7 +2541,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -2574,6 +2591,8 @@ export const selectData = {
     },
     Security: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2581,7 +2600,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -2632,6 +2650,8 @@ export const selectData = {
     },
     Audio: {
       SearchWithIn: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2639,7 +2659,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -2697,6 +2716,8 @@ export const selectData = {
     },
     HomeDevice: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2704,7 +2725,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",
@@ -2748,6 +2768,8 @@ export const selectData = {
     },
     Batteries: {
       SearchWithin: [
+        "Nationwide",
+        "Current location",
         "Within 1 mile",
         "Within 5 miles",
         "Within 15 miles",
@@ -2755,7 +2777,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Condition: [
         "Brand New",

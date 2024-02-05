@@ -28,6 +28,7 @@ export const selectData = {
     },
     Petsforsale: {
       SearchWithin: [
+        "Nationwide",
         "Current location",
         "Within 1 mile",
         "Within 5 miles",
@@ -36,7 +37,6 @@ export const selectData = {
         "Within 50 miles",
         "Within 100 miles",
         "Within 200 miles",
-        "Nationwide",
       ],
       Type: [
         "Dogs",
