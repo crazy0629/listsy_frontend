@@ -20,6 +20,7 @@ import { Auth as AuthContext } from "@/context/contexts";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { PetAd } from "./PetAd";
+import { Diy } from "./Diy";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
@@ -287,6 +288,7 @@ export const AdsDetailsSection: React.FC = () => {
               {type === "pet" && <PetAd data={data} />}
               {type === "truck" && <Truck data={data} />}
               {type === "food" && <Food data={data} />}
+              {type === "diy" && <Diy data={data} />}
             </Styled.AdsDetailsInfoWrapper>
           </Styled.AdsDetailsThumbWrapper>
         </Styled.AdsDetailsContainer>
