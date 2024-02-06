@@ -14,7 +14,7 @@ export const DiyCraftFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
     priceRange: [] as string[],
-    condition: [] as string[],
+    itemCondition: [] as string[],
     itemAge: [] as string[],
     sellerType: [] as string[],
     sellerRating: [] as string[],
@@ -68,6 +68,7 @@ export const DiyCraftFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
         filter,
       }
     );
+    console.log(111222333, adsCountData.data);
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
@@ -206,12 +207,12 @@ export const DiyCraftFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
         <MultiSelection
           data={selectData.condition}
           placeholder="Select Condition"
-          value={filter.condition}
+          value={filter.itemCondition}
           onChange={(value) =>
-            setFilter((prev) => ({ ...prev, condition: value }))
+            setFilter((prev) => ({ ...prev, itemCondition: value }))
           }
-          type="condition"
-          //   countList={adCnt.mealType}
+          type="itemCondition"
+          countList={adCnt.itemCondition}
         />
 
         {isAdvancedFilter && (
@@ -225,7 +226,7 @@ export const DiyCraftFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
                 setFilter((prev) => ({ ...prev, itemAge: value }))
               }
               type="itemAge"
-              //   countList={adCnt.dietaryPreferences}
+              countList={adCnt.itemAge}
             />
             <MultiSelection
               data={selectData.sellerType}
@@ -234,8 +235,8 @@ export const DiyCraftFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               onChange={(value) =>
                 setFilter((prev) => ({ ...prev, sellerType: value }))
               }
-              type="sellerType"
-              //   countList={adCnt.deliveryOptions}
+              type="itemSellerType"
+              countList={adCnt.itemSellerType}
             />
             <MultiSelection
               data={selectData.sellerRating}
@@ -244,8 +245,8 @@ export const DiyCraftFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               onChange={(value) =>
                 setFilter((prev) => ({ ...prev, sellerRating: value }))
               }
-              type="sellerRating"
-              //   countList={adCnt.sellerRating}
+              type="itemSellerRating"
+              countList={adCnt.itemSellerRating}
             />
           </>
         )}
