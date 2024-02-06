@@ -88,7 +88,7 @@ export const PhoneFilter: React.FC<Props> = ({ onChange }) => {
         maxPrice: maxPrice,
         itemCategory: "Phones",
         itemType: selectData.forSale.Phone.Type,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         itemCondition:
           filter.type == "Cell Phones"
             ? selectData.forSale.Phone.CellPhones.Condition
@@ -174,7 +174,6 @@ export const PhoneFilter: React.FC<Props> = ({ onChange }) => {
         filter,
       }
     );
-    console.log(123123, adsCountData.data);
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };

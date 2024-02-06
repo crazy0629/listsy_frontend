@@ -21,6 +21,7 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { PetAd } from "./PetAd";
 import { Diy } from "./Diy";
+import { Garden } from "./Garden";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
@@ -208,7 +209,7 @@ export const AdsDetailsSection: React.FC = () => {
               </div>
               {/* {!showReview && ( */}
               <span onClick={handleShowReview}>
-                {showReview ? "Less" : "Show"} Reviews
+                {showReview ? "Hide" : "Show"} Reviews
               </span>
               {/* )} */}
               {showReview && (
@@ -289,6 +290,7 @@ export const AdsDetailsSection: React.FC = () => {
               {type === "truck" && <Truck data={data} />}
               {type === "food" && <Food data={data} />}
               {type === "diy" && <Diy data={data} />}
+              {type === "garden" && <Garden data={data} />}
             </Styled.AdsDetailsInfoWrapper>
           </Styled.AdsDetailsThumbWrapper>
         </Styled.AdsDetailsContainer>

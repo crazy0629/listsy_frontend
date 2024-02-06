@@ -22,6 +22,7 @@ export const selectData = {
   ],
   searchWithin: [
     "Nationwide",
+    "Current location",
     "Within 1 mile",
     "Within 5 miles",
     "Within 15 miles",

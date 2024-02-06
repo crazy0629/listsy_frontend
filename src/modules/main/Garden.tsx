@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import * as Styled from "./main.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -7,6 +7,9 @@ import { MdArrowLeft, MdClose } from "react-icons/md";
 import { GardenFilter } from "./filters/garden";
 import { gardenFilter } from "./fiterData";
 import { Tabs, Tab } from "react-tabs-scrollable";
+import axios from "axios";
+import { SERVER_URI } from "@/config";
+import { toast } from "react-toastify";
 
 type GardenProps = {
   page?: string;
@@ -22,13 +25,42 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
   const [data, setData] = useState<any>([]);
   const [getIndex, setGetIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [address, setAddress] = useState("");
+  const [countryCode, setCountryCode] = useState("");
 
-  const handleCategoryClicked = (item: any) => {
-    setFilter({ itemCategory: item.label });
-    router.push(item.page);
+  const getData = async (index: number) => {
+    const categoryList = gardenFilter.map((item) => item.label);
+
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/garden/getCountForEachCategory`,
+      { itemCategory: categoryList, address, countryCode }
+    );
+
+    setAdCnt(adsCountData.data.countList);
+
+    const tempFilter = gardenFilter.filter((f) => f.page === page)[0].label;
+    const res = await axios.post(`${SERVER_URI}/garden/getGardenAds`, {
+      ...filter,
+      itemCategory: tempFilter,
+      index,
+      address,
+      countryCode,
+    });
+
+    if (res.data.success) {
+      if (index > 0) {
+        setData((prev: any) => [...prev, ...res.data.data]);
+      } else {
+        setData([...res.data.data]);
+      }
+      if (res.data.data.length < 50) {
+        setHasMore(false);
+      }
+      setGetIndex((prev) => prev + 1);
+    } else {
+      toast.error(res.data.message);
+    }
   };
-
-  const getData = async (index: number) => {};
 
   const subFormChanged = (data) => {
     setFilter((prev) => ({ ...prev, ...data }));
@@ -39,6 +71,44 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
     setFilter({ itemCategory: selectedTab.label });
     router.push(selectedTab.page);
   };
+
+  const getLocationInfo = () => {
+    let locationSelected = localStorage.getItem("locationSelected");
+    if (locationSelected == "true") {
+      let locationAddress = localStorage.getItem("locationAddress");
+      setAddress(locationAddress);
+      setCountryCode("");
+    } else if (locationSelected == "false") {
+      let locationAddress = localStorage.getItem("locationAddress");
+      let countryCode = localStorage.getItem("locationCountryCode");
+      setAddress(locationAddress);
+      setCountryCode(countryCode);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("localStorageChanged", function (e: Event) {
+      getLocationInfo();
+    });
+    getLocationInfo();
+  });
+
+  useEffect(() => {
+    if (address == "") return;
+    getData(0);
+  }, [filter]);
+
+  useEffect(() => {
+    if (address == "") return;
+    getData(0);
+  }, [filter.itemCategory]);
+
+  useEffect(() => {
+    if (address == "") return;
+    setGetIndex(0);
+    setFilter((prev) => ({ ...prev, itemCategory: "All" }));
+    getData(0);
+  }, [address, countryCode]);
 
   return (
     <Styled.MainPageSectionWrapper>
@@ -67,29 +137,6 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
           ))}
         </Tabs>
       </Styled.FilterTabWrapper>
-      {/* <Styled.FilterWrapper>
-        <Styled.PostsPageFilterWrapper>
-          {gardenFilter.map((item, key) => (
-            <span
-              key={key}
-              onClick={() => handleCategoryClicked(item)}
-              className={item.page === page ? "active" : ""}
-            >
-              {item.label}
-
-              {adCnt
-                ? adCnt.length > 0
-                  ? "  (" +
-                    adCnt.filter(
-                      (element) => element.itemCategory === item.label
-                    )[0]?.count +
-                    ")"
-                  : " (0)"
-                : " (0)"}
-            </span>
-          ))}
-        </Styled.PostsPageFilterWrapper>
-      </Styled.FilterWrapper> */}
       <Styled.MainGridWrapper
         className={
           isShowFilter &&
@@ -118,7 +165,7 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
                 <CardItem
                   id={item.adId?._id}
                   key={key}
-                  type={"sale"}
+                  type={"garden"}
                   link={item.adId?.adFileName}
                   postDate={item.adId?.uploadDate}
                   price={item.price}

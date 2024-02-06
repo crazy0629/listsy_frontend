@@ -8,7 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { selectData } from "../upload/detailsform/DataList/data-electronics";
 import * as Filter from "./filters/electronics";
 import { useRouter } from "next/router";
-import { MdArrowLeft, MdClose } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import { Tabs, Tab } from "react-tabs-scrollable";
 
 type ForSalesProps = {

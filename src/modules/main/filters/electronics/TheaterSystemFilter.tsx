@@ -64,7 +64,7 @@ export const TheaterSystemFilter: React.FC<Props> = ({ onChange }) => {
           selectData.forSale.TheaterSystems.WarrantyInformation,
         itemType: selectData.forSale.TheaterSystems.Type,
         itemFeatures: selectData.forSale.TheaterSystems.Features,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
         selectedLocation: filter.selectedLocation,

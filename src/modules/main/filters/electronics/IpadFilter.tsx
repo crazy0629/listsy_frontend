@@ -70,7 +70,7 @@ export const IpadFilter: React.FC<Props> = ({ onChange }) => {
         itemBrand: selectData.forSale.Ipad.Brand,
         itemColour: selectData.forSale.Ipad.Colour,
         itemWarrantyInformation: selectData.forSale.Ipad.WarrantyInformation,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
         selectedLocation: filter.selectedLocation,

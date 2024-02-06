@@ -60,7 +60,7 @@ export const MiscellaneousFilter: React.FC<Props> = ({ onChange }) => {
         itemWarrantyInformation:
           selectData.forSale.Miscellaneous.WarrantyInformation,
         itemType: selectData.forSale.Miscellaneous.Type,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
         selectedLocation: filter.selectedLocation,

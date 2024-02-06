@@ -246,6 +246,8 @@ export const selectData = {
     "All Hair Types",
   ],
   searchWithin: [
+    "Nationwide",
+    "Current location",
     "Within 1 mile",
     "Within 5 miles",
     "Within 15 miles",
@@ -253,7 +255,6 @@ export const selectData = {
     "Within 50 miles",
     "Within 100 miles",
     "Within 200 miles",
-    "Nationwide",
   ],
   ingredients: [
     "Vegan",

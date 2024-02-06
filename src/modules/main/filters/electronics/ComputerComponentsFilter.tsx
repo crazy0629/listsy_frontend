@@ -59,7 +59,7 @@ export const ComputerComponentFilter: React.FC<Props> = ({ onChange }) => {
         itemBrand: selectData.forSale.ComputerComponents.Brand,
         itemWarrantyInformation:
           selectData.forSale.ComputerComponents.WarrantyInformation,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
         selectedLocation: filter.selectedLocation,

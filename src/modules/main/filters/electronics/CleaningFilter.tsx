@@ -62,7 +62,7 @@ export const CleaningFilter: React.FC<Props> = ({ onChange }) => {
         itemWarrantyInformation:
           selectData.forSale.Cleaning.WarrantyInformation,
         itemType: selectData.forSale.Cleaning.Type,
-        itemSearchRange: [0, 1, 5, 15, 30, 50, 100, 200, -1],
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
         selectedLocation: filter.selectedLocation,

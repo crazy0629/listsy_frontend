@@ -194,7 +194,9 @@ export const FoodSection: React.FC<FoodProps> = ({ page }) => {
             <div className="filter-wrapper">
               <FoodFilter
                 onChange={subFormChanged}
-                itemCategory={filter.itemCategory}
+                itemCategory={
+                  foodFilter.filter((f) => f.page === page)[0].label
+                }
               />
             </div>
           </Styled.FilterSection>

@@ -50,25 +50,25 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
 
   const donetyping = async () => {
     setIsLoading(true);
-    // const adsCountData = await axios.post(
-    //   `${SERVER_URI}/food/getCountOfEachFilter`,
-    //   {
-    //     minPrice: minPrice,
-    //     maxPrice: maxPrice,
-    //     itemCategory,
-    //     itemSellerRating: selectData.sellerRating,
-    //     itemMealType: selectData.mealType,
-    //     itemDietaryPreferences: selectData.dietaryPreferences,
-    //     itemDeliveryOptions: selectData.deliveryOptions,
-    //     itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
-    //     address,
-    //     countryCode,
-    //     selectedLocation: filter.selectedLocation,
-    //     centerLocationAvailable: filter.centerLocationSelected,
-    //     filter,
-    //   }
-    // );
-    // setAdCnt(adsCountData.data);
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/food/getCountOfEachFilter`,
+      {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        itemCategory,
+        itemSellerRating: selectData.sellerRating,
+        itemMealType: selectData.mealType,
+        itemDietaryPreferences: selectData.dietaryPreferences,
+        itemDeliveryOptions: selectData.deliveryOptions,
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
+        address,
+        countryCode,
+        selectedLocation: filter.selectedLocation,
+        centerLocationAvailable: filter.centerLocationSelected,
+        filter,
+      }
+    );
+    setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
 
@@ -177,83 +177,84 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
   };
 
   return (
-    // adCnt != null && (
-    <>
-      <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
-      <SingleSelection
-        data={selectData.searchWithin}
-        placeholder="Select Search Range"
-        value={filter.SearchWithin}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, SearchWithin: value }))
-        }
-        type="itemSearchRange"
-        //   countList={adCnt.itemRangeInfo}
-      />
-      <InputRange
-        value1={minPrice}
-        value2={maxPrice}
-        placeholder1="Min price"
-        placeholder2="Max price"
-        type1="number"
-        type2="number"
-        onChange1={handleMinPrice}
-        onChange2={handleMaxPrice}
-        prefix1={currency}
-        prefix2={currency}
-        suffix={0}
-        // suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
-      />
-      <MultiSelection
-        data={selectData.mealType}
-        placeholder="Select Meal Type"
-        value={filter.mealType}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, mealType: value }))
-        }
-        type="mealType"
-        //   countList={adCnt.mealType}
-      />
+    adCnt != null && (
+      <>
+        <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
+        <SingleSelection
+          data={selectData.searchWithin}
+          placeholder="Select Search Range"
+          value={filter.SearchWithin}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, SearchWithin: value }))
+          }
+          type="itemSearchRange"
+          countList={adCnt.itemRangeInfo}
+        />
+        <InputRange
+          value1={minPrice}
+          value2={maxPrice}
+          placeholder1="Min price"
+          placeholder2="Max price"
+          type1="number"
+          type2="number"
+          onChange1={handleMinPrice}
+          onChange2={handleMaxPrice}
+          prefix1={currency}
+          prefix2={currency}
+          suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+        />
+        <MultiSelection
+          data={selectData.mealType}
+          placeholder="Select Meal Type"
+          value={filter.mealType}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, mealType: value }))
+          }
+          type="itemMealType"
+          countList={adCnt.itemMealType}
+        />
 
-      {isAdvancedFilter && (
-        <>
-          <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-          <MultiSelection
-            data={selectData.dietaryPreferences}
-            placeholder="Select Dietary Preferences"
-            value={filter.dietaryPreferences}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, dietaryPreferences: value }))
-            }
-            type="dietaryPreferences"
-            //   countList={adCnt.dietaryPreferences}
-          />
-          <MultiSelection
-            data={selectData.deliveryOptions}
-            placeholder="Select Delivery Options"
-            value={filter.deliveryOptions}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, deliveryOptions: value }))
-            }
-            type="deliveryOptions"
-            //   countList={adCnt.deliveryOptions}
-          />
-          <MultiSelection
-            data={selectData.sellerRating}
-            placeholder="Select Sellor Rating"
-            value={filter.sellerRating}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, sellerRating: value }))
-            }
-            type="sellerRating"
-            //   countList={adCnt.sellerRating}
-          />
-        </>
-      )}
-      <ShowAdvancedFilter onClick={() => setIsAdvancedFilter((prev) => !prev)}>
-        {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-      </ShowAdvancedFilter>
-    </>
-    // )
+        {isAdvancedFilter && (
+          <>
+            <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+            <MultiSelection
+              data={selectData.dietaryPreferences}
+              placeholder="Select Dietary Preferences"
+              value={filter.dietaryPreferences}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, dietaryPreferences: value }))
+              }
+              type="itemDietaryPreferences"
+              countList={adCnt.itemDietaryPreferences}
+            />
+            <MultiSelection
+              data={selectData.deliveryOptions}
+              placeholder="Select Delivery Options"
+              value={filter.deliveryOptions}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, deliveryOptions: value }))
+              }
+              type="itemDeliveryOptions"
+              countList={adCnt.itemDeliveryOptions}
+            />
+            <MultiSelection
+              data={selectData.sellerRating}
+              placeholder="Select Sellor Rating"
+              value={filter.sellerRating}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, sellerRating: value }))
+              }
+              type="itemSellerRating"
+              countList={adCnt.itemSellerRating}
+            />
+          </>
+        )}
+        <ShowAdvancedFilter
+          onClick={() => setIsAdvancedFilter((prev) => !prev)}
+        >
+          {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+        </ShowAdvancedFilter>
+      </>
+    )
   );
 };
