@@ -10,13 +10,13 @@ type Props = {
 
 export const DiyDetail: React.FC<Props> = ({ onSave }) => {
   const [form, setForm] = useState({
-    condition: "",
+    itemCondition: "",
     itemAge: "",
     sellerType: "",
   });
 
   const handleSave = () => {
-    if (!form.condition) {
+    if (!form.itemCondition) {
       toast.error("Select condition");
     } else if (!form.itemAge) {
       toast.error("Select item age");
@@ -33,8 +33,10 @@ export const DiyDetail: React.FC<Props> = ({ onSave }) => {
         data={selectData.condition}
         label="Condition"
         placeholder="Select Condition"
-        value={form.condition}
-        onChange={(value) => setForm((prev) => ({ ...prev, condition: value }))}
+        value={form.itemCondition}
+        onChange={(value) =>
+          setForm((prev) => ({ ...prev, itemCondition: value }))
+        }
       />
       <SingleSelection
         direction="top"
