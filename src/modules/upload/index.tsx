@@ -17,7 +17,7 @@ type Props = {
 export const UploadModal: React.FC<Props> = ({ open, onClose, onFinish }) => {
   const [kind, setKind] = useState(kinds[0].key);
   const [category, setCategory] = useState(categories[0].key);
-  const [uploadStep, setUploadStep] = useState("kind");
+  const [uploadStep, setUploadStep] = useState("category");
   const [adLink, setAdLink] = useState("");
   const [adId, setAdId] = useState("");
 
@@ -25,7 +25,7 @@ export const UploadModal: React.FC<Props> = ({ open, onClose, onFinish }) => {
     if (open) {
       setKind(kinds[0].key);
       setCategory(categories[0].key);
-      setUploadStep("kind");
+      setUploadStep("category");
       setAdId("");
       setAdLink("");
     }
@@ -43,7 +43,7 @@ export const UploadModal: React.FC<Props> = ({ open, onClose, onFinish }) => {
           <MdClose size={20} color="#AFAFAF" onClick={handleClose} />
         </Styled.UploadModalHeader>
         <Styled.UploadModalBody>
-          {uploadStep === "kind" && (
+          {/* {uploadStep === "kind" && (
             <>
               <RadioSelect
                 data={kinds}
@@ -63,7 +63,7 @@ export const UploadModal: React.FC<Props> = ({ open, onClose, onFinish }) => {
                 </button>
               </Styled.UploadActionButtonWrapper>
             </>
-          )}
+          )} */}
           {uploadStep === "category" && (
             <>
               <RadioSelect
@@ -73,9 +73,10 @@ export const UploadModal: React.FC<Props> = ({ open, onClose, onFinish }) => {
                 onChange={setCategory}
               />
               <Styled.UploadActionButtonWrapper>
-                <button className="back" onClick={() => setUploadStep("kind")}>
+                {/* <button className="back" onClick={() => setUploadStep("kind")}>
                   Back
-                </button>
+                </button> */}
+                <div />
                 <button
                   className="next"
                   onClick={() => setUploadStep("upload")}

@@ -189,7 +189,10 @@ export const DiyCraftSection: React.FC<DiyCraftProps> = ({ page }) => {
               {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
-              <DiyCraftFilter onChange={subFormChanged} />
+              <DiyCraftFilter
+                onChange={subFormChanged}
+                itemCategory={biyFilter.filter((f) => f.page === page)[0].label}
+              />
             </div>
           </Styled.FilterSection>
         )}

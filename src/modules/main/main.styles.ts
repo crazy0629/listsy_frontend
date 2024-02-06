@@ -28,6 +28,7 @@ export const FilterTabWrapper = styled.div`
         width: fit-content;
         margin: 0;
         margin-right: 8px;
+        font-family: "Inter", sans-serif;
         max-width: 250px;
         border-radius: 100px;
         padding: 6px 12px;
