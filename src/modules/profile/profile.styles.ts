@@ -79,6 +79,8 @@ export const SidebarWrapper = styled.div`
 export const MainSectionWrapper = styled.div`
   /* padding: 0 64px; */
   flex: 1;
+  width: calc(100% - 300px);
+  /* width: 100%; */
 `;
 
 export const ProfileAvatarWrapper = styled.div`
@@ -357,16 +359,59 @@ export const PasswordInputGroup = styled.div`
   }
 `;
 export const PostsPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   height: 100%;
+  width: 100%;
 `;
 
 export const PostsFilterWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* flex-wrap: wrap; */
+  overflow: hidden;
+  width: 100%;
   padding: 0 30px;
+  .rts___tabs___container {
+    align-items: center;
+    .rts___nav___btn___container {
+      button {
+        height: 100%;
+        width: 20px;
+        padding: 0;
+        border: none;
+      }
+    }
+    .rts___tabs {
+      padding: 0;
+      margin: 0 10px;
+      button {
+        display: flex;
+        width: fit-content;
+        margin: 0;
+        margin-right: 8px;
+        font-family: "Inter", sans-serif;
+        max-width: 250px;
+        border-radius: 100px;
+        padding: 6px 12px;
+        white-space: nowrap;
+        transition: all 0.3s;
+        font-size: 10px;
+        box-shadow: none;
+        font-weight: 400;
+        background: #eaeaea;
+        color: #000;
+        line-height: 20.4px;
+        position: relative;
+        border: 1px solid transparent;
+
+        &.rts___tab___selected {
+          background: #ff6f00;
+          color: #fff;
+        }
+      }
+    }
+  }
 `;
 
 export const PostsPageFilterWrapper = styled.div`

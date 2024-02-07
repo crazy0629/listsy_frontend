@@ -29,10 +29,10 @@ export const Diy: React.FC<{ data: any }> = ({ data }) => {
         <span>{data?.itemCategory}</span>
       </Styled.InfoItemWrapper>
 
-      {data.itemDetailInfo.condition && (
+      {data.itemDetailInfo.itemCondition && (
         <Styled.InfoItemWrapper>
           <span>Item Condition</span>
-          <span>{data?.itemDetailInfo.condition}</span>
+          <span>{data?.itemDetailInfo.itemCondition}</span>
         </Styled.InfoItemWrapper>
       )}
       {data.itemDetailInfo.itemAge && (

@@ -5,6 +5,7 @@ import axios from "axios";
 import { SERVER_UPLOAD_URI, SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Tabs, Tab } from "react-tabs-scrollable";
 import { CardItem } from "@/components";
 import {
   JobListContainer,
@@ -12,6 +13,7 @@ import {
   JobListWrapper,
 } from "../main/main.styles";
 import Image from "next/image";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const pageFilter = [
   {
@@ -190,10 +192,11 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
     }
   };
 
-  const handlePageFilterClick = (item: any) => {
-    if (item.key !== selectedPage.key) {
-      setSelectedPage(item);
-      getData(item.key, adStatus, 0);
+  const handlePageFilterClick = (_, value) => {
+    // console.log(_, value);
+    if (pageFilter[value].key !== selectedPage.key) {
+      setSelectedPage(pageFilter[value]);
+      getData(pageFilter[value].key, adStatus, 0);
     }
   };
 
@@ -214,7 +217,7 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
   return (
     <Styled.PostsPageWrapper>
       <Styled.PostsFilterWrapper>
-        <Styled.PostsPageFilterWrapper>
+        {/* <Styled.PostsPageFilterWrapper>
           {pageFilter.map((item, key) => (
             <span
               key={key}
@@ -228,7 +231,21 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
               {item.label}
             </span>
           ))}
-        </Styled.PostsPageFilterWrapper>
+        </Styled.PostsPageFilterWrapper> */}
+        <Tabs
+          activeTab={pageFilter.indexOf(
+            pageFilter.filter((f) => f.key === selectedPage.key)[0]
+          )}
+          onTabClick={handlePageFilterClick}
+          hideNavBtnsOnMobile={false}
+          className="categoryTab"
+          leftBtnIcon={<IoIosArrowBack />}
+          rightBtnIcon={<IoIosArrowForward />}
+        >
+          {pageFilter.map((item, key) => (
+            <Tab key={key}>{item.label}</Tab>
+          ))}
+        </Tabs>
         {!(
           selectedPage != undefined &&
           (selectedPage.key === "job" || selectedPage.key === "community")
@@ -248,6 +265,7 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
           </Styled.StatusWrapper>
         )}
       </Styled.PostsFilterWrapper>
+
       {selectedPage != undefined && selectedPage.type === "grid" && (
         <Styled.PostsGridWrapper>
           {loading ? (

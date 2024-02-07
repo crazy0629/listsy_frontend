@@ -10,6 +10,7 @@ import { Tabs, Tab } from "react-tabs-scrollable";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 type GardenProps = {
   page?: string;
@@ -120,6 +121,8 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
           className="categoryTab"
+          leftBtnIcon={<IoIosArrowBack />}
+          rightBtnIcon={<IoIosArrowForward />}
         >
           {gardenFilter.map((item, key) => (
             <Tab key={key}>

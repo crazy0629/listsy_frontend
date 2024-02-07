@@ -10,6 +10,7 @@ import { Tabs, Tab } from "react-tabs-scrollable";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 type FoodProps = {
   page?: string;
@@ -119,6 +120,8 @@ export const FoodSection: React.FC<FoodProps> = ({ page }) => {
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
           className="categoryTab"
+          leftBtnIcon={<IoIosArrowBack />}
+          rightBtnIcon={<IoIosArrowForward />}
         >
           {foodFilter.map((item, key) => (
             <Tab key={key}>
