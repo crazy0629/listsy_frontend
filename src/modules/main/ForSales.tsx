@@ -10,6 +10,7 @@ import * as Filter from "./filters/electronics";
 import { useRouter } from "next/router";
 import { MdClose } from "react-icons/md";
 import { Tabs, Tab } from "react-tabs-scrollable";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 type ForSalesProps = {
   page?: string;
@@ -229,6 +230,8 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
           className="categoryTab"
+          leftBtnIcon={<IoIosArrowBack />}
+          rightBtnIcon={<IoIosArrowForward />}
         >
           {filterData.map((item, key) => (
             <Tab key={key}>

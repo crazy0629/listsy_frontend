@@ -7,6 +7,7 @@ import { MdArrowLeft, MdClose } from "react-icons/md";
 import { BeautyFilter } from "./filters/beauty";
 import { beautyFilter } from "./fiterData";
 import { Tabs, Tab } from "react-tabs-scrollable";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 type BeautyProps = {
   page?: string;
@@ -50,6 +51,8 @@ export const BeautySection: React.FC<BeautyProps> = ({ page }) => {
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
           className="categoryTab"
+          leftBtnIcon={<IoIosArrowBack />}
+          rightBtnIcon={<IoIosArrowForward />}
         >
           {beautyFilter.map((item, key) => (
             <Tab key={key}>

@@ -18,10 +18,6 @@ export const DiyDetail: React.FC<Props> = ({ onSave }) => {
   const handleSave = () => {
     if (!form.itemCondition) {
       toast.error("Select condition");
-    } else if (!form.itemAge) {
-      toast.error("Select item age");
-    } else if (!form.sellerType) {
-      toast.error("Select seller type");
     } else {
       onSave(form);
     }

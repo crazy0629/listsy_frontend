@@ -10,6 +10,7 @@ import { Tabs, Tab } from "react-tabs-scrollable";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
 import { toast } from "react-toastify";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 type DiyCraftProps = {
   page?: string;
@@ -118,6 +119,8 @@ export const DiyCraftSection: React.FC<DiyCraftProps> = ({ page }) => {
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
           className="categoryTab"
+          leftBtnIcon={<IoIosArrowBack />}
+          rightBtnIcon={<IoIosArrowForward />}
         >
           {biyFilter.map((item, key) => (
             <Tab key={key}>
