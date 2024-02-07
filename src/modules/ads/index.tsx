@@ -82,7 +82,6 @@ export const AdsDetailsSection: React.FC = () => {
 
       if (res.data.success) {
         setShowReview(true);
-        console.log(res.data.data);
         setReviews(res.data.data);
       }
     }

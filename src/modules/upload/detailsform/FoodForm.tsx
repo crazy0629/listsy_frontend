@@ -26,7 +26,7 @@ export const FoodForm: React.FC<Props> = ({ onSave }) => {
     } else if (!form.description) {
       toast.error("Enter the description!");
     } else if (!form.itemCategory) {
-      toast.error("Select the Item Category!");
+      toast.error("Select Cuisine Type!");
     } else {
       if (form.itemDetailInfo == details) onSave(form);
       else setForm((prev) => ({ ...prev, itemDetailInfo: details }));
@@ -79,8 +79,8 @@ export const FoodForm: React.FC<Props> = ({ onSave }) => {
       <SingleSelection
         direction="top"
         data={foodFilter.map((item) => item.label).slice(1)}
-        label="Item Category"
-        placeholder="Select Item Category"
+        label="Cuisine Type"
+        placeholder="Select Cuisine Type"
         value={form.itemCategory}
         onChange={(value) => {
           setForm((prev) => ({

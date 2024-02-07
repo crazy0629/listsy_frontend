@@ -70,7 +70,6 @@ export const PersonalCareFilter: React.FC<Props> = ({ onChange }) => {
         filter,
       }
     );
-    console.log(adsCountData.data);
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };

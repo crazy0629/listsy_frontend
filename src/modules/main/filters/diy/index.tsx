@@ -68,7 +68,6 @@ export const DiyCraftFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
         filter,
       }
     );
-    console.log(111222333, adsCountData.data);
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };

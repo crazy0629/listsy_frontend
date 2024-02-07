@@ -18,6 +18,7 @@ export const selectData = {
     "Other Meal",
   ],
   dietaryPreferences: [
+    "Not Specified",
     "Vegetarian",
     "Vegan",
     "Pescatarian",
@@ -52,6 +53,7 @@ export const selectData = {
     "Within 200 miles",
   ],
   deliveryOptions: [
+    "Not Specified",
     "Local Pickup",
     "Standard Shipping",
     "Expedited Shipping",

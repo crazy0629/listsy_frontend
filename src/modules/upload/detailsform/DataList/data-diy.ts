@@ -10,6 +10,7 @@ export const selectData = {
     "Vintage/Antique",
   ],
   itemAge: [
+    "Not Specified",
     "Brand New",
     "Less than 1 Year Old",
     "1-2 Years Old",
@@ -32,6 +33,7 @@ export const selectData = {
     "Within 200 miles",
   ],
   sellerType: [
+    "Not Specified",
     "Individual/Private Seller",
     "Professional Crafter/Artisan",
     "Small Business/Local Shop",
