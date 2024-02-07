@@ -18,10 +18,6 @@ export const FoodDetail: React.FC<Props> = ({ onSave }) => {
   const handleSave = () => {
     if (!form.mealType) {
       toast.error("Select meal type");
-    } else if (!form.dietaryPreferences) {
-      toast.error("Select dietary preferences");
-    } else if (!form.deliveryOptions) {
-      toast.error("Select delivery options");
     } else {
       onSave(form);
     }
