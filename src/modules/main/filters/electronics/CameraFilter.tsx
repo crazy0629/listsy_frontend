@@ -260,7 +260,7 @@ export const CameraFilter: React.FC<Props> = ({ onChange }) => {
             />
             <MultiSelection
               data={selectData.forSale.Camera.SellerRating}
-              placeholder="Select Sellor Rating"
+              placeholder="Select Seller Rating"
               value={filter.sellerRating}
               onChange={(value) =>
                 setFilter((prev) => ({ ...prev, sellerRating: value }))

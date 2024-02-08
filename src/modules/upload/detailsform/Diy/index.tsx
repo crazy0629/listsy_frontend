@@ -36,7 +36,7 @@ export const DiyDetail: React.FC<Props> = ({ onSave }) => {
       />
       <SingleSelection
         direction="top"
-        data={selectData.itemAge}
+        data={selectData.itemAge.slice(1)}
         label="Item Age"
         placeholder="Select Item Age"
         value={form.itemAge}
@@ -45,7 +45,7 @@ export const DiyDetail: React.FC<Props> = ({ onSave }) => {
 
       <SingleSelection
         direction="top"
-        data={selectData.sellerType}
+        data={selectData.sellerType.slice(1)}
         label="Seller Type"
         placeholder="Select Seller Type"
         value={form.sellerType}

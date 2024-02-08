@@ -51,7 +51,7 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/estate/loadEstateInfo`, {
         ...data,
@@ -74,7 +74,7 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/truck/loadVehicleInfo`, {
         ...data,
@@ -97,7 +97,7 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
     } else if (
       !isValidPhoneNumber(telephoneNumber) &&
       authContext.user?.telephoneNumber == undefined
@@ -129,7 +129,7 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
     } else if (
       !isValidPhoneNumber(telephoneNumber) &&
       authContext.user?.telephoneNumber == undefined
@@ -161,7 +161,7 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/children/loadChildrenInfo`, {
         ...data,
@@ -184,7 +184,7 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/garden/loadGardenInfo`, {
         ...data,
@@ -207,7 +207,7 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
     } else {
       const res = await axios.post(
         `${SERVER_URI}/education/loadEducationInfo`,
@@ -233,7 +233,7 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/art/loadArtInfo`, {
         ...data,
@@ -256,7 +256,7 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/sports/loadSportsInfo`, {
         ...data,
@@ -279,7 +279,7 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
     } else {
       const res = await axios.post(`${SERVER_URI}/fashion/loadFashionInfo`, {
         ...data,
@@ -302,7 +302,12 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
+    } else if (
+      !isValidPhoneNumber(telephoneNumber) &&
+      authContext.user?.telephoneNumber == undefined
+    ) {
+      toast.error("PhoneNumber is not valid!");
     } else {
       const res = await axios.post(`${SERVER_URI}/food/loadFoodInfo`, {
         ...data,
@@ -311,8 +316,12 @@ export const Details: React.FC<Props> = ({
         adId,
         userId: authContext.user?.id,
         ...location,
+        telephoneNumber,
+        phoneNumberShare,
       });
       if (res.data.success) {
+        setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
+        localStorage.setItem("token", res.data.token);
         toast.success(res.data.message);
         onNext();
       } else {
@@ -325,7 +334,12 @@ export const Details: React.FC<Props> = ({
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
-      toast.error("Enter the Price!");
+      toast.error("Enter Price!");
+    } else if (
+      !isValidPhoneNumber(telephoneNumber) &&
+      authContext.user?.telephoneNumber == undefined
+    ) {
+      toast.error("PhoneNumber is not valid!");
     } else {
       const res = await axios.post(`${SERVER_URI}/diy/loadDiyInfo`, {
         ...data,
@@ -334,8 +348,12 @@ export const Details: React.FC<Props> = ({
         adId,
         userId: authContext.user?.id,
         ...location,
+        telephoneNumber,
+        phoneNumberShare,
       });
       if (res.data.success) {
+        setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
+        localStorage.setItem("token", res.data.token);
         toast.success(res.data.message);
         onNext();
       } else {
@@ -487,7 +505,7 @@ export const Details: React.FC<Props> = ({
               <div>
                 <p>Phone Number</p>
                 <PhoneInput
-                  defaultCountry="us"
+                  defaultCountry="gb"
                   value={telephoneNumber}
                   onChange={(phone) => {
                     setTelephoneNumber(phone);

@@ -249,7 +249,7 @@ export const NetworkingFilter: React.FC<Props> = ({ onChange }) => {
             />
             <MultiSelection
               data={selectData.forSale.Networking.SellerRating}
-              placeholder="Select Sellor Rating"
+              placeholder="Select Seller Rating"
               value={filter.sellerRating}
               onChange={(value) =>
                 setFilter((prev) => ({ ...prev, sellerRating: value }))
