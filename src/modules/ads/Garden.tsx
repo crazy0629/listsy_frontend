@@ -28,13 +28,13 @@ export const Garden: React.FC<{ data: any }> = ({ data }) => {
         <span>Item Category</span>
         <span>{data?.itemCategory}</span>
       </Styled.InfoItemWrapper>
-      {data.itemDetailInfo.condition && (
+      {data.itemDetailInfo.itemCondition && (
         <Styled.InfoItemWrapper>
           <span>Item Condition</span>
-          <span>{data?.itemDetailInfo.condition}</span>
+          <span>{data?.itemDetailInfo.itemCondition}</span>
         </Styled.InfoItemWrapper>
       )}
-      {data.itemDetailInfo.condition && (
+      {data.itemDetailInfo.sellerType && (
         <Styled.InfoItemWrapper>
           <span>Seller Type</span>
           <span>{data?.itemDetailInfo.sellerType}</span>

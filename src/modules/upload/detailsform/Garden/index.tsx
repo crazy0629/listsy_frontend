@@ -10,18 +10,14 @@ type Props = {
 
 export const GardenDetail: React.FC<Props> = ({ onSave }) => {
   const [form, setForm] = useState({
-    condition: "",
+    itemCondition: "",
     sellerType: "",
     brand: "",
   });
 
   const handleSave = () => {
-    if (!form.condition) {
+    if (!form.itemCondition) {
       toast.error("Select condition");
-    } else if (!form.sellerType) {
-      toast.error("Select seller type");
-    } else if (!form.brand) {
-      toast.error("Select brand/manufacturer");
     } else {
       onSave(form);
     }
@@ -33,12 +29,14 @@ export const GardenDetail: React.FC<Props> = ({ onSave }) => {
         data={selectData.condition}
         label="Item Condition"
         placeholder="Select Item Condition"
-        value={form.condition}
-        onChange={(value) => setForm((prev) => ({ ...prev, condition: value }))}
+        value={form.itemCondition}
+        onChange={(value) =>
+          setForm((prev) => ({ ...prev, itemCondition: value }))
+        }
       />
       <SingleSelection
         direction="top"
-        data={selectData.sellerType}
+        data={selectData.sellerType.slice(1)}
         label="Seller Type"
         placeholder="Select Seller Type"
         value={form.sellerType}
@@ -48,7 +46,7 @@ export const GardenDetail: React.FC<Props> = ({ onSave }) => {
       />
       <SingleSelection
         direction="top"
-        data={selectData.brand}
+        data={selectData.brand.slice(1)}
         label="Brand/Manufacturer"
         placeholder="Select Brand/Manufacturer"
         value={form.brand}

@@ -20,6 +20,7 @@ export const selectData = {
     "Nationwide",
   ],
   sellerType: [
+    "Not Specified",
     "Private Seller",
     "Dealer",
     "Business/Retailer",
@@ -30,6 +31,7 @@ export const selectData = {
     "Government Surplus",
   ],
   brand: [
+    "Not Specified",
     "John Deere",
     "Husqvarna",
     "Stihl",

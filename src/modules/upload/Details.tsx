@@ -185,6 +185,11 @@ export const Details: React.FC<Props> = ({
       toast.error("Select location!");
     } else if (Number(price) === 0) {
       toast.error("Enter Price!");
+    } else if (
+      !isValidPhoneNumber(telephoneNumber) &&
+      authContext.user?.telephoneNumber == undefined
+    ) {
+      toast.error("PhoneNumber is not valid!");
     } else {
       const res = await axios.post(`${SERVER_URI}/garden/loadGardenInfo`, {
         ...data,
@@ -193,8 +198,12 @@ export const Details: React.FC<Props> = ({
         adId,
         userId: authContext.user?.id,
         ...location,
+        telephoneNumber,
+        phoneNumberShare,
       });
       if (res.data.success) {
+        setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
+        localStorage.setItem("token", res.data.token);
         toast.success(res.data.message);
         onNext();
       } else {
@@ -208,6 +217,11 @@ export const Details: React.FC<Props> = ({
       toast.error("Select location!");
     } else if (Number(price) === 0) {
       toast.error("Enter Price!");
+    } else if (
+      !isValidPhoneNumber(telephoneNumber) &&
+      authContext.user?.telephoneNumber == undefined
+    ) {
+      toast.error("PhoneNumber is not valid!");
     } else {
       const res = await axios.post(
         `${SERVER_URI}/education/loadEducationInfo`,
