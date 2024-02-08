@@ -193,7 +193,6 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
   };
 
   const handlePageFilterClick = (_, value) => {
-    // console.log(_, value);
     if (pageFilter[value].key !== selectedPage.key) {
       setSelectedPage(pageFilter[value]);
       getData(pageFilter[value].key, adStatus, 0);

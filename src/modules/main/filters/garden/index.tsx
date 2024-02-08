@@ -7,13 +7,14 @@ import { SERVER_URI } from "@/config";
 
 type Props = {
   onChange: (data: any) => void;
+  itemCategory: string;
 };
 
-export const GardenFilter: React.FC<Props> = ({ onChange }) => {
+export const GardenFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
     priceRange: [] as string[],
-    condition: [] as string[],
+    itemCondition: [] as string[],
     sellerType: [] as string[],
     brand: [] as string[],
     sellerRating: [] as string[],
@@ -49,25 +50,25 @@ export const GardenFilter: React.FC<Props> = ({ onChange }) => {
 
   const donetyping = async () => {
     setIsLoading(true);
-    // const adsCountData = await axios.post(
-    //   `${SERVER_URI}/sale/getCountOfEachFilter`,
-    //   {
-    //     minPrice: minPrice,
-    //     maxPrice: maxPrice,
-    //     itemCategory: "Audio Equipment",
-    //     itemSellerRating: selectData.SellerRating,
-    //     itemCondition: selectData.forSale.Audio.Condition,
-    //     itemWarrantyInformation: selectData.forSale.Audio.WarrantyInformation,
-    //     itemType: selectData.forSale.Audio.Type,
-    //     itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
-    //     address,
-    //     countryCode,
-    //     selectedLocation: filter.selectedLocation,
-    //     centerLocationAvailable: filter.centerLocationSelected,
-    //     filter,
-    //   }
-    // );
-    // setAdCnt(adsCountData.data);
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/garden/getCountOfEachFilter`,
+      {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        itemCategory,
+        itemSellerRating: selectData.sellerRating,
+        itemCondition: selectData.condition,
+        itemSellerType: selectData.sellerType,
+        itemBrand: selectData.brand,
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
+        address,
+        countryCode,
+        selectedLocation: filter.selectedLocation,
+        centerLocationAvailable: filter.centerLocationSelected,
+        filter,
+      }
+    );
+    setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
 
@@ -102,7 +103,6 @@ export const GardenFilter: React.FC<Props> = ({ onChange }) => {
     typingTimer.current = setTimeout(() => {
       donetyping();
       onChange({ minPrice, maxPrice });
-      // Perform any action here after 5 seconds of inactivity
     }, 500);
 
     return () => {
@@ -177,83 +177,84 @@ export const GardenFilter: React.FC<Props> = ({ onChange }) => {
   };
 
   return (
-    // adCnt != null && (
-    <>
-      <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
-      <SingleSelection
-        data={selectData.searchWithin}
-        placeholder="Select Search Range"
-        value={filter.SearchWithin}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, SearchWithin: value }))
-        }
-        type="itemSearchRange"
-        //   countList={adCnt.itemRangeInfo}
-      />
-      <InputRange
-        value1={minPrice}
-        value2={maxPrice}
-        placeholder1="Min price"
-        placeholder2="Max price"
-        type1="number"
-        type2="number"
-        onChange1={handleMinPrice}
-        onChange2={handleMaxPrice}
-        prefix1={currency}
-        prefix2={currency}
-        suffix={0}
-        // suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
-      />
-      <MultiSelection
-        data={selectData.condition}
-        placeholder="Select Condition"
-        value={filter.condition}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, condition: value }))
-        }
-        type="condition"
-        //   countList={adCnt.mealType}
-      />
+    adCnt != null && (
+      <>
+        <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
+        <SingleSelection
+          data={selectData.searchWithin}
+          placeholder="Select Search Range"
+          value={filter.SearchWithin}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, SearchWithin: value }))
+          }
+          type="itemSearchRange"
+          countList={adCnt.itemRangeInfo}
+        />
+        <InputRange
+          value1={minPrice}
+          value2={maxPrice}
+          placeholder1="Min price"
+          placeholder2="Max price"
+          type1="number"
+          type2="number"
+          onChange1={handleMinPrice}
+          onChange2={handleMaxPrice}
+          prefix1={currency}
+          prefix2={currency}
+          suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+        />
+        <MultiSelection
+          data={selectData.condition}
+          placeholder="Select Condition"
+          value={filter.itemCondition}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, itemCondition: value }))
+          }
+          type="itemCondition"
+          countList={adCnt.itemCondition}
+        />
 
-      {isAdvancedFilter && (
-        <>
-          <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-          <MultiSelection
-            data={selectData.sellerType}
-            placeholder="Select Seller Type"
-            value={filter.sellerType}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, sellerType: value }))
-            }
-            type="sellerType"
-            //   countList={adCnt.dietaryPreferences}
-          />
-          <MultiSelection
-            data={selectData.brand}
-            placeholder="Select Brand/Manufacturer"
-            value={filter.brand}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, brand: value }))
-            }
-            type="brand"
-            //   countList={adCnt.deliveryOptions}
-          />
-          <MultiSelection
-            data={selectData.sellerRating}
-            placeholder="Select Seller Rating"
-            value={filter.sellerRating}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, sellerRating: value }))
-            }
-            type="sellerRating"
-            //   countList={adCnt.sellerRating}
-          />
-        </>
-      )}
-      <ShowAdvancedFilter onClick={() => setIsAdvancedFilter((prev) => !prev)}>
-        {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-      </ShowAdvancedFilter>
-    </>
-    // )
+        {isAdvancedFilter && (
+          <>
+            <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+            <MultiSelection
+              data={selectData.sellerType}
+              placeholder="Select Seller Type"
+              value={filter.sellerType}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, sellerType: value }))
+              }
+              type="itemSellerType"
+              countList={adCnt.itemSellerType}
+            />
+            <MultiSelection
+              data={selectData.brand}
+              placeholder="Select Brand/Manufacturer"
+              value={filter.brand}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, brand: value }))
+              }
+              type="itemBrand"
+              countList={adCnt.itemBrand}
+            />
+            <MultiSelection
+              data={selectData.sellerRating}
+              placeholder="Select Seller Rating"
+              value={filter.sellerRating}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, sellerRating: value }))
+              }
+              type="itemSellerRating"
+              countList={adCnt.itemSellerRating}
+            />
+          </>
+        )}
+        <ShowAdvancedFilter
+          onClick={() => setIsAdvancedFilter((prev) => !prev)}
+        >
+          {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+        </ShowAdvancedFilter>
+      </>
+    )
   );
 };
