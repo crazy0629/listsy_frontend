@@ -236,7 +236,7 @@ export const MiscellaneousFilter: React.FC<Props> = ({ onChange }) => {
             />
             <MultiSelection
               data={selectData.forSale.Miscellaneous.SellerRating}
-              placeholder="Select Sellor Rating"
+              placeholder="Select Seller Rating"
               value={filter.sellerRating}
               onChange={(value) =>
                 setFilter((prev) => ({ ...prev, sellerRating: value }))

@@ -34,7 +34,7 @@ export const FoodDetail: React.FC<Props> = ({ onSave }) => {
       />
       <SingleSelection
         direction="top"
-        data={selectData.dietaryPreferences}
+        data={selectData.dietaryPreferences.slice(1)}
         label="Dietary Preferences"
         placeholder="Select Dietary Preferences"
         value={form.dietaryPreferences}
@@ -44,7 +44,7 @@ export const FoodDetail: React.FC<Props> = ({ onSave }) => {
       />
       <SingleSelection
         direction="top"
-        data={selectData.deliveryOptions}
+        data={selectData.deliveryOptions.slice(1)}
         label="Delivery Options"
         placeholder="Select Dietary Options"
         value={form.deliveryOptions}

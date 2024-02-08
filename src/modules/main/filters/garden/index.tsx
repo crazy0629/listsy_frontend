@@ -240,7 +240,7 @@ export const GardenFilter: React.FC<Props> = ({ onChange }) => {
           />
           <MultiSelection
             data={selectData.sellerRating}
-            placeholder="Select Sellor Rating"
+            placeholder="Select Seller Rating"
             value={filter.sellerRating}
             onChange={(value) =>
               setFilter((prev) => ({ ...prev, sellerRating: value }))

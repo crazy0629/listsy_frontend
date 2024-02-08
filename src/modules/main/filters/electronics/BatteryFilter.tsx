@@ -237,7 +237,7 @@ export const BatteryFilter: React.FC<Props> = ({ onChange }) => {
             />
             <MultiSelection
               data={selectData.forSale.Batteries.SellerRating}
-              placeholder="Select Sellor Rating"
+              placeholder="Select Seller Rating"
               value={filter.sellerRating}
               onChange={(value) =>
                 setFilter((prev) => ({ ...prev, sellerRating: value }))
