@@ -91,9 +91,9 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
   const filterData = [
     { label: "All", value: "/for-sale/electronics/all", comp: <></> },
     {
-      label: "Televisions",
-      value: "/for-sale/electronics/televisions",
-      comp: <Filter.TelevisionFilter onChange={subFormChanged} />,
+      label: "Phones",
+      value: "/for-sale/electronics/phones",
+      comp: <Filter.PhoneFilter onChange={subFormChanged} />,
     },
     {
       label: "Laptops and Desktop Computers",
@@ -106,9 +106,14 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
       comp: <Filter.IpadFilter onChange={subFormChanged} />,
     },
     {
-      label: "Phones",
-      value: "/for-sale/electronics/phones",
-      comp: <Filter.PhoneFilter onChange={subFormChanged} />,
+      label: "Televisions",
+      value: "/for-sale/electronics/televisions",
+      comp: <Filter.TelevisionFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Wearable Technology",
+      value: "/for-sale/electronics/wearable-technology",
+      comp: <Filter.WearableFilter onChange={subFormChanged} />,
     },
     {
       label: "Gaming Consoles and Accessories",
@@ -116,54 +121,9 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
       comp: <Filter.GamingConsoleFilter onChange={subFormChanged} />,
     },
     {
-      label: "Home Theater Systems",
-      value: "/for-sale/electronics/home-theater-systems",
-      comp: <Filter.TheaterSystemFilter onChange={subFormChanged} />,
-    },
-    {
-      label: "Kitchen Appliances",
-      value: "/for-sale/appliances/kitchen",
-      comp: <Filter.KitchenFilter onChange={subFormChanged} />,
-    },
-    {
-      label: "Laundry Appliances",
-      value: "/for-sale/appliances/laundry",
-      comp: <Filter.LaundryFilter onChange={subFormChanged} />,
-    },
-    {
-      label: "Cleaning Appliances",
-      value: "/for-sale/appliances/cleaning",
-      comp: <Filter.CleaningFilter onChange={subFormChanged} />,
-    },
-    {
-      label: "Heating, Cooling, and Air Quality",
-      value: "/for-sale/appliances/heating-cooling-air-quality",
-      comp: <Filter.HeatingFilter onChange={subFormChanged} />,
-    },
-    {
-      label: "Personal Care Appliances",
-      value: "/for-sale/appliances/personal-care",
-      comp: <Filter.PersonalCareFilter onChange={subFormChanged} />,
-    },
-    {
-      label: "Miscellaneous Appliances",
-      value: "/for-sale/appliances/miscellaneous",
-      comp: <Filter.MiscellaneousFilter onChange={subFormChanged} />,
-    },
-    {
-      label: "Cameras and Camcorders",
-      value: "/for-sale/electronics/cameras-camcorders",
-      comp: <Filter.CameraFilter onChange={subFormChanged} />,
-    },
-    {
-      label: "Portable Music Players",
-      value: "/for-sale/electronics/portable-music-players",
-      comp: <Filter.MusicFilter onChange={subFormChanged} />,
-    },
-    {
-      label: "Wearable Technology",
-      value: "/for-sale/electronics/wearable-technology",
-      comp: <Filter.WearableFilter onChange={subFormChanged} />,
+      label: "Smart Home Devices",
+      value: "/for-sale/electronics/smart-home-devices",
+      comp: <Filter.HomeDeviceFilter onChange={subFormChanged} />,
     },
     {
       label: "Networking Devices",
@@ -176,9 +136,15 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
       comp: <Filter.ComputerComponentFilter onChange={subFormChanged} />,
     },
     {
-      label: "Office Equipment",
-      value: "/for-sale/electronics/office-equipment",
-      comp: <Filter.OfficeFilter onChange={subFormChanged} />,
+      label: "Audio Equipment",
+      value: "/for-sale/electronics/audio-equipment",
+      comp: <Filter.AudioFilter onChange={subFormChanged} />,
+    },
+
+    {
+      label: "Kitchen Appliances",
+      value: "/for-sale/appliances/kitchen",
+      comp: <Filter.KitchenFilter onChange={subFormChanged} />,
     },
     {
       label: "Security and Surveillance Equipment",
@@ -186,15 +152,51 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
       comp: <Filter.SecurityFilter onChange={subFormChanged} />,
     },
     {
-      label: "Audio Equipment",
-      value: "/for-sale/electronics/audio-equipment",
-      comp: <Filter.AudioFilter onChange={subFormChanged} />,
+      label: "Home Theater Systems",
+      value: "/for-sale/electronics/home-theater-systems",
+      comp: <Filter.TheaterSystemFilter onChange={subFormChanged} />,
     },
     {
-      label: "Smart Home Devices",
-      value: "/for-sale/electronics/smart-home-devices",
-      comp: <Filter.HomeDeviceFilter onChange={subFormChanged} />,
+      label: "Office Equipment",
+      value: "/for-sale/electronics/office-equipment",
+      comp: <Filter.OfficeFilter onChange={subFormChanged} />,
     },
+    {
+      label: "Personal Care Appliances",
+      value: "/for-sale/appliances/personal-care",
+      comp: <Filter.PersonalCareFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Heating, Cooling, and Air Quality",
+      value: "/for-sale/appliances/heating-cooling-air-quality",
+      comp: <Filter.HeatingFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Cameras and Camcorders",
+      value: "/for-sale/electronics/cameras-camcorders",
+      comp: <Filter.CameraFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Cleaning Appliances",
+      value: "/for-sale/appliances/cleaning",
+      comp: <Filter.CleaningFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Laundry Appliances",
+      value: "/for-sale/appliances/laundry",
+      comp: <Filter.LaundryFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Portable Music Players",
+      value: "/for-sale/electronics/portable-music-players",
+      comp: <Filter.MusicFilter onChange={subFormChanged} />,
+    },
+    {
+      label: "Miscellaneous Appliances",
+      value: "/for-sale/appliances/miscellaneous",
+      comp: <Filter.MiscellaneousFilter onChange={subFormChanged} />,
+    },
+
     {
       label: "Batteries and Power Supplies",
       value: "/for-sale/electronics/batteries-power-supplies",

@@ -48,7 +48,7 @@ const mainNav = [
   },
   {
     label: "Toys and Games",
-    href: "/toys",
+    href: "/toys/toys-games-all",
     icon: "toys",
   },
   {

@@ -507,7 +507,7 @@ export const Details: React.FC<Props> = ({
               <GooglePlacesAutocomplete
                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
                 selectProps={{
-                  placeholder: "Select location here...",
+                  placeholder: "Enter location",
                   value: locationInfo,
                   onChange: setLocationInfo,
                 }}

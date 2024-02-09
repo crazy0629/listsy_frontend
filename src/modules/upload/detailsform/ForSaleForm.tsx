@@ -42,8 +42,6 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
   const subFormSave = (details: any) => {
     if (!form.title) {
       toast.error("Enter the title!");
-    } else if (!form.subTitle) {
-      toast.error("Enter the subtitle!");
     } else if (!form.description) {
       toast.error("Enter the description!");
     } else if (!form.itemCategory) {
@@ -74,7 +72,7 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
         <span>{form.title.length} / 100</span>
       </Styled.TextAreaFormItem>
       <Styled.TextAreaFormItem height={80}>
-        <p>{"Subtitle (required)"}</p>
+        <p>{"Subtitle (Optional)"}</p>
         <textarea
           placeholder="Tell viewer about your video Subtitle."
           onChange={(e) =>
