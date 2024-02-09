@@ -15,6 +15,7 @@ import { PetForm } from "./detailsform/PetForm";
 import { FoodForm } from "./detailsform/FoodForm";
 import { DiyForm } from "./detailsform/DiyForm";
 import { GardenForm } from "./detailsform/GardenForm";
+import { BeautyForm } from "./detailsform/BeautyForm";
 
 type Props = {
   adLink: string;
@@ -376,6 +377,38 @@ export const Details: React.FC<Props> = ({
     }
   };
 
+  const handleBeautyFormSave = async (data: any) => {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
+      toast.error("Enter Price!");
+    } else if (
+      !isValidPhoneNumber(telephoneNumber) &&
+      authContext.user?.telephoneNumber == undefined
+    ) {
+      toast.error("PhoneNumber is not valid!");
+    } else {
+      // const res = await axios.post(`${SERVER_URI}/diy/loadDiyInfo`, {
+      //   ...data,
+      //   price,
+      //   priceUnit,
+      //   adId,
+      //   userId: authContext.user?.id,
+      //   ...location,
+      //   telephoneNumber,
+      //   phoneNumberShare,
+      // });
+      // if (res.data.success) {
+      //   setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
+      //   localStorage.setItem("token", res.data.token);
+      //   toast.success(res.data.message);
+      //   onNext();
+      // } else {
+      //   toast.error(res.data.message);
+      // }
+    }
+  };
+
   const getCountryCode = async () => {
     const locationInfo = await axios.get(
       `https://api.ipdata.co?api-key=${process.env.NEXT_PUBLIC_IPDATA_API_KEY}`
@@ -422,14 +455,9 @@ export const Details: React.FC<Props> = ({
     food: <FoodForm onSave={handleFoodFormSave} />,
     diy: <DiyForm onSave={handleDiyFormSave} />,
     garden: <GardenForm onSave={handleGardenFormSave} />,
-    fashion: <ForSaleForm onSave={handleFashionFormSave} />,
-    sports: <ForSaleForm onSave={handleSportsFormSave} />,
-    children: <ForSaleForm onSave={handleChildrenFormSave} />,
-    art: <ForSaleForm onSave={handleArtFormSave} />,
-    education: <ForSaleForm onSave={handleEducationFormSave} />,
+    beauty: <BeautyForm onSave={handleBeautyFormSave} />,
     estate: <EstateForm onSave={handleEstateFormSave} />,
     truck: <TruckForm onSave={handleTruckFormSave} />,
-    service: "service",
   };
 
   useEffect(() => {

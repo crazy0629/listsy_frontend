@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import * as Styled from "./details.styles";
 import { SingleSelection } from "@/components";
-import { selectData } from "./DataList/data-pets";
 import { toast } from "react-toastify";
-import { PetsType } from "./Pets/PetsType";
-import { PetsSupplies } from "./Pets/PetSupplies";
+import { beautyFilter } from "@/modules/main/fiterData";
+import { BeautyDetail } from "./Beauty";
 
 type Props = {
   onSave: (data: any) => void;
 };
 
-export const PetForm: React.FC<Props> = ({ onSave }) => {
+export const BeautyForm: React.FC<Props> = ({ onSave }) => {
   const [form, setForm] = useState({
     title: "",
     subTitle: "",
@@ -25,7 +24,7 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
     } else if (!form.description) {
       toast.error("Enter the description!");
     } else if (!form.itemCategory) {
-      toast.error("Select the Item Category!");
+      toast.error("Select Product Type!");
     } else {
       if (form.itemDetailInfo == details) onSave(form);
       else setForm((prev) => ({ ...prev, itemDetailInfo: details }));
@@ -76,9 +75,10 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
         <span>{form.description.length} / 5000</span>
       </Styled.TextAreaFormItem>
       <SingleSelection
-        data={selectData.pet.category}
-        label="Item Category"
-        placeholder="Select Item Category"
+        direction="top"
+        data={beautyFilter.map((item) => item.label).slice(1)}
+        label="Product Type"
+        placeholder="Select Product Type"
         value={form.itemCategory}
         onChange={(value) => {
           setForm((prev) => ({
@@ -88,13 +88,7 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
           }));
         }}
       />
-      {(form.itemCategory == "Pets for sale" ||
-        form.itemCategory == "Pets for adoption") && (
-        <PetsType onSave={subFormSave} />
-      )}
-      {form.itemCategory == "Pet Supplies" && (
-        <PetsSupplies onSave={subFormSave} />
-      )}
+      <BeautyDetail onSave={subFormSave} />
     </Styled.FormContainer>
   );
 };

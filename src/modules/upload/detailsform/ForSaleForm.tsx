@@ -41,7 +41,7 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
 
   const subFormSave = (details: any) => {
     if (!form.title) {
-      toast.error("Enter the title!");
+      toast.error("Enter title!");
     } else if (!form.description) {
       toast.error("Enter the description!");
     } else if (!form.itemCategory) {
