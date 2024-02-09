@@ -223,8 +223,17 @@ export const selectData = {
     "Other Brand",
   ],
   condition: ["New", "Used", "Refurbished"],
-  gender: ["Women", "Men", "Unisex", "Children", "Teens", "No Preference"],
+  gender: [
+    "Not Specified",
+    "Women",
+    "Men",
+    "Unisex",
+    "Children",
+    "Teens",
+    "No Preference",
+  ],
   skin: [
+    "Not Specified",
     "Normal",
     "Oily",
     "Dry",
@@ -242,7 +251,6 @@ export const selectData = {
     "Dry/Damaged",
     "Oily",
     "Color-Treated",
-    "Normal",
     "All Hair Types",
   ],
   searchWithin: [
@@ -257,6 +265,7 @@ export const selectData = {
     "Within 200 miles",
   ],
   ingredients: [
+    "Not Specified",
     "Vegan",
     "Cruelty-Free",
     "Hypoallergenic",
@@ -272,6 +281,7 @@ export const selectData = {
     "Fair Trade Ingredients",
   ],
   size: [
+    "Not Specified",
     "Under 50 ml / 1.7 oz (Travel Size, Sample Size)",
     "50 ml / 1.7 oz - 100 ml / 3.4 oz (Standard Small Size)",
     "100 ml / 3.4 oz - 250 ml / 8.5 oz (Standard Size)",
@@ -292,6 +302,7 @@ export const selectData = {
     "Deluxe/Large Set",
   ],
   certifications: [
+    "Not Specified",
     "Cruelty-free",
     "Organic",
     "Vegan",
@@ -305,7 +316,6 @@ export const selectData = {
     "Paraben-Free",
     "Sulfate-Free",
     "Dermatologically Tested",
-    "Eco-Friendly Packaging",
     "Eco-Friendly Packaging",
   ],
 

@@ -32,7 +32,7 @@ export const EstateForm: React.FC<Props> = ({ onSave }) => {
 
   const handleSave = () => {
     if (!form.title) {
-      toast.error("Enter the title!");
+      toast.error("Enter title!");
     } else if (!form.description) {
       toast.error("Enter the subtitle!");
     } else if (!form.listingType) {
