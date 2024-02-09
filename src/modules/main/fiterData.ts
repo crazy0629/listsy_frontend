@@ -113,6 +113,69 @@ export const biyFilter = [
   { label: "Other Item", page: "/for-sale/other-craft-items" },
 ];
 
+export const toyFilter = [
+  { label: "All", page: "/toys/toys-games-all" },
+  { label: "Action Figures", page: "/toys/action-figures-for-sale" },
+  { label: "Board Games", page: "/games/board-games-for-sale" },
+  {
+    label: "Building & Construction Toys",
+    page: "/toys/building-construction-toys-for-sale",
+  },
+  { label: "Dolls & Accessories", page: "/toys/dolls-accessories-for-sale" },
+  {
+    label: "Educational Toys",
+    page: "/toys/educational-toys-for-sale",
+  },
+  { label: "Electronic Games", page: "/games/electronic-games-for-sale" },
+  {
+    label: "Arts & Crafts",
+    page: "/toys/arts-crafts-for-sale",
+  },
+  { label: "Outdoor Play", page: "/toys/outdoor-play-toys-for-sale" },
+  { label: "Puzzles", page: "/games/puzzles-for-sale" },
+  {
+    label: "Remote Control Toys",
+    page: "/toys/remote-control-toys-for-sale",
+  },
+  {
+    label: "Role Play & Dress Up",
+    page: "/toys/role-play-dress-up-for-sale",
+  },
+  {
+    label: "Stuffed Animals & Plush Toys",
+    page: "/toys/stuffed-animals-plush-toys-for-sale",
+  },
+  { label: "Vehicles & Playsets", page: "/toys/vehicles-playsets-for-sale" },
+  {
+    label: "Musical Toys",
+    page: "/toys/musical-toys-for-sale",
+  },
+  {
+    label: "Card Games",
+    page: "/games/card-games-for-sale",
+  },
+  {
+    label: "Video Games & Consoles",
+    page: "/electronics/video-games-consoles-for-sale",
+  },
+  {
+    label: "Puppets & Marionettes",
+    page: "/toys/puppets-marionettes-for-sale",
+  },
+  {
+    label: "Collectibles & Hobbies",
+    page: "/collectibles/hobbies-items-for-sale",
+  },
+  { label: "Baby & Toddler Toys", page: "/toys/baby-toddler-toys-for-sale" },
+  { label: "Sports & Recreation", page: "/sports/recreation-games-for-sale" },
+  { label: "Party Games", page: "/games/party-games-for-sale" },
+  {
+    label: "Science & Nature Toys",
+    page: "/toys/science-nature-toys-for-sale",
+  },
+  { label: "Magic & Novelty Toys", page: "/toys/magic-novelty-toys-for-sale" },
+];
+
 export const foodFilter = [
   { label: "All", page: "/culinary-products/world-cuisines" },
   { label: "American", page: "/culinary-products/american-cuisine" },

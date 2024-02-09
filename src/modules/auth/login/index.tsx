@@ -52,7 +52,12 @@ export const LoginForm: React.FC = () => {
           router.push("/auth/resend-email");
         } else {
           setCurrentUser(form.email, res.data.token, isRemember);
-          router.push("/");
+          if (localStorage.getItem("redirect")) {
+            router.push(localStorage.getItem("redirect"));
+            localStorage.removeItem("redirect");
+          } else {
+            router.push("/");
+          }
         }
       } else {
         toast.error(res.data.message);

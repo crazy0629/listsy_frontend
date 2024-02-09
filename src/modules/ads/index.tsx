@@ -68,6 +68,7 @@ export const AdsDetailsSection: React.FC = () => {
       router.push(`/message/${receiverId}`);
     } else {
       toast.error("Log in to continue!");
+      localStorage.setItem("redirect", router.asPath);
       router.push("/auth/login");
     }
   };
@@ -90,6 +91,7 @@ export const AdsDetailsSection: React.FC = () => {
   const bookmarkClicked = () => {
     if (!authContext?.user?.id) {
       toast.error("Log in to continue!");
+      localStorage.setItem("redirect", router.asPath);
       router.push("/auth/login");
     }
   };
@@ -97,6 +99,7 @@ export const AdsDetailsSection: React.FC = () => {
   const likeClicked = () => {
     if (!authContext?.user?.id) {
       toast.error("Log in to continue!");
+      localStorage.setItem("redirect", router.asPath);
       router.push("/auth/login");
     }
   };
