@@ -69,7 +69,7 @@ export const UploadModal: React.FC<Props> = ({ open, onClose, onFinish }) => {
               <RadioSelect
                 data={categories}
                 selected={category}
-                title="Post to"
+                title="Choose a Category to Post the Ad"
                 onChange={setCategory}
               />
               <Styled.UploadActionButtonWrapper>

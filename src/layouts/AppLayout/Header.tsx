@@ -92,8 +92,8 @@ export const Header: React.FC<{
         okText="Yes"
         onOk={handleUploadCancel}
         type="warning"
-        description="If you close this modal, all data will be reset. Are you sure you want to close it?"
-        title="Are you sure?"
+        description=""
+        title="Are You Sure You Want to Cancel?"
       />
       <UploadModal
         open={uploadModal}

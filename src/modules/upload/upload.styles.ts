@@ -152,7 +152,7 @@ export const UploadAssetWrapper = styled.label`
   }
   h3 {
     color: #000;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     margin-bottom: 6px;
   }
