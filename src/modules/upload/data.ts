@@ -1,9 +1,9 @@
 export const modalTitle: any = {
   kind: "",
   category: "",
-  upload: "Add Video",
-  detail: "Details",
-  image: "Upload your thumbnails",
+  upload: "Upload a Video",
+  detail: "Add Product Description",
+  image: "Upload Supplementary Images",
   job: "Post a Job",
 };
 

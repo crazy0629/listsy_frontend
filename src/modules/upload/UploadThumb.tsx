@@ -71,8 +71,8 @@ export const UploadThumb: React.FC<Props> = ({ adId, onFinish }) => {
           <span>
             <MdUpload size={24} color="#AFAFAF" />
           </span>
-          <h3>Select the thumbnails to upload</h3>
-          <p>Your thumbnail files will be private until you publish them.</p>
+          <h3>Select Images to Complement Your Video</h3>
+          <p>Maximum 5 images</p>
           <div className="button">Select files</div>
           <input
             type="file"
@@ -134,7 +134,7 @@ export const UploadThumb: React.FC<Props> = ({ adId, onFinish }) => {
             </SwiperSlide>
           </Swiper>
           <Styled.SaveButtonWrapper>
-            <button onClick={handleSave}>Save</button>
+            <button onClick={handleSave}>Save & Publish</button>
           </Styled.SaveButtonWrapper>
         </Styled.ImagesPreviewWrapper>
       )}

@@ -79,8 +79,7 @@ export const UploadAsset: React.FC<Props> = ({ fileType, onNext }) => {
           <span>
             <MdUpload size={24} color="#AFAFAF" />
           </span>
-          <h3>Select the {fileType} file to upload</h3>
-          <p>Your video files will be private until you publish them.</p>
+          <h3>Upload Your Main Video</h3>
           <p className="timeLimit">Up to 2 mins</p>
           <div className="button">Select file</div>
           <input

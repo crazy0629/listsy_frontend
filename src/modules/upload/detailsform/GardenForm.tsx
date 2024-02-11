@@ -24,7 +24,7 @@ export const GardenForm: React.FC<Props> = ({ onSave }) => {
     } else if (!form.description) {
       toast.error("Enter the description!");
     } else if (!form.itemCategory) {
-      toast.error("Select type of eqipment!");
+      toast.error("Select type of equipment!");
     } else {
       if (form.itemDetailInfo == details) onSave(form);
       else setForm((prev) => ({ ...prev, itemDetailInfo: details }));
@@ -78,7 +78,7 @@ export const GardenForm: React.FC<Props> = ({ onSave }) => {
         direction="top"
         data={gardenFilter.map((item) => item.label).slice(1)}
         label="Type of Equipment"
-        placeholder="Select Type of Eqipment"
+        placeholder="Select Type of Equipment"
         value={form.itemCategory}
         onChange={(value) => {
           setForm((prev) => ({
