@@ -19,6 +19,10 @@ export const UploadThumb: React.FC<Props> = ({ adId, onFinish }) => {
   const { authContext } = useContext<any>(AuthContext);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files.length > 5) {
+      toast.error("You can only upload a maximum of 5 images");
+      return;
+    }
     if (e.target.files?.length) {
       setFiles(Array.from(e.target.files));
       setTempFiles(
@@ -37,6 +41,10 @@ export const UploadThumb: React.FC<Props> = ({ adId, onFinish }) => {
 
   const handleMoreFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
+      if (files.length + e.target.files.length > 5) {
+        toast.error("You can only upload a maximum of 5 images");
+        return;
+      }
       setFiles([...files, ...Array.from(e.target.files)]);
       setTempFiles([
         ...tempFiles,
