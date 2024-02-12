@@ -53,6 +53,11 @@ export const Details: React.FC<Props> = ({
       toast.error("Select location!");
     } else if (Number(price) === 0) {
       toast.error("Enter Price!");
+    } else if (
+      authContext.user?.telephoneNumber == undefined &&
+      !telephoneNumberChanged
+    ) {
+      toast.error("Phone Number Required!");
     } else {
       const res = await axios.post(`${SERVER_URI}/estate/loadEstateInfo`, {
         ...data,
@@ -76,6 +81,11 @@ export const Details: React.FC<Props> = ({
       toast.error("Select location!");
     } else if (Number(price) === 0) {
       toast.error("Enter Price!");
+    } else if (
+      authContext.user?.telephoneNumber == undefined &&
+      !telephoneNumberChanged
+    ) {
+      toast.error("Phone Number Required!");
     } else {
       const res = await axios.post(`${SERVER_URI}/truck/loadVehicleInfo`, {
         ...data,
@@ -100,10 +110,10 @@ export const Details: React.FC<Props> = ({
     } else if (Number(price) === 0) {
       toast.error("Enter Price!");
     } else if (
-      !isValidPhoneNumber(telephoneNumber) &&
-      authContext.user?.telephoneNumber == undefined
+      authContext.user?.telephoneNumber == undefined &&
+      !telephoneNumberChanged
     ) {
-      toast.error("PhoneNumber is not valid!");
+      toast.error("Phone Number Required!");
     } else {
       const res = await axios.post(`${SERVER_URI}/sale/loadForSaleInfo`, {
         ...data,
@@ -132,10 +142,10 @@ export const Details: React.FC<Props> = ({
     } else if (Number(price) === 0) {
       toast.error("Enter Price!");
     } else if (
-      !isValidPhoneNumber(telephoneNumber) &&
-      authContext.user?.telephoneNumber == undefined
+      authContext.user?.telephoneNumber == undefined &&
+      !telephoneNumberChanged
     ) {
-      toast.error("PhoneNumber is not valid!");
+      toast.error("Phone Number Required!");
     } else {
       const res = await axios.post(`${SERVER_URI}/pet/loadPetInfo`, {
         ...data,
@@ -158,39 +168,16 @@ export const Details: React.FC<Props> = ({
     }
   };
 
-  const handleChildrenFormSave = async (data: any) => {
-    if (!addressSelected) {
-      toast.error("Select location!");
-    } else if (Number(price) === 0) {
-      toast.error("Enter Price!");
-    } else {
-      const res = await axios.post(`${SERVER_URI}/children/loadChildrenInfo`, {
-        ...data,
-        price,
-        priceUnit,
-        adId,
-        userId: authContext.user?.id,
-        ...location,
-      });
-      if (res.data.success) {
-        toast.success(res.data.message);
-        onNext();
-      } else {
-        toast.error(res.data.message);
-      }
-    }
-  };
-
   const handleGardenFormSave = async (data: any) => {
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
       toast.error("Enter Price!");
     } else if (
-      !isValidPhoneNumber(telephoneNumber) &&
-      authContext.user?.telephoneNumber == undefined
+      authContext.user?.telephoneNumber == undefined &&
+      !telephoneNumberChanged
     ) {
-      toast.error("PhoneNumber is not valid!");
+      toast.error("Phone Number Required!");
     } else {
       const res = await axios.post(`${SERVER_URI}/garden/loadGardenInfo`, {
         ...data,
@@ -213,116 +200,16 @@ export const Details: React.FC<Props> = ({
     }
   };
 
-  const handleEducationFormSave = async (data: any) => {
-    if (!addressSelected) {
-      toast.error("Select location!");
-    } else if (Number(price) === 0) {
-      toast.error("Enter Price!");
-    } else if (
-      !isValidPhoneNumber(telephoneNumber) &&
-      authContext.user?.telephoneNumber == undefined
-    ) {
-      toast.error("PhoneNumber is not valid!");
-    } else {
-      const res = await axios.post(
-        `${SERVER_URI}/education/loadEducationInfo`,
-        {
-          ...data,
-          price,
-          priceUnit,
-          adId,
-          userId: authContext.user?.id,
-          ...location,
-        }
-      );
-      if (res.data.success) {
-        toast.success(res.data.message);
-        onNext();
-      } else {
-        toast.error(res.data.message);
-      }
-    }
-  };
-
-  const handleArtFormSave = async (data: any) => {
-    if (!addressSelected) {
-      toast.error("Select location!");
-    } else if (Number(price) === 0) {
-      toast.error("Enter Price!");
-    } else {
-      const res = await axios.post(`${SERVER_URI}/art/loadArtInfo`, {
-        ...data,
-        price,
-        priceUnit,
-        adId,
-        userId: authContext.user?.id,
-        ...location,
-      });
-      if (res.data.success) {
-        toast.success(res.data.message);
-        onNext();
-      } else {
-        toast.error(res.data.message);
-      }
-    }
-  };
-
-  const handleSportsFormSave = async (data: any) => {
-    if (!addressSelected) {
-      toast.error("Select location!");
-    } else if (Number(price) === 0) {
-      toast.error("Enter Price!");
-    } else {
-      const res = await axios.post(`${SERVER_URI}/sports/loadSportsInfo`, {
-        ...data,
-        price,
-        priceUnit,
-        adId,
-        userId: authContext.user?.id,
-        ...location,
-      });
-      if (res.data.success) {
-        toast.success(res.data.message);
-        onNext();
-      } else {
-        toast.error(res.data.message);
-      }
-    }
-  };
-
-  const handleFashionFormSave = async (data: any) => {
-    if (!addressSelected) {
-      toast.error("Select location!");
-    } else if (Number(price) === 0) {
-      toast.error("Enter Price!");
-    } else {
-      const res = await axios.post(`${SERVER_URI}/fashion/loadFashionInfo`, {
-        ...data,
-        price,
-        priceUnit,
-        adId,
-        userId: authContext.user?.id,
-        ...location,
-      });
-      if (res.data.success) {
-        toast.success(res.data.message);
-        onNext();
-      } else {
-        toast.error(res.data.message);
-      }
-    }
-  };
-
   const handleFoodFormSave = async (data: any) => {
     if (!addressSelected) {
       toast.error("Select location!");
     } else if (Number(price) === 0) {
       toast.error("Enter Price!");
     } else if (
-      !isValidPhoneNumber(telephoneNumber) &&
-      authContext.user?.telephoneNumber == undefined
+      authContext.user?.telephoneNumber == undefined &&
+      !telephoneNumberChanged
     ) {
-      toast.error("PhoneNumber is not valid!");
+      toast.error("Phone Number Required!");
     } else {
       const res = await axios.post(`${SERVER_URI}/food/loadFoodInfo`, {
         ...data,
@@ -351,10 +238,10 @@ export const Details: React.FC<Props> = ({
     } else if (Number(price) === 0) {
       toast.error("Enter Price!");
     } else if (
-      !isValidPhoneNumber(telephoneNumber) &&
-      authContext.user?.telephoneNumber == undefined
+      authContext.user?.telephoneNumber == undefined &&
+      !telephoneNumberChanged
     ) {
-      toast.error("PhoneNumber is not valid!");
+      toast.error("Phone Number Required!");
     } else {
       const res = await axios.post(`${SERVER_URI}/diy/loadDiyInfo`, {
         ...data,
@@ -383,10 +270,10 @@ export const Details: React.FC<Props> = ({
     } else if (Number(price) === 0) {
       toast.error("Enter Price!");
     } else if (
-      !isValidPhoneNumber(telephoneNumber) &&
-      authContext.user?.telephoneNumber == undefined
+      authContext.user?.telephoneNumber == undefined &&
+      !telephoneNumberChanged
     ) {
-      toast.error("PhoneNumber is not valid!");
+      toast.error("Phone Number Required!");
     } else {
       // const res = await axios.post(`${SERVER_URI}/diy/loadDiyInfo`, {
       //   ...data,
@@ -557,10 +444,6 @@ export const Details: React.FC<Props> = ({
                     width: "100%",
                   }}
                 />
-                {!isValidPhoneNumber(telephoneNumber) &&
-                  telephoneNumberChanged && (
-                    <span className="error">Invalid phone number!</span>
-                  )}
                 <div className="phoneNumberShare">
                   <input
                     type="checkbox"
