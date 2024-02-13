@@ -165,6 +165,7 @@ export const GardenFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
         return null;
       });
   };
+
   const handleMinPrice = async (e) => {
     if (maxPrice != "" && Number(e.target.value) > Number(maxPrice)) return;
     setMinPrice(e.target.value);

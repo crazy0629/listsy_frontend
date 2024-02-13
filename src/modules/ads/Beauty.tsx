@@ -58,7 +58,7 @@ export const Beauty: React.FC<{ data: any }> = ({ data }) => {
           <span>{data?.itemDetailInfo.ingredients}</span>
         </Styled.InfoItemWrapper>
       )}
-      {data.itemDetailInfo.ingredients && (
+      {data.itemDetailInfo.sizeVolume && (
         <Styled.InfoItemWrapper>
           <span>Size/Volume</span>
           <span>{data?.itemDetailInfo.sizeVolume}</span>
