@@ -275,24 +275,24 @@ export const Details: React.FC<Props> = ({
     ) {
       toast.error("Phone Number Required!");
     } else {
-      // const res = await axios.post(`${SERVER_URI}/diy/loadDiyInfo`, {
-      //   ...data,
-      //   price,
-      //   priceUnit,
-      //   adId,
-      //   userId: authContext.user?.id,
-      //   ...location,
-      //   telephoneNumber,
-      //   phoneNumberShare,
-      // });
-      // if (res.data.success) {
-      //   setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
-      //   localStorage.setItem("token", res.data.token);
-      //   toast.success(res.data.message);
-      //   onNext();
-      // } else {
-      //   toast.error(res.data.message);
-      // }
+      const res = await axios.post(`${SERVER_URI}/beauty/loadBeautyInfo`, {
+        ...data,
+        price,
+        priceUnit,
+        adId,
+        userId: authContext.user?.id,
+        ...location,
+        telephoneNumber,
+        phoneNumberShare,
+      });
+      if (res.data.success) {
+        setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
+        localStorage.setItem("token", res.data.token);
+        toast.success(res.data.message);
+        onNext();
+      } else {
+        toast.error(res.data.message);
+      }
     }
   };
 

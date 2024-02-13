@@ -22,6 +22,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { PetAd } from "./PetAd";
 import { Diy } from "./Diy";
 import { Garden } from "./Garden";
+import { Beauty } from "./Beauty";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
@@ -293,6 +294,7 @@ export const AdsDetailsSection: React.FC = () => {
               {type === "food" && <Food data={data} />}
               {type === "diy" && <Diy data={data} />}
               {type === "garden" && <Garden data={data} />}
+              {type === "beauty" && <Beauty data={data} />}
             </Styled.AdsDetailsInfoWrapper>
           </Styled.AdsDetailsThumbWrapper>
         </Styled.AdsDetailsContainer>
