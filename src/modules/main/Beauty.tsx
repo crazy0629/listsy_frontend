@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import * as Styled from "./main.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -8,6 +8,9 @@ import { BeautyFilter } from "./filters/beauty";
 import { beautyFilter } from "./fiterData";
 import { Tabs, Tab } from "react-tabs-scrollable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { SERVER_URI } from "@/config";
 
 type BeautyProps = {
   page?: string;
@@ -23,13 +26,42 @@ export const BeautySection: React.FC<BeautyProps> = ({ page }) => {
   const [data, setData] = useState<any>([]);
   const [getIndex, setGetIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [address, setAddress] = useState("");
+  const [countryCode, setCountryCode] = useState("");
 
-  const handleCategoryClicked = (item: any) => {
-    setFilter({ itemCategory: item.label });
-    router.push(item.page);
+  const getData = async (index: number) => {
+    const categoryList = beautyFilter.map((item) => item.label);
+
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/beauty/getCountForEachCategory`,
+      { itemCategory: categoryList, address, countryCode }
+    );
+
+    setAdCnt(adsCountData.data.countList);
+
+    const tempFilter = beautyFilter.filter((f) => f.page === page)[0].label;
+    const res = await axios.post(`${SERVER_URI}/beauty/getBeautyAds`, {
+      ...filter,
+      itemCategory: tempFilter,
+      index,
+      address,
+      countryCode,
+    });
+
+    if (res.data.success) {
+      if (index > 0) {
+        setData((prev: any) => [...prev, ...res.data.data]);
+      } else {
+        setData([...res.data.data]);
+      }
+      if (res.data.data.length < 50) {
+        setHasMore(false);
+      }
+      setGetIndex((prev) => prev + 1);
+    } else {
+      toast.error(res.data.message);
+    }
   };
-
-  const getData = async (index: number) => {};
 
   const subFormChanged = (data) => {
     setFilter((prev) => ({ ...prev, ...data }));
@@ -40,6 +72,44 @@ export const BeautySection: React.FC<BeautyProps> = ({ page }) => {
     setFilter({ itemCategory: selectedTab.label });
     router.push(selectedTab.page);
   };
+
+  const getLocationInfo = () => {
+    let locationSelected = localStorage.getItem("locationSelected");
+    if (locationSelected == "true") {
+      let locationAddress = localStorage.getItem("locationAddress");
+      setAddress(locationAddress);
+      setCountryCode("");
+    } else if (locationSelected == "false") {
+      let locationAddress = localStorage.getItem("locationAddress");
+      let countryCode = localStorage.getItem("locationCountryCode");
+      setAddress(locationAddress);
+      setCountryCode(countryCode);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("localStorageChanged", function (e: Event) {
+      getLocationInfo();
+    });
+    getLocationInfo();
+  });
+
+  useEffect(() => {
+    if (address == "") return;
+    getData(0);
+  }, [filter]);
+
+  useEffect(() => {
+    if (address == "") return;
+    getData(0);
+  }, [filter.itemCategory]);
+
+  useEffect(() => {
+    if (address == "") return;
+    setGetIndex(0);
+    setFilter((prev) => ({ ...prev, itemCategory: "All" }));
+    getData(0);
+  }, [address, countryCode]);
 
   return (
     <Styled.MainPageSectionWrapper>
@@ -70,29 +140,6 @@ export const BeautySection: React.FC<BeautyProps> = ({ page }) => {
           ))}
         </Tabs>
       </Styled.FilterTabWrapper>
-      {/* <Styled.FilterWrapper>
-        <Styled.PostsPageFilterWrapper>
-          {beautyFilter.map((item, key) => (
-            <span
-              key={key}
-              onClick={() => handleCategoryClicked(item)}
-              className={item.page === page ? "active" : ""}
-            >
-              {item.label}
-
-              {adCnt
-                ? adCnt.length > 0
-                  ? "  (" +
-                    adCnt.filter(
-                      (element) => element.itemCategory === item.label
-                    )[0]?.count +
-                    ")"
-                  : " (0)"
-                : " (0)"}
-            </span>
-          ))}
-        </Styled.PostsPageFilterWrapper>
-      </Styled.FilterWrapper> */}
       <Styled.MainGridWrapper
         className={
           isShowFilter && page !== "/for-sale/beauty-personal-care"
@@ -119,7 +166,7 @@ export const BeautySection: React.FC<BeautyProps> = ({ page }) => {
                 <CardItem
                   id={item.adId?._id}
                   key={key}
-                  type={"sale"}
+                  type={"beauty"}
                   link={item.adId?.adFileName}
                   postDate={item.adId?.uploadDate}
                   price={item.price}
@@ -149,7 +196,12 @@ export const BeautySection: React.FC<BeautyProps> = ({ page }) => {
               {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
-              <BeautyFilter onChange={subFormChanged} />
+              <BeautyFilter
+                onChange={subFormChanged}
+                itemCategory={
+                  beautyFilter.filter((f) => f.page === page)[0].label
+                }
+              />
             </div>
           </Styled.FilterSection>
         )}

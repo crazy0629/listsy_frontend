@@ -7,14 +7,15 @@ import { SERVER_URI } from "@/config";
 
 type Props = {
   onChange: (data: any) => void;
+  itemCategory: string;
 };
 
-export const BeautyFilter: React.FC<Props> = ({ onChange }) => {
+export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
     priceRange: [] as string[],
     brand: [] as string[],
-    condition: [] as string[],
+    itemCondition: [] as string[],
     gender: [] as string[],
     skin: [] as string[],
     ingredients: [] as string[],
@@ -53,25 +54,30 @@ export const BeautyFilter: React.FC<Props> = ({ onChange }) => {
 
   const donetyping = async () => {
     setIsLoading(true);
-    // const adsCountData = await axios.post(
-    //   `${SERVER_URI}/sale/getCountOfEachFilter`,
-    //   {
-    //     minPrice: minPrice,
-    //     maxPrice: maxPrice,
-    //     itemCategory: "Audio Equipment",
-    //     itemSellerRating: selectData.SellerRating,
-    //     itemCondition: selectData.forSale.Audio.Condition,
-    //     itemWarrantyInformation: selectData.forSale.Audio.WarrantyInformation,
-    //     itemType: selectData.forSale.Audio.Type,
-    //     itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
-    //     address,
-    //     countryCode,
-    //     selectedLocation: filter.selectedLocation,
-    //     centerLocationAvailable: filter.centerLocationSelected,
-    //     filter,
-    //   }
-    // );
-    // setAdCnt(adsCountData.data);
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/beauty/getCountOfEachFilter`,
+      {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        itemCategory,
+        itemSellerRating: selectData.sellerRating,
+        itemCondition: selectData.condition,
+        itemBrand: selectData.brand,
+        itemGender: selectData.gender,
+        itemSkin: selectData.skin,
+        itemIngredients: selectData.ingredients,
+        itemSize: selectData.size,
+        itemCertifications: selectData.certifications,
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
+        address,
+        countryCode,
+        selectedLocation: filter.selectedLocation,
+        centerLocationAvailable: filter.centerLocationSelected,
+        filter,
+      }
+    );
+    console.log(123, adsCountData.data);
+    setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
 
@@ -106,7 +112,6 @@ export const BeautyFilter: React.FC<Props> = ({ onChange }) => {
     typingTimer.current = setTimeout(() => {
       donetyping();
       onChange({ minPrice, maxPrice });
-      // Perform any action here after 5 seconds of inactivity
     }, 500);
 
     return () => {
@@ -169,6 +174,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange }) => {
         return null;
       });
   };
+
   const handleMinPrice = async (e) => {
     if (maxPrice != "" && Number(e.target.value) > Number(maxPrice)) return;
     setMinPrice(e.target.value);
@@ -181,121 +187,122 @@ export const BeautyFilter: React.FC<Props> = ({ onChange }) => {
   };
 
   return (
-    // adCnt != null && (
-    <>
-      <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
-      <SingleSelection
-        data={selectData.searchWithin}
-        placeholder="Select Search Range"
-        value={filter.SearchWithin}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, SearchWithin: value }))
-        }
-        type="itemSearchRange"
-        //   countList={adCnt.itemRangeInfo}
-      />
-      <InputRange
-        value1={minPrice}
-        value2={maxPrice}
-        placeholder1="Min price"
-        placeholder2="Max price"
-        type1="number"
-        type2="number"
-        onChange1={handleMinPrice}
-        onChange2={handleMaxPrice}
-        prefix1={currency}
-        prefix2={currency}
-        suffix={0}
-        // suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
-      />
-      <MultiSelection
-        data={selectData.condition}
-        placeholder="Select Condition"
-        value={filter.condition}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, condition: value }))
-        }
-        type="condition"
-        //   countList={adCnt.mealType}
-      />
-      <MultiSelection
-        data={selectData.brand}
-        placeholder="Select Brand"
-        value={filter.brand}
-        onChange={(value) => setFilter((prev) => ({ ...prev, brand: value }))}
-        type="brand"
-        //   countList={adCnt.mealType}
-      />
+    adCnt != null && (
+      <>
+        <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
+        <SingleSelection
+          data={selectData.searchWithin}
+          placeholder="Select Search Range"
+          value={filter.SearchWithin}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, SearchWithin: value }))
+          }
+          type="itemSearchRange"
+          countList={adCnt.itemRangeInfo}
+        />
+        <InputRange
+          value1={minPrice}
+          value2={maxPrice}
+          placeholder1="Min price"
+          placeholder2="Max price"
+          type1="number"
+          type2="number"
+          onChange1={handleMinPrice}
+          onChange2={handleMaxPrice}
+          prefix1={currency}
+          prefix2={currency}
+          suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+        />
+        <MultiSelection
+          data={selectData.condition}
+          placeholder="Select Condition"
+          value={filter.itemCondition}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, itemCondition: value }))
+          }
+          type="itemCondition"
+          countList={adCnt.itemCondition}
+        />
+        <MultiSelection
+          data={selectData.brand}
+          placeholder="Select Brand"
+          value={filter.brand}
+          onChange={(value) => setFilter((prev) => ({ ...prev, brand: value }))}
+          type="itemBrand"
+          countList={adCnt.itemBrand}
+        />
 
-      {isAdvancedFilter && (
-        <>
-          <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-          <MultiSelection
-            data={selectData.gender}
-            placeholder="Select Gender/Sex"
-            value={filter.gender}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, gender: value }))
-            }
-            type="gender"
-            //   countList={adCnt.dietaryPreferences}
-          />
-          <MultiSelection
-            data={selectData.skin}
-            placeholder="Select Skin/Hair Type"
-            value={filter.skin}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, skin: value }))
-            }
-            type="skin"
-            //   countList={adCnt.deliveryOptions}
-          />
-          <MultiSelection
-            data={selectData.ingredients}
-            placeholder="Select Ingredients"
-            value={filter.ingredients}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, ingredients: value }))
-            }
-            type="ingredients"
-            //   countList={adCnt.deliveryOptions}
-          />
-          <MultiSelection
-            data={selectData.size}
-            placeholder="Select Size/Volume"
-            value={filter.size}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, size: value }))
-            }
-            type="size"
-            //   countList={adCnt.deliveryOptions}
-          />
-          <MultiSelection
-            data={selectData.certifications}
-            placeholder="Select Certifications"
-            value={filter.certifications}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, certifications: value }))
-            }
-            type="certifications"
-            //   countList={adCnt.deliveryOptions}
-          />
-          <MultiSelection
-            data={selectData.sellerRating}
-            placeholder="Select Seller Rating"
-            value={filter.sellerRating}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, sellerRating: value }))
-            }
-            type="sellerRating"
-            //   countList={adCnt.sellerRating}
-          />
-        </>
-      )}
-      <ShowAdvancedFilter onClick={() => setIsAdvancedFilter((prev) => !prev)}>
-        {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-      </ShowAdvancedFilter>
-    </>
-    // )
+        {isAdvancedFilter && (
+          <>
+            <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+            <MultiSelection
+              data={selectData.gender}
+              placeholder="Select Gender/Sex"
+              value={filter.gender}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, gender: value }))
+              }
+              type="itemGender"
+              countList={adCnt.itemGender}
+            />
+            <MultiSelection
+              data={selectData.skin}
+              placeholder="Select Skin/Hair Type"
+              value={filter.skin}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, skin: value }))
+              }
+              type="itemSkin"
+              countList={adCnt.itemSkin}
+            />
+            <MultiSelection
+              data={selectData.ingredients}
+              placeholder="Select Ingredients"
+              value={filter.ingredients}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, ingredients: value }))
+              }
+              type="itemIngredients"
+              countList={adCnt.itemIngredients}
+            />
+            <MultiSelection
+              data={selectData.size}
+              placeholder="Select Size/Volume"
+              value={filter.size}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, size: value }))
+              }
+              type="itemSize"
+              countList={adCnt.itemSize}
+            />
+            <MultiSelection
+              data={selectData.certifications}
+              placeholder="Select Certifications"
+              value={filter.certifications}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, certifications: value }))
+              }
+              type="itemCertifications"
+              countList={adCnt.itemCertifications}
+            />
+            <MultiSelection
+              data={selectData.sellerRating}
+              placeholder="Select Seller Rating"
+              value={filter.sellerRating}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, sellerRating: value }))
+              }
+              type="itemSellerRating"
+              countList={adCnt.itemSellerRating}
+            />
+          </>
+        )}
+        <ShowAdvancedFilter
+          onClick={() => setIsAdvancedFilter((prev) => !prev)}
+        >
+          {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+        </ShowAdvancedFilter>
+      </>
+    )
   );
 };

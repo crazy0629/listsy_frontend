@@ -96,7 +96,7 @@ export const ForSaleForm: React.FC<Props> = ({ onSave }) => {
         <span>{form.description.length} / 5000</span>
       </Styled.TextAreaFormItem>
       <SingleSelection
-        data={selectData.forSale.category}
+        data={selectData.forSale.category.slice(1)}
         label="Item Category"
         placeholder="Select Item Category"
         value={form.itemCategory}
