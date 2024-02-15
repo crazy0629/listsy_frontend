@@ -16,6 +16,7 @@ import { FoodForm } from "./detailsform/FoodForm";
 import { DiyForm } from "./detailsform/DiyForm";
 import { GardenForm } from "./detailsform/GardenForm";
 import { BeautyForm } from "./detailsform/BeautyForm";
+import { ToyForm } from "./detailsform/ToyForm";
 
 type Props = {
   adLink: string;
@@ -296,6 +297,38 @@ export const Details: React.FC<Props> = ({
     }
   };
 
+  const handleToyFormSave = async (data: any) => {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
+      toast.error("Enter Price!");
+    } else if (
+      authContext.user?.telephoneNumber == undefined &&
+      !telephoneNumberChanged
+    ) {
+      toast.error("Phone Number Required!");
+    } else {
+      const res = await axios.post(`${SERVER_URI}/toys/loadToysInfo`, {
+        ...data,
+        price,
+        priceUnit,
+        adId,
+        userId: authContext.user?.id,
+        ...location,
+        telephoneNumber,
+        phoneNumberShare,
+      });
+      if (res.data.success) {
+        setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
+        localStorage.setItem("token", res.data.token);
+        toast.success(res.data.message);
+        onNext();
+      } else {
+        toast.error(res.data.message);
+      }
+    }
+  };
+
   const getCountryCode = async () => {
     const locationInfo = await axios.get(
       `https://api.ipdata.co?api-key=${process.env.NEXT_PUBLIC_IPDATA_API_KEY}`
@@ -345,6 +378,7 @@ export const Details: React.FC<Props> = ({
     beauty: <BeautyForm onSave={handleBeautyFormSave} />,
     estate: <EstateForm onSave={handleEstateFormSave} />,
     truck: <TruckForm onSave={handleTruckFormSave} />,
+    toys: <ToyForm onSave={handleToyFormSave} />,
   };
 
   useEffect(() => {

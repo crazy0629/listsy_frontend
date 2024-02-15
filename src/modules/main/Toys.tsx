@@ -32,34 +32,34 @@ export const ToysSection: React.FC<ToysProps> = ({ page }) => {
   const getData = async (index: number) => {
     const categoryList = toyFilter.map((item) => item.label);
 
-    // const adsCountData = await axios.post(
-    //   `${SERVER_URI}/diy/getCountForEachCategory`,
-    //   { itemCategory: categoryList, address, countryCode }
-    // );
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/toys/getCountForEachCategory`,
+      { itemCategory: categoryList, address, countryCode }
+    );
 
-    // setAdCnt(adsCountData.data.countList);
+    setAdCnt(adsCountData.data.countList);
 
-    // const tempFilter = toyFilter.filter((f) => f.page === page)[0].label;
-    // const res = await axios.post(`${SERVER_URI}/diy/getDiyAds`, {
-    //   ...filter,
-    //   itemCategory: tempFilter,
-    //   index,
-    //   address,
-    //   countryCode,
-    // });
-    // if (res.data.success) {
-    //   if (index > 0) {
-    //     setData((prev: any) => [...prev, ...res.data.data]);
-    //   } else {
-    //     setData([...res.data.data]);
-    //   }
-    //   if (res.data.data.length < 50) {
-    //     setHasMore(false);
-    //   }
-    //   setGetIndex((prev) => prev + 1);
-    // } else {
-    //   toast.error(res.data.message);
-    // }
+    const tempFilter = toyFilter.filter((f) => f.page === page)[0].label;
+    const res = await axios.post(`${SERVER_URI}/toys/getToysAds`, {
+      ...filter,
+      itemCategory: tempFilter,
+      index,
+      address,
+      countryCode,
+    });
+    if (res.data.success) {
+      if (index > 0) {
+        setData((prev: any) => [...prev, ...res.data.data]);
+      } else {
+        setData([...res.data.data]);
+      }
+      if (res.data.data.length < 50) {
+        setHasMore(false);
+      }
+      setGetIndex((prev) => prev + 1);
+    } else {
+      toast.error(res.data.message);
+    }
   };
   const subFormChanged = (data) => {
     setFilter((prev) => ({ ...prev, ...data }));
@@ -160,7 +160,7 @@ export const ToysSection: React.FC<ToysProps> = ({ page }) => {
                 <CardItem
                   id={item.adId?._id}
                   key={key}
-                  type={"toy"}
+                  type={"toys"}
                   link={item.adId?.adFileName}
                   postDate={item.adId?.uploadDate}
                   price={item.price}
