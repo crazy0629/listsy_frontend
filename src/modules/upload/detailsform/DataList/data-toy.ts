@@ -21,6 +21,7 @@ export const selectData = {
     "All Ages",
   ],
   itemBrand: [
+    "Not Specified",
     "American Girl",
     "Bandai",
     "Barbie",
@@ -66,8 +67,15 @@ export const selectData = {
     "Zuru",
     "Other Brand",
   ],
-  itemGender: ["Boys", "Girls", "Unisex/Gender-Neutral", "No Preference"],
+  itemGender: [
+    "Not Specified",
+    "Boys",
+    "Girls",
+    "Unisex/Gender-Neutral",
+    "No Preference",
+  ],
   itemEducation: [
+    "Not Specified",
     "STEM (Science, Technology, Engineering, Math)",
     "Literacy & Language",
     "Art & Creativity",
@@ -96,6 +104,7 @@ export const selectData = {
     "Within 200 miles",
   ],
   sellerType: [
+    "Not Specified",
     "Individual/Private Seller",
     "Professional/Commercial Seller",
     "Authorized Dealer/Retailer",

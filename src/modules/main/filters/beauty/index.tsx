@@ -76,7 +76,6 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
         filter,
       }
     );
-    console.log(123, adsCountData.data);
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };

@@ -32,6 +32,11 @@ const pageFilter = [
     type: "grid",
   },
   {
+    label: "Toys and Games",
+    key: "toys",
+    type: "grid",
+  },
+  {
     label: "Beauty and Personal Care Products",
     key: "beauty",
     type: "grid",

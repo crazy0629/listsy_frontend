@@ -23,6 +23,7 @@ import { PetAd } from "./PetAd";
 import { Diy } from "./Diy";
 import { Garden } from "./Garden";
 import { Beauty } from "./Beauty";
+import { Toy } from "./Toy";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
@@ -295,6 +296,7 @@ export const AdsDetailsSection: React.FC = () => {
               {type === "diy" && <Diy data={data} />}
               {type === "garden" && <Garden data={data} />}
               {type === "beauty" && <Beauty data={data} />}
+              {type === "toys" && <Toy data={data} />}
             </Styled.AdsDetailsInfoWrapper>
           </Styled.AdsDetailsThumbWrapper>
         </Styled.AdsDetailsContainer>
