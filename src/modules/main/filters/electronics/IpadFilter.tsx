@@ -50,6 +50,10 @@ export const IpadFilter: React.FC<Props> = ({ onChange }) => {
       setAddress(locationAddress);
       setCountryCode(countryCode);
     }
+    getCountryCode(
+      Number(localStorage.getItem("centerlat")),
+      Number(localStorage.getItem("centerlng"))
+    );
   };
 
   const donetyping = async () => {

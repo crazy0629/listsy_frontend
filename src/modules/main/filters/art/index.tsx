@@ -77,11 +77,6 @@ export const ArtFilter: React.FC<Props> = ({ onChange }) => {
   };
 
   useEffect(() => {
-    if (filter.centerLocationSelected == false) return;
-    donetyping();
-  }, [filter.centerLocationSelected, filter.selectedLocation]);
-
-  useEffect(() => {
     window.addEventListener("localStorageChanged", function (e: Event) {
       getLocationInfo();
     });
@@ -114,12 +109,6 @@ export const ArtFilter: React.FC<Props> = ({ onChange }) => {
       clearTimeout(typingTimer.current);
     };
   }, [minPrice, maxPrice]);
-
-  useEffect(() => {
-    if (address == "") return;
-    setIsLoading(true);
-    donetyping();
-  }, [address, countryCode]);
 
   const getCountryCode = (lat, lng) => {
     return fetch(

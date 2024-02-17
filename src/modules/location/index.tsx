@@ -10,7 +10,12 @@ import {
 } from "@react-google-maps/api";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import dynamic from "next/dynamic";
+
+const GooglePlacesAutocomplete = dynamic(
+  () => import("react-google-places-autocomplete"),
+  { ssr: false }
+);
 
 type Props = {
   open: boolean;
@@ -40,8 +45,8 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
 
   useEffect(() => {
     getLocationList();
-    setFlagUrl(localStorage.getItem("flagUrl"));
     setFilterAddress(localStorage.getItem("locationAddress"));
+    setFlagUrl(localStorage.getItem("flagUrl"));
   }, []);
 
   const getLocationList = async () => {
@@ -69,10 +74,8 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
       });
   };
 
-  useEffect(() => {
-    if (locationInfo == null) return;
-
-    fetch(
+  const getLocationInfo = async () => {
+    await fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?place_id=${locationInfo.value.place_id}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`
     )
       .then((response) => response.json())
@@ -98,7 +101,16 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
       .catch((error) => {
         console.error("Error fetching location info:", error);
       });
+  };
+
+  useEffect(() => {
+    if (locationInfo == null) return;
+    getLocationInfo();
   }, [locationInfo]);
+
+  const handleSearch = (value: any) => {
+    setLocationInfo(value);
+  };
 
   return (
     <Styled.LocationModalWrapper className={open ? "open" : ""}>
@@ -109,9 +121,9 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
             <GooglePlacesAutocomplete
               apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
               selectProps={{
-                placeholder: filterAddress,
+                placeholder: "Enter Your Location",
                 value: locationInfo,
-                onChange: setLocationInfo,
+                onChange: handleSearch,
               }}
             />
           </div>
@@ -122,7 +134,7 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
                 handleClose();
               }}
             >
-              OK
+              Close
             </button>
           </div>
         </Styled.LocationModalHeader>
