@@ -189,7 +189,7 @@ export const WearableFilter: React.FC<Props> = ({ onChange }) => {
         <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
         <SingleSelection
           data={selectData.forSale.Wearable.SearchWithIn}
-          placeholder="Select Search Range"
+          placeholder="Nationwide"
           value={filter.SearchWithin}
           onChange={(value) =>
             setFilter((prev) => ({ ...prev, SearchWithin: value }))

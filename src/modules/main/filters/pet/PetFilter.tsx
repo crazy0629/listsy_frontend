@@ -288,7 +288,7 @@ export const PetFilter: React.FC<Props> = ({ onChange }) => {
         <>
           <SingleSelection
             data={selectData.pet.Petsforsale.SearchWithin}
-            placeholder="Select Search Range"
+            placeholder="Nationwide"
             value={filter.SearchWithin}
             onChange={(value) =>
               setFilter((prev) => ({ ...prev, SearchWithin: value }))

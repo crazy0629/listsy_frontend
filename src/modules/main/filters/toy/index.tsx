@@ -179,7 +179,7 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
         <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
         <SingleSelection
           data={selectData.searchWithin}
-          placeholder="Select Search Range"
+          placeholder="Nationwide"
           value={filter.SearchWithin}
           onChange={(value) =>
             setFilter((prev) => ({ ...prev, SearchWithin: value }))
