@@ -343,8 +343,8 @@ export const musicalFilter = [
         page: "/string-instruments-for-sale/guitar",
       },
       {
-        label: "/string-instruments-for-sale/harp",
-        page: "Harp",
+        page: "/string-instruments-for-sale/harp",
+        label: "Harp",
       },
       {
         label: "Ukulele",
