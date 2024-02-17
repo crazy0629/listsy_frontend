@@ -50,6 +50,10 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
       setAddress(locationAddress);
       setCountryCode(countryCode);
     }
+    getCountryCode(
+      Number(localStorage.getItem("centerlat")),
+      Number(localStorage.getItem("centerlng"))
+    );
   };
 
   const donetyping = async () => {
@@ -79,11 +83,6 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    if (filter.centerLocationSelected == false) return;
-    donetyping();
-  }, [filter.centerLocationSelected, filter.selectedLocation]);
 
   useEffect(() => {
     window.addEventListener("localStorageChanged", function (e: Event) {
@@ -117,12 +116,6 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
       clearTimeout(typingTimer.current);
     };
   }, [minPrice, maxPrice]);
-
-  useEffect(() => {
-    if (address == "") return;
-    setIsLoading(true);
-    donetyping();
-  }, [address, countryCode]);
 
   const getCountryCode = (lat, lng) => {
     return fetch(

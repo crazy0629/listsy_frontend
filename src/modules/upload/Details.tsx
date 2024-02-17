@@ -7,7 +7,6 @@ import { EstateForm, ForSaleForm, TruckForm } from "./detailsform";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Auth as AuthContext } from "@/context/contexts";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { isValidPhoneNumber } from "libphonenumber-js";
@@ -17,6 +16,12 @@ import { DiyForm } from "./detailsform/DiyForm";
 import { GardenForm } from "./detailsform/GardenForm";
 import { BeautyForm } from "./detailsform/BeautyForm";
 import { ToyForm } from "./detailsform/ToyForm";
+import dynamic from "next/dynamic";
+
+const GooglePlacesAutocomplete = dynamic(
+  () => import("react-google-places-autocomplete"),
+  { ssr: false }
+);
 
 type Props = {
   adLink: string;
