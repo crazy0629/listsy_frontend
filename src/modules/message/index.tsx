@@ -24,7 +24,7 @@ const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
 export const MessageRoom: React.FC = () => {
   const router = useRouter();
-  const { receiverId } = router.query;
+  const { receiverId, id } = router.query;
   const { authContext } = useContext<any>(AuthContext);
   const [chatUserList, setChatUserList] = useState<Array<any>>([]);
   const [chatUserListLoading, setChatUserListLoading] = useState(true);
@@ -109,6 +109,7 @@ export const MessageRoom: React.FC = () => {
           socket.emit("addChatUserList", {
             senderId: authContext.user.id,
             receiverId: receiverId ? receiverId : "no-user",
+            adId: id,
           });
         }
       } else {
@@ -217,6 +218,7 @@ export const MessageRoom: React.FC = () => {
       socket.emit("addChatUserList", {
         senderId: authContext.user.id,
         receiverId: receiverId ? receiverId : "no-user",
+        adId: id,
       });
     } catch (error) {
       console.log(error, "error");
@@ -404,6 +406,7 @@ export const MessageRoom: React.FC = () => {
       socket.emit("addChatUserList", {
         senderId: authContext.user.id,
         receiverId: "no-user",
+        adId: id,
       });
       setUploadCancelModal({
         visible: false,

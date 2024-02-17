@@ -67,7 +67,7 @@ export const AdsDetailsSection: React.FC = () => {
         );
         return;
       }
-      router.push(`/message/${receiverId}`);
+      router.push(`/message/${receiverId}/${id}`);
     } else {
       toast.error("Log in to continue!");
       localStorage.setItem("redirect", router.asPath);
