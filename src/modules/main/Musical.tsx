@@ -6,6 +6,10 @@ import { CardItem } from "@/components";
 import { MdArrowLeft, MdClose } from "react-icons/md";
 import { MusicalFilter } from "./filters/musical";
 import { musicalFilter } from "./fiterData";
+import { Tabs, Tab } from "react-tabs-scrollable";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { SERVER_URI } from "@/config";
+import axios from "axios";
 
 type MusicalProps = {
   page?: string;
@@ -18,11 +22,14 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
     itemCategory: "All",
   });
   const [adCnt, setAdCnt] = useState([]);
+  const [subAdCnt, setSubAdCnt] = useState([]);
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [data, setData] = useState<any>([]);
   const [getIndex, setGetIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [subToggle, setSubToggle] = useState("");
+  const [address, setAddress] = useState("");
+  const [countryCode, setCountryCode] = useState("");
 
   const wrapperRef = useRef<any>(null);
   useEffect(() => {
@@ -42,32 +49,104 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
     };
   }, [wrapperRef]);
 
-  const handleCategoryClicked = (item: any) => {
-    setFilter({ itemCategory: item.label });
-    router.push(item.page);
+  const handleCategoryClicked = (item: any, parent: any) => {
+    setFilter({ itemCategory: parent.label });
+    if (item !== "") router.push(item.page);
+    else router.push(parent.page);
   };
 
-  const getData = async (index: number) => {};
+  const getData = async (index: number) => {
+    const categoryList = musicalFilter.map((item) => item.label);
+
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/music/getCountForEachCategory`,
+      { itemCategory: categoryList, address, countryCode }
+    );
+
+    setAdCnt(adsCountData.data.countList);
+  };
 
   const subFormChanged = (data) => {
     setFilter((prev) => ({ ...prev, ...data }));
   };
 
+  const onTabClick = (_, value) => {
+    musicalFilter[value].sub.length > 0
+      ? subToggle === musicalFilter[value].label
+        ? setSubToggle("")
+        : setSubToggle(musicalFilter[value].label)
+      : handleCategoryClicked("", musicalFilter[value]);
+    setSubAdCnt([]);
+    if (musicalFilter[value].label != undefined)
+      getSubAdsCount(musicalFilter[value].label);
+  };
+
+  const getLocationInfo = () => {
+    let locationSelected = localStorage.getItem("locationSelected");
+    if (locationSelected == "true") {
+      let locationAddress = localStorage.getItem("locationAddress");
+      setAddress(locationAddress);
+      setCountryCode("");
+    } else if (locationSelected == "false") {
+      let locationAddress = localStorage.getItem("locationAddress");
+      let countryCode = localStorage.getItem("locationCountryCode");
+      setAddress(locationAddress);
+      setCountryCode(countryCode);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("localStorageChanged", function (e: Event) {
+      getLocationInfo();
+    });
+    getLocationInfo();
+  });
+
+  useEffect(() => {
+    if (address == "") return;
+    getData(0);
+  }, [filter]);
+
+  useEffect(() => {
+    if (address == "") return;
+  }, [filter.itemCategory]);
+
+  const getSubAdsCount = async (value) => {
+    const subAdsCount = await axios.post(
+      `${SERVER_URI}/music/getSubCountForEachCategory`,
+      {
+        itemCategory: value,
+        itemSubCategory: musicalFilter
+          .filter((item) => item.label == value)[0]
+          .sub.map((item) => item.label),
+      }
+    );
+    setSubAdCnt(subAdsCount.data.countList);
+  };
+
+  useEffect(() => {
+    if (address == "") return;
+    setGetIndex(0);
+    setFilter((prev) => ({ ...prev, itemCategory: "All" }));
+    getData(0);
+  }, [address, countryCode]);
+
   return (
     <Styled.MainPageSectionWrapper>
-      <Styled.FilterWrapper>
-        <Styled.PostsPageFilterWrapper>
+      <Styled.FilterTabWrapper>
+        <Tabs
+          activeTab={musicalFilter.indexOf(
+            musicalFilter.filter((f) => f.page === page)[0]
+          )}
+          onTabClick={onTabClick}
+          hideNavBtnsOnMobile={false}
+          className="categoryTab"
+          leftBtnIcon={<IoIosArrowBack />}
+          rightBtnIcon={<IoIosArrowForward />}
+        >
           {musicalFilter.map((item, key) => (
-            <div
+            <Tab
               key={key}
-              onClick={
-                item.sub.length > 0
-                  ? () =>
-                      subToggle === item.label
-                        ? setSubToggle("")
-                        : setSubToggle(item.label)
-                  : () => handleCategoryClicked(item)
-              }
               className={
                 item.label === sub
                   ? "active"
@@ -77,7 +156,6 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
               }
             >
               {item.label}
-
               {adCnt
                 ? adCnt.length > 0
                   ? "  (" +
@@ -87,10 +165,10 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
                     ")"
                   : " (0)"
                 : " (0)"}
-            </div>
+            </Tab>
           ))}
-        </Styled.PostsPageFilterWrapper>
-      </Styled.FilterWrapper>
+        </Tabs>
+      </Styled.FilterTabWrapper>
       {subToggle && (
         <Styled.SubFilterWrapper ref={wrapperRef}>
           <Styled.PostsPageFilterWrapper>
@@ -99,16 +177,21 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
               .sub.map((item, key) => (
                 <div
                   key={key}
-                  onClick={() => handleCategoryClicked(item)}
+                  onClick={() =>
+                    handleCategoryClicked(
+                      item,
+                      musicalFilter.filter((f) => f.label === subToggle)[0]
+                    )
+                  }
                   className={item.page === page ? "active" : ""}
                 >
                   {item.label}
 
-                  {adCnt
-                    ? adCnt.length > 0
+                  {subAdCnt
+                    ? subAdCnt.length > 0
                       ? "  (" +
-                        adCnt.filter(
-                          (element) => element.itemCategory === item.label
+                        subAdCnt.filter(
+                          (element) => element.itemSubCategory === item.label
                         )[0]?.count +
                         ")"
                       : " (0)"
@@ -146,7 +229,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
                 <CardItem
                   id={item.adId?._id}
                   key={key}
-                  type={"sale"}
+                  type={"music"}
                   link={item.adId?.adFileName}
                   postDate={item.adId?.uploadDate}
                   price={item.price}

@@ -11,11 +11,15 @@ export const LocationModalWrapper = styled.div<{ open?: string }>`
   transition: all 0.3s;
   opacity: 0;
   visibility: hidden;
+  z-index: 50;
+  /* z-index: -1;
+  pointer-events: none; */
   &.open {
     opacity: 1;
     visibility: visible;
+    /* z-index: 50;
+    pointer-events: initial; */
   }
-  z-index: 50;
 `;
 
 export const LocationModalContainer = styled.div`

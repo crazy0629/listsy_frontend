@@ -43,9 +43,13 @@ export const FilterTabWrapper = styled.div`
         position: relative;
         border: 1px solid transparent;
 
+        &.active,
         &.rts___tab___selected {
           background: #ff6f00;
           color: #fff;
+        }
+        &.sub-active {
+          background: #ff6f0080;
         }
       }
     }
@@ -144,6 +148,32 @@ export const PostsPageFilterWrapper = styled.div`
 
 export const SubFilterWrapper = styled.div`
   padding: 0 20px 10px;
+  &.show {
+    display: block;
+  }
+  &.hide {
+    display: none;
+  }
+  .swiper-wrapper {
+    padding: 5px 0;
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    &::after {
+      font-size: 20px;
+      font-weight: 900;
+      color: black;
+    }
+  }
+  .swiper-button-next {
+    right: 0;
+  }
+  .swiper-button-prev {
+    left: 0;
+  }
+  @media screen and (max-width: 500px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export const FilterWrapper = styled.div`

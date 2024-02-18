@@ -24,7 +24,7 @@ export const ToyForm: React.FC<Props> = ({ onSave }) => {
     } else if (!form.description) {
       toast.error("Enter the description!");
     } else if (!form.itemCategory) {
-      toast.error("Select Product Type!");
+      toast.error("Select product type!");
     } else {
       if (form.itemDetailInfo == details) onSave(form);
       else setForm((prev) => ({ ...prev, itemDetailInfo: details }));
@@ -77,8 +77,8 @@ export const ToyForm: React.FC<Props> = ({ onSave }) => {
       <SingleSelection
         direction="top"
         data={toyFilter.map((item) => item.label).slice(1)}
-        label="Type"
-        placeholder="Type"
+        label="Product Type"
+        placeholder="Select Product Type"
         value={form.itemCategory}
         onChange={(value) => {
           setForm((prev) => ({

@@ -24,7 +24,7 @@ export const BeautyForm: React.FC<Props> = ({ onSave }) => {
     } else if (!form.description) {
       toast.error("Enter the description!");
     } else if (!form.itemCategory) {
-      toast.error("Select Product Type!");
+      toast.error("Select product type!");
     } else {
       if (form.itemDetailInfo == details) onSave(form);
       else setForm((prev) => ({ ...prev, itemDetailInfo: details }));
