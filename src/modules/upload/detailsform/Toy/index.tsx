@@ -29,7 +29,7 @@ export const ToyDetail: React.FC<Props> = ({ onSave }) => {
     <Styled.FormContainer>
       <MultiSelection
         data={selectData.itemAge}
-        placeholder="Age Group"
+        placeholder="Select Age Group"
         value={form.ageGroup}
         onChange={(value) => setForm((prev) => ({ ...prev, ageGroup: value }))}
       />

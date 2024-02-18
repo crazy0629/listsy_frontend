@@ -39,17 +39,11 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
   const [priceChanged, setPriceChanged] = useState(false);
 
   const getLocationInfo = () => {
-    let locationSelected = localStorage.getItem("locationSelected");
-    if (locationSelected == "true") {
-      let locationAddress = localStorage.getItem("locationAddress");
-      setAddress(locationAddress);
-      setCountryCode("");
-    } else if (locationSelected == "false") {
-      let locationAddress = localStorage.getItem("locationAddress");
-      let countryCode = localStorage.getItem("locationCountryCode");
-      setAddress(locationAddress);
-      setCountryCode(countryCode);
-    }
+    let locationAddress = localStorage.getItem("locationAddress");
+    let countryCode = localStorage.getItem("locationCountryCode");
+    setAddress(locationAddress);
+    setCountryCode(countryCode);
+
     getCountryCode(
       Number(localStorage.getItem("centerlat")),
       Number(localStorage.getItem("centerlng"))

@@ -83,6 +83,11 @@ const pageFilter = [
     type: "grid",
   },
   {
+    label: "Musical Instruments",
+    key: "music",
+    type: "grid",
+  },
+  {
     label: "DIY and Craft Items",
     key: "diy",
     type: "grid",

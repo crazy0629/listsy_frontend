@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import * as Styled from "./details.styles";
 import { SingleSelection } from "@/components";
 import { toast } from "react-toastify";
-import { gardenFilter } from "@/modules/main/fiterData";
+import { musicalFilter } from "@/modules/main/fiterData";
+import { MusicDetail } from "./Music";
 
 type Props = {
   onSave: (data: any) => void;
@@ -14,7 +15,6 @@ export const MusicForm: React.FC<Props> = ({ onSave }) => {
     subTitle: "",
     description: "",
     itemCategory: "",
-    subCategory: "",
     itemDetailInfo: null,
   });
 
@@ -24,7 +24,7 @@ export const MusicForm: React.FC<Props> = ({ onSave }) => {
     } else if (!form.description) {
       toast.error("Enter the description!");
     } else if (!form.itemCategory) {
-      toast.error("Select type of equipment!");
+      toast.error("Select type of instrument!");
     } else {
       if (form.itemDetailInfo == details) onSave(form);
       else setForm((prev) => ({ ...prev, itemDetailInfo: details }));
@@ -76,19 +76,22 @@ export const MusicForm: React.FC<Props> = ({ onSave }) => {
       </Styled.TextAreaFormItem>
       <SingleSelection
         direction="top"
-        data={gardenFilter.map((item) => item.label).slice(1)}
-        label="Type of Equipment"
-        placeholder="Select Type of Equipment"
+        data={musicalFilter.map((item) => item.label).slice(1)}
+        label="Type of Instrument"
+        placeholder="Select Type of Instrument"
         value={form.itemCategory}
         onChange={(value) => {
           setForm((prev) => ({
             ...prev,
             itemCategory: value,
+            itemSubCategory: "",
             itemDetailInfo: null,
           }));
         }}
       />
-      {/* <GardenDetail onSave={subFormSave} /> */}
+      {form.itemCategory != "" && (
+        <MusicDetail onSave={subFormSave} itemCategory={form.itemCategory} />
+      )}
     </Styled.FormContainer>
   );
 };

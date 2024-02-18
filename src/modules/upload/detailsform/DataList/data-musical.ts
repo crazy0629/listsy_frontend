@@ -19,6 +19,7 @@ export const selectData = {
     "Nationwide",
   ],
   age: [
+    "Not Specified",
     "Brand New",
     "Less than 1 year old",
     "1 - 3 years old",
@@ -26,9 +27,9 @@ export const selectData = {
     "5 - 10 years old",
     "10 - 20 years old",
     "Over 20 years old",
-    "Not Specified",
   ],
   brand: [
+    "Not Specified",
     "Fender",
     "Gibson",
     "Ibanez",
@@ -81,6 +82,7 @@ export const selectData = {
     "Other brand",
   ],
   sellerType: [
+    "Not Specified",
     "Individual/Private Seller",
     "Music Store/Retailer",
     "Authorized Dealer",
