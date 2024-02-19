@@ -14,51 +14,22 @@ import { toast } from "react-toastify";
 
 type MusicalProps = {
   page?: string;
-  sub?: string;
 };
 
-export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
+export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
   const router = useRouter();
   const [filter, setFilter] = useState({
     itemCategory: "All",
   });
   const [adCnt, setAdCnt] = useState([]);
-  const [subAdCnt, setSubAdCnt] = useState([]);
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [data, setData] = useState<any>([]);
   const [getIndex, setGetIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [subToggle, setSubToggle] = useState("");
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
 
-  const wrapperRef = useRef<any>(null);
-  useEffect(() => {
-    /**
-     * Alert if clicked on outside of element
-     */
-    const handleClickOutside = (event: any) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setSubToggle("");
-      }
-    };
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [wrapperRef]);
-
-  const handleCategoryClicked = async (item: any, parent: any) => {
-    setFilter({ itemCategory: parent.label });
-    setGetIndex(0);
-
-    if (item !== "") router.push(item.page);
-    else router.push(parent.page);
-  };
-
-  const getAdCount = async () => {
+  const getData = async (index: number) => {
     const categoryList = musicalFilter.map((item) => item.label);
 
     const adsCountData = await axios.post(
@@ -67,38 +38,18 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
     );
 
     setAdCnt(adsCountData.data.countList);
-  };
 
-  const subFormChanged = (data) => {
-    setFilter((prev) => ({ ...prev, ...data }));
-  };
-
-  const onTabClick = (_, value) => {
-    musicalFilter[value].sub.length > 0
-      ? subToggle === musicalFilter[value].label
-        ? setSubToggle("")
-        : setSubToggle(musicalFilter[value].label)
-      : handleCategoryClicked("", musicalFilter[value]);
-    setSubAdCnt([]);
-    if (musicalFilter[value].label != undefined)
-      getSubAdsCount(musicalFilter[value].label);
-  };
-
-  const getAdData = async (index: number) => {
-    const categoryName = sub;
-    const subCategoryName = sub == "All" ? "" : page.split("/")[2];
+    const tempFilter = musicalFilter.filter((f) => f.page === page)[0].label;
     const res = await axios.post(`${SERVER_URI}/music/getMusicAds`, {
       ...filter,
-      itemCategory: categoryName,
-      itemSubCategory: subCategoryName,
+      itemCategory: tempFilter,
       index,
       address,
       countryCode,
     });
     if (res.data.success) {
-      if (getIndex > 0) {
-        // setData((prev: any) => [...prev, ...res.data.data]);
-        setData([...res.data.data]);
+      if (index > 0) {
+        setData((prev: any) => [...prev, ...res.data.data]);
       } else {
         setData([...res.data.data]);
       }
@@ -109,6 +60,16 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
     } else {
       toast.error(res.data.message);
     }
+  };
+
+  const subFormChanged = (data) => {
+    setFilter((prev) => ({ ...prev, ...data }));
+  };
+
+  const onTabClick = (_, value) => {
+    const selectedTab = musicalFilter[value];
+    setFilter({ itemCategory: selectedTab.label });
+    router.push(selectedTab.page);
   };
 
   const getLocationInfo = () => {
@@ -127,30 +88,19 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
 
   useEffect(() => {
     if (address == "") return;
-    getAdCount();
-    setGetIndex(0);
-    getAdData(0);
+    getData(0);
   }, [filter]);
 
-  const getSubAdsCount = async (value) => {
-    const subAdsCount = await axios.post(
-      `${SERVER_URI}/music/getSubCountForEachCategory`,
-      {
-        itemCategory: value,
-        itemSubCategory: musicalFilter
-          .filter((item) => item.label == value)[0]
-          .sub.map((item) => item.label),
-      }
-    );
-    setSubAdCnt(subAdsCount.data.countList);
-  };
+  useEffect(() => {
+    if (address == "") return;
+    getData(0);
+  }, [filter.itemCategory]);
 
   useEffect(() => {
     if (address == "") return;
     setGetIndex(0);
     setFilter((prev) => ({ ...prev, itemCategory: "All" }));
-    getAdCount();
-    getAdData(0);
+    getData(0);
   }, [address, countryCode]);
 
   return (
@@ -167,16 +117,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
           rightBtnIcon={<IoIosArrowForward />}
         >
           {musicalFilter.map((item, key) => (
-            <Tab
-              key={key}
-              className={
-                item.label === sub
-                  ? "active"
-                  : subToggle === item.label
-                  ? "sub-active"
-                  : ""
-              }
-            >
+            <Tab key={key}>
               {item.label}
               {adCnt
                 ? adCnt.length > 0
@@ -191,42 +132,9 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
           ))}
         </Tabs>
       </Styled.FilterTabWrapper>
-      {subToggle && (
-        <Styled.SubFilterWrapper ref={wrapperRef}>
-          <Styled.PostsPageFilterWrapper>
-            {musicalFilter
-              .filter((f) => f.label === subToggle)[0]
-              .sub.map((item, key) => (
-                <div
-                  key={key}
-                  onClick={() =>
-                    handleCategoryClicked(
-                      item,
-                      musicalFilter.filter((f) => f.label === subToggle)[0]
-                    )
-                  }
-                  className={item.page === page ? "active" : ""}
-                >
-                  {item.label}
-
-                  {subAdCnt
-                    ? subAdCnt.length > 0
-                      ? "  (" +
-                        subAdCnt.filter(
-                          (element) => element.itemSubCategory === item.label
-                        )[0]?.count +
-                        ")"
-                      : " (0)"
-                    : " (0)"}
-                </div>
-              ))}
-          </Styled.PostsPageFilterWrapper>
-        </Styled.SubFilterWrapper>
-      )}
       <Styled.MainGridWrapper
         className={
-          isShowFilter &&
-          page !== "/musical-instruments-for-sale/all-instruments"
+          isShowFilter && page !== "/musical-instruments/all-instruments"
             ? "filtered"
             : ""
         }
@@ -234,13 +142,12 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
         {data.length > 0 ? (
           <InfiniteScroll
             dataLength={data.length}
-            next={() => getAdData(getIndex)}
+            next={() => getData(getIndex)}
             hasMore={hasMore}
             endMessage={<h4></h4>}
             scrollableTarget="community-list"
             className={
-              isShowFilter &&
-              page !== "/musical-instruments-for-sale/all-instruments"
+              isShowFilter && page !== "/musical-instruments/all-instruments"
                 ? "filtered"
                 : ""
             }
@@ -274,7 +181,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
             Got something to sell? Post it for free and be the first!
           </div>
         )}
-        {page !== "/musical-instruments-for-sale/all-instruments" && (
+        {page !== "/musical-instruments/all-instruments" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>
             <Styled.FilterToggleButton
               onClick={() => setIsShowFilter((prev) => !prev)}
@@ -285,8 +192,9 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
             <div className="filter-wrapper">
               <MusicalFilter
                 onChange={subFormChanged}
-                itemCategory={sub}
-                itemSubCategory={sub == "All" ? "" : page.split("/")[2]}
+                itemCategory={
+                  musicalFilter.filter((f) => f.page === page)[0].label
+                }
               />
             </div>
           </Styled.FilterSection>

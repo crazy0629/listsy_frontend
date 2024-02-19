@@ -32,9 +32,7 @@ export const MusicDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
     <Styled.FormContainer>
       <SingleSelection
         direction="top"
-        data={musicalFilter
-          .filter((item) => item.label == itemCategory)[0]
-          .sub.map((item) => item.label)}
+        data={selectData.type[itemCategory]}
         label="Subcategory"
         placeholder="Select Subcategory"
         value={form.itemSubCategory}

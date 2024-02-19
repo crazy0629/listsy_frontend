@@ -316,215 +316,39 @@ export const gardenFilter = [
 export const musicalFilter = [
   {
     label: "All",
-    page: "/musical-instruments-for-sale/all-instruments",
-    sub: [],
+    page: "/musical-instruments/all-instruments",
   },
   {
     label: "String Instruments",
-    sub: [
-      {
-        label: "Violin",
-        page: "/string-instruments-for-sale/violin",
-      },
-      {
-        label: "Viola",
-        page: "/string-instruments-for-sale/viola",
-      },
-      {
-        label: "Cello",
-        page: "/string-instruments-for-sale/cello",
-      },
-      {
-        label: "Double Bass",
-        page: "/string-instruments-for-sale/double-bass",
-      },
-      {
-        label: "Guitar",
-        page: "/string-instruments-for-sale/guitar",
-      },
-      {
-        page: "/string-instruments-for-sale/harp",
-        label: "Harp",
-      },
-      {
-        label: "Ukulele",
-        page: "/string-instruments-for-sale/ukulele",
-      },
-      {
-        label: "Banjo",
-        page: "/string-instruments-for-sale/banjo",
-      },
-      {
-        label: "Mandolin",
-        page: "/string-instruments-for-sale/mandolin",
-      },
-      {
-        label: "Lute",
-        page: "/string-instruments-for-sale/lute",
-      },
-    ],
+    page: "/musical-instruments/string-instruments",
   },
   {
     label: "Woodwind Instruments",
-    sub: [
-      { label: "Flute", page: "/woodwind-instruments-for-sale/flute" },
-      { label: "Clarinet", page: "/woodwind-instruments-for-sale/clarinet" },
-      { label: "Oboe", page: "/woodwind-instruments-for-sale/oboe" },
-      { label: "Bassoon", page: "/woodwind-instruments-for-sale/bassoon" },
-      { label: "Saxophone", page: "/woodwind-instruments-for-sale/saxophone" },
-      { label: "Recorder", page: "/woodwind-instruments-for-sale/recorder" },
-      { label: "Piccolo", page: "/woodwind-instruments-for-sale/piccolo" },
-      {
-        label: "Bass Clarinet",
-        page: "/woodwind-instruments-for-sale/bass-clarinet",
-      },
-      {
-        label: "English Horn",
-        page: "/woodwind-instruments-for-sale/english-horn",
-      },
-    ],
+    page: "/musical-instruments/woodwind-instruments",
   },
   {
     label: "Brass Instruments",
-    sub: [
-      { label: "Trumpet", page: "/brass-instruments-for-sale/trumpet" },
-      { label: "Trombone", page: "/brass-instruments-for-sale/trombone" },
-      { label: "French Horn", page: "/brass-instruments-for-sale/french-horn" },
-      { label: "Tuba", page: "/brass-instruments-for-sale/tuba" },
-      { label: "Euphonium", page: "/brass-instruments-for-sale/euphonium" },
-      { label: "Cornet", page: "/brass-instruments-for-sale/cornet" },
-      { label: "Flugelhorn", page: "/brass-instruments-for-sale/flugelhorn" },
-    ],
+    page: "/musical-instruments/brass-instruments",
   },
   {
     label: "Percussion Instruments",
-    sub: [
-      { label: "Drum Kit", page: "/percussion-instruments-for-sale/drum-kit" },
-      { label: "Timpani", page: "/percussion-instruments-for-sale/timpani" },
-      {
-        label: "Xylophone",
-        page: "/percussion-instruments-for-sale/xylophone",
-      },
-      { label: "Marimba", page: "/percussion-instruments-for-sale/marimba" },
-      {
-        label: "Vibraphone",
-        page: "/percussion-instruments-for-sale/vibraphone",
-      },
-      { label: "Conga", page: "/percussion-instruments-for-sale/conga" },
-      { label: "Bongo", page: "/percussion-instruments-for-sale/bongo" },
-      { label: "Djembe", page: "/percussion-instruments-for-sale/djembe" },
-      { label: "Cajon", page: "/percussion-instruments-for-sale/cajon" },
-      {
-        label: "Tambourine",
-        page: "/percussion-instruments-for-sale/tambourine",
-      },
-      { label: "Maracas", page: "/percussion-instruments-for-sale/maracas" },
-      {
-        label: "Snare Drum",
-        page: "/percussion-instruments-for-sale/snare-drum",
-      },
-      {
-        label: "Bass Drum",
-        page: "/percussion-instruments-for-sale/bass-drum",
-      },
-    ],
+    page: "/musical-instruments/percussion-instruments",
   },
   {
     label: "Keyboard Instruments",
-    sub: [
-      { label: "Piano", page: "/keyboard-instruments-for-sale/piano" },
-      { label: "Organ", page: "/keyboard-instruments-for-sale/organ" },
-      {
-        label: "Synthesizer",
-        page: "/keyboard-instruments-for-sale/synthesizer",
-      },
-      { label: "Keyboard", page: "/keyboard-instruments-for-sale/keyboard" },
-      {
-        label: "Harpsichord",
-        page: "/keyboard-instruments-for-sale/harpsichord",
-      },
-      { label: "Accordion", page: "/keyboard-instruments-for-sale/accordion" },
-      { label: "Melodica", page: "/keyboard-instruments-for-sale/melodica" },
-    ],
+    page: "/musical-instruments/keyboard-instruments",
   },
   {
     label: "Electronic Instruments",
-    sub: [
-      {
-        label: "Electric Guitar",
-        page: "/electronic-instruments-for-sale/electric-guitar",
-      },
-      {
-        label: "Electric Bass",
-        page: "/electronic-instruments-for-sale/electric-bass",
-      },
-      {
-        label: "Synthesizer",
-        page: "/electronic-instruments-for-sale/synthesizer",
-      },
-      {
-        label: "Drum Machine",
-        page: "/electronic-instruments-for-sale/drum-machine",
-      },
-      {
-        label: "Electronic Keyboard",
-        page: "/electronic-instruments-for-sale/electronic-keyboard",
-      },
-      {
-        label: "MIDI Controller",
-        page: "/electronic-instruments-for-sale/midi-controller",
-      },
-      { label: "Theremin", page: "/electronic-instruments-for-sale/theremin" },
-    ],
+    page: "/musical-instruments/electronic-instruments",
   },
   {
     label: "Folk and World Instruments",
-    sub: [
-      { label: "Sitar", page: "/folk-world-instruments-for-sale/sitar" },
-      { label: "Tabla", page: "/folk-world-instruments-for-sale/tabla" },
-      {
-        label: "Harmonium",
-        page: "/folk-world-instruments-for-sale/harmonium",
-      },
-      { label: "Bouzouki", page: "/folk-world-instruments-for-sale/bouzouki" },
-      {
-        label: "Didgeridoo",
-        page: "/folk-world-instruments-for-sale/didgeridoo",
-      },
-      { label: "Erhu", page: "/folk-world-instruments-for-sale/erhu" },
-      { label: "Oud", page: "/folk-world-instruments-for-sale/oud" },
-      {
-        label: "Balalaika",
-        page: "/folk-world-instruments-for-sale/balalaika",
-      },
-      { label: "Koto", page: "/folk-world-instruments-for-sale/koto" },
-      { label: "Shamisen", page: "/folk-world-instruments-for-sale/shamisen" },
-      {
-        label: "Accordion",
-        page: "/folk-world-instruments-for-sale/accordion",
-      },
-    ],
+    page: "/musical-instruments/folk-and-world-instruments",
   },
   {
     label: "Other Instruments",
-    sub: [
-      {
-        label: "Voice (Singing)",
-        page: "/other-instruments-for-sale/singing-lessons",
-      },
-      {
-        label: "Turntables (DJ equipment)",
-        page: "/other-instruments-for-sale/turntables-dj-equipment",
-      },
-      {
-        label: "Electronic effects and loopers",
-        page: "/other-instruments-for-sale/electronic-effects-loopers",
-      },
-      {
-        label: "Other",
-        page: "/other-instruments-for-sale/other-music-equipment",
-      },
-    ],
+    page: "/musical-instruments/other-instruments",
   },
 ];
 
