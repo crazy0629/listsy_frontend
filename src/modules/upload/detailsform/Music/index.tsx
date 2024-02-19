@@ -20,7 +20,9 @@ export const MusicDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
   });
 
   const handleSave = () => {
-    if (!form.itemCondition) {
+    if (!form.itemSubCategory) {
+      toast.error("Select subcategory");
+    } else if (!form.itemCondition) {
       toast.error("Select condition");
     } else {
       onSave(form);

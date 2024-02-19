@@ -174,7 +174,9 @@ export const DiyCraftSection: React.FC<DiyCraftProps> = ({ page }) => {
               ))}
           </InfiniteScroll>
         ) : (
-          <div className="no-data">No Data</div>
+          <div className="no-data">
+            Got something to sell? Post it for free and be the first!
+          </div>
         )}
         {page !== "/for-sale/diy-craft-items" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>

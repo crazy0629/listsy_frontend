@@ -59,10 +59,10 @@ export const LocationModalHeader = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
     .cancel_btn {
       display: block;
       margin-left: auto;
-
       width: 85px;
       height: 36px;
       border-radius: 5px;
@@ -78,6 +78,7 @@ export const LocationModalHeader = styled.div`
       display: block;
       margin-left: auto;
       margin-right: 10px;
+      cursor: pointer;
       width: 85px;
       height: 36px;
       border-radius: 5px;

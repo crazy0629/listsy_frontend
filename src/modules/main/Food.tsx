@@ -177,7 +177,9 @@ export const FoodSection: React.FC<FoodProps> = ({ page }) => {
               ))}
           </InfiniteScroll>
         ) : (
-          <div className="no-data">No Data</div>
+          <div className="no-data">
+            Got something to sell? Post it for free and be the first!
+          </div>
         )}
         {page !== "/culinary-products/world-cuisines" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>

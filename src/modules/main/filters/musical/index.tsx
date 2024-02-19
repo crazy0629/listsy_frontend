@@ -7,9 +7,15 @@ import { SERVER_URI } from "@/config";
 
 type Props = {
   onChange: (data: any) => void;
+  itemCategory: string;
+  itemSubCategory: string;
 };
 
-export const MusicalFilter: React.FC<Props> = ({ onChange }) => {
+export const MusicalFilter: React.FC<Props> = ({
+  onChange,
+  itemCategory,
+  itemSubCategory,
+}) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
     priceRange: [] as string[],
@@ -50,25 +56,26 @@ export const MusicalFilter: React.FC<Props> = ({ onChange }) => {
 
   const donetyping = async () => {
     setIsLoading(true);
-    // const adsCountData = await axios.post(
-    //   `${SERVER_URI}/sale/getCountOfEachFilter`,
-    //   {
-    //     minPrice: minPrice,
-    //     maxPrice: maxPrice,
-    //     itemCategory: "Audio Equipment",
-    //     itemSellerRating: selectData.SellerRating,
-    //     itemCondition: selectData.forSale.Audio.Condition,
-    //     itemWarrantyInformation: selectData.forSale.Audio.WarrantyInformation,
-    //     itemType: selectData.forSale.Audio.Type,
-    //     itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
-    //     address,
-    //     countryCode,
-    //     selectedLocation: filter.selectedLocation,
-    //     centerLocationAvailable: filter.centerLocationSelected,
-    //     filter,
-    //   }
-    // );
-    // setAdCnt(adsCountData.data);
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/sale/getCountOfEachFilter`,
+      {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        itemCategory,
+        itemSubCategory,
+        // itemSellerRating: selectData.SellerRating,
+        // itemCondition: selectData.forSale.Audio.Condition,
+        // itemWarrantyInformation: selectData.forSale.Audio.WarrantyInformation,
+        // itemType: selectData.forSale.Audio.Type,
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
+        address,
+        countryCode,
+        selectedLocation: filter.selectedLocation,
+        centerLocationAvailable: filter.centerLocationSelected,
+        filter,
+      }
+    );
+    setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
 

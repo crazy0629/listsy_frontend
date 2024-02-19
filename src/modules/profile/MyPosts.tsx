@@ -317,7 +317,7 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
               ))}
             </InfiniteScroll>
           ) : (
-            <h4>No Data</h4>
+            <h4>Got something to sell? Post it for free and be the first!</h4>
           )}
         </Styled.PostsGridWrapper>
       )}
@@ -361,7 +361,9 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
                     ))}
                 </InfiniteScroll>
               ) : (
-                <h4>No Data</h4>
+                <h4>
+                  Got something to sell? Post it for free and be the first!
+                </h4>
               )}
             </JobListContainer>
             <Styled.JobDetailsWrapper
