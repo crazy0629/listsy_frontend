@@ -10,6 +10,7 @@ import { Tabs, Tab } from "react-tabs-scrollable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { SERVER_URI } from "@/config";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 type MusicalProps = {
   page?: string;
@@ -49,13 +50,15 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
     };
   }, [wrapperRef]);
 
-  const handleCategoryClicked = (item: any, parent: any) => {
+  const handleCategoryClicked = async (item: any, parent: any) => {
     setFilter({ itemCategory: parent.label });
+    setGetIndex(0);
+
     if (item !== "") router.push(item.page);
     else router.push(parent.page);
   };
 
-  const getData = async (index: number) => {
+  const getAdCount = async () => {
     const categoryList = musicalFilter.map((item) => item.label);
 
     const adsCountData = await axios.post(
@@ -81,18 +84,38 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
       getSubAdsCount(musicalFilter[value].label);
   };
 
-  const getLocationInfo = () => {
-    let locationSelected = localStorage.getItem("locationSelected");
-    if (locationSelected == "true") {
-      let locationAddress = localStorage.getItem("locationAddress");
-      setAddress(locationAddress);
-      setCountryCode("");
-    } else if (locationSelected == "false") {
-      let locationAddress = localStorage.getItem("locationAddress");
-      let countryCode = localStorage.getItem("locationCountryCode");
-      setAddress(locationAddress);
-      setCountryCode(countryCode);
+  const getAdData = async (index: number) => {
+    const categoryName = sub;
+    const subCategoryName = sub == "All" ? "" : page.split("/")[2];
+    const res = await axios.post(`${SERVER_URI}/music/getMusicAds`, {
+      ...filter,
+      itemCategory: categoryName,
+      itemSubCategory: subCategoryName,
+      index,
+      address,
+      countryCode,
+    });
+    if (res.data.success) {
+      if (getIndex > 0) {
+        setData((prev: any) => [...prev, ...res.data.data]);
+        // setData([...res.data.data]);
+      } else {
+        setData([...res.data.data]);
+      }
+      if (res.data.data.length < 50) {
+        setHasMore(false);
+      }
+      setGetIndex((prev) => prev + 1);
+    } else {
+      toast.error(res.data.message);
     }
+  };
+
+  const getLocationInfo = () => {
+    let locationAddress = localStorage.getItem("locationAddress");
+    let countryCode = localStorage.getItem("locationCountryCode");
+    setAddress(locationAddress);
+    setCountryCode(countryCode);
   };
 
   useEffect(() => {
@@ -100,16 +123,14 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
       getLocationInfo();
     });
     getLocationInfo();
-  });
+  }, []);
 
   useEffect(() => {
     if (address == "") return;
-    getData(0);
+    getAdCount();
+    setGetIndex(0);
+    getAdData(0);
   }, [filter]);
-
-  useEffect(() => {
-    if (address == "") return;
-  }, [filter.itemCategory]);
 
   const getSubAdsCount = async (value) => {
     const subAdsCount = await axios.post(
@@ -128,7 +149,8 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
     if (address == "") return;
     setGetIndex(0);
     setFilter((prev) => ({ ...prev, itemCategory: "All" }));
-    getData(0);
+    getAdCount();
+    getAdData(0);
   }, [address, countryCode]);
 
   return (
@@ -212,7 +234,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
         {data.length > 0 ? (
           <InfiniteScroll
             dataLength={data.length}
-            next={() => getData(getIndex)}
+            next={() => getAdData(getIndex)}
             hasMore={hasMore}
             endMessage={<h4></h4>}
             scrollableTarget="community-list"
