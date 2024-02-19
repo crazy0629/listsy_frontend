@@ -97,6 +97,7 @@ export const Sidebar: React.FC<Props> = ({ page }) => {
     if (e.target.files?.length) {
       const formData = new FormData();
       formData.append("avatar", e.target.files[0]);
+      console.log(123123, e.target.files[0]);
       formData.append("userId", authContext.user?.id);
       const res = await axios.post(`${SERVER_URI}/profile/avatar`, formData);
       if (res.data.success) {
