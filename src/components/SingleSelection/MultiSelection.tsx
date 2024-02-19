@@ -157,6 +157,8 @@ export const MultiSelection: React.FC<Props> = ({
                       return element.itemAgeGroup === item;
                     } else if (type == "itemEducation") {
                       return element.itemEducation === item;
+                    } else if (type == "itemInstrumentType") {
+                      return element.itemInstrumentType === item;
                     }
                     return false;
                   })[0]?.count
