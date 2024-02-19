@@ -97,8 +97,8 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
     });
     if (res.data.success) {
       if (getIndex > 0) {
-        setData((prev: any) => [...prev, ...res.data.data]);
-        // setData([...res.data.data]);
+        // setData((prev: any) => [...prev, ...res.data.data]);
+        setData([...res.data.data]);
       } else {
         setData([...res.data.data]);
       }
