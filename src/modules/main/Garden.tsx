@@ -180,7 +180,9 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
               ))}
           </InfiniteScroll>
         ) : (
-          <div className="no-data">No Data</div>
+          <div className="no-data">
+            Got something to sell? Post it for free and be the first!
+          </div>
         )}
         {page !== "/garden-outdoor-equipment/all-items-for-sale" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>

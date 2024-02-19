@@ -134,7 +134,7 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
                 handleClose();
               }}
             >
-              Close
+              Apply
             </button>
           </div>
         </Styled.LocationModalHeader>

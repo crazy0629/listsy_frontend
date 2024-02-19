@@ -172,7 +172,9 @@ export const ToysSection: React.FC<ToysProps> = ({ page }) => {
               ))}
           </InfiniteScroll>
         ) : (
-          <div className="no-data">No Data</div>
+          <div className="no-data">
+            Got something to sell? Post it for free and be the first!
+          </div>
         )}
         {page !== "/toys/toys-games-all" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>

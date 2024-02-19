@@ -166,7 +166,9 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
               ))}
           </InfiniteScroll>
         ) : (
-          <div className="no-data">No Data</div>
+          <div className="no-data">
+            Got something to sell? Post it for free and be the first!
+          </div>
         )}
         {page !== "/art-collectibles/all-items-for-sale" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>

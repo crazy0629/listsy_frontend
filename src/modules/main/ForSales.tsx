@@ -294,7 +294,9 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
               ))}
           </InfiniteScroll>
         ) : (
-          <div className="no-data">No Data</div>
+          <div className="no-data">
+            Got something to sell? Post it for free and be the first!
+          </div>
         )}
         {page !== "/for-sale/electronics/all" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>

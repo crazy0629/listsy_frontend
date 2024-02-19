@@ -270,7 +270,9 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
               ))}
           </InfiniteScroll>
         ) : (
-          <div className="no-data">No Data</div>
+          <div className="no-data">
+            Got something to sell? Post it for free and be the first!
+          </div>
         )}
         {page !== "/musical-instruments-for-sale/all-instruments" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>
@@ -281,7 +283,11 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page, sub }) => {
               {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
-              <MusicalFilter onChange={subFormChanged} />
+              <MusicalFilter
+                onChange={subFormChanged}
+                itemCategory={sub}
+                itemSubCategory={sub == "All" ? "" : page.split("/")[2]}
+              />
             </div>
           </Styled.FilterSection>
         )}
