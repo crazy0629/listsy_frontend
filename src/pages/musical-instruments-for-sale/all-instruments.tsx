@@ -5,7 +5,7 @@ import { MusicalSection } from "@/modules/main/Musical";
 const MusicalAll: React.FC = () => {
   return (
     <AppLayout name="musical_all_instruments">
-      <MusicalSection page="/musical-instruments/all-instruments" />
+      <MusicalSection page="/musical-instruments-for-sale/all-instruments" />
     </AppLayout>
   );
 };
