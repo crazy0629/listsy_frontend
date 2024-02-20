@@ -54,7 +54,7 @@ export const MultiSelection: React.FC<Props> = ({
           direction === "top" && "direction-top"
         }`}
       >
-        {data.map((item, key) => (
+        {data?.map((item, key) => (
           <p
             key={key}
             onClick={() => {

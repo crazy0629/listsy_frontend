@@ -316,39 +316,39 @@ export const gardenFilter = [
 export const musicalFilter = [
   {
     label: "All",
-    page: "/musical-instruments/all-instruments",
+    page: "/musical-instruments-for-sale/all-instruments",
   },
   {
     label: "String Instruments",
-    page: "/musical-instruments/string-instruments",
+    page: "/for-sale/musical-instruments/string-instruments",
   },
   {
     label: "Woodwind Instruments",
-    page: "/musical-instruments/woodwind-instruments",
+    page: "/for-sale/musical-instruments/woodwind-instruments",
   },
   {
     label: "Brass Instruments",
-    page: "/musical-instruments/brass-instruments",
+    page: "/for-sale/musical-instruments/brass-instruments",
   },
   {
     label: "Percussion Instruments",
-    page: "/musical-instruments/percussion-instruments",
+    page: "/for-sale/musical-instruments/percussion-instruments",
   },
   {
     label: "Keyboard Instruments",
-    page: "/musical-instruments/keyboard-instruments",
+    page: "/for-sale/musical-instruments/keyboard-instruments",
   },
   {
     label: "Electronic Instruments",
-    page: "/musical-instruments/electronic-instruments",
+    page: "/for-sale/musical-instruments/electronic-instruments",
   },
   {
     label: "Folk and World Instruments",
-    page: "/musical-instruments/folk-and-world-instruments",
+    page: "/for-sale/musical-instruments/folk-world-instruments",
   },
   {
     label: "Other Instruments",
-    page: "/musical-instruments/other-instruments",
+    page: "/for-sale/musical-instruments/other-instruments",
   },
 ];
 

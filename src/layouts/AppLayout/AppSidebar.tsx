@@ -88,7 +88,7 @@ const mainNav = [
   },
   {
     label: "Musical Instruments",
-    href: "/musical-instruments/all-instruments",
+    href: "/musical-instruments-for-sale/all-instruments",
     icon: "music",
   },
   {
