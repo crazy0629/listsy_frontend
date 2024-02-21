@@ -99,8 +99,7 @@ export const LocationModalBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  div {
-    padding: 5px;
+  & > div {
     span {
       font-size: 14px;
     }

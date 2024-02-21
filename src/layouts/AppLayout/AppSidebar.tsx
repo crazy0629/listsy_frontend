@@ -260,7 +260,9 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
           onClose={() => setCommunityModal(false)}
           open={communityModal}
         />
-        <LocationModal open={locationModal} onChoose={chooseLocationHandle} />
+        {locationModal && (
+          <LocationModal open={locationModal} onChoose={chooseLocationHandle} />
+        )}
         <Styled.AppSidebarContainer>
           <Styled.SidebarCountrySelect>
             <p>
