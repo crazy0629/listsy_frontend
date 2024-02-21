@@ -3,9 +3,9 @@ import * as Styled from "./location.styles";
 import { toast } from "react-toastify";
 
 import {
-  GoogleMap,
+  //   GoogleMap,
   useLoadScript,
-  Marker,
+  //   Marker,
   Libraries,
 } from "@react-google-maps/api";
 import axios from "axios";
@@ -17,6 +17,16 @@ const GooglePlacesAutocomplete = dynamic(
   { ssr: false }
 );
 
+const GoogleMap = dynamic(
+  () => import("@react-google-maps/api").then((m) => m.GoogleMap),
+  { ssr: false }
+);
+
+const MarkerF = dynamic(
+  () => import("@react-google-maps/api").then((m) => m.MarkerF),
+  { ssr: false }
+);
+
 type Props = {
   open: boolean;
   onChoose: (address: string, countryFlag: string) => void;
@@ -24,8 +34,8 @@ type Props = {
 
 const libraries: Libraries = ["places"];
 const mapContainerStyle = {
-  width: "100vw",
-  height: "100vh",
+  width: "100%",
+  height: "100%",
 };
 
 export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
@@ -37,17 +47,24 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
   const [adCityList, setAdCityList] = useState([]);
   const [flagUrl, setFlagUrl] = useState("");
   const [locationInfo, setLocationInfo] = useState(null);
-
-  const center = {
-    lat: Number(localStorage.getItem("centerlat")), // default latitude
-    lng: Number(localStorage.getItem("centerlng")), // default longitude
-  };
+  const [center, setCenter] = useState({ lat: 0, lng: 0 });
+  const [tempflag, setTempflag] = useState(true);
 
   useEffect(() => {
+    setTimeout(() => {
+      setTempflag(false);
+    }, 400);
     getLocationList();
     setFilterAddress(localStorage.getItem("locationAddress"));
     setFlagUrl(localStorage.getItem("flagUrl"));
   }, []);
+
+  useEffect(() => {
+    setCenter({
+      lat: Number(localStorage.getItem("centerlat")), // default latitude
+      lng: Number(localStorage.getItem("centerlng")), // default longitude
+    });
+  }, [open]);
 
   const getLocationList = async () => {
     const result = await axios.post(`${SERVER_URI}/ad/getLocationList`);
@@ -89,6 +106,7 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
         const lng = location.lng;
         localStorage.setItem("centerlat", lat);
         localStorage.setItem("centerlng", lng);
+        setCenter({ lat, lng });
         setFilterAddress(locationInfo.label);
         getCountryFlag(countryCode).then((countryFlag) => {
           if (countryFlag) {
@@ -104,6 +122,7 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
   };
 
   useEffect(() => {
+    console.log(locationInfo);
     if (locationInfo == null) return;
     getLocationInfo();
   }, [locationInfo]);
@@ -141,28 +160,31 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
         <Styled.LocationModalBody>
           {loadError && <div>Error loading maps</div>}
           {!isLoaded && <div>Loading maps</div>}
-          {isLoaded && (
-            <div>
-              <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                zoom={10}
-                center={center}
-              >
-                {adCityList.map((city, index) => {
-                  return (
-                    <Marker
-                      key={index}
-                      position={{ lat: city.lat, lng: city.lng }}
-                      label={{
-                        text: `${city.count.toString()} .`,
-                        color: "black",
-                      }}
-                      // onClick={() => handleMarkerClick(city)}
-                    />
-                  );
-                })}
-              </GoogleMap>
-            </div>
+          {isLoaded && !tempflag && (
+            // <div style={{ height: "100%", width: "100%" }}>
+            <GoogleMap
+              mapContainerStyle={mapContainerStyle}
+              zoom={10}
+              center={center}
+            >
+              {adCityList.map((city, index) => {
+                return (
+                  <MarkerF
+                    key={index}
+                    position={{
+                      lat: Number(city.lat),
+                      lng: Number(city.lng),
+                    }}
+                    label={{
+                      text: `${city.count.toString()}`,
+                      color: "black",
+                    }}
+                    // onClick={() => handleMarkerClick(city)}
+                  />
+                );
+              })}
+            </GoogleMap>
+            // </div>
           )}
         </Styled.LocationModalBody>
       </Styled.LocationModalContainer>
