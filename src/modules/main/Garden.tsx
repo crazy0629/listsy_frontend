@@ -28,8 +28,10 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
   const [hasMore, setHasMore] = useState(true);
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const getData = async (index: number) => {
+    setLoading(true);
     const categoryList = gardenFilter.map((item) => item.label);
 
     const adsCountData = await axios.post(
@@ -61,6 +63,7 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
     } else {
       toast.error(res.data.message);
     }
+    setLoading(false);
   };
 
   const subFormChanged = (data) => {
@@ -141,7 +144,9 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
             : ""
         }
       >
-        {data.length > 0 ? (
+        {loading ? (
+          <div className="no-data">Loading ...</div>
+        ) : data.length > 0 ? (
           <InfiniteScroll
             dataLength={data.length}
             next={() => getData(getIndex)}

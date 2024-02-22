@@ -28,6 +28,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [adCnt, setAdCnt] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   const getLocationInfo = () => {
@@ -52,6 +53,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
   });
 
   const getData = async (index: number) => {
+    setLoading(true);
     const categoryList = selectData.forSale.category;
 
     const adsCountData = await axios.post(
@@ -82,6 +84,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
     } else {
       toast.error(res.data.message);
     }
+    setLoading(false);
   };
 
   const subFormChanged = (data) => {
@@ -256,7 +259,9 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
           isShowFilter && page !== "/for-sale/electronics/all" ? "filtered" : ""
         }
       >
-        {data.length > 0 ? (
+        {loading ? (
+          <div className="no-data">Loading ...</div>
+        ) : data.length > 0 ? (
           <InfiniteScroll
             dataLength={data.length}
             next={() => getData(getIndex)}
