@@ -73,7 +73,7 @@ const mainNav = [
   },
   {
     label: "Sports and Fitness Equipment",
-    href: "/sports",
+    href: "/sports-fitness-equipment-for-sale/all-equipments",
     icon: "sports",
   },
   {

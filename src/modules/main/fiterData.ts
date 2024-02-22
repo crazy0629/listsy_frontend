@@ -312,6 +312,48 @@ export const gardenFilter = [
     page: "/garden-outdoor-equipment/other-equipment-for-sale",
   },
 ];
+export const sportsFilter = [
+  {
+    label: "All",
+    page: "/sports-fitness-equipment-for-sale/all-equipments",
+  },
+  {
+    label: "Cardio Equipment",
+    page: "/for-sale/sports-fitness-equipment/cardio-equipment",
+  },
+  {
+    label: "Strength Training Equipment",
+    page: "/for-sale/sports-fitness-equipment/strength-training-equipment",
+  },
+  {
+    label: "Yoga and Pilates",
+    page: "/for-sale/sports-fitness-equipment/yoga-pilates",
+  },
+  {
+    label: "Boxing and Martial Arts",
+    page: "/for-sale/sports-fitness-equipment/boxing-martial-arts",
+  },
+  {
+    label: "Team Sports Equipment",
+    page: "/for-sale/sports-fitness-equipment/team-sports-equipment",
+  },
+  {
+    label: "Individual Sports Equipment",
+    page: "/for-sale/sports-fitness-equipment/individual-sports-equipment",
+  },
+  {
+    label: "Outdoor and Adventure Sports",
+    page: "/for-sale/sports-fitness-equipment/outdoor-adventure-sports",
+  },
+  {
+    label: "Fitness Accessories",
+    page: "/for-sale/sports-fitness-equipment/fitness-accessories",
+  },
+  {
+    label: "Miscellaneous",
+    page: "/for-sale/sports-fitness-equipment/miscellaneous",
+  },
+];
 
 export const musicalFilter = [
   {

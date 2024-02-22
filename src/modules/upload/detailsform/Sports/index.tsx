@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import * as Styled from "../details.styles";
 import { SingleSelection } from "@/components";
-import { selectData } from "../DataList/data-musical";
+import { selectData } from "../DataList/data-sports";
 import { toast } from "react-toastify";
-import { musicalFilter } from "@/modules/main/fiterData";
 
 type Props = {
   onSave: (data: any) => void;
   itemCategory: string;
 };
 
-export const MusicDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
+export const SportsDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
   const [form, setForm] = useState({
     itemSubCategory: "",
     itemCondition: "",
-    age: "",
+    gender: "",
     brand: "",
     sellerType: "",
   });
@@ -53,14 +52,7 @@ export const MusicDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
           setForm((prev) => ({ ...prev, itemCondition: value }))
         }
       />
-      <SingleSelection
-        direction="top"
-        data={selectData.age.slice(1)}
-        label="Seller Age of Instrument"
-        placeholder="Select Age of Instrument"
-        value={form.age}
-        onChange={(value) => setForm((prev) => ({ ...prev, age: value }))}
-      />
+
       <SingleSelection
         direction="top"
         data={selectData.brand.slice(1)}
@@ -68,6 +60,14 @@ export const MusicDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
         placeholder="Select Brand/Manufacturer"
         value={form.brand}
         onChange={(value) => setForm((prev) => ({ ...prev, brand: value }))}
+      />
+      <SingleSelection
+        direction="top"
+        data={selectData.gender.slice(1)}
+        label="Gender/Age Group"
+        placeholder="Select Gender/Age Group"
+        value={form.gender}
+        onChange={(value) => setForm((prev) => ({ ...prev, gender: value }))}
       />
       <SingleSelection
         direction="top"
