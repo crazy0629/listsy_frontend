@@ -59,7 +59,8 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
         itemEquipmentType: selectData.type[itemCategory],
         itemCondition: selectData.condition,
         itemBrand: selectData.brand,
-        // itemSellerType: selectData.sellerType,
+        itemGender: selectData.gender,
+        itemSellerType: selectData.sellerType,
         itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
@@ -247,8 +248,8 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               onChange={(value) =>
                 setFilter((prev) => ({ ...prev, gender: value }))
               }
-              //   type="itemAge"
-              //   countList={adCnt.itemAge}
+              type="itemGender"
+              countList={adCnt.itemGender}
             />
 
             <MultiSelection
@@ -258,8 +259,8 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               onChange={(value) =>
                 setFilter((prev) => ({ ...prev, sellerType: value }))
               }
-              //   type="itemSellerType"
-              //   countList={adCnt.itemSellerType}
+              type="itemSellerType"
+              countList={adCnt.itemSellerType}
             />
             <MultiSelection
               data={selectData.sellerRating}
