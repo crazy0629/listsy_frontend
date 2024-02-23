@@ -37,6 +37,11 @@ const pageFilter = [
     type: "grid",
   },
   {
+    label: "Furniture and Home Décor",
+    key: "furniture",
+    type: "grid",
+  },
+  {
     label: "Beauty and Personal Care Products",
     key: "beauty",
     type: "grid",
@@ -231,21 +236,6 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
   return (
     <Styled.PostsPageWrapper>
       <Styled.PostsFilterWrapper>
-        {/* <Styled.PostsPageFilterWrapper>
-          {pageFilter.map((item, key) => (
-            <span
-              key={key}
-              onClick={() => handlePageFilterClick(item)}
-              className={
-                selectedPage != undefined && item.key === selectedPage.key
-                  ? "active"
-                  : ""
-              }
-            >
-              {item.label}
-            </span>
-          ))}
-        </Styled.PostsPageFilterWrapper> */}
         <Tabs
           activeTab={pageFilter.indexOf(
             pageFilter.filter((f) => f.key === selectedPage.key)[0]

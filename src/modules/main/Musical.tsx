@@ -200,6 +200,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
                 itemCategory={
                   musicalFilter.filter((f) => f.page === page)[0].label
                 }
+                page={page}
               />
             </div>
           </Styled.FilterSection>

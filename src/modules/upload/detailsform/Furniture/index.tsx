@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Styled from "../details.styles";
 import { SingleSelection } from "@/components";
 import { selectData } from "../DataList/data-furniture";
@@ -15,6 +15,14 @@ export const FurnitureDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
     itemCondition: "",
     sellerType: "",
   });
+
+  useEffect(() => {
+    setForm({
+      itemSubCategory: "",
+      itemCondition: "",
+      sellerType: "",
+    });
+  }, [itemCategory]);
 
   const handleSave = () => {
     if (!form.itemSubCategory) {
