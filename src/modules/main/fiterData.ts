@@ -394,6 +394,86 @@ export const musicalFilter = [
   },
 ];
 
+export const furnitureFilter = [
+  {
+    label: "All",
+    page: "/furniture-for-sale/all-furniture",
+  },
+  {
+    label: "Seating",
+    page: "/for-sale/furniture/seating",
+  },
+  {
+    label: "Tables",
+    page: "/for-sale/furniture/tables",
+  },
+  {
+    label: "Storage Furniture",
+    page: "/for-sale/furniture/storage-furniture",
+  },
+  {
+    label: "Beds & Bedroom Furniture",
+    page: "/for-sale/furniture/beds-bedroom-furniture",
+  },
+  {
+    label: "Office Furniture",
+    page: "/for-sale/furniture/office-furniture",
+  },
+  {
+    label: "Outdoor Furniture",
+    page: "/for-sale/furniture/outdoor-furniture",
+  },
+  {
+    label: "Children’s Furniture",
+    page: "/for-sale/furniture/children-furniture",
+  },
+  {
+    label: "Specialty Furniture",
+    page: "/for-sale/furniture/specialty-furniture",
+  },
+  {
+    label: "Wall Décor",
+    page: "/for-sale/furniture/wall-décor",
+  },
+  {
+    label: "Lighting",
+    page: "/for-sale/furniture/lighting",
+  },
+  {
+    label: "Textiles",
+    page: "/for-sale/furniture/textiles",
+  },
+  {
+    label: "Decorative Accents",
+    page: "/for-sale/furniture/decorative-accents",
+  },
+
+  {
+    label: "Plants & Planters",
+    page: "/for-sale/furniture/decorative-accents",
+  },
+  {
+    label: "Home Fragrance",
+    page: "/for-sale/furniture/home-fragrance",
+  },
+  {
+    label: "Seasonal Décor",
+    page: "/for-sale/furniture/seasonal-décor",
+  },
+  {
+    label: "Mirrors",
+    page: "/for-sale/furniture/mirrors",
+  },
+  {
+    label: "Clocks",
+    page: "/for-sale/furniture/clocks",
+  },
+  {
+    label: "Home Office Supplies",
+    page: "/for-sale/furniture/home-office-supplies",
+  },
+];
+
 export const artFilter = [
   {
     label: "All",
