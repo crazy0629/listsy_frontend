@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import * as Styled from "./details.styles";
 import { SingleSelection } from "@/components";
 import { toast } from "react-toastify";
-import { sportsFilter } from "@/modules/main/fiterData";
-import { SportsDetail } from "./Sports";
+import { furnitureFilter } from "@/modules/main/fiterData";
+import { FurnitureDetail } from "./Furniture";
 
 type Props = {
   onSave: (data: any) => void;
 };
 
-export const SportsForm: React.FC<Props> = ({ onSave }) => {
+export const FurnitureForm: React.FC<Props> = ({ onSave }) => {
   const [form, setForm] = useState({
     title: "",
     subTitle: "",
@@ -76,9 +76,9 @@ export const SportsForm: React.FC<Props> = ({ onSave }) => {
       </Styled.TextAreaFormItem>
       <SingleSelection
         direction="top"
-        data={sportsFilter.map((item) => item.label).slice(1)}
-        label="Type of Equipment"
-        placeholder="Select Type of Equipment"
+        data={furnitureFilter.map((item) => item.label).slice(1)}
+        label="Type of Furniture"
+        placeholder="Select Type of Furniture"
         value={form.itemCategory}
         onChange={(value) => {
           setForm((prev) => ({
@@ -90,7 +90,10 @@ export const SportsForm: React.FC<Props> = ({ onSave }) => {
         }}
       />
       {form.itemCategory != "" && (
-        <SportsDetail onSave={subFormSave} itemCategory={form.itemCategory} />
+        <FurnitureDetail
+          onSave={subFormSave}
+          itemCategory={form.itemCategory}
+        />
       )}
     </Styled.FormContainer>
   );

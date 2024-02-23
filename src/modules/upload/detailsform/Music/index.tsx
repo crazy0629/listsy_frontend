@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Styled from "../details.styles";
 import { SingleSelection } from "@/components";
 import { selectData } from "../DataList/data-musical";
@@ -18,6 +18,16 @@ export const MusicDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
     brand: "",
     sellerType: "",
   });
+
+  useEffect(() => {
+    setForm({
+      itemSubCategory: "",
+      itemCondition: "",
+      age: "",
+      brand: "",
+      sellerType: "",
+    });
+  }, [itemCategory]);
 
   const handleSave = () => {
     if (!form.itemSubCategory) {
