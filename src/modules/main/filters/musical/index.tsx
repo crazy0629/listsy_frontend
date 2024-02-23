@@ -4,13 +4,19 @@ import { FilterOptionWrapper, ShowAdvancedFilter } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/DataList/data-musical";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
+import { useRouter } from "next/router";
 
 type Props = {
   onChange: (data: any) => void;
   itemCategory: string;
+  page: string;
 };
 
-export const MusicalFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
+export const MusicalFilter: React.FC<Props> = ({
+  onChange,
+  itemCategory,
+  page,
+}) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
     priceRange: [] as string[],
@@ -24,6 +30,7 @@ export const MusicalFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     selectedLocation: null,
   });
 
+  const router = useRouter();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [isAdvancedFilter, setIsAdvancedFilter] = useState(false);
@@ -46,6 +53,21 @@ export const MusicalFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
       Number(localStorage.getItem("centerlng"))
     );
   };
+
+  useEffect(() => {
+    if (filter.instrumentType.length == 0) {
+      router.push({
+        pathname: page,
+      });
+      return;
+    }
+    const typeList = filter.instrumentType.join("-");
+
+    router.push({
+      pathname: page,
+      query: { type: typeList },
+    });
+  }, [filter.instrumentType]);
 
   const donetyping = async () => {
     setIsLoading(true);

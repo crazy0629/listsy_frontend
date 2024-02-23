@@ -3,7 +3,6 @@ import * as Styled from "../details.styles";
 import { SingleSelection } from "@/components";
 import { selectData } from "../DataList/data-musical";
 import { toast } from "react-toastify";
-import { musicalFilter } from "@/modules/main/fiterData";
 
 type Props = {
   onSave: (data: any) => void;
