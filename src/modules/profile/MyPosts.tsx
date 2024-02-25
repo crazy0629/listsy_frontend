@@ -37,7 +37,7 @@ const pageFilter = [
     type: "grid",
   },
   {
-    label: "Furniture and Home Décor",
+    label: "Furniture and Home Decor",
     key: "furniture",
     type: "grid",
   },

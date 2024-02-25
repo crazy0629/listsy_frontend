@@ -35,7 +35,7 @@ export const categories = [
   },
   { label: "Pets and Pet Supplies", key: "pet" },
   {
-    label: "Furniture and Home Décor",
+    label: "Furniture and Home Decor",
     key: "furniture",
   },
   {

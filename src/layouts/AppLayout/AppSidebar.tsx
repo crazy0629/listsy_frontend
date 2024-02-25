@@ -57,7 +57,7 @@ const mainNav = [
     icon: "pets",
   },
   {
-    label: "Furniture and Home Décor",
+    label: "Furniture and Home Decor",
     href: "/furniture-home-decor-for-sale/all-furniture",
     icon: "furniture",
   },
