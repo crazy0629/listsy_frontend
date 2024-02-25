@@ -58,7 +58,7 @@ const mainNav = [
   },
   {
     label: "Furniture and Home Décor",
-    href: "/furniture",
+    href: "/furniture-home-decor-for-sale/all-furniture",
     icon: "furniture",
   },
   {

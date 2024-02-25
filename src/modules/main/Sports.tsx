@@ -71,7 +71,7 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
 
   const onTabClick = (_, value) => {
     const selectedTab = sportsFilter[value];
-    setFilter({ itemCategory: selectedTab.label });
+    // setFilter({ itemCategory: selectedTab.label });
     router.push(selectedTab.page);
   };
 
