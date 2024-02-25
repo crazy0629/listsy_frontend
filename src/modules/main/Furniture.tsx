@@ -4,19 +4,19 @@ import * as Styled from "./main.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CardItem } from "@/components";
 import { MdArrowLeft, MdClose } from "react-icons/md";
-import { MusicalFilter } from "./filters/musical";
-import { musicalFilter } from "./fiterData";
+import { furnitureFilter } from "./fiterData";
 import { Tabs, Tab } from "react-tabs-scrollable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { SERVER_URI } from "@/config";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FurnitureFilter } from "./filters/furniture";
 
 type MusicalProps = {
   page?: string;
 };
 
-export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
+export const FurnitureSection: React.FC<MusicalProps> = ({ page }) => {
   const router = useRouter();
   const [filter, setFilter] = useState({
     itemCategory: "All",
@@ -32,17 +32,17 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
 
   const getData = async (index: number) => {
     setLoading(true);
-    const categoryList = musicalFilter.map((item) => item.label);
+    const categoryList = furnitureFilter.map((item) => item.label);
 
     const adsCountData = await axios.post(
-      `${SERVER_URI}/music/getCountForEachCategory`,
+      `${SERVER_URI}/furniture/getCountForEachCategory`,
       { itemCategory: categoryList, address, countryCode }
     );
 
     setAdCnt(adsCountData.data.countList);
 
-    const tempFilter = musicalFilter.filter((f) => f.page === page)[0].label;
-    const res = await axios.post(`${SERVER_URI}/music/getMusicAds`, {
+    const tempFilter = furnitureFilter.filter((f) => f.page === page)[0].label;
+    const res = await axios.post(`${SERVER_URI}/furniture/getFurnitureAds`, {
       ...filter,
       itemCategory: tempFilter,
       index,
@@ -70,7 +70,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
   };
 
   const onTabClick = (_, value) => {
-    const selectedTab = musicalFilter[value];
+    const selectedTab = furnitureFilter[value];
     // setFilter({ itemCategory: selectedTab.label });
     router.push(selectedTab.page);
   };
@@ -110,8 +110,8 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
     <Styled.MainPageSectionWrapper>
       <Styled.FilterTabWrapper>
         <Tabs
-          activeTab={musicalFilter.indexOf(
-            musicalFilter.filter((f) => f.page === page)[0]
+          activeTab={furnitureFilter.indexOf(
+            furnitureFilter.filter((f) => f.page === page)[0]
           )}
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
@@ -119,7 +119,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
           leftBtnIcon={<IoIosArrowBack />}
           rightBtnIcon={<IoIosArrowForward />}
         >
-          {musicalFilter.map((item, key) => (
+          {furnitureFilter.map((item, key) => (
             <Tab key={key}>
               {item.label}
               {adCnt
@@ -137,7 +137,8 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
       </Styled.FilterTabWrapper>
       <Styled.MainGridWrapper
         className={
-          isShowFilter && page !== "/musical-instruments/all-instruments"
+          isShowFilter &&
+          page !== "/furniture-home-decor-for-sale/all-furniture"
             ? "filtered"
             : ""
         }
@@ -152,7 +153,8 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
             endMessage={<h4></h4>}
             scrollableTarget="community-list"
             className={
-              isShowFilter && page !== "/musical-instruments/all-instruments"
+              isShowFilter &&
+              page !== "/furniture-home-decor-for-sale/all-furniture"
                 ? "filtered"
                 : ""
             }
@@ -163,7 +165,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
                 <CardItem
                   id={item.adId?._id}
                   key={key}
-                  type={"music"}
+                  type={"furniture"}
                   link={item.adId?.adFileName}
                   postDate={item.adId?.uploadDate}
                   price={item.price}
@@ -186,7 +188,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
             Got something to sell? Post it for free and be the first!
           </div>
         )}
-        {page !== "/musical-instruments/all-instruments" && (
+        {page !== "/furniture-home-decor-for-sale/all-furniture" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>
             <Styled.FilterToggleButton
               onClick={() => setIsShowFilter((prev) => !prev)}
@@ -195,10 +197,10 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
               {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
-              <MusicalFilter
+              <FurnitureFilter
                 onChange={subFormChanged}
                 itemCategory={
-                  musicalFilter.filter((f) => f.page === page)[0].label
+                  furnitureFilter.filter((f) => f.page === page)[0].label
                 }
                 page={page}
               />
