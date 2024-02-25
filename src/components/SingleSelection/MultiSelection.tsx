@@ -161,6 +161,8 @@ export const MultiSelection: React.FC<Props> = ({
                       return element.itemInstrumentType === item;
                     } else if (type == "itemEquipmentType") {
                       return element.itemEquipmentType === item;
+                    } else if (type == "itemFurnitureType") {
+                      return element.itemFurnitureType === item;
                     }
                     return false;
                   })[0]?.count

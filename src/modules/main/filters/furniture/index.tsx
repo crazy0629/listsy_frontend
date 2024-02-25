@@ -69,27 +69,25 @@ export const FurnitureFilter: React.FC<Props> = ({
 
   const donetyping = async () => {
     setIsLoading(true);
-    // const adsCountData = await axios.post(
-    //   `${SERVER_URI}/music/getCountOfEachFilter`,
-    //   {
-    //     minPrice: minPrice,
-    //     maxPrice: maxPrice,
-    //     itemCategory,
-    //     itemSellerRating: selectData.sellerRating,
-    //     itemInstrumentType: selectData.type[itemCategory],
-    //     itemCondition: selectData.condition,
-    //     itemAge: selectData.age,
-    //     itemBrand: selectData.brand,
-    //     itemSellerType: selectData.sellerType,
-    //     itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
-    //     address,
-    //     countryCode,
-    //     selectedLocation: filter.selectedLocation,
-    //     centerLocationAvailable: filter.centerLocationSelected,
-    //     filter,
-    //   }
-    // );
-    // setAdCnt(adsCountData.data);
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/furniture/getCountOfEachFilter`,
+      {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        itemCategory,
+        itemSellerRating: selectData.sellerRating,
+        itemFurnitureType: selectData.type[itemCategory],
+        itemCondition: selectData.condition,
+        itemSellerType: selectData.sellerType,
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
+        address,
+        countryCode,
+        selectedLocation: filter.selectedLocation,
+        centerLocationAvailable: filter.centerLocationSelected,
+        filter,
+      }
+    );
+    setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
 
@@ -198,85 +196,86 @@ export const FurnitureFilter: React.FC<Props> = ({
   };
 
   return (
-    // adCnt != null && (
-    <>
-      <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
-      <SingleSelection
-        data={selectData.searchWithin}
-        placeholder="Nationwide"
-        value={filter.SearchWithin}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, SearchWithin: value }))
-        }
-        // type="itemSearchRange"
-        // countList={adCnt.itemRangeInfo}
-      />
-      <InputRange
-        value1={minPrice}
-        value2={maxPrice}
-        placeholder1="Min price"
-        placeholder2="Max price"
-        type1="number"
-        type2="number"
-        onChange1={handleMinPrice}
-        onChange2={handleMaxPrice}
-        prefix1={currency}
-        prefix2={currency}
-        suffix={0}
-        // suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
-      />
-      <MultiSelection
-        data={selectData.type[itemCategory]}
-        placeholder="Select Furniture Type"
-        value={filter.furnitureType}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, furnitureType: value }))
-        }
-        // type="itemFurnitureType"
-        // countList={adCnt.itemFurnitureType}
-      />
-      <MultiSelection
-        data={selectData.condition}
-        placeholder="Select Condition"
-        value={filter.itemCondition}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, itemCondition: value }))
-        }
-        // type="itemCondition"
-        // countList={adCnt.itemCondition}
-      />
+    adCnt != null && (
+      <>
+        <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
+        <SingleSelection
+          data={selectData.searchWithin}
+          placeholder="Nationwide"
+          value={filter.SearchWithin}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, SearchWithin: value }))
+          }
+          type="itemSearchRange"
+          countList={adCnt.itemRangeInfo}
+        />
+        <InputRange
+          value1={minPrice}
+          value2={maxPrice}
+          placeholder1="Min price"
+          placeholder2="Max price"
+          type1="number"
+          type2="number"
+          onChange1={handleMinPrice}
+          onChange2={handleMaxPrice}
+          prefix1={currency}
+          prefix2={currency}
+          suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+        />
+        <MultiSelection
+          data={selectData.type[itemCategory]}
+          placeholder="Select Furniture Type"
+          value={filter.furnitureType}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, furnitureType: value }))
+          }
+          type="itemFurnitureType"
+          countList={adCnt.itemFurnitureType}
+        />
+        <MultiSelection
+          data={selectData.condition}
+          placeholder="Select Condition"
+          value={filter.itemCondition}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, itemCondition: value }))
+          }
+          type="itemCondition"
+          countList={adCnt.itemCondition}
+        />
 
-      <MultiSelection
-        data={selectData.sellerType}
-        placeholder="Select Seller Type"
-        value={filter.sellerType}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, sellerType: value }))
-        }
-        // type="itemSellerType"
-        // countList={adCnt.itemSellerType}
-      />
+        <MultiSelection
+          data={selectData.sellerType}
+          placeholder="Select Seller Type"
+          value={filter.sellerType}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, sellerType: value }))
+          }
+          type="itemSellerType"
+          countList={adCnt.itemSellerType}
+        />
 
-      {isAdvancedFilter && (
-        <>
-          <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+        {isAdvancedFilter && (
+          <>
+            <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
 
-          <MultiSelection
-            data={selectData.sellerRating}
-            placeholder="Select Seller Rating"
-            value={filter.sellerRating}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, sellerRating: value }))
-            }
-            // type="itemSellerRating"
-            // countList={adCnt.itemSellerRating}
-          />
-        </>
-      )}
-      <ShowAdvancedFilter onClick={() => setIsAdvancedFilter((prev) => !prev)}>
-        {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-      </ShowAdvancedFilter>
-    </>
-    // )
+            <MultiSelection
+              data={selectData.sellerRating}
+              placeholder="Select Seller Rating"
+              value={filter.sellerRating}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, sellerRating: value }))
+              }
+              type="itemSellerRating"
+              countList={adCnt.itemSellerRating}
+            />
+          </>
+        )}
+        <ShowAdvancedFilter
+          onClick={() => setIsAdvancedFilter((prev) => !prev)}
+        >
+          {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+        </ShowAdvancedFilter>
+      </>
+    )
   );
 };
