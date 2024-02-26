@@ -18,9 +18,7 @@ type MusicalProps = {
 
 export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
   const router = useRouter();
-  const [filter, setFilter] = useState({
-    itemCategory: "All",
-  });
+  const [filter, setFilter] = useState(null);
   const [adCnt, setAdCnt] = useState([]);
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [data, setData] = useState<any>([]);
@@ -49,6 +47,9 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
       address,
       countryCode,
     });
+
+    console.log("asdfasdfasdfasdfasdfasdfasdf", res.data);
+
     if (res.data.success) {
       if (index > 0) {
         setData((prev: any) => [...prev, ...res.data.data]);
@@ -96,13 +97,8 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
 
   useEffect(() => {
     if (address == "") return;
-    getData(0);
-  }, [filter.itemCategory]);
-
-  useEffect(() => {
-    if (address == "") return;
     setGetIndex(0);
-    setFilter((prev) => ({ ...prev, itemCategory: "All" }));
+    // setFilter((prev) => ({ ...prev }));
     getData(0);
   }, [address, countryCode]);
 
@@ -178,6 +174,9 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
                   lastName={item.userId?.lastName}
                   viewCount={item.viewCount}
                   duration={item.adId?.duration}
+                  subCategory={item.itemCategory
+                    .replaceAll(" ", "-")
+                    .toLowerCase()}
                 />
               ))}
           </InfiniteScroll>

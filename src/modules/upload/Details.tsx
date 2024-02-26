@@ -20,6 +20,7 @@ import dynamic from "next/dynamic";
 import { MusicForm } from "./detailsform/MusicForm";
 import { SportsForm } from "./detailsform/SportsForm";
 import { FurnitureForm } from "./detailsform/FurnitureForm";
+import { ArtForm } from "./detailsform/ArtForm";
 
 const GooglePlacesAutocomplete = dynamic(
   () => import("react-google-places-autocomplete"),
@@ -436,6 +437,41 @@ export const Details: React.FC<Props> = ({
     }
   };
 
+  const handleArtFormSave = async (data: any) => {
+    if (!addressSelected) {
+      toast.error("Select location!");
+    } else if (Number(price) === 0) {
+      toast.error("Enter Price!");
+    } else if (
+      authContext.user?.telephoneNumber == undefined &&
+      !telephoneNumberChanged
+    ) {
+      toast.error("Phone Number Required!");
+    } else {
+      // const res = await axios.post(
+      //   `${SERVER_URI}/furniture/loadFurnitureInfo`,
+      //   {
+      //     ...data,
+      //     price,
+      //     priceUnit,
+      //     adId,
+      //     userId: authContext.user?.id,
+      //     ...location,
+      //     telephoneNumber,
+      //     phoneNumberShare,
+      //   }
+      // );
+      // if (res.data.success) {
+      //   setAuthContext((prev: any) => ({ ...prev, user: res.data.data }));
+      //   localStorage.setItem("token", res.data.token);
+      //   toast.success(res.data.message);
+      //   onNext();
+      // } else {
+      //   toast.error(res.data.message);
+      // }
+    }
+  };
+
   const getCountryCode = async () => {
     const locationInfo = await axios.get(
       `https://api.ipdata.co?api-key=${process.env.NEXT_PUBLIC_IPDATA_API_KEY}`
@@ -489,6 +525,7 @@ export const Details: React.FC<Props> = ({
     music: <MusicForm onSave={handleMusicFormSave} />,
     sports: <SportsForm onSave={handleSportsFormSave} />,
     furniture: <FurnitureForm onSave={handleFurnitureFormSave} />,
+    art: <ArtForm onSave={handleArtFormSave} />,
   };
 
   useEffect(() => {

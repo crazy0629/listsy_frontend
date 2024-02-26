@@ -27,16 +27,18 @@ import { Toy } from "./Toy";
 import { Music } from "./Music";
 import { Sports } from "./Sports";
 import { Furniture } from "./Furniture";
+import { categories } from "../upload/data";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
-  const { id, type } = router.query;
+  const { id, category } = router.query;
   const [data, setData] = useState<any>(null);
   const [reviews, setReviews] = useState<any>(null);
   const [imageModal, setImageModal] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const { authContext } = useContext<any>(AuthContext);
   const [showReview, setShowReview] = useState(false);
+  const [type, setType] = useState("");
 
   useEffect(() => {
     if (id) {
@@ -45,9 +47,17 @@ export const AdsDetailsSection: React.FC = () => {
   }, [id]);
 
   const getData = async () => {
-    const res = await axios.post(`${SERVER_URI}/${type}/getAdDetailInfo`, {
-      adId: id,
-    });
+    const tempTypeStr = categories.filter(
+      (f) =>
+        f.label.replaceAll(" ", "-").toLowerCase() === router.query.category
+    )[0].key;
+    setType(tempTypeStr);
+    const res = await axios.post(
+      `${SERVER_URI}/${tempTypeStr}/getAdDetailInfo`,
+      {
+        adId: id,
+      }
+    );
     if (res.data.success) {
       setData(res.data.data);
     } else {

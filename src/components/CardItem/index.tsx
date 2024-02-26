@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as Styled from "./card.styles";
 import { SERVER_UPLOAD_URI } from "@/config";
 import Image from "next/image";
@@ -9,6 +9,7 @@ import { VideoPlayIcon } from "..";
 import { calcCompareTime, getTimestamp } from "@/utils";
 import { useRouter } from "next/router";
 import { NavItem } from "@/modules/profile/profile.styles";
+import { categories } from "@/modules/upload/data";
 
 type Props = {
   link: string;
@@ -29,6 +30,7 @@ type Props = {
   duration: number;
   address: string;
   type: string;
+  subCategory?: string;
 };
 
 export const CardItem: React.FC<Props> = ({
@@ -50,9 +52,20 @@ export const CardItem: React.FC<Props> = ({
   userAvatar,
   adStatus,
   viewCount,
+  subCategory,
 }) => {
   const router = useRouter();
   const videoRef = useRef<any>(null);
+  const [category, setCategory] = useState("");
+
+  useEffect(() => {
+    setCategory(
+      categories
+        .filter((f) => f.key === type)[0]
+        .label.replaceAll(" ", "-")
+        .toLowerCase()
+    );
+  }, [type]);
 
   return (
     <Styled.CardItemWrapper>
@@ -62,7 +75,9 @@ export const CardItem: React.FC<Props> = ({
           videoRef.current.pause();
           videoRef.current.currentTime = 0;
         }}
-        onClick={() => router.push(`/ads/${type}/${id}`)}
+        onClick={() =>
+          router.push(`/${category}/${subCategory}/video-ads/${id}`)
+        }
       >
         <video ref={videoRef} src={`${SERVER_UPLOAD_URI + link}`} muted></video>
         <VideoPlayIcon />

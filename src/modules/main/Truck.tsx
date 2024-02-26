@@ -184,6 +184,9 @@ export const TruckPageSection: React.FC = () => {
                 lastName={item.userId?.lastName}
                 viewCount={item.viewCount}
                 duration={item.adId?.duration}
+                // subCategory={filter.itemCategory
+                //   .replaceAll(" ", "-")
+                //   .toLowerCase()}
               />
             ))}
         </InfiniteScroll>

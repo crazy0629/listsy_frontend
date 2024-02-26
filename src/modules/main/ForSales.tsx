@@ -20,9 +20,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
   const [getIndex, setGetIndex] = useState(0);
   const [data, setData] = useState<any>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [filter, setFilter] = useState({
-    itemCategory: "All",
-  });
+  const [filter, setFilter] = useState(null);
   const [isShowFilter, setIsShowFilter] = useState(false);
 
   const [address, setAddress] = useState("");
@@ -215,7 +213,7 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
   useEffect(() => {
     if (address == "") return;
     setGetIndex(0);
-    setFilter((prev) => ({ ...prev, itemCategory: "All" }));
+
     getData(0);
   }, [address, countryCode]);
 
@@ -295,6 +293,9 @@ export const SalesPageSection: React.FC<ForSalesProps> = ({ page }) => {
                   lastName={item.userId?.lastName}
                   viewCount={item.viewCount}
                   duration={item.adId?.duration}
+                  subCategory={item.itemCategory
+                    .replaceAll(" ", "-")
+                    .toLowerCase()}
                 />
               ))}
           </InfiniteScroll>

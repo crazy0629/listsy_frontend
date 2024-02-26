@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const SelectOptionWrapper = styled.div`
   max-height: 300px;
   overflow: auto;
+  border: 1px solid #00000030;
   &.direction-top {
     bottom: 40px;
     margin-top: 0;
