@@ -17,9 +17,7 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
   sub,
 }) => {
   const router = useRouter();
-  const [filter, setFilter] = useState({
-    itemCategory: "All",
-  });
+  const [filter, setFilter] = useState(null);
   const [adCnt, setAdCnt] = useState([]);
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [data, setData] = useState<any>([]);
@@ -58,7 +56,7 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
 
   return (
     <Styled.MainPageSectionWrapper>
-      <Styled.FilterWrapper>
+      {/* <Styled.FilterWrapper>
         <Styled.PostsPageFilterWrapper>
           {artFilter.map((item, key) => (
             <div
@@ -120,7 +118,7 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
               ))}
           </Styled.PostsPageFilterWrapper>
         </Styled.SubFilterWrapper>
-      )}
+      )} */}
       <Styled.MainGridWrapper
         className={
           isShowFilter && page !== "/art-collectibles/all-items-for-sale"

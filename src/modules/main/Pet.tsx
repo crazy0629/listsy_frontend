@@ -12,9 +12,7 @@ export const PetsPageSection: React.FC = () => {
   const [getIndex, setGetIndex] = useState(0);
   const [data, setData] = useState<any>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [filter, setFilter] = useState({
-    itemCategory: "All",
-  });
+  const [filter, setFilter] = useState(null);
 
   const [address, setAddress] = useState("");
   const [countryCode, setCountryCode] = useState("");
@@ -48,13 +46,8 @@ export const PetsPageSection: React.FC = () => {
 
   useEffect(() => {
     if (address == "") return;
-    getData(0);
-  }, [filter.itemCategory]);
-
-  useEffect(() => {
-    if (address == "") return;
     setGetIndex(0);
-    setFilter((prev) => ({ ...prev, itemCategory: "All" }));
+
     getData(0);
   }, [address, countryCode]);
 
@@ -160,6 +153,9 @@ export const PetsPageSection: React.FC = () => {
                 lastName={item.userId?.lastName}
                 viewCount={item.viewCount}
                 duration={item.adId?.duration}
+                // subCategory={filter.itemCategory
+                //   .replaceAll(" ", "-")
+                //   .toLowerCase()}
               />
             ))}
         </InfiniteScroll>
