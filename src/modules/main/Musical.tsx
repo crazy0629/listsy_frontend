@@ -48,8 +48,6 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
       countryCode,
     });
 
-    console.log("asdfasdfasdfasdfasdfasdfasdf", res.data);
-
     if (res.data.success) {
       if (index > 0) {
         setData((prev: any) => [...prev, ...res.data.data]);

@@ -70,7 +70,6 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
       }
     );
     setAdCnt(adsCountData.data);
-    console.log(123123123, adsCountData.data);
     setIsLoading(false);
   };
 

@@ -122,7 +122,6 @@ export const LocationModal: React.FC<Props> = ({ open, onChoose }) => {
   };
 
   useEffect(() => {
-    console.log(locationInfo);
     if (locationInfo == null) return;
     getLocationInfo();
   }, [locationInfo]);
