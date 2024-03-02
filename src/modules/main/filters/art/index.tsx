@@ -1,23 +1,27 @@
 import { InputRange, MultiSelection, SingleSelection } from "@/components";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  ArtistInput,
-  FilterOptionWrapper,
-  ShowAdvancedFilter,
-} from "../../main.styles";
+import { FilterOptionWrapper, ShowAdvancedFilter } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/DataList/data-art";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
+import { useRouter } from "next/router";
 
 type Props = {
   onChange: (data: any) => void;
+  itemCategory: string;
+  page: string;
 };
 
-export const ArtFilter: React.FC<Props> = ({ onChange }) => {
+export const ArtFilter: React.FC<Props> = ({
+  onChange,
+  itemCategory,
+  page,
+}) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
     priceRange: [] as string[],
-    condition: [] as string[],
+    itemCondition: [] as string[],
+    artType: [] as string[],
     authenticity: [] as string[],
     age: [] as string[],
     sellerRating: [] as string[],
@@ -39,40 +43,37 @@ export const ArtFilter: React.FC<Props> = ({ onChange }) => {
   const [priceChanged, setPriceChanged] = useState(false);
 
   const getLocationInfo = () => {
-    let locationSelected = localStorage.getItem("locationSelected");
-    if (locationSelected == "true") {
-      let locationAddress = localStorage.getItem("locationAddress");
-      setAddress(locationAddress);
-      setCountryCode("");
-    } else if (locationSelected == "false") {
-      let locationAddress = localStorage.getItem("locationAddress");
-      let countryCode = localStorage.getItem("locationCountryCode");
-      setAddress(locationAddress);
-      setCountryCode(countryCode);
-    }
+    let locationAddress = localStorage.getItem("locationAddress");
+    let countryCode = localStorage.getItem("locationCountryCode");
+    setAddress(locationAddress);
+    setCountryCode(countryCode);
+    getCountryCode(
+      Number(localStorage.getItem("centerlat")),
+      Number(localStorage.getItem("centerlng"))
+    );
   };
 
   const donetyping = async () => {
     setIsLoading(true);
-    // const adsCountData = await axios.post(
-    //   `${SERVER_URI}/sale/getCountOfEachFilter`,
-    //   {
-    //     minPrice: minPrice,
-    //     maxPrice: maxPrice,
-    //     itemCategory: "Audio Equipment",
-    //     itemSellerRating: selectData.SellerRating,
-    //     itemCondition: selectData.forSale.Audio.Condition,
-    //     itemWarrantyInformation: selectData.forSale.Audio.WarrantyInformation,
-    //     itemType: selectData.forSale.Audio.Type,
-    //     itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
-    //     address,
-    //     countryCode,
-    //     selectedLocation: filter.selectedLocation,
-    //     centerLocationAvailable: filter.centerLocationSelected,
-    //     filter,
-    //   }
-    // );
-    // setAdCnt(adsCountData.data);
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/art/getCountOfEachFilter`,
+      {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        itemCategory: itemCategory,
+        itemSellerRating: selectData.sellerRating,
+        itemType: selectData.type[itemCategory],
+        // itemWarrantyInformation: selectData.forSale.Audio.WarrantyInformation,
+        itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
+        address,
+        countryCode,
+        selectedLocation: filter.selectedLocation,
+        centerLocationAvailable: filter.centerLocationSelected,
+        filter,
+      }
+    );
+    console.log(123123, adsCountData.data);
+    setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
 
@@ -171,91 +172,97 @@ export const ArtFilter: React.FC<Props> = ({ onChange }) => {
   };
 
   return (
-    // adCnt != null && (
-    <>
-      <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
-      <SingleSelection
-        data={selectData.searchWithin}
-        placeholder="Nationwide"
-        value={filter.SearchWithin}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, SearchWithin: value }))
-        }
-        type="itemSearchRange"
-        //   countList={adCnt.itemRangeInfo}
-      />
-      <InputRange
-        value1={minPrice}
-        value2={maxPrice}
-        placeholder1="Min price"
-        placeholder2="Max price"
-        type1="number"
-        type2="number"
-        onChange1={handleMinPrice}
-        onChange2={handleMaxPrice}
-        prefix1={currency}
-        prefix2={currency}
-        suffix={0}
-        // suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
-      />
-      <MultiSelection
-        data={selectData.condition}
-        placeholder="Select Condition"
-        value={filter.condition}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, condition: value }))
-        }
-        type="condition"
-        //   countList={adCnt.mealType}
-      />
+    adCnt != null && (
+      <>
+        <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
+        <SingleSelection
+          data={selectData.searchWithin}
+          placeholder="Nationwide"
+          value={filter.SearchWithin}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, SearchWithin: value }))
+          }
+          type="itemSearchRange"
+          countList={adCnt.itemRangeInfo}
+        />
+        <InputRange
+          value1={minPrice}
+          value2={maxPrice}
+          placeholder1="Min price"
+          placeholder2="Max price"
+          type1="number"
+          type2="number"
+          onChange1={handleMinPrice}
+          onChange2={handleMaxPrice}
+          prefix1={currency}
+          prefix2={currency}
+          // suffix={0}
+          suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
+        />
+        <MultiSelection
+          data={selectData.type[itemCategory]}
+          placeholder="Select Type"
+          value={filter.artType}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, artType: value }))
+          }
+          // type="itemInstrumentType"
+          // countList={adCnt.itemInstrumentType}
+        />
 
-      {isAdvancedFilter && (
-        <>
-          <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-          <MultiSelection
-            data={selectData.authenticity}
-            placeholder="Select Authenticity"
-            value={filter.authenticity}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, authenticity: value }))
-            }
-            type="authenticity"
-            //   countList={adCnt.deliveryOptions}
-          />
-          <MultiSelection
-            data={selectData.age}
-            placeholder="Select Age/Era"
-            value={filter.age}
-            onChange={(value) => setFilter((prev) => ({ ...prev, age: value }))}
-            type="age"
-            //   countList={adCnt.deliveryOptions}
-          />
+        <MultiSelection
+          data={selectData.condition}
+          placeholder="Select Condition"
+          value={filter.itemCondition}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, itemCondition: value }))
+          }
+          type="condition"
+          //   countList={adCnt.mealType}
+        />
 
-          <ArtistInput
-            type="text"
-            placeholder="Artist/Manufacturer"
-            value={filter.artist}
-            onChange={(e) =>
-              setFilter((prev) => ({ ...prev, artist: e.target.value }))
-            }
-          />
+        {isAdvancedFilter && (
+          <>
+            <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+            <MultiSelection
+              data={selectData.authenticity}
+              placeholder="Select Authenticity"
+              value={filter.authenticity}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, authenticity: value }))
+              }
+              type="authenticity"
+              //   countList={adCnt.deliveryOptions}
+            />
+            <MultiSelection
+              data={selectData.age}
+              placeholder="Select Age/Era"
+              value={filter.age}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, age: value }))
+              }
+              type="age"
+              //   countList={adCnt.deliveryOptions}
+            />
 
-          <MultiSelection
-            data={selectData.sellerRating}
-            placeholder="Select Seller Rating"
-            value={filter.sellerRating}
-            onChange={(value) =>
-              setFilter((prev) => ({ ...prev, sellerRating: value }))
-            }
-            type="sellerRating"
-            //   countList={adCnt.sellerRating}
-          />
-        </>
-      )}
-      <ShowAdvancedFilter onClick={() => setIsAdvancedFilter((prev) => !prev)}>
-        {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-      </ShowAdvancedFilter>
-    </>
-    // )
+            <MultiSelection
+              data={selectData.sellerRating}
+              placeholder="Select Seller Rating"
+              value={filter.sellerRating}
+              onChange={(value) =>
+                setFilter((prev) => ({ ...prev, sellerRating: value }))
+              }
+              type="itemSellerRating"
+              countList={adCnt.itemSellerRating}
+            />
+          </>
+        )}
+        <ShowAdvancedFilter
+          onClick={() => setIsAdvancedFilter((prev) => !prev)}
+        >
+          {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+        </ShowAdvancedFilter>
+      </>
+    )
   );
 };

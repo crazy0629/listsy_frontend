@@ -105,7 +105,7 @@ export const PetsPageSection: React.FC = () => {
             <span
               key={key}
               onClick={() => handleCategoryClicked(item)}
-              className={item === filter.itemCategory ? "active" : ""}
+              // className={item === filter.itemCategory ? "active" : ""}
             >
               {item}
 

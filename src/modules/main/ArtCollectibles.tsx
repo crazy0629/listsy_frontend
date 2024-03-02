@@ -3,19 +3,20 @@ import { useRouter } from "next/router";
 import * as Styled from "./main.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CardItem } from "@/components";
-import { MdArrowLeft, MdClose } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import { ArtFilter } from "./filters/art";
 import { artFilter } from "./fiterData";
+import { Tabs, Tab } from "react-tabs-scrollable";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { SERVER_URI } from "@/config";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 type MusicalProps = {
   page?: string;
-  sub?: string;
 };
 
-export const ArtCollectibleSection: React.FC<MusicalProps> = ({
-  page,
-  sub,
-}) => {
+export const ArtCollectibleSection: React.FC<MusicalProps> = ({ page }) => {
   const router = useRouter();
   const [filter, setFilter] = useState(null);
   const [adCnt, setAdCnt] = useState([]);
@@ -23,62 +24,98 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
   const [data, setData] = useState<any>([]);
   const [getIndex, setGetIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [subToggle, setSubToggle] = useState("");
+  const [address, setAddress] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const wrapperRef = useRef<any>(null);
-  useEffect(() => {
-    /**
-     * Alert if clicked on outside of element
-     */
-    const handleClickOutside = (event: any) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setSubToggle("");
+  const getData = async (index: number) => {
+    setLoading(true);
+    const categoryList = artFilter.map((item) => item.label);
+
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/art/getCountOfEachFilter`,
+      { itemCategory: categoryList, address, countryCode }
+    );
+
+    setAdCnt(adsCountData.data.countList);
+
+    const tempFilter = artFilter.filter((f) => f.page === page)[0].label;
+    const res = await axios.post(`${SERVER_URI}/art/getArtAds`, {
+      ...filter,
+      itemCategory: tempFilter,
+      index,
+      address,
+      countryCode,
+    });
+
+    if (res.data.success) {
+      if (index > 0) {
+        setData((prev: any) => [...prev, ...res.data.data]);
+      } else {
+        setData([...res.data.data]);
       }
-    };
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [wrapperRef]);
-
-  const handleCategoryClicked = (item: any) => {
-    setFilter({ itemCategory: item.label });
-    router.push(item.page);
+      if (res.data.data.length < 50) {
+        setHasMore(false);
+      }
+      setGetIndex((prev) => prev + 1);
+    } else {
+      toast.error(res.data.message);
+    }
+    setLoading(false);
   };
-
-  const getData = async (index: number) => {};
 
   const subFormChanged = (data) => {
     setFilter((prev) => ({ ...prev, ...data }));
   };
 
+  const onTabClick = (_, value) => {
+    const selectedTab = artFilter[value];
+    // setFilter({ itemCategory: selectedTab.label });
+    router.push(selectedTab.page);
+  };
+
+  const getLocationInfo = () => {
+    let locationAddress = localStorage.getItem("locationAddress");
+    let countryCode = localStorage.getItem("locationCountryCode");
+    setAddress(locationAddress);
+    setCountryCode(countryCode);
+  };
+
+  useEffect(() => {
+    window.addEventListener("localStorageChanged", function (e: Event) {
+      getLocationInfo();
+    });
+    getLocationInfo();
+  }, []);
+
+  useEffect(() => {
+    if (address == "") return;
+    getData(0);
+  }, [filter]);
+
+  useEffect(() => {
+    if (address == "") return;
+    setGetIndex(0);
+    // setFilter((prev) => ({ ...prev }));
+    getData(0);
+  }, [address, countryCode]);
+
   return (
     <Styled.MainPageSectionWrapper>
-      {/* <Styled.FilterWrapper>
-        <Styled.PostsPageFilterWrapper>
+      <Styled.FilterTabWrapper>
+        <Tabs
+          activeTab={artFilter.indexOf(
+            artFilter.filter((f) => f.page === page)[0]
+          )}
+          onTabClick={onTabClick}
+          hideNavBtnsOnMobile={false}
+          className="categoryTab"
+          leftBtnIcon={<IoIosArrowBack />}
+          rightBtnIcon={<IoIosArrowForward />}
+        >
           {artFilter.map((item, key) => (
-            <div
-              key={key}
-              onClick={
-                item.sub.length > 0
-                  ? () =>
-                      subToggle === item.label
-                        ? setSubToggle("")
-                        : setSubToggle(item.label)
-                  : () => handleCategoryClicked(item)
-              }
-              className={
-                item.label === sub
-                  ? "active"
-                  : subToggle === item.label
-                  ? "sub-active"
-                  : ""
-              }
-            >
+            <Tab key={key}>
               {item.label}
-
               {adCnt
                 ? adCnt.length > 0
                   ? "  (" +
@@ -88,37 +125,10 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
                     ")"
                   : " (0)"
                 : " (0)"}
-            </div>
+            </Tab>
           ))}
-        </Styled.PostsPageFilterWrapper>
-      </Styled.FilterWrapper>
-      {subToggle && (
-        <Styled.SubFilterWrapper ref={wrapperRef}>
-          <Styled.PostsPageFilterWrapper>
-            {artFilter
-              .filter((f) => f.label === subToggle)[0]
-              .sub.map((item, key) => (
-                <div
-                  key={key}
-                  onClick={() => handleCategoryClicked(item)}
-                  className={item.page === page ? "active" : ""}
-                >
-                  {item.label}
-
-                  {adCnt
-                    ? adCnt.length > 0
-                      ? "  (" +
-                        adCnt.filter(
-                          (element) => element.itemCategory === item.label
-                        )[0]?.count +
-                        ")"
-                      : " (0)"
-                    : " (0)"}
-                </div>
-              ))}
-          </Styled.PostsPageFilterWrapper>
-        </Styled.SubFilterWrapper>
-      )} */}
+        </Tabs>
+      </Styled.FilterTabWrapper>
       <Styled.MainGridWrapper
         className={
           isShowFilter && page !== "/art-collectibles/all-items-for-sale"
@@ -126,7 +136,9 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
             : ""
         }
       >
-        {data.length > 0 ? (
+        {loading ? (
+          <div className="no-data">Loading ...</div>
+        ) : data.length > 0 ? (
           <InfiniteScroll
             dataLength={data.length}
             next={() => getData(getIndex)}
@@ -145,7 +157,7 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
                 <CardItem
                   id={item.adId?._id}
                   key={key}
-                  type={"sale"}
+                  type={"art"}
                   link={item.adId?.adFileName}
                   postDate={item.adId?.uploadDate}
                   price={item.price}
@@ -160,6 +172,9 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
                   lastName={item.userId?.lastName}
                   viewCount={item.viewCount}
                   duration={item.adId?.duration}
+                  subCategory={item.itemCategory
+                    .replaceAll(" ", "-")
+                    .toLowerCase()}
                 />
               ))}
           </InfiniteScroll>
@@ -177,7 +192,11 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({
               {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
-              <ArtFilter onChange={subFormChanged} />
+              <ArtFilter
+                onChange={subFormChanged}
+                itemCategory={artFilter.filter((f) => f.page === page)[0].label}
+                page={page}
+              />
             </div>
           </Styled.FilterSection>
         )}

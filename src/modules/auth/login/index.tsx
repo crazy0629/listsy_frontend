@@ -74,10 +74,7 @@ export const LoginForm: React.FC = () => {
         height={67}
         onClick={() => router.push("/")}
       />
-      <p>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry.
-      </p>
+      <p>Welcome Back! Discover treasures or share your own</p>
       <Styled.LoginFormGroup>
         <input
           type="text"
