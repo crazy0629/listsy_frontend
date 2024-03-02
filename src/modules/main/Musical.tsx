@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import * as Styled from "./main.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CardItem } from "@/components";
-import { MdArrowLeft, MdClose } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import { MusicalFilter } from "./filters/musical";
 import { musicalFilter } from "./fiterData";
 import { Tabs, Tab } from "react-tabs-scrollable";
@@ -131,7 +131,8 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
       </Styled.FilterTabWrapper>
       <Styled.MainGridWrapper
         className={
-          isShowFilter && page !== "/musical-instruments/all-instruments"
+          isShowFilter &&
+          page !== "/musical-instruments-for-sale/all-instruments"
             ? "filtered"
             : ""
         }
@@ -146,7 +147,8 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
             endMessage={<h4></h4>}
             scrollableTarget="community-list"
             className={
-              isShowFilter && page !== "/musical-instruments/all-instruments"
+              isShowFilter &&
+              page !== "/musical-instruments-for-sale/all-instruments"
                 ? "filtered"
                 : ""
             }
@@ -183,7 +185,7 @@ export const MusicalSection: React.FC<MusicalProps> = ({ page }) => {
             Got something to sell? Post it for free and be the first!
           </div>
         )}
-        {page !== "/musical-instruments/all-instruments" && (
+        {page !== "/musical-instruments-for-sale/all-instruments" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>
             <Styled.FilterToggleButton
               onClick={() => setIsShowFilter((prev) => !prev)}

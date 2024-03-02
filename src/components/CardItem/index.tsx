@@ -76,7 +76,7 @@ export const CardItem: React.FC<Props> = ({
           videoRef.current.currentTime = 0;
         }}
         onClick={() =>
-          router.push(`/${category}/${subCategory}/video-ads/${id}`)
+          router.push(`/for-sale/${category}/${subCategory}/video-ads/${id}`)
         }
       >
         <video ref={videoRef} src={`${SERVER_UPLOAD_URI + link}`} muted></video>
