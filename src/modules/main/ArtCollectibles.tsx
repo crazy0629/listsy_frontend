@@ -33,7 +33,7 @@ export const ArtCollectibleSection: React.FC<MusicalProps> = ({ page }) => {
     const categoryList = artFilter.map((item) => item.label);
 
     const adsCountData = await axios.post(
-      `${SERVER_URI}/art/getCountOfEachFilter`,
+      `${SERVER_URI}/art/getCountForEachCategory`,
       { itemCategory: categoryList, address, countryCode }
     );
 
