@@ -63,7 +63,9 @@ export const ArtFilter: React.FC<Props> = ({
         itemCategory: itemCategory,
         itemSellerRating: selectData.sellerRating,
         itemType: selectData.type[itemCategory],
-        // itemWarrantyInformation: selectData.forSale.Audio.WarrantyInformation,
+        itemCondition: selectData.condition,
+        itemAuthenticity: selectData.authenticity,
+        itemAge: selectData.age,
         itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
@@ -196,7 +198,6 @@ export const ArtFilter: React.FC<Props> = ({
           onChange2={handleMaxPrice}
           prefix1={currency}
           prefix2={currency}
-          // suffix={0}
           suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
         />
         <MultiSelection
@@ -206,8 +207,8 @@ export const ArtFilter: React.FC<Props> = ({
           onChange={(value) =>
             setFilter((prev) => ({ ...prev, artType: value }))
           }
-          // type="itemInstrumentType"
-          // countList={adCnt.itemInstrumentType}
+          type="itemType"
+          countList={adCnt.itemType}
         />
 
         <MultiSelection
@@ -217,8 +218,8 @@ export const ArtFilter: React.FC<Props> = ({
           onChange={(value) =>
             setFilter((prev) => ({ ...prev, itemCondition: value }))
           }
-          type="condition"
-          //   countList={adCnt.mealType}
+          type="itemCondition"
+          countList={adCnt.itemCondition}
         />
 
         {isAdvancedFilter && (
@@ -231,8 +232,8 @@ export const ArtFilter: React.FC<Props> = ({
               onChange={(value) =>
                 setFilter((prev) => ({ ...prev, authenticity: value }))
               }
-              type="authenticity"
-              //   countList={adCnt.deliveryOptions}
+              type="itemAuthenticity"
+              countList={adCnt.itemAuthenticity}
             />
             <MultiSelection
               data={selectData.age}
@@ -241,8 +242,8 @@ export const ArtFilter: React.FC<Props> = ({
               onChange={(value) =>
                 setFilter((prev) => ({ ...prev, age: value }))
               }
-              type="age"
-              //   countList={adCnt.deliveryOptions}
+              type="itemAge"
+              countList={adCnt.itemAge}
             />
 
             <MultiSelection
