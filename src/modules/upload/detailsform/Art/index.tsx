@@ -76,7 +76,7 @@ export const ArtDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
 
       <InputComponent
         value={form.artist}
-        placeholder="Input Artist/Manufacturer"
+        placeholder="Type artist or manufacturer name here"
         label="Artist/Manufacturer "
         onChange={(e) =>
           setForm((prev) => ({ ...prev, artist: e.target.value }))
