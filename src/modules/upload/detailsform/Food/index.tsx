@@ -27,7 +27,7 @@ export const FoodDetail: React.FC<Props> = ({ onSave }) => {
       <SingleSelection
         direction="top"
         data={selectData.mealType}
-        label="Meal Type"
+        label="Meal Type*"
         placeholder="Select Meal Type"
         value={form.mealType}
         onChange={(value) => setForm((prev) => ({ ...prev, mealType: value }))}

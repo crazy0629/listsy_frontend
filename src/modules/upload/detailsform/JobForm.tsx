@@ -94,7 +94,7 @@ export const JobForm: React.FC<Props> = ({ onFinish }) => {
   return (
     <Styled.FormContainer>
       <Styled.TextAreaFormItem height={80}>
-        <p>{"Job Title (required)"}</p>
+        <p>{"Job Title*"}</p>
         <textarea
           placeholder="Enter the Job title."
           onChange={(e) =>

@@ -39,7 +39,7 @@ export const MusicForm: React.FC<Props> = ({ onSave }) => {
   return (
     <Styled.FormContainer>
       <Styled.TextAreaFormItem height={80}>
-        <p>{"Title (required)"}</p>
+        <p>{"Title*"}</p>
         <textarea
           placeholder="Tell viewer about your video title."
           onChange={(e) =>
@@ -51,7 +51,7 @@ export const MusicForm: React.FC<Props> = ({ onSave }) => {
         <span>{form.title.length} / 100</span>
       </Styled.TextAreaFormItem>
       <Styled.TextAreaFormItem height={80}>
-        <p>{"Subtitle (Optional)"}</p>
+        <p>{"Subtitle"}</p>
         <textarea
           placeholder="Tell viewer about your video Subtitle."
           onChange={(e) =>
@@ -63,7 +63,7 @@ export const MusicForm: React.FC<Props> = ({ onSave }) => {
         <span>{form.subTitle.length} / 100</span>
       </Styled.TextAreaFormItem>
       <Styled.TextAreaFormItem height={120}>
-        <p>{"Description"}</p>
+        <p>{"Description*"}</p>
         <textarea
           placeholder="Tell viewer about your video."
           onChange={(e) =>
@@ -77,7 +77,7 @@ export const MusicForm: React.FC<Props> = ({ onSave }) => {
       <SingleSelection
         direction="top"
         data={musicalFilter.map((item) => item.label).slice(1)}
-        label="Type of Instrument"
+        label="Type of Instrument*"
         placeholder="Select Type of Instrument"
         value={form.itemCategory}
         onChange={(value) => {

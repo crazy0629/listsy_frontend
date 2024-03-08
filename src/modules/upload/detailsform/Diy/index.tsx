@@ -27,7 +27,7 @@ export const DiyDetail: React.FC<Props> = ({ onSave }) => {
       <SingleSelection
         direction="top"
         data={selectData.condition}
-        label="Condition"
+        label="Condition*"
         placeholder="Select Condition"
         value={form.itemCondition}
         onChange={(value) =>

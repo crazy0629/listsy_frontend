@@ -43,7 +43,7 @@ export const ArtDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
       <SingleSelection
         direction="top"
         data={selectData.type[itemCategory]}
-        label="Subcategory"
+        label="Subcategory*"
         placeholder="Select Subcategory"
         value={form.itemSubCategory}
         onChange={(value) => {
@@ -56,7 +56,7 @@ export const ArtDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
       <SingleSelection
         direction="top"
         data={selectData.condition}
-        label="Item Condition"
+        label="Item Condition*"
         placeholder="Select Item Condition"
         value={form.itemCondition}
         onChange={(value) =>
@@ -77,7 +77,7 @@ export const ArtDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
       <InputComponent
         value={form.artist}
         placeholder="Type artist or manufacturer name here"
-        label="Artist/Manufacturer "
+        label="Artist/Manufacturer"
         onChange={(e) =>
           setForm((prev) => ({ ...prev, artist: e.target.value }))
         }
