@@ -7,6 +7,8 @@ import {
   FaFacebookSquare,
   FaGoogle,
   FaRegQuestionCircle,
+  FaYoutube,
+  FaTiktok,
 } from "react-icons/fa";
 import { MdLocationOn, MdSearch, MdOutlineEmojiEmotions } from "react-icons/md";
 import { Tooltip as ReactTooltip } from "react-tooltip";
@@ -426,19 +428,13 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
           <h1>@2023 Listsy</h1>
           <Styled.SidebarSocialNav>
             <a href="#">
+              <FaTiktok />
+            </a>
+            <a href="#">
               <FaInstagram />
             </a>
             <a href="#">
-              <FaTwitter />
-            </a>
-            <a href="#">
-              <FaFacebookSquare />
-            </a>
-            <a href="#">
-              <FaGoogle />
-            </a>
-            <a href="#">
-              <FaLinkedin />
+              <FaYoutube />
             </a>
           </Styled.SidebarSocialNav>
         </Styled.AppSidebarFooter>
