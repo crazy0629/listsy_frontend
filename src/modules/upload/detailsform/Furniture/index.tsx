@@ -40,7 +40,7 @@ export const FurnitureDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
       <SingleSelection
         direction="top"
         data={selectData.type[itemCategory]}
-        label="Subcategory"
+        label="Subcategory*"
         placeholder="Select Subcategory"
         value={form.itemSubCategory}
         onChange={(value) => {
@@ -53,7 +53,7 @@ export const FurnitureDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
       <SingleSelection
         direction="top"
         data={selectData.condition}
-        label="Item Condition"
+        label="Item Condition*"
         placeholder="Select Item Condition"
         value={form.itemCondition}
         onChange={(value) =>
@@ -63,7 +63,7 @@ export const FurnitureDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
       <SingleSelection
         direction="top"
         data={selectData.sellerType}
-        label="Seller Type"
+        label="Seller Type*"
         placeholder="Select Seller Type"
         value={form.sellerType}
         onChange={(value) =>

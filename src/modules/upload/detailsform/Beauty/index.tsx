@@ -33,7 +33,7 @@ export const BeautyDetail: React.FC<Props> = ({ onSave }) => {
       <SingleSelection
         direction="top"
         data={selectData.brand}
-        label="Brand"
+        label="Brand*"
         placeholder="Select Brand"
         value={form.brand}
         onChange={(value) => setForm((prev) => ({ ...prev, brand: value }))}
@@ -41,7 +41,7 @@ export const BeautyDetail: React.FC<Props> = ({ onSave }) => {
       <SingleSelection
         direction="top"
         data={selectData.condition}
-        label="Item Condition"
+        label="Item Condition*"
         placeholder="Select Item Condition"
         value={form.itemCondition}
         onChange={(value) =>

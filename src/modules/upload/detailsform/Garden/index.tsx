@@ -27,7 +27,7 @@ export const GardenDetail: React.FC<Props> = ({ onSave }) => {
       <SingleSelection
         direction="top"
         data={selectData.condition}
-        label="Item Condition"
+        label="Item Condition*"
         placeholder="Select Item Condition"
         value={form.itemCondition}
         onChange={(value) =>
