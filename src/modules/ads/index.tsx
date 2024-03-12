@@ -11,7 +11,6 @@ import { MdOutlineShare, MdPhone } from "react-icons/md";
 import { Rating } from "react-simple-star-rating";
 import { BsBookmark, BsClock, BsFlag } from "react-icons/bs";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
-import { BiLike } from "react-icons/bi";
 import { Truck } from "./Truck";
 import { Food } from "./Food";
 import { ImageModal } from "./ImageModal";
@@ -158,50 +157,50 @@ export const AdsDetailsSection: React.FC = () => {
                 controls
               ></video>
               <Styled.EmojiWrapper visible={emojiVisible ? "true" : undefined}>
-                <div onClick={() => handleEmojiClicked("like")}>
+                <div onClick={() => handleEmojiClicked("heartsEyes")}>
                   <Image
-                    src={"/assets/images/emoji/like.png"}
+                    src={"/assets/images/emoji/heartsEyes.png"}
                     alt="emoji"
                     width={20}
                     height={20}
                   />
-                  <span>{emojiCount?.like}</span>
+                  <span>{emojiCount?.heartsEyes}</span>
                 </div>
-                <div onClick={() => handleEmojiClicked("dislike")}>
+                <div onClick={() => handleEmojiClicked("monocle")}>
                   <Image
-                    src={"/assets/images/emoji/dislike.png"}
+                    src={"/assets/images/emoji/monocle.png"}
                     alt="emoji"
                     width={20}
                     height={20}
                   />
-                  <span>{emojiCount?.dislike}</span>
+                  <span>{emojiCount?.monocle}</span>
                 </div>
-                <div onClick={() => handleEmojiClicked("sad")}>
+                <div onClick={() => handleEmojiClicked("flame")}>
                   <Image
-                    src={"/assets/images/emoji/sad.png"}
+                    src={"/assets/images/emoji/flame.png"}
                     alt="emoji"
                     width={20}
                     height={20}
                   />
-                  <span>{emojiCount?.sad}</span>
+                  <span>{emojiCount?.flame}</span>
                 </div>
-                <div onClick={() => handleEmojiClicked("angry")}>
+                <div onClick={() => handleEmojiClicked("redHeart")}>
                   <Image
-                    src={"/assets/images/emoji/angry.png"}
+                    src={"/assets/images/emoji/redHeart.png"}
                     alt="emoji"
                     width={20}
                     height={20}
                   />
-                  <span>{emojiCount?.angry}</span>
+                  <span>{emojiCount?.redHeart}</span>
                 </div>
-                <div onClick={() => handleEmojiClicked("kidding")}>
+                <div onClick={() => handleEmojiClicked("thumbsUp")}>
                   <Image
-                    src={"/assets/images/emoji/kidding.png"}
+                    src={"/assets/images/emoji/thumbsUp.png"}
                     alt="emoji"
                     width={20}
                     height={20}
                   />
-                  <span>{emojiCount?.kidding}</span>
+                  <span>{emojiCount?.thumbsUp}</span>
                 </div>
               </Styled.EmojiWrapper>
             </Styled.VideoWrapper>
@@ -277,7 +276,6 @@ export const AdsDetailsSection: React.FC = () => {
                     onClick={() => sendMessageClicked()}
                   />
                   <BsBookmark size={24} onClick={bookmarkClicked} />
-                  {/* <BiLike size={24} onClick={likeClicked} /> */}
                 </div>
               </Styled.UserInfoWrapper>
               <p>{data?.description}</p>

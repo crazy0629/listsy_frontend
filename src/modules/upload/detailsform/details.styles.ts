@@ -189,3 +189,21 @@ export const UploadedFilesWrapper = styled.div`
     }
   }
 `;
+
+export const DateAvailabilityWrapper = styled.div`
+  & > p {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  & > div {
+    span {
+      font-size: 10px;
+    }
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    &:not(:first-child) {
+      margin-top: 12px;
+    }
+  }
+`;
