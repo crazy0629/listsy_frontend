@@ -128,4 +128,16 @@ export const selectData = {
     "Credit for Future Service",
     "Non-Refundable Deposit",
   ],
+  searchWithin: [
+    "Nationwide",
+    "Current location",
+    "Within 1 mile",
+    "Within 5 miles",
+    "Within 15 miles",
+    "Within 30 miles",
+    "Within 50 miles",
+    "Within 100 miles",
+    "Within 200 miles",
+  ],
+  sellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
 };

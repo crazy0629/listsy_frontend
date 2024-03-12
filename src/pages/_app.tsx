@@ -9,6 +9,7 @@ import "nprogress/nprogress.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-country-state-city/dist/react-country-state-city.css";
 import "react-tabs-scrollable/dist/rts.css";
+import "react-awesome-time-picker/assets/index.css";
 
 import React from "react";
 import { ToastContainer } from "react-toastify";

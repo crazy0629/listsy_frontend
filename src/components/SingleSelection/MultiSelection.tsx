@@ -178,6 +178,14 @@ export const MultiSelection: React.FC<Props> = ({
                         return element.itemType === item;
                       } else if (type == "itemAuthenticity") {
                         return element.itemAuthenticity === item;
+                      } else if (type == "itemServiceType") {
+                        return element.itemServiceType === item;
+                      } else if (type == "itemProviderType") {
+                        return element.itemProviderType === item;
+                      } else if (type == "itemCancellationPolicy") {
+                        return element.itemCancellationPolicy === item;
+                      } else if (type == "itemLicensesGroup") {
+                        return element.itemLicensesGroup === item;
                       }
                       return false;
                     })[0]?.count

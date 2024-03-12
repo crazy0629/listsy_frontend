@@ -103,7 +103,7 @@ export const VideoWrapper = styled.div`
     top: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: fill;
   }
 `;
 
@@ -272,6 +272,7 @@ export const InfoItemWrapper2 = styled.div`
   }
   p {
     font-size: 12px;
+    margin-top: 8px;
   }
   ul {
     font-size: 12px;
@@ -420,18 +421,45 @@ export const EmojiWrapper = styled.div<{ visible?: string }>`
   transform: translateY(-50%);
   transition: all 0.3s;
   div {
-    width: 60px;
+    position: relative;
+    width: 40px;
     height: 40px;
     margin-bottom: 20px;
-    background: #fff;
+    margin-right: 14px;
+    background: #55555560;
+    border: 2px solid #88888830;
     display: flex;
     align-items: center;
-    border-radius: 10px 0 0 10px;
-    padding-left: 5px;
+    justify-content: center;
+    border-radius: 9999px;
     cursor: pointer;
     span {
-      font-size: 12px;
+      background: #ffffff;
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      font-size: 8px;
+      min-width: 20px;
+      text-align: center;
+      border-radius: 999px;
+      padding: 0 2px;
       margin-left: 4px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    /* top: ${({ visible }) => (visible ? "0" : "-60px")}; */
+    top: 0;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    display: flex;
+    div {
+      margin-bottom: 0;
+      margin-top: 15px;
+      margin-right: 0;
+    }
+    div:not(:last-child) {
+      margin-right: 14px;
     }
   }
 `;

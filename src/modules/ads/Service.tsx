@@ -54,11 +54,84 @@ export const Service: React.FC<{ data: any }> = ({ data }) => {
           </ul>
         </Styled.InfoItemWrapper2>
       )}
-      {data.itemDetailInfo.cancellationPolocy && (
+      {data.itemDetailInfo.cancellationPolicy && (
         <Styled.InfoItemWrapper>
-          <span>Cancellation Polocy</span>
-          <span>{data?.itemDetailInfo.cancellationPolocy}</span>
+          <span>Cancellation Policy</span>
+          <span>{data?.itemDetailInfo.cancellationPolicy}</span>
         </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.dateAvailability && (
+        <Styled.InfoItemWrapper2>
+          <span>Date/Availability</span>
+          <ul>
+            {data.itemDetailInfo.dateAvailability.monday && (
+              <li>
+                <MdCheck />
+                <span>
+                  Monday: {data?.itemDetailInfo.dateAvailability.monday?.from} -{" "}
+                  {data?.itemDetailInfo.dateAvailability.monday?.to}
+                </span>
+              </li>
+            )}
+            {data.itemDetailInfo.dateAvailability.tuesday && (
+              <li>
+                <MdCheck />
+                <span>
+                  Tuesday: {data?.itemDetailInfo.dateAvailability.tuesday?.from}{" "}
+                  - {data?.itemDetailInfo.dateAvailability.tuesday?.to}
+                </span>
+              </li>
+            )}
+            {data.itemDetailInfo.dateAvailability.wednesday && (
+              <li>
+                <MdCheck />
+                <span>
+                  Wednesday:{" "}
+                  {data?.itemDetailInfo.dateAvailability.wednesday?.from} -{" "}
+                </span>
+                {data?.itemDetailInfo.dateAvailability.wednesday?.to}
+              </li>
+            )}
+            {data.itemDetailInfo.dateAvailability.thirsday && (
+              <li>
+                <MdCheck />
+                <span>
+                  Thirsday:{" "}
+                  {data?.itemDetailInfo.dateAvailability.thirsday?.from} -{" "}
+                </span>
+                {data?.itemDetailInfo.dateAvailability.thirsday?.to}
+              </li>
+            )}
+            {data.itemDetailInfo.dateAvailability.friday && (
+              <li>
+                <MdCheck />
+                <span>
+                  Friday: {data?.itemDetailInfo.dateAvailability.friday?.from} -{" "}
+                  {data?.itemDetailInfo.dateAvailability.friday?.to}
+                </span>
+              </li>
+            )}
+            {data.itemDetailInfo.dateAvailability.saturday && (
+              <li>
+                <MdCheck />
+                <span>
+                  Saturday:{" "}
+                  {data?.itemDetailInfo.dateAvailability.saturday?.from} -{" "}
+                </span>
+                {data?.itemDetailInfo.dateAvailability.saturday?.to}
+              </li>
+            )}
+            {data.itemDetailInfo.dateAvailability.sunday && (
+              <li>
+                <MdCheck />
+                <span>
+                  Sunday: {data?.itemDetailInfo.dateAvailability.sunday?.from} -{" "}
+                  {data?.itemDetailInfo.dateAvailability.sunday?.to}
+                </span>
+              </li>
+            )}
+          </ul>
+        </Styled.InfoItemWrapper2>
       )}
     </>
   );

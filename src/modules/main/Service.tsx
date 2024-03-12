@@ -10,6 +10,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { SERVER_URI } from "@/config";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ServiceFilter } from "./filters/service";
 
 type ServiceProps = {
   page?: string;
@@ -195,12 +196,13 @@ export const ServiceSection: React.FC<ServiceProps> = ({ page }) => {
               {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
-              {/* <serviceFilter
+              <ServiceFilter
                 onChange={subFormChanged}
                 itemCategory={
-                  sportsFilter.filter((f) => f.page === page)[0].label
+                  serviceFilter.filter((f) => f.page === page)[0].label
                 }
-              /> */}
+                page={page}
+              />
             </div>
           </Styled.FilterSection>
         )}
