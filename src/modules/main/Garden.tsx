@@ -195,6 +195,7 @@ export const GardenSection: React.FC<GardenProps> = ({ page }) => {
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               <GardenFilter
+                page={page}
                 onChange={subFormChanged}
                 itemCategory={
                   gardenFilter.filter((f) => f.page === page)[0].label
