@@ -4,19 +4,18 @@ import * as Styled from "./main.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CardItem } from "@/components";
 import { MdArrowLeft, MdClose } from "react-icons/md";
-import { sportsFilter } from "./fiterData";
+import { serviceFilter } from "./fiterData";
 import { Tabs, Tab } from "react-tabs-scrollable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { SERVER_URI } from "@/config";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { SportsFilter } from "./filters/sports";
 
-type MusicalProps = {
+type ServiceProps = {
   page?: string;
 };
 
-export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
+export const ServiceSection: React.FC<ServiceProps> = ({ page }) => {
   const router = useRouter();
   const [filter, setFilter] = useState(null);
   const [adCnt, setAdCnt] = useState([]);
@@ -30,17 +29,18 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
 
   const getData = async (index: number) => {
     setLoading(true);
-    const categoryList = sportsFilter.map((item) => item.label);
+
+    const categoryList = serviceFilter.map((item) => item.label);
 
     const adsCountData = await axios.post(
-      `${SERVER_URI}/sports/getCountForEachCategory`,
+      `${SERVER_URI}/services/getCountForEachCategory`,
       { itemCategory: categoryList, address, countryCode }
     );
 
     setAdCnt(adsCountData.data.countList);
 
-    const tempFilter = sportsFilter.filter((f) => f.page === page)[0].label;
-    const res = await axios.post(`${SERVER_URI}/sports/getSportsAds`, {
+    const tempFilter = serviceFilter.filter((f) => f.page === page)[0].label;
+    const res = await axios.post(`${SERVER_URI}/services/getServiceAds`, {
       ...filter,
       itemCategory: tempFilter,
       index,
@@ -60,6 +60,7 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
     } else {
       toast.error(res.data.message);
     }
+
     setLoading(false);
   };
 
@@ -68,7 +69,7 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
   };
 
   const onTabClick = (_, value) => {
-    const selectedTab = sportsFilter[value];
+    const selectedTab = serviceFilter[value];
     // setFilter({ itemCategory: selectedTab.label });
     router.push(selectedTab.page);
   };
@@ -103,8 +104,8 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
     <Styled.MainPageSectionWrapper>
       <Styled.FilterTabWrapper>
         <Tabs
-          activeTab={sportsFilter.indexOf(
-            sportsFilter.filter((f) => f.page === page)[0]
+          activeTab={serviceFilter.indexOf(
+            serviceFilter.filter((f) => f.page === page)[0]
           )}
           onTabClick={onTabClick}
           hideNavBtnsOnMobile={false}
@@ -112,7 +113,7 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
           leftBtnIcon={<IoIosArrowBack />}
           rightBtnIcon={<IoIosArrowForward />}
         >
-          {sportsFilter.map((item, key) => (
+          {serviceFilter.map((item, key) => (
             <Tab key={key}>
               {item.label}
               {adCnt
@@ -131,7 +132,7 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
       <Styled.MainGridWrapper
         className={
           isShowFilter &&
-          page !== "/sports-fitness-equipment-for-sale/all-equipments"
+          page !== "/services-experiences-for-sale/all-services-experiences"
             ? "filtered"
             : ""
         }
@@ -147,7 +148,7 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
             scrollableTarget="community-list"
             className={
               isShowFilter &&
-              page !== "/sports-fitness-equipment-for-sale/all-equipments"
+              page !== "/services-experiences-for-sale/all-services-experiences"
                 ? "filtered"
                 : ""
             }
@@ -158,7 +159,7 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
                 <CardItem
                   id={item.adId?._id}
                   key={key}
-                  type={"sports"}
+                  type={"services"}
                   link={item.adId?.adFileName}
                   postDate={item.adId?.uploadDate}
                   price={item.price}
@@ -184,7 +185,8 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
             Got something to sell? Post it for free and be the first!
           </div>
         )}
-        {page !== "/sports-fitness-equipment-for-sale/all-equipments" && (
+
+        {page !== "/services-experiences-for-sale/all-services-experiences" && (
           <Styled.FilterSection className={isShowFilter ? "active" : ""}>
             <Styled.FilterToggleButton
               onClick={() => setIsShowFilter((prev) => !prev)}
@@ -193,13 +195,12 @@ export const SportsSection: React.FC<MusicalProps> = ({ page }) => {
               {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
-              <SportsFilter
-                page={page}
+              {/* <serviceFilter
                 onChange={subFormChanged}
                 itemCategory={
                   sportsFilter.filter((f) => f.page === page)[0].label
                 }
-              />
+              /> */}
             </div>
           </Styled.FilterSection>
         )}

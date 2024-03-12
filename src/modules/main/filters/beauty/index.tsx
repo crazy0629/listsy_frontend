@@ -4,16 +4,21 @@ import { FilterOptionWrapper, ShowAdvancedFilter } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/DataList/data-beauty";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
+import { useRouter } from "next/router";
 
 type Props = {
   onChange: (data: any) => void;
   itemCategory: string;
+  page: string;
 };
 
-export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
+export const BeautyFilter: React.FC<Props> = ({
+  onChange,
+  itemCategory,
+  page,
+}) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
-    priceRange: [] as string[],
     brand: [] as string[],
     itemCondition: [] as string[],
     gender: [] as string[],
@@ -26,6 +31,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     selectedLocation: null,
   });
 
+  const router = useRouter();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [isAdvancedFilter, setIsAdvancedFilter] = useState(false);
@@ -48,6 +54,110 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
       Number(localStorage.getItem("centerlat")),
       Number(localStorage.getItem("centerlng"))
     );
+  };
+
+  useEffect(() => {
+    if (router.query.SearchWithin) {
+      setFilter((prev) => ({
+        ...prev,
+        SearchWithin: router.query.SearchWithin.toString(),
+      }));
+    }
+    if (router.query.brand) {
+      setFilter((prev) => ({
+        ...prev,
+        brand: router.query.brand.toString().split("%"),
+      }));
+    }
+    if (router.query.itemCondition) {
+      setFilter((prev) => ({
+        ...prev,
+        itemCondition: router.query.itemCondition.toString().split("%"),
+      }));
+    }
+    if (router.query.gender) {
+      setFilter((prev) => ({
+        ...prev,
+        gender: router.query.gender.toString().split("%"),
+      }));
+    }
+    if (router.query.skin) {
+      setFilter((prev) => ({
+        ...prev,
+        skin: router.query.skin.toString().split("%"),
+      }));
+    }
+    if (router.query.ingredients) {
+      setFilter((prev) => ({
+        ...prev,
+        ingredients: router.query.ingredients.toString().split("%"),
+      }));
+    }
+    if (router.query.size) {
+      setFilter((prev) => ({
+        ...prev,
+        size: router.query.size.toString().split("%"),
+      }));
+    }
+    if (router.query.certifications) {
+      setFilter((prev) => ({
+        ...prev,
+        certifications: router.query.certifications.toString().split("%"),
+      }));
+    }
+    if (router.query.sellerRating) {
+      setFilter((prev) => ({
+        ...prev,
+        sellerRating: router.query.sellerRating.toString().split("%"),
+      }));
+    }
+    if (router.query.minPrice) {
+      setMinPrice(router.query.minPrice.toString());
+    }
+    if (router.query.maxPrice) {
+      setMaxPrice(router.query.maxPrice.toString());
+    }
+  }, [router.query]);
+
+  const setRouterPath = (data: any, minPrice: string, maxPrice: string) => {
+    const queryPath: any = {};
+    if (data.SearchWithin !== "") {
+      queryPath.SearchWithin = data.SearchWithin;
+    }
+    if (data.brand.length > 0) {
+      queryPath.brand = data.brand.join("%");
+    }
+    if (data.itemCondition.length > 0) {
+      queryPath.itemCondition = data.itemCondition.join("%");
+    }
+    if (data.gender.length > 0) {
+      queryPath.gender = data.gender.join("%");
+    }
+    if (data.skin.length > 0) {
+      queryPath.skin = data.skin.join("%");
+    }
+    if (data.ingredients.length > 0) {
+      queryPath.ingredients = data.ingredients.join("%");
+    }
+    if (data.size.length > 0) {
+      queryPath.size = data.size.join("%");
+    }
+    if (data.certifications.length > 0) {
+      queryPath.certifications = data.certifications.join("%");
+    }
+    if (data.sellerRating.length > 0) {
+      queryPath.sellerRating = data.sellerRating.join("%");
+    }
+    if (maxPrice !== "") {
+      queryPath.maxPrice = maxPrice;
+    }
+    if (minPrice !== "") {
+      queryPath.minPrice = minPrice;
+    }
+    router.push({
+      pathname: page,
+      query: queryPath,
+    });
   };
 
   const donetyping = async () => {
@@ -104,6 +214,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     typingTimer.current = setTimeout(() => {
       donetyping();
       onChange({ minPrice, maxPrice });
+      setRouterPath({ ...filter }, minPrice, maxPrice);
     }, 500);
 
     return () => {
@@ -172,6 +283,11 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     setPriceChanged(true);
   };
 
+  const handleFilterSelect = async (label: string, value: any) => {
+    setFilter((prev) => ({ ...prev, [label]: value }));
+    setRouterPath({ ...filter, [label]: value }, minPrice, maxPrice);
+  };
+
   return (
     adCnt != null && (
       <>
@@ -180,9 +296,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
           data={selectData.searchWithin}
           placeholder="Nationwide"
           value={filter.SearchWithin}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, SearchWithin: value }))
-          }
+          onChange={(value) => handleFilterSelect("SearchWithin", value)}
           type="itemSearchRange"
           countList={adCnt.itemRangeInfo}
         />
@@ -203,9 +317,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
           data={selectData.condition}
           placeholder="Select Condition"
           value={filter.itemCondition}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, itemCondition: value }))
-          }
+          onChange={(value) => handleFilterSelect("itemCondition", value)}
           type="itemCondition"
           countList={adCnt.itemCondition}
         />
@@ -213,7 +325,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
           data={selectData.brand}
           placeholder="Select Brand"
           value={filter.brand}
-          onChange={(value) => setFilter((prev) => ({ ...prev, brand: value }))}
+          onChange={(value) => handleFilterSelect("brand", value)}
           type="itemBrand"
           countList={adCnt.itemBrand}
         />
@@ -225,9 +337,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.gender}
               placeholder="Select Gender/Sex"
               value={filter.gender}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, gender: value }))
-              }
+              onChange={(value) => handleFilterSelect("gender", value)}
               type="itemGender"
               countList={adCnt.itemGender}
             />
@@ -235,9 +345,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.skin}
               placeholder="Select Skin/Hair Type"
               value={filter.skin}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, skin: value }))
-              }
+              onChange={(value) => handleFilterSelect("skin", value)}
               type="itemSkin"
               countList={adCnt.itemSkin}
             />
@@ -245,9 +353,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.ingredients}
               placeholder="Select Ingredients"
               value={filter.ingredients}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, ingredients: value }))
-              }
+              onChange={(value) => handleFilterSelect("ingredients", value)}
               type="itemIngredients"
               countList={adCnt.itemIngredients}
             />
@@ -255,9 +361,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.size}
               placeholder="Select Size/Volume"
               value={filter.size}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, size: value }))
-              }
+              onChange={(value) => handleFilterSelect("size", value)}
               type="itemSize"
               countList={adCnt.itemSize}
             />
@@ -265,9 +369,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.certifications}
               placeholder="Select Certifications"
               value={filter.certifications}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, certifications: value }))
-              }
+              onChange={(value) => handleFilterSelect("certifications", value)}
               type="itemCertifications"
               countList={adCnt.itemCertifications}
             />
@@ -275,9 +377,7 @@ export const BeautyFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.sellerRating}
               placeholder="Select Seller Rating"
               value={filter.sellerRating}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, sellerRating: value }))
-              }
+              onChange={(value) => handleFilterSelect("sellerRating", value)}
               type="itemSellerRating"
               countList={adCnt.itemSellerRating}
             />

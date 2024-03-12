@@ -192,6 +192,7 @@ export const DiyCraftSection: React.FC<DiyCraftProps> = ({ page }) => {
               <DiyCraftFilter
                 onChange={subFormChanged}
                 itemCategory={biyFilter.filter((f) => f.page === page)[0].label}
+                page={page}
               />
             </div>
           </Styled.FilterSection>

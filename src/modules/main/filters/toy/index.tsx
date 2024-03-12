@@ -4,16 +4,21 @@ import { FilterOptionWrapper, ShowAdvancedFilter } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/DataList/data-toy";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
+import { useRouter } from "next/router";
 
 type Props = {
   onChange: (data: any) => void;
   itemCategory: string;
+  page: string;
 };
 
-export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
+export const ToysFilter: React.FC<Props> = ({
+  onChange,
+  itemCategory,
+  page,
+}) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
-    priceRange: [] as string[],
     itemAge: [] as string[],
     itemBrand: [] as string[],
     itemGender: [] as string[],
@@ -24,6 +29,7 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     selectedLocation: null,
   });
 
+  const router = useRouter();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [isAdvancedFilter, setIsAdvancedFilter] = useState(false);
@@ -46,6 +52,92 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
       Number(localStorage.getItem("centerlat")),
       Number(localStorage.getItem("centerlng"))
     );
+  };
+
+  useEffect(() => {
+    if (router.query.SearchWithin) {
+      setFilter((prev) => ({
+        ...prev,
+        SearchWithin: router.query.SearchWithin.toString(),
+      }));
+    }
+    if (router.query.itemAge) {
+      setFilter((prev) => ({
+        ...prev,
+        itemAge: router.query.itemAge.toString().split("%"),
+      }));
+    }
+    if (router.query.itemBrand) {
+      setFilter((prev) => ({
+        ...prev,
+        itemBrand: router.query.itemBrand.toString().split("%"),
+      }));
+    }
+    if (router.query.itemGender) {
+      setFilter((prev) => ({
+        ...prev,
+        itemGender: router.query.itemGender.toString().split("%"),
+      }));
+    }
+    if (router.query.itemEducation) {
+      setFilter((prev) => ({
+        ...prev,
+        itemEducation: router.query.itemEducation.toString().split("%"),
+      }));
+    }
+    if (router.query.sellerType) {
+      setFilter((prev) => ({
+        ...prev,
+        sellerType: router.query.sellerType.toString().split("%"),
+      }));
+    }
+    if (router.query.sellerRating) {
+      setFilter((prev) => ({
+        ...prev,
+        sellerRating: router.query.sellerRating.toString().split("%"),
+      }));
+    }
+    if (router.query.minPrice) {
+      setMinPrice(router.query.minPrice.toString());
+    }
+    if (router.query.maxPrice) {
+      setMaxPrice(router.query.maxPrice.toString());
+    }
+  }, [router.query]);
+
+  const setRouterPath = (data: any, minPrice: string, maxPrice: string) => {
+    const queryPath: any = {};
+    if (data.SearchWithin !== "") {
+      queryPath.SearchWithin = data.SearchWithin;
+    }
+    if (data.itemAge.length > 0) {
+      queryPath.itemAge = data.itemAge.join("%");
+    }
+    if (data.itemBrand.length > 0) {
+      queryPath.itemBrand = data.itemBrand.join("%");
+    }
+    if (data.itemGender.length > 0) {
+      queryPath.itemGender = data.itemGender.join("%");
+    }
+    if (data.itemEducation.length > 0) {
+      queryPath.itemEducation = data.itemEducation.join("%");
+    }
+    if (data.sellerType.length > 0) {
+      queryPath.sellerType = data.sellerType.join("%");
+    }
+    if (data.sellerRating.length > 0) {
+      queryPath.sellerRating = data.sellerRating.join("%");
+    }
+    if (maxPrice !== "") {
+      queryPath.maxPrice = maxPrice;
+    }
+    if (minPrice !== "") {
+      queryPath.minPrice = minPrice;
+    }
+    router.push({
+      pathname: page,
+      query: queryPath,
+    });
   };
 
   const donetyping = async () => {
@@ -100,6 +192,7 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     typingTimer.current = setTimeout(() => {
       donetyping();
       onChange({ minPrice, maxPrice });
+      setRouterPath({ ...filter }, minPrice, maxPrice);
     }, 500);
 
     return () => {
@@ -167,6 +260,11 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     setPriceChanged(true);
   };
 
+  const handleFilterSelect = async (label: string, value: any) => {
+    setFilter((prev) => ({ ...prev, [label]: value }));
+    setRouterPath({ ...filter, [label]: value }, minPrice, maxPrice);
+  };
+
   return (
     adCnt != null && (
       <>
@@ -175,9 +273,7 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
           data={selectData.searchWithin}
           placeholder="Nationwide"
           value={filter.SearchWithin}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, SearchWithin: value }))
-          }
+          onChange={(value) => handleFilterSelect("SearchWithin", value)}
           type="itemSearchRange"
           countList={adCnt.itemRangeInfo}
         />
@@ -198,9 +294,7 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
           data={selectData.itemAge}
           placeholder="Select Age Group"
           value={filter.itemAge}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, itemAge: value }))
-          }
+          onChange={(value) => handleFilterSelect("itemAge", value)}
           type="itemAgeGroup"
           countList={adCnt.itemAgeGroup}
         />
@@ -212,9 +306,7 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.itemBrand}
               placeholder="Select Brand"
               value={filter.itemBrand}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, itemBrand: value }))
-              }
+              onChange={(value) => handleFilterSelect("itemBrand", value)}
               type="itemBrand"
               countList={adCnt.itemBrand}
             />
@@ -222,9 +314,7 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.itemGender}
               placeholder="Select Gender Preference"
               value={filter.itemGender}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, itemGender: value }))
-              }
+              onChange={(value) => handleFilterSelect("itemGender", value)}
               type="itemGender"
               countList={adCnt.itemGender}
             />
@@ -232,9 +322,7 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.itemEducation}
               placeholder="Select Educational Value"
               value={filter.itemEducation}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, itemEducation: value }))
-              }
+              onChange={(value) => handleFilterSelect("itemEducation", value)}
               type="itemEducation"
               countList={adCnt.itemEducation}
             />
@@ -242,9 +330,7 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.sellerType}
               placeholder="Select Seller Type"
               value={filter.sellerType}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, sellerType: value }))
-              }
+              onChange={(value) => handleFilterSelect("sellerType", value)}
               type="itemSellerType"
               countList={adCnt.itemSellerType}
             />
@@ -252,9 +338,7 @@ export const ToysFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.sellerRating}
               placeholder="Select Seller Rating"
               value={filter.sellerRating}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, sellerRating: value }))
-              }
+              onChange={(value) => handleFilterSelect("sellerRating", value)}
               type="itemSellerRating"
               countList={adCnt.itemSellerRating}
             />

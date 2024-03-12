@@ -196,6 +196,7 @@ export const FoodSection: React.FC<FoodProps> = ({ page }) => {
                 itemCategory={
                   foodFilter.filter((f) => f.page === page)[0].label
                 }
+                page={page}
               />
             </div>
           </Styled.FilterSection>

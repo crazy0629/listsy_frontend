@@ -197,6 +197,7 @@ export const BeautySection: React.FC<BeautyProps> = ({ page }) => {
                 itemCategory={
                   beautyFilter.filter((f) => f.page === page)[0].label
                 }
+                page={page}
               />
             </div>
           </Styled.FilterSection>

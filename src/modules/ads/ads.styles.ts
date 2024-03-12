@@ -96,6 +96,7 @@ export const AdsDetailsThumbWrapper = styled.div`
 export const VideoWrapper = styled.div`
   position: relative;
   width: 100%;
+  overflow: hidden;
   padding-top: 60%;
   video {
     position: absolute;
@@ -407,6 +408,30 @@ export const ReviewItemWrapper = styled.div`
     }
     .review-description {
       margin-top: 12px;
+    }
+  }
+`;
+
+export const EmojiWrapper = styled.div<{ visible?: string }>`
+  position: absolute;
+  z-index: 1;
+  right: ${({ visible }) => (visible ? "0" : "-60px")};
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.3s;
+  div {
+    width: 60px;
+    height: 40px;
+    margin-bottom: 20px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    border-radius: 10px 0 0 10px;
+    padding-left: 5px;
+    cursor: pointer;
+    span {
+      font-size: 12px;
+      margin-left: 4px;
     }
   }
 `;
