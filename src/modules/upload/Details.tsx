@@ -481,7 +481,7 @@ export const Details: React.FC<Props> = ({
     ) {
       toast.error("Phone Number Required!");
     } else {
-      const res = await axios.post(`${SERVER_URI}/art/loadArtInfo`, {
+      const res = await axios.post(`${SERVER_URI}/services/loadServiceInfo`, {
         ...data,
         price,
         priceUnit,
@@ -556,7 +556,7 @@ export const Details: React.FC<Props> = ({
     sports: <SportsForm onSave={handleSportsFormSave} />,
     furniture: <FurnitureForm onSave={handleFurnitureFormSave} />,
     art: <ArtForm onSave={handleArtFormSave} />,
-    service: <ServiceForm onSave={handleServiceFormSave} />,
+    services: <ServiceForm onSave={handleServiceFormSave} />,
   };
 
   useEffect(() => {

@@ -29,17 +29,20 @@ import { Sports } from "./Sports";
 import { Furniture } from "./Furniture";
 import { categories } from "../upload/data";
 import { Art } from "./Art";
+import { Service } from "./Service";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
   const { id, category } = router.query;
   const [data, setData] = useState<any>(null);
+  const [emojiCount, setEmojiCount] = useState<any>(null);
   const [reviews, setReviews] = useState<any>(null);
   const [imageModal, setImageModal] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const { authContext } = useContext<any>(AuthContext);
   const [showReview, setShowReview] = useState(false);
   const [type, setType] = useState("");
+  const [emojiVisible, setEmojiVisible] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -61,6 +64,7 @@ export const AdsDetailsSection: React.FC = () => {
     );
     if (res.data.success) {
       setData(res.data.data);
+      setEmojiCount(res.data.count);
     } else {
       toast.error(res.data.error);
       // router.back();
@@ -112,11 +116,23 @@ export const AdsDetailsSection: React.FC = () => {
     }
   };
 
-  const likeClicked = () => {
+  const handleEmojiClicked = async (emoji: string) => {
     if (!authContext?.user?.id) {
       toast.error("Log in to continue!");
       localStorage.setItem("redirect", router.asPath);
       router.push("/auth/login");
+    } else {
+      const res = await axios.post(`${SERVER_URI}/userEmot/clickEmotIcon`, {
+        userId: authContext?.user?.id,
+        postId: id,
+        emotion: emoji,
+      });
+      if (res.data.success) {
+        setEmojiCount(res.data.count);
+      } else {
+        toast.error(res.data.error);
+        // router.back();
+      }
     }
   };
 
@@ -133,11 +149,61 @@ export const AdsDetailsSection: React.FC = () => {
       {data ? (
         <Styled.AdsDetailsContainer>
           <Styled.AdsDetailsVideoInfoWrapper>
-            <Styled.VideoWrapper>
+            <Styled.VideoWrapper
+              onMouseEnter={() => setEmojiVisible(true)}
+              onMouseLeave={() => setEmojiVisible(false)}
+            >
               <video
                 src={`${SERVER_UPLOAD_URI + data.adId?.adFileName}`}
                 controls
               ></video>
+              <Styled.EmojiWrapper visible={emojiVisible ? "true" : undefined}>
+                <div onClick={() => handleEmojiClicked("like")}>
+                  <Image
+                    src={"/assets/images/emoji/like.png"}
+                    alt="emoji"
+                    width={20}
+                    height={20}
+                  />
+                  <span>{emojiCount?.like}</span>
+                </div>
+                <div onClick={() => handleEmojiClicked("dislike")}>
+                  <Image
+                    src={"/assets/images/emoji/dislike.png"}
+                    alt="emoji"
+                    width={20}
+                    height={20}
+                  />
+                  <span>{emojiCount?.dislike}</span>
+                </div>
+                <div onClick={() => handleEmojiClicked("sad")}>
+                  <Image
+                    src={"/assets/images/emoji/sad.png"}
+                    alt="emoji"
+                    width={20}
+                    height={20}
+                  />
+                  <span>{emojiCount?.sad}</span>
+                </div>
+                <div onClick={() => handleEmojiClicked("angry")}>
+                  <Image
+                    src={"/assets/images/emoji/angry.png"}
+                    alt="emoji"
+                    width={20}
+                    height={20}
+                  />
+                  <span>{emojiCount?.angry}</span>
+                </div>
+                <div onClick={() => handleEmojiClicked("kidding")}>
+                  <Image
+                    src={"/assets/images/emoji/kidding.png"}
+                    alt="emoji"
+                    width={20}
+                    height={20}
+                  />
+                  <span>{emojiCount?.kidding}</span>
+                </div>
+              </Styled.EmojiWrapper>
             </Styled.VideoWrapper>
             <Styled.VideoInfoWrapper>
               <h1>
@@ -211,7 +277,7 @@ export const AdsDetailsSection: React.FC = () => {
                     onClick={() => sendMessageClicked()}
                   />
                   <BsBookmark size={24} onClick={bookmarkClicked} />
-                  <BiLike size={24} onClick={likeClicked} />
+                  {/* <BiLike size={24} onClick={likeClicked} /> */}
                 </div>
               </Styled.UserInfoWrapper>
               <p>{data?.description}</p>
@@ -315,6 +381,7 @@ export const AdsDetailsSection: React.FC = () => {
               {type === "sports" && <Sports data={data} />}
               {type === "furniture" && <Furniture data={data} />}
               {type === "art" && <Art data={data} />}
+              {type === "services" && <Service data={data} />}
             </Styled.AdsDetailsInfoWrapper>
           </Styled.AdsDetailsThumbWrapper>
         </Styled.AdsDetailsContainer>

@@ -95,7 +95,7 @@ const mainNav = [
   },
   {
     label: "Services and Experiences",
-    href: "/services",
+    href: "/services-experiences-for-sale/all-services-experiences",
     icon: "service",
   },
   {

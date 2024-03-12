@@ -187,6 +187,7 @@ export const ToysSection: React.FC<ToysProps> = ({ page }) => {
             </Styled.FilterToggleButton>
             <div className="filter-wrapper">
               <ToysFilter
+                page={page}
                 onChange={subFormChanged}
                 itemCategory={toyFilter.filter((f) => f.page === page)[0].label}
               />

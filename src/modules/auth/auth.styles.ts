@@ -188,3 +188,73 @@ export const ResendFormWrapper = styled.div`
     line-height: 20.4px; /* 145.714% */
   }
 `;
+
+export const RegisterFormWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  margin: auto;
+`;
+
+export const RegisterFormDescription = styled.div`
+  max-width: 400px;
+  width: 100%;
+  margin-right: 80px;
+  h2 {
+    margin: 40px 0;
+  }
+  h3 {
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: center;
+    color: #ff6f00;
+    svg {
+      margin-right: 12px;
+    }
+  }
+  p {
+    margin-bottom: 40px;
+  }
+`;
+
+export const RegisterFormGroup = styled.div`
+  padding: 80px 0;
+  max-width: 430px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img {
+    cursor: pointer;
+  }
+  & > p {
+    color: #000;
+    margin-top: 24px;
+    margin-bottom: 54px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20.4px; /* 145.714% */
+  }
+  & > h6 {
+    margin-top: 32px;
+    color: #000;
+
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20.4px; /* 145.714% */
+    a {
+      color: #ff6f00;
+      text-decoration-line: underline;
+    }
+  }
+  & > h4 {
+    text-align: center;
+    margin-top: 32px;
+    color: #000;
+    font-size: 24px;
+    font-weight: 700;
+  }
+`;

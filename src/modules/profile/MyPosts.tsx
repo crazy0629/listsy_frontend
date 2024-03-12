@@ -52,12 +52,6 @@ const pageFilter = [
     type: "grid",
   },
   {
-    label: "Services",
-    key: "service",
-    type: "grid",
-  },
-
-  {
     label: "Fashion and Beauty",
     key: "fashion",
     type: "grid",
@@ -93,6 +87,11 @@ const pageFilter = [
     type: "grid",
   },
   {
+    label: "Services and Experiences",
+    key: "services",
+    type: "grid",
+  },
+  {
     label: "DIY and Craft Items",
     key: "diy",
     type: "grid",
@@ -102,6 +101,7 @@ const pageFilter = [
     key: "food",
     type: "grid",
   },
+
   // {
   //   label: "Jobs",
   //   key: "job",
@@ -303,6 +303,9 @@ export const MyPosts: React.FC<Props> = ({ category = "" }) => {
                   lastName={item.userId?.lastName}
                   viewCount={item.viewCount}
                   duration={item.adId?.duration}
+                  subCategory={item.itemCategory
+                    .replaceAll(" ", "-")
+                    .toLowerCase()}
                 />
               ))}
             </InfiniteScroll>

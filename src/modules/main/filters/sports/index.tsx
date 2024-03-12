@@ -4,16 +4,21 @@ import { FilterOptionWrapper, ShowAdvancedFilter } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/DataList/data-sports";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
+import { useRouter } from "next/router";
 
 type Props = {
   onChange: (data: any) => void;
   itemCategory: string;
+  page: string;
 };
 
-export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
+export const SportsFilter: React.FC<Props> = ({
+  onChange,
+  itemCategory,
+  page,
+}) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
-    priceRange: [] as string[],
     itemCondition: [] as string[],
     equipmentType: [] as string[],
     sellerType: [] as string[],
@@ -24,6 +29,7 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     selectedLocation: null,
   });
 
+  const router = useRouter();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [isAdvancedFilter, setIsAdvancedFilter] = useState(false);
@@ -45,6 +51,92 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
       Number(localStorage.getItem("centerlat")),
       Number(localStorage.getItem("centerlng"))
     );
+  };
+
+  useEffect(() => {
+    if (router.query.SearchWithin) {
+      setFilter((prev) => ({
+        ...prev,
+        SearchWithin: router.query.SearchWithin.toString(),
+      }));
+    }
+    if (router.query.itemCondition) {
+      setFilter((prev) => ({
+        ...prev,
+        itemCondition: router.query.itemCondition.toString().split("%"),
+      }));
+    }
+    if (router.query.equipmentType) {
+      setFilter((prev) => ({
+        ...prev,
+        equipmentType: router.query.equipmentType.toString().split("%"),
+      }));
+    }
+    if (router.query.sellerType) {
+      setFilter((prev) => ({
+        ...prev,
+        sellerType: router.query.sellerType.toString().split("%"),
+      }));
+    }
+    if (router.query.brand) {
+      setFilter((prev) => ({
+        ...prev,
+        brand: router.query.brand.toString().split("%"),
+      }));
+    }
+    if (router.query.gender) {
+      setFilter((prev) => ({
+        ...prev,
+        gender: router.query.gender.toString().split("%"),
+      }));
+    }
+    if (router.query.sellerRating) {
+      setFilter((prev) => ({
+        ...prev,
+        sellerRating: router.query.sellerRating.toString().split("%"),
+      }));
+    }
+    if (router.query.minPrice) {
+      setMinPrice(router.query.minPrice.toString());
+    }
+    if (router.query.maxPrice) {
+      setMaxPrice(router.query.maxPrice.toString());
+    }
+  }, [router.query]);
+
+  const setRouterPath = (data: any, minPrice: string, maxPrice: string) => {
+    const queryPath: any = {};
+    if (data.SearchWithin !== "") {
+      queryPath.SearchWithin = data.SearchWithin;
+    }
+    if (data.equipmentType.length > 0) {
+      queryPath.equipmentType = data.equipmentType.join("%");
+    }
+    if (data.itemCondition.length > 0) {
+      queryPath.itemCondition = data.itemCondition.join("%");
+    }
+    if (data.sellerType.length > 0) {
+      queryPath.sellerType = data.sellerType.join("%");
+    }
+    if (data.brand.length > 0) {
+      queryPath.brand = data.brand.join("%");
+    }
+    if (data.gender.length > 0) {
+      queryPath.gender = data.gender.join("%");
+    }
+    if (data.sellerRating.length > 0) {
+      queryPath.sellerRating = data.sellerRating.join("%");
+    }
+    if (maxPrice !== "") {
+      queryPath.maxPrice = maxPrice;
+    }
+    if (minPrice !== "") {
+      queryPath.minPrice = minPrice;
+    }
+    router.push({
+      pathname: page,
+      query: queryPath,
+    });
   };
 
   const donetyping = async () => {
@@ -104,6 +196,7 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     typingTimer.current = setTimeout(() => {
       donetyping();
       onChange({ minPrice, maxPrice });
+      setRouterPath({ ...filter }, minPrice, maxPrice);
     }, 500);
 
     return () => {
@@ -178,6 +271,11 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     setPriceChanged(true);
   };
 
+  const handleFilterSelect = async (label: string, value: any) => {
+    setFilter((prev) => ({ ...prev, [label]: value }));
+    setRouterPath({ ...filter, [label]: value }, minPrice, maxPrice);
+  };
+
   return (
     adCnt != null && (
       <>
@@ -186,9 +284,7 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
           data={selectData.searchWithin}
           placeholder="Nationwide"
           value={filter.SearchWithin}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, SearchWithin: value }))
-          }
+          onChange={(value) => handleFilterSelect("SearchWithin", value)}
           type="itemSearchRange"
           countList={adCnt.itemRangeInfo}
         />
@@ -209,9 +305,7 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
           data={selectData.type[itemCategory]}
           placeholder="Select Type of Equipment"
           value={filter.equipmentType}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, equipmentType: value }))
-          }
+          onChange={(value) => handleFilterSelect("equipmentType", value)}
           type="itemEquipmentType"
           countList={adCnt.itemEquipmentType}
         />
@@ -219,9 +313,7 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
           data={selectData.condition}
           placeholder="Select Condition"
           value={filter.itemCondition}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, itemCondition: value }))
-          }
+          onChange={(value) => handleFilterSelect("itemCondition", value)}
           type="itemCondition"
           countList={adCnt.itemCondition}
         />
@@ -234,9 +326,7 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.brand}
               placeholder="Select Brand/Manufacturer"
               value={filter.brand}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, brand: value }))
-              }
+              onChange={(value) => handleFilterSelect("brand", value)}
               type="itemBrand"
               countList={adCnt.itemBrand}
             />
@@ -244,9 +334,7 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.gender}
               placeholder="Select Gender/Age Group"
               value={filter.gender}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, gender: value }))
-              }
+              onChange={(value) => handleFilterSelect("gender", value)}
               type="itemGender"
               countList={adCnt.itemGender}
             />
@@ -255,9 +343,7 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.sellerType}
               placeholder="Select Seller Type"
               value={filter.sellerType}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, sellerType: value }))
-              }
+              onChange={(value) => handleFilterSelect("sellerType", value)}
               type="itemSellerType"
               countList={adCnt.itemSellerType}
             />
@@ -265,9 +351,7 @@ export const SportsFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.sellerRating}
               placeholder="Select Seller Rating"
               value={filter.sellerRating}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, sellerRating: value }))
-              }
+              onChange={(value) => handleFilterSelect("sellerRating", value)}
               type="itemSellerRating"
               countList={adCnt.itemSellerRating}
             />

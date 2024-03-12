@@ -19,7 +19,6 @@ export const ArtFilter: React.FC<Props> = ({
 }) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
-    priceRange: [] as string[],
     itemCondition: [] as string[],
     artType: [] as string[],
     authenticity: [] as string[],
@@ -27,9 +26,9 @@ export const ArtFilter: React.FC<Props> = ({
     sellerRating: [] as string[],
     centerLocationSelected: false,
     selectedLocation: null,
-    artist: "",
   });
 
+  const router = useRouter();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [isAdvancedFilter, setIsAdvancedFilter] = useState(false);
@@ -51,6 +50,83 @@ export const ArtFilter: React.FC<Props> = ({
       Number(localStorage.getItem("centerlat")),
       Number(localStorage.getItem("centerlng"))
     );
+  };
+
+  useEffect(() => {
+    if (router.query.SearchWithin) {
+      setFilter((prev) => ({
+        ...prev,
+        SearchWithin: router.query.SearchWithin.toString(),
+      }));
+    }
+    if (router.query.itemCondition) {
+      setFilter((prev) => ({
+        ...prev,
+        itemCondition: router.query.itemCondition.toString().split("%"),
+      }));
+    }
+    if (router.query.artType) {
+      setFilter((prev) => ({
+        ...prev,
+        artType: router.query.artType.toString().split("%"),
+      }));
+    }
+    if (router.query.authenticity) {
+      setFilter((prev) => ({
+        ...prev,
+        authenticity: router.query.authenticity.toString().split("%"),
+      }));
+    }
+    if (router.query.age) {
+      setFilter((prev) => ({
+        ...prev,
+        age: router.query.age.toString().split("%"),
+      }));
+    }
+    if (router.query.sellerRating) {
+      setFilter((prev) => ({
+        ...prev,
+        sellerRating: router.query.sellerRating.toString().split("%"),
+      }));
+    }
+    if (router.query.minPrice) {
+      setMinPrice(router.query.minPrice.toString());
+    }
+    if (router.query.maxPrice) {
+      setMaxPrice(router.query.maxPrice.toString());
+    }
+  }, [router.query]);
+
+  const setRouterPath = (data: any, minPrice: string, maxPrice: string) => {
+    const queryPath: any = {};
+    if (data.SearchWithin !== "") {
+      queryPath.SearchWithin = data.SearchWithin;
+    }
+    if (data.artType.length > 0) {
+      queryPath.artType = data.artType.join("%");
+    }
+    if (data.itemCondition.length > 0) {
+      queryPath.itemCondition = data.itemCondition.join("%");
+    }
+    if (data.authenticity.length > 0) {
+      queryPath.authenticity = data.authenticity.join("%");
+    }
+    if (data.age.length > 0) {
+      queryPath.age = data.age.join("%");
+    }
+    if (data.sellerRating.length > 0) {
+      queryPath.sellerRating = data.sellerRating.join("%");
+    }
+    if (maxPrice !== "") {
+      queryPath.maxPrice = maxPrice;
+    }
+    if (minPrice !== "") {
+      queryPath.minPrice = minPrice;
+    }
+    router.push({
+      pathname: page,
+      query: queryPath,
+    });
   };
 
   const donetyping = async () => {
@@ -106,6 +182,7 @@ export const ArtFilter: React.FC<Props> = ({
       donetyping();
       onChange({ minPrice, maxPrice });
       // Perform any action here after 5 seconds of inactivity
+      setRouterPath({ ...filter }, minPrice, maxPrice);
     }, 500);
 
     return () => {
@@ -173,6 +250,11 @@ export const ArtFilter: React.FC<Props> = ({
     setPriceChanged(true);
   };
 
+  const handleFilterSelect = async (label: string, value: any) => {
+    setFilter((prev) => ({ ...prev, [label]: value }));
+    setRouterPath({ ...filter, [label]: value }, minPrice, maxPrice);
+  };
+
   return (
     adCnt != null && (
       <>
@@ -181,9 +263,7 @@ export const ArtFilter: React.FC<Props> = ({
           data={selectData.searchWithin}
           placeholder="Nationwide"
           value={filter.SearchWithin}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, SearchWithin: value }))
-          }
+          onChange={(value) => handleFilterSelect("SearchWithin", value)}
           type="itemSearchRange"
           countList={adCnt.itemRangeInfo}
         />
@@ -204,9 +284,7 @@ export const ArtFilter: React.FC<Props> = ({
           data={selectData.type[itemCategory]}
           placeholder="Select Type"
           value={filter.artType}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, artType: value }))
-          }
+          onChange={(value) => handleFilterSelect("artType", value)}
           type="itemType"
           countList={adCnt.itemType}
         />
@@ -215,9 +293,7 @@ export const ArtFilter: React.FC<Props> = ({
           data={selectData.condition}
           placeholder="Select Condition"
           value={filter.itemCondition}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, itemCondition: value }))
-          }
+          onChange={(value) => handleFilterSelect("itemCondition", value)}
           type="itemCondition"
           countList={adCnt.itemCondition}
         />
@@ -229,9 +305,7 @@ export const ArtFilter: React.FC<Props> = ({
               data={selectData.authenticity}
               placeholder="Select Authenticity"
               value={filter.authenticity}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, authenticity: value }))
-              }
+              onChange={(value) => handleFilterSelect("authenticity", value)}
               type="itemAuthenticity"
               countList={adCnt.itemAuthenticity}
             />
@@ -239,9 +313,7 @@ export const ArtFilter: React.FC<Props> = ({
               data={selectData.age}
               placeholder="Select Age/Era"
               value={filter.age}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, age: value }))
-              }
+              onChange={(value) => handleFilterSelect("age", value)}
               type="itemAge"
               countList={adCnt.itemAge}
             />
@@ -250,9 +322,7 @@ export const ArtFilter: React.FC<Props> = ({
               data={selectData.sellerRating}
               placeholder="Select Seller Rating"
               value={filter.sellerRating}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, sellerRating: value }))
-              }
+              onChange={(value) => handleFilterSelect("sellerRating", value)}
               type="itemSellerRating"
               countList={adCnt.itemSellerRating}
             />

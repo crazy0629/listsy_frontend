@@ -488,3 +488,54 @@ export const artFilter = [
     page: "/for-sale/collectibles",
   },
 ];
+
+export const serviceFilter = [
+  {
+    label: "All",
+    page: "/services-experiences-for-sale/all-services-experiences",
+  },
+  {
+    label: "Home Services",
+    page: "/for-sale/services-experiences/home-services",
+  },
+  {
+    label: "Childcare",
+    page: "/for-sale/services-experiences/childcare",
+  },
+  {
+    label: "Educational Services",
+    page: "/for-sale/services-experiences/educational-services",
+  },
+  {
+    label: "Health and Wellness",
+    page: "/for-sale/services-experiences/health-wellness",
+  },
+  {
+    label: "Beauty and Personal Care",
+    page: "/for-sale/services-experiences/beauty-personal-care",
+  },
+  {
+    label: "Events and Entertainment",
+    page: "/for-sale/services-experiences/events-entertainment",
+  },
+  {
+    label: "Technical and Digital Services",
+    page: "/for-sale/services-experiences/technical-digital-services",
+  },
+  {
+    label: "Recreational Experiences",
+    page: "/for-sale/services-experiences/recreational-experiences",
+  },
+  {
+    label: "Business Services",
+    page: "/for-sale/services-experiences/business-services",
+  },
+  {
+    label: "Pet Services",
+    page: "/for-sale/services-experiences/pet-services",
+  },
+  {
+    label: "Miscellaneous Services",
+    page: "/for-sale/services-experiences/miscellaneous-services",
+  },
+];

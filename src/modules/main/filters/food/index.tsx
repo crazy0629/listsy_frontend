@@ -4,16 +4,21 @@ import { FilterOptionWrapper, ShowAdvancedFilter } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/DataList/data-food";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
+import { useRouter } from "next/router";
 
 type Props = {
   onChange: (data: any) => void;
   itemCategory: string;
+  page: string;
 };
 
-export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
+export const FoodFilter: React.FC<Props> = ({
+  onChange,
+  itemCategory,
+  page,
+}) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
-    priceRange: [] as string[],
     mealType: [] as string[],
     dietaryPreferences: [] as string[],
     deliveryOptions: [] as string[],
@@ -22,6 +27,7 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     selectedLocation: null,
   });
 
+  const router = useRouter();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [isAdvancedFilter, setIsAdvancedFilter] = useState(false);
@@ -43,6 +49,76 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
       Number(localStorage.getItem("centerlat")),
       Number(localStorage.getItem("centerlng"))
     );
+  };
+
+  useEffect(() => {
+    if (router.query.SearchWithin) {
+      setFilter((prev) => ({
+        ...prev,
+        SearchWithin: router.query.SearchWithin.toString(),
+      }));
+    }
+    if (router.query.mealType) {
+      setFilter((prev) => ({
+        ...prev,
+        mealType: router.query.mealType.toString().split("%"),
+      }));
+    }
+    if (router.query.dietaryPreferences) {
+      setFilter((prev) => ({
+        ...prev,
+        dietaryPreferences: router.query.dietaryPreferences
+          .toString()
+          .split("%"),
+      }));
+    }
+    if (router.query.deliveryOptions) {
+      setFilter((prev) => ({
+        ...prev,
+        deliveryOptions: router.query.deliveryOptions.toString().split("%"),
+      }));
+    }
+    if (router.query.sellerRating) {
+      setFilter((prev) => ({
+        ...prev,
+        sellerRating: router.query.sellerRating.toString().split("%"),
+      }));
+    }
+    if (router.query.minPrice) {
+      setMinPrice(router.query.minPrice.toString());
+    }
+    if (router.query.maxPrice) {
+      setMaxPrice(router.query.maxPrice.toString());
+    }
+  }, [router.query]);
+
+  const setRouterPath = (data: any, minPrice: string, maxPrice: string) => {
+    const queryPath: any = {};
+    if (data.SearchWithin !== "") {
+      queryPath.SearchWithin = data.SearchWithin;
+    }
+    if (data.mealType.length > 0) {
+      queryPath.mealType = data.mealType.join("%");
+    }
+    if (data.dietaryPreferences.length > 0) {
+      queryPath.dietaryPreferences = data.dietaryPreferences.join("%");
+    }
+    if (data.deliveryOptions.length > 0) {
+      queryPath.deliveryOptions = data.deliveryOptions.join("%");
+    }
+    if (data.sellerRating.length > 0) {
+      queryPath.sellerRating = data.sellerRating.join("%");
+    }
+    if (maxPrice !== "") {
+      queryPath.maxPrice = maxPrice;
+    }
+    if (minPrice !== "") {
+      queryPath.minPrice = minPrice;
+    }
+    router.push({
+      pathname: page,
+      query: queryPath,
+    });
   };
 
   const donetyping = async () => {
@@ -95,6 +171,7 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     typingTimer.current = setTimeout(() => {
       donetyping();
       onChange({ minPrice, maxPrice });
+      setRouterPath({ ...filter }, minPrice, maxPrice);
     }, 500);
 
     return () => {
@@ -162,6 +239,11 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
     setPriceChanged(true);
   };
 
+  const handleFilterSelect = async (label: string, value: any) => {
+    setFilter((prev) => ({ ...prev, [label]: value }));
+    setRouterPath({ ...filter, [label]: value }, minPrice, maxPrice);
+  };
+
   return (
     adCnt != null && (
       <>
@@ -170,9 +252,7 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
           data={selectData.searchWithin}
           placeholder="Nationwide"
           value={filter.SearchWithin}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, SearchWithin: value }))
-          }
+          onChange={(value) => handleFilterSelect("SearchWithin", value)}
           type="itemSearchRange"
           countList={adCnt.itemRangeInfo}
         />
@@ -193,9 +273,7 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
           data={selectData.mealType}
           placeholder="Select Meal Type"
           value={filter.mealType}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, mealType: value }))
-          }
+          onChange={(value) => handleFilterSelect("mealType", value)}
           type="itemMealType"
           countList={adCnt.itemMealType}
         />
@@ -208,7 +286,7 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               placeholder="Select Dietary Preferences"
               value={filter.dietaryPreferences}
               onChange={(value) =>
-                setFilter((prev) => ({ ...prev, dietaryPreferences: value }))
+                handleFilterSelect("dietaryPreferences", value)
               }
               type="itemDietaryPreferences"
               countList={adCnt.itemDietaryPreferences}
@@ -217,9 +295,7 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.deliveryOptions}
               placeholder="Select Delivery Options"
               value={filter.deliveryOptions}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, deliveryOptions: value }))
-              }
+              onChange={(value) => handleFilterSelect("deliveryOptions", value)}
               type="itemDeliveryOptions"
               countList={adCnt.itemDeliveryOptions}
             />
@@ -227,9 +303,7 @@ export const FoodFilter: React.FC<Props> = ({ onChange, itemCategory }) => {
               data={selectData.sellerRating}
               placeholder="Select Seller Rating"
               value={filter.sellerRating}
-              onChange={(value) =>
-                setFilter((prev) => ({ ...prev, sellerRating: value }))
-              }
+              onChange={(value) => handleFilterSelect("sellerRating", value)}
               type="itemSellerRating"
               countList={adCnt.itemSellerRating}
             />

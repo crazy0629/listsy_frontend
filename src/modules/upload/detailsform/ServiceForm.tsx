@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import * as Styled from "./details.styles";
 import { SingleSelection } from "@/components";
 import { toast } from "react-toastify";
-import { artFilter } from "@/modules/main/fiterData";
-import { ArtDetail } from "./Art";
+import { serviceFilter } from "@/modules/main/fiterData";
+import { ServiceDetail } from "./Service";
 
 type Props = {
   onSave: (data: any) => void;
@@ -24,7 +24,7 @@ export const ServiceForm: React.FC<Props> = ({ onSave }) => {
     } else if (!form.description) {
       toast.error("Enter the description!");
     } else if (!form.itemCategory) {
-      toast.error("Select type of instrument!");
+      toast.error("Select Service Type!");
     } else {
       if (form.itemDetailInfo == details) onSave(form);
       else setForm((prev) => ({ ...prev, itemDetailInfo: details }));
@@ -76,9 +76,9 @@ export const ServiceForm: React.FC<Props> = ({ onSave }) => {
       </Styled.TextAreaFormItem>
       <SingleSelection
         direction="top"
-        data={artFilter.map((item) => item.label).slice(1)}
-        label="Art or Collectibles*"
-        placeholder="Select Type"
+        data={serviceFilter.map((item) => item.label).slice(1)}
+        label="Service Type*"
+        placeholder="Select Service Type"
         value={form.itemCategory}
         onChange={(value) => {
           setForm((prev) => ({
@@ -90,7 +90,7 @@ export const ServiceForm: React.FC<Props> = ({ onSave }) => {
         }}
       />
       {form.itemCategory != "" && (
-        <ArtDetail onSave={subFormSave} itemCategory={form.itemCategory} />
+        <ServiceDetail onSave={subFormSave} itemCategory={form.itemCategory} />
       )}
     </Styled.FormContainer>
   );
