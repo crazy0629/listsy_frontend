@@ -19,6 +19,19 @@ export const SelectOptionWrapper = styled.div`
   opacity: 0;
   visibility: hidden;
   transition: all 0.1s;
+  .search-wrapper {
+    padding: 0 8px;
+    input {
+      color: #000;
+      font-size: 12px;
+      font-weight: 400;
+      width: 100%;
+      outline: none;
+      border: 1px solid #00000030;
+      height: 34px;
+      border-radius: 5px;
+    }
+  }
   &.open {
     opacity: 1;
     visibility: visible;

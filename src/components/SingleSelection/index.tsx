@@ -24,6 +24,7 @@ export const SingleSelection: React.FC<Props> = ({
   onChange = () => {},
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const ref = useRef<any>(null);
 
   useEffect(() => {
@@ -43,6 +44,8 @@ export const SingleSelection: React.FC<Props> = ({
     };
   }, [ref]);
 
+  const handleSearch = () => {};
+
   return (
     <Styled.SelectFormItem ref={ref}>
       {label && <p>{label}</p>}
@@ -57,23 +60,35 @@ export const SingleSelection: React.FC<Props> = ({
           direction === "top" && "direction-top"
         }`}
       >
-        {data.map((item, key) => (
-          <p
-            key={key}
-            onClick={() => {
-              onChange(item);
-              setIsOpen(false);
-            }}
-          >
-            <span className="checkbox-label">{item}</span>
-            {countList && countList.length > 0 && type == "itemSearchRange" && (
-              <span>({countList[key].distance})</span>
-            )}
-            {countList && countList.length > 0 && type == "itemType" && (
-              <span>({countList[key].count})</span>
-            )}
-          </p>
-        ))}
+        <div className="search-wrapper">
+          <input
+            type="text"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+            placeholder="Search..."
+          />
+        </div>
+        {data
+          .filter((f) => f.toLowerCase().includes(search.toLowerCase()))
+          .map((item, key) => (
+            <p
+              key={key}
+              onClick={() => {
+                onChange(item);
+                setIsOpen(false);
+              }}
+            >
+              <span className="checkbox-label">{item}</span>
+              {countList &&
+                countList.length > 0 &&
+                type == "itemSearchRange" && (
+                  <span>({countList[key].distance})</span>
+                )}
+              {countList && countList.length > 0 && type == "itemType" && (
+                <span>({countList[key].count})</span>
+              )}
+            </p>
+          ))}
       </Styled.SelectOptionWrapper>
     </Styled.SelectFormItem>
   );
