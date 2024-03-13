@@ -30,24 +30,29 @@ p {
   box-sizing: border-box;
 }
 
-*::-webkit-scrollbar {
-  width: 5px;
-  height: 7px;
-}
-
-/* Track */
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Handle */
-*::-webkit-scrollbar-thumb {
-  background: #eee;
-  border-radius: 90px;
-  transition: all 0.3s;
-}
-
-/* Handle on hover */
-*::-webkit-scrollbar-thumb:hover {
-  background: #ddd;
+@media screen and (min-width: 768px) {
+  
+  
+  *::-webkit-scrollbar {
+    width: 5px;
+    height: 7px;
+  }
+  
+  /* Track */
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* Handle */
+  *::-webkit-scrollbar-thumb {
+    background: #eee;
+    border-radius: 90px;
+    transition: all 0.3s;
+  }
+  
+  /* Handle on hover */
+  *::-webkit-scrollbar-thumb:hover {
+    background: #ddd;
+  }
+  
 }
