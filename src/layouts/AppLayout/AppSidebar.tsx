@@ -24,6 +24,7 @@ import { Auth as AuthContext } from "@/context/contexts";
 import { CommunityViewModal } from "@/modules/community";
 import { LocationModal } from "@/modules/location";
 import { calcCompareTime } from "@/utils";
+import { IoIosArrowDown } from "react-icons/io";
 
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -276,8 +277,9 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
               >
                 {location}
               </span>
+              <img src={flagUrl} alt="" />
             </p>
-            <img src={flagUrl} alt="" />
+            <IoIosArrowDown />
           </Styled.SidebarCountrySelect>
           <div>
             {mainNav

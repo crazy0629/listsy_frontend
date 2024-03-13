@@ -422,8 +422,11 @@ export const SidebarCountrySelect = styled.div`
     }
   }
   img {
-    width: 30px;
-    height: 20px;
+    width: 24px;
+    height: 16px;
+  }
+  & > svg {
+    margin-left: 12px;
   }
 `;
 
