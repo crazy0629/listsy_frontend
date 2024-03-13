@@ -29,6 +29,15 @@ export const HeaderLogoWrapper = styled.div`
   img {
     cursor: pointer;
   }
+  @media screen and (max-width: 768px) {
+    img {
+      width: 95px;
+      height: auto;
+    }
+    div {
+      margin-right: 12px;
+    }
+  }
 `;
 
 export const HeaderNavWrapper = styled.div`
@@ -79,6 +88,9 @@ export const HeaderNavWrapper = styled.div`
         height: 8px;
       }
     }
+  }
+  @media screen and (max-width: 768px) {
+    margin-left: 10px;
   }
 `;
 

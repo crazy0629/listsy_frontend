@@ -5,6 +5,9 @@ export const AdsDetailsSectionWrapper = styled.div`
   padding: 40px 0;
   height: 100%;
   overflow: auto;
+  @media screen and (max-width: 768px) {
+    padding-top: 0;
+  }
 `;
 
 export const AdsDetailsContainer = styled.div`
@@ -13,6 +16,9 @@ export const AdsDetailsContainer = styled.div`
   margin: auto;
   @media screen and (max-width: 1024px) {
     flex-direction: column;
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -91,6 +97,11 @@ export const AdsDetailsThumbWrapper = styled.div`
       margin-left: 0;
     }
   }
+  @media screen and (max-width: 768px) {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 export const VideoWrapper = styled.div`
@@ -166,6 +177,11 @@ export const VideoInfoWrapper = styled.div`
       background: #fff;
       line-height: 20.4px; /* 145.714% */
     }
+  }
+  @media screen and (max-width: 768px) {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
   }
 `;
 
@@ -416,7 +432,8 @@ export const ReviewItemWrapper = styled.div`
 export const EmojiWrapper = styled.div<{ visible?: string }>`
   position: absolute;
   z-index: 1;
-  right: ${({ visible }) => (visible ? "0" : "-60px")};
+  /* right: ${({ visible }) => (visible ? "0" : "-60px")}; */
+  right: 0;
   top: 50%;
   transform: translateY(-50%);
   transition: all 0.3s;
