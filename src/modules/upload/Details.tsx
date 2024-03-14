@@ -652,7 +652,7 @@ export const Details: React.FC<Props> = ({
             </CopyToClipboard>
           </Styled.VideoInfoWrapper>
           <Styled.PriceInputWrapper>
-            <p>Price</p>
+            <p>Price*</p>
             <div>
               <span>{priceUnit}</span>
               <input
@@ -664,7 +664,7 @@ export const Details: React.FC<Props> = ({
           </Styled.PriceInputWrapper>
           <Styled.LocationWrapper>
             <div>
-              <p>Location</p>
+              <p>Location*</p>
               <GooglePlacesAutocomplete
                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
                 selectProps={{
