@@ -316,7 +316,9 @@ export const ImageModalWrapper = styled.div`
   visibility: hidden;
   right: 0;
   transition: all 0.3s;
+  pointer-events: none;
   &.open {
+    pointer-events: initial;
     opacity: 1;
     visibility: visible;
   }

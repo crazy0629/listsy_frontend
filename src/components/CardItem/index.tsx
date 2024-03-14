@@ -80,7 +80,7 @@ export const CardItem: React.FC<Props> = ({
         onOk={() => setBoostFlag(false)}
         title="Coming Soon"
         description={
-          <div style={{ maxWidth: "200px", margin: "auto", fontSize: "16px" }}>
+          <div style={{ maxWidth: "230px", margin: "auto", fontSize: "16px" }}>
             <p>{"[✓] Top Visibility"}</p>
             <p>{"[✓] Priority Ranking"}</p>
             <p>{"[✓] Homepage Feature"}</p>
