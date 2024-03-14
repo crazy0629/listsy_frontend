@@ -79,7 +79,15 @@ export const CardItem: React.FC<Props> = ({
         onCancel={() => setBoostFlag(false)}
         onOk={() => setBoostFlag(false)}
         title="Coming Soon"
-        description=""
+        description={
+          <div style={{ maxWidth: "200px", margin: "auto", fontSize: "16px" }}>
+            <p>{"[✓] Top Visibility"}</p>
+            <p>{"[✓] Priority Ranking"}</p>
+            <p>{"[✓] Homepage Feature"}</p>
+            <p>{"[✓] Category Highlight"}</p>
+            <p>{"[✓] Performance Analytics"}</p>
+          </div>
+        }
         type="success"
         isConfirm={false}
       />

@@ -14,7 +14,7 @@ export type IConfirmModalProps = {
   onCancel: () => void;
   type: "success" | "warning" | "error";
   title?: string;
-  description?: string;
+  description?: string | React.ReactNode;
   content?: React.ReactNode;
   isConfirm?: boolean;
 };

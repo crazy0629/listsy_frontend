@@ -167,15 +167,6 @@ export const AdsDetailsSection: React.FC = () => {
                   />
                   <span>{emojiCount?.heartsEyes}</span>
                 </div>
-                <div onClick={() => handleEmojiClicked("monocle")}>
-                  <Image
-                    src={"/assets/images/emoji/monocle.png"}
-                    alt="emoji"
-                    width={20}
-                    height={20}
-                  />
-                  <span>{emojiCount?.monocle}</span>
-                </div>
                 <div onClick={() => handleEmojiClicked("flame")}>
                   <Image
                     src={"/assets/images/emoji/flame.png"}
@@ -202,6 +193,15 @@ export const AdsDetailsSection: React.FC = () => {
                     height={20}
                   />
                   <span>{emojiCount?.thumbsUp}</span>
+                </div>
+                <div onClick={() => handleEmojiClicked("monocle")}>
+                  <Image
+                    src={"/assets/images/emoji/monocle.png"}
+                    alt="emoji"
+                    width={20}
+                    height={20}
+                  />
+                  <span>{emojiCount?.monocle}</span>
                 </div>
               </Styled.EmojiWrapper>
             </Styled.VideoWrapper>
