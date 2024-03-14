@@ -7,9 +7,15 @@ import { SERVER_URI } from "@/config";
 
 type Props = {
   onChange: (data: any) => void;
+  itemCategory: string;
+  page: string;
 };
 
-export const PetFilter: React.FC<Props> = ({ onChange }) => {
+export const PetFilter: React.FC<Props> = ({
+  onChange,
+  itemCategory,
+  page,
+}) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
     petType: "",

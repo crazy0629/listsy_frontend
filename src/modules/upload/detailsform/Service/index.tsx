@@ -43,6 +43,19 @@ export const ServiceDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
   };
   return (
     <Styled.FormContainer>
+      <SingleSelection
+        direction="top"
+        data={selectData.type[itemCategory]}
+        label="Service Subcategory*"
+        placeholder="Select Service Subcategory"
+        value={form.itemSubCategory}
+        onChange={(value) => {
+          setForm((prev) => ({
+            ...prev,
+            itemSubCategory: value,
+          }));
+        }}
+      />
       <Styled.DateAvailabilityWrapper>
         <p>Date/Availability</p>
         <div>
@@ -368,19 +381,7 @@ export const ServiceDetail: React.FC<Props> = ({ onSave, itemCategory }) => {
           />
         </div>
       </Styled.DateAvailabilityWrapper>
-      <SingleSelection
-        direction="top"
-        data={selectData.type[itemCategory]}
-        label="Service SubCategory*"
-        placeholder="Select Service SubCategory"
-        value={form.itemSubCategory}
-        onChange={(value) => {
-          setForm((prev) => ({
-            ...prev,
-            itemSubCategory: value,
-          }));
-        }}
-      />
+
       <SingleSelection
         direction="top"
         data={selectData.providerType}

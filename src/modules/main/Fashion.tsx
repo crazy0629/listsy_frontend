@@ -1,29 +1,53 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import * as Styled from "./main.styles";
-import { CardItem, MultiSelection } from "@/components";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { CardItem } from "@/components";
+import { MdClose } from "react-icons/md";
+import { FashionFilter } from "./filters/fashion";
+import { fashionFilter } from "./fiterData";
+import { Tabs, Tab } from "react-tabs-scrollable";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
-import { toast } from "react-toastify";
-import InfiniteScroll from "react-infinite-scroll-component";
 
-export const FashionPageSection: React.FC = () => {
-  const [getIndex, setGetIndex] = useState(0);
+type FashionProps = {
+  page?: string;
+};
+
+export const FashionSection: React.FC<FashionProps> = ({ page }) => {
+  const router = useRouter();
+  const [filter, setFilter] = useState(null);
+  const [adCnt, setAdCnt] = useState([]);
+  const [isShowFilter, setIsShowFilter] = useState(false);
   const [data, setData] = useState<any>([]);
+  const [getIndex, setGetIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [filter, setFilter] = useState({
-    itemCategory: [] as string[],
-    itemCondition: [] as string[],
-  });
-
-  useEffect(() => {
-    getData(0);
-  }, []);
+  const [address, setAddress] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const getData = async (index: number) => {
+    setLoading(true);
+    const categoryList = fashionFilter.map((item) => item.label);
+
+    const adsCountData = await axios.post(
+      `${SERVER_URI}/fashion/getCountForEachCategory`,
+      { itemCategory: categoryList, address, countryCode }
+    );
+
+    setAdCnt(adsCountData.data.countList);
+
+    const tempFilter = fashionFilter.filter((f) => f.page === page)[0].label;
     const res = await axios.post(`${SERVER_URI}/fashion/getFashionAds`, {
       ...filter,
+      itemCategory: tempFilter,
       index,
+      address,
+      countryCode,
     });
+
     if (res.data.success) {
       if (index > 0) {
         setData((prev: any) => [...prev, ...res.data.data]);
@@ -37,98 +61,143 @@ export const FashionPageSection: React.FC = () => {
     } else {
       toast.error(res.data.message);
     }
+    setLoading(false);
   };
+
+  const subFormChanged = (data) => {
+    setFilter((prev) => ({ ...prev, ...data }));
+  };
+
+  const onTabClick = (_, value) => {
+    const selectedTab = fashionFilter[value];
+    setFilter({ itemCategory: selectedTab.label });
+    router.push(selectedTab.page);
+  };
+
+  const getLocationInfo = () => {
+    let locationAddress = localStorage.getItem("locationAddress");
+    let countryCode = localStorage.getItem("locationCountryCode");
+    setAddress(locationAddress);
+    setCountryCode(countryCode);
+  };
+
+  useEffect(() => {
+    window.addEventListener("localStorageChanged", function (e: Event) {
+      getLocationInfo();
+    });
+    getLocationInfo();
+  });
+
+  useEffect(() => {
+    if (address == "") return;
+    getData(0);
+  }, [filter]);
+
+  useEffect(() => {
+    if (address == "") return;
+    setGetIndex(0);
+
+    getData(0);
+  }, [address, countryCode]);
 
   return (
     <Styled.MainPageSectionWrapper>
-      <Styled.FilterWrapper>
-        <MultiSelection
-          data={[
-            "Appliances",
-            "Art & Crafts",
-            "Audio & Stereo Equipment",
-            "Automotive Items & Parts",
-            "Baby & Kids Stuff",
-            "Bicycles",
-            "Books ,Comics & Magazines",
-            "Cameras & Photography Equipment",
-            "Christmas Decorations",
-            "Clothes, Shoes & Accessories",
-            "Collectibles &  Sports Memorabilia",
-            "Computers,Tablets, Software  & Hardware",
-            "DIY Tools & Materials",
-            "Freebies",
-            "Health & Beauty",
-            "Heavy Equipment",
-            "Home & Garden",
-            "Household & Furniture",
-            "Jewellery & Watches",
-            "Films & TV",
-            "Music & CDs",
-            "Musical Instruments & DJ Equipment",
-            "Office Furniture & Equipment",
-            "Mobile Phones, Smart Watches & Accessories",
-            "Sports, Leisure & Travel",
-            "Stuff Wanted",
-            "Tickets",
-            " Video Games & Consoles",
-            "Food & Drink",
-            "Tyres",
-            "Toys & Hobbies",
-            "Digital Goods",
-          ]}
-          placeholder="Select Item Category"
-          value={filter.itemCategory}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, itemCategory: value }))
-          }
-        />
-        <MultiSelection
-          data={["New", "Refurbished", "Used", "For parts or not working"]}
-          placeholder="Select Item Condition"
-          value={filter.itemCondition}
-          onChange={(value) =>
-            setFilter((prev) => ({ ...prev, itemCondition: value }))
-          }
-        />
-
-        <button onClick={() => getData(0)}>Search</button>
-      </Styled.FilterWrapper>
-      <Styled.MainGridWrapper>
-        <InfiniteScroll
-          dataLength={data.length}
-          next={() => getData(getIndex)}
-          hasMore={hasMore}
-          endMessage={<h4></h4>}
-          scrollableTarget="community-list"
-          loader={<h4>Loading...</h4>}
+      <Styled.FilterTabWrapper>
+        <Tabs
+          activeTab={fashionFilter.indexOf(
+            fashionFilter.filter((f) => f.page === page)[0]
+          )}
+          onTabClick={onTabClick}
+          hideNavBtnsOnMobile={false}
+          className="categoryTab"
+          leftBtnIcon={<IoIosArrowBack />}
+          rightBtnIcon={<IoIosArrowForward />}
         >
-          {data.length > 0 &&
-            data.map((item: any, key: number) => (
-              <CardItem
-                id={item.adId._id}
-                key={key}
-                type={"fashion"}
-                link={item.adId?.adFileName}
-                postDate={item.adId?.uploadDate}
-                price={item.price}
-                priceUnit={item.priceUnit}
-                reviewCount={item.userId?.reviewCount}
-                reviewMark={item.userId?.reviewMark}
-                subtitle={item.subTitle}
-                title={item.title}
-                address={item.address}
-                userAvatar={item.userId?.avatar}
-                firstName={item.userId?.firstName}
-                lastName={item.userId?.lastName}
-                viewCount={item.viewCount}
-                duration={item.adId?.duration}
-                // subCategory={filter.itemCategory
-                //   .replaceAll(" ", "-")
-                //   .toLowerCase()}
+          {fashionFilter.map((item, key) => (
+            <Tab key={key}>
+              {item.label}
+              {adCnt
+                ? adCnt.length > 0
+                  ? "  (" +
+                    adCnt.filter(
+                      (element) => element.itemCategory === item.label
+                    )[0]?.count +
+                    ")"
+                  : " (0)"
+                : " (0)"}
+            </Tab>
+          ))}
+        </Tabs>
+      </Styled.FilterTabWrapper>
+      <Styled.MainGridWrapper
+        className={
+          isShowFilter && page !== "/for-sale/all-fashion" ? "filtered" : ""
+        }
+      >
+        {loading ? (
+          <div className="no-data">Loading ...</div>
+        ) : data.length > 0 ? (
+          <InfiniteScroll
+            dataLength={data.length}
+            next={() => getData(getIndex)}
+            hasMore={hasMore}
+            endMessage={<h4></h4>}
+            scrollableTarget="community-list"
+            className={
+              isShowFilter && page !== "/for-sale/all-fashion" ? "filtered" : ""
+            }
+            loader={<h4>Loading...</h4>}
+          >
+            {data.length > 0 &&
+              data.map((item: any, key: number) => (
+                <CardItem
+                  id={item.adId?._id}
+                  key={key}
+                  type={"fashion"}
+                  link={item.adId?.adFileName}
+                  postDate={item.adId?.uploadDate}
+                  price={item.price}
+                  priceUnit={item.priceUnit}
+                  reviewCount={item.userId?.reviewCount}
+                  reviewMark={item.userId?.reviewMark}
+                  subtitle={item.subTitle}
+                  title={item.title}
+                  address={item.address}
+                  userAvatar={item.userId?.avatar}
+                  firstName={item.userId?.firstName}
+                  lastName={item.userId?.lastName}
+                  viewCount={item.viewCount}
+                  duration={item.adId?.duration}
+                  subCategory={item.itemCategory
+                    .replaceAll(" ", "-")
+                    .toLowerCase()}
+                />
+              ))}
+          </InfiniteScroll>
+        ) : (
+          <div className="no-data">
+            Got something to sell? Post it for free and be the first!
+          </div>
+        )}
+        {page !== "/for-sale/all-fashion" && (
+          <Styled.FilterSection className={isShowFilter ? "active" : ""}>
+            <Styled.FilterToggleButton
+              onClick={() => setIsShowFilter((prev) => !prev)}
+              className={isShowFilter ? "active" : ""}
+            >
+              {!isShowFilter ? "Filters" : <MdClose color={"#00000080"} />}
+            </Styled.FilterToggleButton>
+            <div className="filter-wrapper">
+              <FashionFilter
+                onChange={subFormChanged}
+                itemCategory={
+                  fashionFilter.filter((f) => f.page === page)[0].label
+                }
+                page={page}
               />
-            ))}
-        </InfiniteScroll>
+            </div>
+          </Styled.FilterSection>
+        )}
       </Styled.MainGridWrapper>
     </Styled.MainPageSectionWrapper>
   );
