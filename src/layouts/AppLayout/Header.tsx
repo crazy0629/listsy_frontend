@@ -108,7 +108,7 @@ export const Header: React.FC<{
       />
       <Styled.HeaderLogoWrapper>
         <div>
-          <IoMdMenu size={30} onClick={onSidebar} />
+          <IoMdMenu size={20} onClick={onSidebar} />
         </div>
         <Image
           src="/assets/images/logo.png"

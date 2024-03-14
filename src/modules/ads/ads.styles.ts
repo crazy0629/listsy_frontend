@@ -320,6 +320,9 @@ export const ImageModalWrapper = styled.div`
     opacity: 1;
     visibility: visible;
   }
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const ImageModalContainer = styled.div`

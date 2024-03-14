@@ -474,6 +474,85 @@ export const furnitureFilter = [
   },
 ];
 
+export const fashionFilter = [
+  {
+    label: "All",
+    page: "/for-sale/all-fashion",
+  },
+  {
+    label: "Tops",
+    page: "/for-sale/tops",
+  },
+  {
+    label: "Bottoms",
+    page: "/for-sale/bottoms",
+  },
+  {
+    label: "Dresses",
+    page: "/for-sale/dresses",
+  },
+  {
+    label: "Children's Wear",
+    page: "/for-sale/childrens-wear",
+  },
+  {
+    label: "Outerwear",
+    page: "/for-sale/outerwear",
+  },
+  {
+    label: "Active Wear",
+    page: "/for-sale/active-wear",
+  },
+  {
+    label: "Footwear",
+    page: "/for-sale/footwear",
+  },
+  {
+    label: "Plus Size Clothing",
+    page: "/for-sale/plus-size-clothing",
+  },
+  {
+    label: "Accessories",
+    page: "/for-sale/accessories",
+  },
+  {
+    label: "Bags and Purses",
+    page: "/for-sale/bags",
+  },
+  {
+    label: "Lingerie and Sleepwear",
+    page: "/for-sale/lingerie",
+  },
+  {
+    label: "Swimwear",
+    page: "/for-sale/swimwear",
+  },
+  {
+    label: "Formal Wear",
+    page: "/for-sale/formal-wear",
+  },
+  {
+    label: "Maternity Wear",
+    page: "/for-sale/maternity-wear",
+  },
+  {
+    label: "Ethnic Wear",
+    page: "/for-sale/ethnic-wear",
+  },
+  {
+    label: "Uniforms and Workwear",
+    page: "/for-sale/uniforms",
+  },
+  {
+    label: "Vintage Clothing",
+    page: "/for-sale/vintage-clothing",
+  },
+  {
+    label: "Sustainable and Eco-Friendly Fashion",
+    page: "/for-sale/eco-fashion",
+  },
+];
+
 export const artFilter = [
   {
     label: "All",
@@ -537,5 +616,24 @@ export const serviceFilter = [
   {
     label: "Miscellaneous Services",
     page: "/for-sale/services-experiences/miscellaneous-services",
+  },
+];
+
+export const petFilter = [
+  {
+    label: "All",
+    page: "/pets/all-pets",
+  },
+  {
+    label: "Pets for sale",
+    page: "/pets/for-sale",
+  },
+  {
+    label: "Pets for adoption",
+    page: "/pets/for-adoption",
+  },
+  {
+    label: "Pet Supplies",
+    page: "/pets/supplies",
   },
 ];

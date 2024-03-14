@@ -19,6 +19,7 @@ export const ConfirmModal: React.FC<IConfirmModalProps> = ({
   description,
   title,
   content,
+  isConfirm = true,
 }) => {
   return (
     <Styled.ConfirmModalWrapper className={open ? "open" : ""}>
@@ -28,9 +29,11 @@ export const ConfirmModal: React.FC<IConfirmModalProps> = ({
         <p>{description}</p>
         {content && content}
         <Styled.ActionGroup>
-          <button onClick={onCancel} className="cancel">
-            {cancelText ? cancelText : "Cancel"}
-          </button>
+          {isConfirm && (
+            <button onClick={onCancel} className="cancel">
+              {cancelText ? cancelText : "Cancel"}
+            </button>
+          )}
           <button onClick={onOk}>{okText ? okText : "Ok"}</button>
         </Styled.ActionGroup>
       </Styled.ConfirmModalContainer>

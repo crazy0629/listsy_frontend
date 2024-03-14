@@ -26,6 +26,7 @@ import { Toy } from "./Toy";
 import { Music } from "./Music";
 import { Sports } from "./Sports";
 import { Furniture } from "./Furniture";
+import { Fashion } from "./Fashion";
 import { categories } from "../upload/data";
 import { Art } from "./Art";
 import { Service } from "./Service";
@@ -380,6 +381,7 @@ export const AdsDetailsSection: React.FC = () => {
               {type === "furniture" && <Furniture data={data} />}
               {type === "art" && <Art data={data} />}
               {type === "services" && <Service data={data} />}
+              {type === "fashion" && <Fashion data={data} />}
             </Styled.AdsDetailsInfoWrapper>
           </Styled.AdsDetailsThumbWrapper>
         </Styled.AdsDetailsContainer>

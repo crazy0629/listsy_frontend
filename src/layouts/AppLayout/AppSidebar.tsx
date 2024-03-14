@@ -66,7 +66,7 @@ const mainNav = [
   },
   {
     label: "Fashion and Apparel",
-    href: "/fashion",
+    href: "/for-sale/all-fashion",
     icon: "fashion",
   },
   {
@@ -267,16 +267,14 @@ export const AppSidebar: React.FC<{ open: boolean; onClose: () => void }> = ({
           <LocationModal open={locationModal} onChoose={chooseLocationHandle} />
         )}
         <Styled.AppSidebarContainer>
-          <Styled.SidebarCountrySelect>
+          <Styled.SidebarCountrySelect
+            onClick={() => {
+              setLocationModal(true);
+            }}
+          >
             <p>
               <MdLocationOn size={15} />
-              <span
-                onClick={() => {
-                  setLocationModal(true);
-                }}
-              >
-                {location}
-              </span>
+              <span>{location}</span>
               <img src={flagUrl} alt="" />
             </p>
             <IoIosArrowDown />

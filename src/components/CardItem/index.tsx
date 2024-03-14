@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Rating } from "react-simple-star-rating";
 import { MdLocationOn } from "react-icons/md";
 import { BsClock } from "react-icons/bs";
-import { VideoPlayIcon } from "..";
+import { ConfirmModal, VideoPlayIcon } from "..";
 import { calcCompareTime, getTimestamp } from "@/utils";
 import { useRouter } from "next/router";
 import { NavItem } from "@/modules/profile/profile.styles";
@@ -57,6 +57,7 @@ export const CardItem: React.FC<Props> = ({
   const router = useRouter();
   const videoRef = useRef<any>(null);
   const [category, setCategory] = useState("");
+  const [boostFlag, setBoostFlag] = useState(false);
 
   useEffect(() => {
     setCategory(
@@ -67,8 +68,21 @@ export const CardItem: React.FC<Props> = ({
     );
   }, [type]);
 
+  const handleBoost = () => {
+    setBoostFlag(true);
+  };
+
   return (
     <Styled.CardItemWrapper>
+      <ConfirmModal
+        open={boostFlag}
+        onCancel={() => setBoostFlag(false)}
+        onOk={() => setBoostFlag(false)}
+        title="Coming Soon"
+        description=""
+        type="success"
+        isConfirm={false}
+      />
       <Styled.VideoWrapper
         onMouseEnter={() => videoRef.current.play()}
         onMouseLeave={() => {
@@ -137,7 +151,7 @@ export const CardItem: React.FC<Props> = ({
       </Styled.VideoInfoWrapper>
       {isBoost && (
         <div className="button">
-          <button>Boost</button>
+          <button onClick={handleBoost}>Boost</button>
         </div>
       )}
     </Styled.CardItemWrapper>

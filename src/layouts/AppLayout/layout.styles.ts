@@ -9,7 +9,7 @@ export const HeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   @media screen and (max-width: 480px) {
-    padding: 20px;
+    padding: 12px;
   }
 `;
 
@@ -31,7 +31,7 @@ export const HeaderLogoWrapper = styled.div`
   }
   @media screen and (max-width: 768px) {
     img {
-      width: 95px;
+      width: 75px;
       height: auto;
     }
     div {
@@ -90,7 +90,10 @@ export const HeaderNavWrapper = styled.div`
     }
   }
   @media screen and (max-width: 768px) {
-    margin-left: 10px;
+    margin-left: 0;
+    & > :not(:first-child) {
+      margin-left: 8px;
+    }
   }
 `;
 
@@ -408,11 +411,11 @@ export const SidebarCountrySelect = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 
   margin-bottom: 20px;
   p {
     display: flex;
-    cursor: pointer;
     margin-left: 24px;
     span {
       margin: 0 4px;

@@ -16,4 +16,5 @@ export type IConfirmModalProps = {
   title?: string;
   description?: string;
   content?: React.ReactNode;
+  isConfirm?: boolean;
 };
