@@ -7,9 +7,15 @@ import { toast } from "react-toastify";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import Image from "next/image";
-import { MdOutlineShare, MdPhone } from "react-icons/md";
+import { MdFacebook, MdOutlineShare, MdPhone } from "react-icons/md";
 import { Rating } from "react-simple-star-rating";
-import { BsBookmark, BsClock, BsFlag } from "react-icons/bs";
+import {
+  BsBookmark,
+  BsClock,
+  BsFlag,
+  BsTwitter,
+  BsTwitterX,
+} from "react-icons/bs";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { Truck } from "./Truck";
 import { Food } from "./Food";
@@ -30,6 +36,7 @@ import { Fashion } from "./Fashion";
 import { categories } from "../upload/data";
 import { Art } from "./Art";
 import { Service } from "./Service";
+import { ReportModal } from "./ReportModal";
 
 export const AdsDetailsSection: React.FC = () => {
   const router = useRouter();
@@ -43,6 +50,7 @@ export const AdsDetailsSection: React.FC = () => {
   const [showReview, setShowReview] = useState(false);
   const [type, setType] = useState("");
   const [emojiVisible, setEmojiVisible] = useState(false);
+  const [reportModal, setReportModal] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -136,8 +144,17 @@ export const AdsDetailsSection: React.FC = () => {
     }
   };
 
+  const handleReportClick = () => {
+    setReportModal(true);
+  };
+
   return (
     <Styled.AdsDetailsSectionWrapper>
+      <ReportModal
+        open={reportModal}
+        onClose={() => setReportModal(false)}
+        adId={id}
+      />
       {data?.adId?.imagesFileName && (
         <ImageModal
           data={data?.adId?.imagesFileName}
@@ -276,16 +293,32 @@ export const AdsDetailsSection: React.FC = () => {
                     size={24}
                     onClick={() => sendMessageClicked()}
                   />
-                  <BsBookmark size={24} onClick={bookmarkClicked} />
+                  {/* <BsBookmark size={24} onClick={bookmarkClicked} /> */}
                 </div>
               </Styled.UserInfoWrapper>
               <p>{data?.description}</p>
               <div className="action">
-                <button>
-                  <MdOutlineShare size={20} />
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                    SERVER_UPLOAD_URI + data.adId?.adFileName
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MdFacebook size={20} />
                   <span>Share</span>
-                </button>
-                <button>
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                    SERVER_UPLOAD_URI + data.adId?.adFileName
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <BsTwitterX size={20} />
+                  <span>Share</span>
+                </a>
+                <button onClick={handleReportClick}>
                   <BsFlag />
                   <span>Report</span>
                 </button>
