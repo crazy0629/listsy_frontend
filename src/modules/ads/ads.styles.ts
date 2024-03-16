@@ -158,7 +158,9 @@ export const VideoInfoWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
 
-    button {
+    button,
+    a {
+      text-decoration: none;
       margin-left: 16px;
       span {
         margin-left: 12px;
