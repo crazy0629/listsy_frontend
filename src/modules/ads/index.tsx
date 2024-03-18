@@ -181,6 +181,15 @@ export const AdsDetailsSection: React.FC = () => {
                 controls
               ></video>
               <Styled.EmojiWrapper visible={emojiVisible ? "true" : undefined}>
+                <div onClick={() => handleEmojiClicked("monocle")}>
+                  <Image
+                    src={"/assets/images/emoji/monocle.png"}
+                    alt="emoji"
+                    width={20}
+                    height={20}
+                  />
+                  <span>{emojiCount?.monocle}</span>
+                </div>
                 <div onClick={() => handleEmojiClicked("heartsEyes")}>
                   <Image
                     src={"/assets/images/emoji/heartsEyes.png"}
@@ -216,15 +225,6 @@ export const AdsDetailsSection: React.FC = () => {
                     height={20}
                   />
                   <span>{emojiCount?.thumbsUp}</span>
-                </div>
-                <div onClick={() => handleEmojiClicked("monocle")}>
-                  <Image
-                    src={"/assets/images/emoji/monocle.png"}
-                    alt="emoji"
-                    width={20}
-                    height={20}
-                  />
-                  <span>{emojiCount?.monocle}</span>
                 </div>
               </Styled.EmojiWrapper>
             </Styled.VideoWrapper>

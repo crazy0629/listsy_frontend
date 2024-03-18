@@ -51,7 +51,8 @@ export const SingleSelection: React.FC<Props> = ({
       {label && <p>{label}</p>}
       <Styled.Select onClick={() => setIsOpen((prev) => !prev)}>
         <span className={value ? "" : "placeholder"}>
-          {value || placeholder}
+          {(value === "Not Listed" ? "Cannot Find  My Option" : value) ||
+            placeholder}
         </span>
         <MdOutlineKeyboardArrowDown size={20} color="#AFAFAF" />
       </Styled.Select>
@@ -82,7 +83,7 @@ export const SingleSelection: React.FC<Props> = ({
                 className="checkbox-label"
                 style={{ color: item === "Not Listed" ? "red" : "#000" }}
               >
-                {item}
+                {item === "Not Listed" ? "Cannot Find  My Option" : item}
               </span>
               {countList &&
                 countList.length > 0 &&
