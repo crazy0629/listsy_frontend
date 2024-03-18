@@ -73,6 +73,7 @@ export const selectData = {
   sellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
   type: {
     Art: [
+      "Not Listed",
       "Paintings",
       "Sculptures",
       "Prints",
@@ -81,9 +82,9 @@ export const selectData = {
       "Mixed Media",
       "Folk Art & Indigenous Art",
       "Textile Art",
-      "Other Art",
     ],
     Collectibles: [
+      "Not Listed",
       "Coins & Currency",
       "Stamps",
       "Comic Books & Graphic Novels",
@@ -120,7 +121,6 @@ export const selectData = {
       "Political Memorabilia",
       "Tobacciana",
       "Breweriana & Beer Collectibles",
-      "Other Collectibles",
     ],
   },
 };

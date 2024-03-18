@@ -145,7 +145,13 @@ export const AdsDetailsSection: React.FC = () => {
   };
 
   const handleReportClick = () => {
-    setReportModal(true);
+    if (!authContext?.user?.id) {
+      toast.error("Log in to continue!");
+      localStorage.setItem("redirect", router.asPath);
+      router.push("/auth/login");
+    } else {
+      setReportModal(true);
+    }
   };
 
   return (

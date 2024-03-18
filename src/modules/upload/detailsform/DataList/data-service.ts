@@ -80,11 +80,11 @@ export const selectData = {
       "Pet Training",
     ],
     "Miscellaneous Services": [
+      "Not Listed",
       "Vehicle Services",
       "Tailoring and Alterations",
       "Translation and Interpretation",
       "Craft and DIY Services",
-      "Other Services",
     ],
   },
   providerType: [
@@ -110,7 +110,6 @@ export const selectData = {
     "CPR/First Aid Certified",
     "Specialized Training",
     "Background Checked",
-    "Other Certifications",
   ],
   cancellationPolicy: [
     "Not Specified",

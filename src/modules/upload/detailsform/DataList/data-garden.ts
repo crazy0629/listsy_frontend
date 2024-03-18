@@ -64,7 +64,6 @@ export const selectData = {
     "Roundup",
     "Traeger",
     "Big Green Egg",
-    "Other Manufacturer",
   ],
   sellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
 };

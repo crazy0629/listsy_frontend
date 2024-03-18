@@ -5,7 +5,7 @@ export const ReportModalWrapper = styled.div`
   align-items: center;
   justify-content: center;
   position: fixed;
-  z-index: 99999;
+  z-index: 99;
   left: 0;
   top: 0;
   bottom: 0;

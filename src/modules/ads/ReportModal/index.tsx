@@ -15,6 +15,10 @@ type ReportModalProps = {
 
 const reportModal = [
   {
+    title: "Other Reason",
+    description: "",
+  },
+  {
     title: "Inappropriate Content",
     description: "Content that is offensive or not suitable for our community.",
   },
@@ -69,17 +73,24 @@ export const ReportModal: React.FC<ReportModalProps> = ({
 
   const handleReport = async () => {
     if (authContext.user) {
-      const res = await axios.post(`${SERVER_URI}/report/reportAd`, {
-        adId,
-        ...form,
-        userId: authContext.user?.id,
-      });
-      if (res.data.success) {
-        onClose();
-        setConfirm(true);
+      if (form.mainReason === "") {
+        toast.error("Please select a reason!");
+        return;
       } else {
-        toast.error(res.data.message);
+        const res = await axios.post(`${SERVER_URI}/report/reportAd`, {
+          adId,
+          ...form,
+          userId: authContext.user?.id,
+        });
+        if (res.data.success) {
+          onClose();
+          setConfirm(true);
+        } else {
+          toast.error(res.data.message);
+        }
       }
+    } else {
+      toast.error("Please login first!");
     }
   };
 

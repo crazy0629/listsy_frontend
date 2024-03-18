@@ -65,7 +65,6 @@ export const selectData = {
     "VTech",
     "WowWee",
     "Zuru",
-    "Other Brand",
   ],
   itemGender: [
     "Not Specified",
