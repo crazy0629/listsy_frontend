@@ -78,7 +78,12 @@ export const SingleSelection: React.FC<Props> = ({
                 setIsOpen(false);
               }}
             >
-              <span className="checkbox-label">{item}</span>
+              <span
+                className="checkbox-label"
+                style={{ color: item === "Not Listed" ? "red" : "#000" }}
+              >
+                {item}
+              </span>
               {countList &&
                 countList.length > 0 &&
                 type == "itemSearchRange" && (

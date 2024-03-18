@@ -40,7 +40,6 @@ export const selectData = {
     "Neon Colour",
     "Metallic Colour",
     "Multicolour",
-    "Other colour",
   ],
   searchWithin: [
     "Nationwide",
@@ -85,7 +84,6 @@ export const selectData = {
     "Gore-Tex",
     "Cashmere",
     "Alpaca",
-    "Other  material/Fabric",
   ],
   sellerType: ["Not Specified", "Private", "Commercial seller"],
   sellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],

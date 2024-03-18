@@ -76,7 +76,6 @@ export const selectData = {
     "Suzuki",
     "ROLI",
     "Meinl",
-    "Other brand",
   ],
   sellerType: [
     "Not Specified",
@@ -170,10 +169,10 @@ export const selectData = {
       "Accordion",
     ],
     "Other Instruments": [
+      "Not Listed",
       "Voice (Singing)",
       "Turntables (DJ equipment)",
       "Electronic effects and loopers",
-      "Other",
     ],
   },
 };

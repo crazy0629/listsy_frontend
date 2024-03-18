@@ -1,5 +1,6 @@
 export const selectData = {
   brand: [
+    "Not Listed",
     "MAC Cosmetics",
     "Maybelline",
     "L'Oréal Paris",
@@ -220,7 +221,6 @@ export const selectData = {
     "Every Man Jack",
     "Proraso ",
     "Anthony ",
-    "Other Brand",
   ],
   condition: ["New", "Used", "Refurbished"],
   gender: [

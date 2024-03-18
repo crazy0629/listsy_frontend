@@ -1,5 +1,6 @@
 export const selectData = {
   mealType: [
+    "Not Listed",
     "Breakfast",
     "Lunch",
     "Dinner",
@@ -15,7 +16,6 @@ export const selectData = {
     "Vegan/Vegetarian",
     "Kids' Meals",
     "Health-Conscious",
-    "Other Meal",
   ],
   dietaryPreferences: [
     "Not Specified",
@@ -39,7 +39,6 @@ export const selectData = {
     "Raw Food Diet",
     "AIP (Autoimmune Protocol)",
     "Flexitarian",
-    "Other diet",
   ],
   searchWithin: [
     "Nationwide",
@@ -68,7 +67,6 @@ export const selectData = {
     "No Shipping (Digital Delivery)",
     "Curbside Delivery",
     "Drone Delivery",
-    "Other Option",
   ],
   sellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
 };
