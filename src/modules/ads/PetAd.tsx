@@ -14,6 +14,12 @@ export const PetAd: React.FC<{ data: any }> = ({ data }) => {
         <span>Item Category</span>
         <span>{data?.itemCategory}</span>
       </Styled.InfoItemWrapper>
+      {data.itemDetailInfo.subcategory && (
+        <Styled.InfoItemWrapper>
+          <span>Subcategory</span>
+          <span>{data?.itemDetailInfo.subcategory}</span>
+        </Styled.InfoItemWrapper>
+      )}
       <Styled.InfoItemWrapper>
         <span>Address</span>
         <span>{data?.address}</span>
@@ -29,12 +35,7 @@ export const PetAd: React.FC<{ data: any }> = ({ data }) => {
         <span>View Count</span>
         <span>{data?.viewCount}</span>
       </Styled.InfoItemWrapper>
-      {data.itemDetailInfo.supplyType && (
-        <Styled.InfoItemWrapper>
-          <span>Supply Type</span>
-          <span>{data?.itemDetailInfo.supplyType}</span>
-        </Styled.InfoItemWrapper>
-      )}
+
       {data.itemDetailInfo.petType?.length && (
         <Styled.InfoItemWrapper2>
           <span>Pet Type</span>

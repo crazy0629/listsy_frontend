@@ -30,18 +30,14 @@ export const PetSection: React.FC<ServiceProps> = ({ page }) => {
 
   const getData = async (index: number) => {
     setLoading(true);
-
     const categoryList = petFilter.map((item) => item.label);
-
     const adsCountData = await axios.post(
-      `${SERVER_URI}/pets/getCountForEachCategory`,
+      `${SERVER_URI}/pet/getCountForEachCategory`,
       { itemCategory: categoryList, address, countryCode }
     );
-
     setAdCnt(adsCountData.data.countList);
-
     const tempFilter = petFilter.filter((f) => f.page === page)[0].label;
-    const res = await axios.post(`${SERVER_URI}/services/getServiceAds`, {
+    const res = await axios.post(`${SERVER_URI}/pet/getPetAds`, {
       ...filter,
       itemCategory: tempFilter,
       index,
@@ -61,7 +57,6 @@ export const PetSection: React.FC<ServiceProps> = ({ page }) => {
     } else {
       toast.error(res.data.message);
     }
-
     setLoading(false);
   };
 
@@ -152,7 +147,7 @@ export const PetSection: React.FC<ServiceProps> = ({ page }) => {
                 <CardItem
                   id={item.adId?._id}
                   key={key}
-                  type={"pets"}
+                  type={"pet"}
                   link={item.adId?.adFileName}
                   postDate={item.adId?.uploadDate}
                   price={item.price}

@@ -3,8 +3,17 @@ import * as Styled from "./details.styles";
 import { SingleSelection } from "@/components";
 import { selectData } from "./DataList/data-pets";
 import { toast } from "react-toastify";
-import { PetsType } from "./Pets/PetsType";
-import { PetsSupplies } from "./Pets/PetSupplies";
+import { DogsDetails } from "./Pets/Dogs";
+import { CatsDetails } from "./Pets/Cats";
+import { BirdsDetails } from "./Pets/Birds";
+import { FishDetails } from "./Pets/Fish";
+import { ReptileDetails } from "./Pets/Reptile";
+import { RabbitsDetails } from "./Pets/Rabbits";
+import { RodentsDetails } from "./Pets/Rodents";
+import { LivestockDetails } from "./Pets/Livestock";
+import { HorsesDetails } from "./Pets/Horses";
+import { AmphibianDetails } from "./Pets/Amphibian";
+import { SuppliesDetails } from "./Pets/Supplies";
 
 type Props = {
   onSave: (data: any) => void;
@@ -16,6 +25,7 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
     subTitle: "",
     description: "",
     itemCategory: "",
+    subCategory: "",
     itemDetailInfo: null,
   });
 
@@ -26,9 +36,15 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
       toast.error("Enter the description!");
     } else if (!form.itemCategory) {
       toast.error("Select the Item Category!");
+    } else if (!form.subCategory) {
+      toast.error("Select the Subcategory!");
     } else {
       if (form.itemDetailInfo == details) onSave(form);
-      else setForm((prev) => ({ ...prev, itemDetailInfo: details }));
+      else
+        setForm((prev) => ({
+          ...prev,
+          itemDetailInfo: { ...details, subcategory: prev.subCategory },
+        }));
     }
   };
 
@@ -76,7 +92,8 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
         <span>{form.description.length} / 5000</span>
       </Styled.TextAreaFormItem>
       <SingleSelection
-        data={selectData.pet.category}
+        direction="top"
+        data={selectData.category.slice(1)}
         label="Item Category*"
         placeholder="Select Item Category"
         value={form.itemCategory}
@@ -84,16 +101,57 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
           setForm((prev) => ({
             ...prev,
             itemCategory: value,
+            subCategory: "",
             itemDetailInfo: null,
           }));
         }}
       />
-      {(form.itemCategory == "Pets for sale" ||
-        form.itemCategory == "Pets for adoption") && (
-        <PetsType onSave={subFormSave} />
+      <SingleSelection
+        direction="top"
+        data={selectData.subCategory[form.itemCategory]}
+        label="Item Subcategory*"
+        placeholder="Select Item Subcategory"
+        value={form.subCategory}
+        onChange={(value) => {
+          setForm((prev) => ({
+            ...prev,
+            subCategory: value,
+            itemDetailInfo: null,
+          }));
+        }}
+      />
+      {form.subCategory === "Dogs" && (
+        <DogsDetails onSave={subFormSave} subCategory={form.subCategory} />
       )}
-      {form.itemCategory == "Pet Supplies" && (
-        <PetsSupplies onSave={subFormSave} />
+      {form.subCategory === "Cats" && (
+        <CatsDetails onSave={subFormSave} subCategory={form.subCategory} />
+      )}
+      {form.subCategory === "Birds" && (
+        <BirdsDetails onSave={subFormSave} subCategory={form.subCategory} />
+      )}
+      {form.subCategory === "Fish" && (
+        <FishDetails onSave={subFormSave} subCategory={form.subCategory} />
+      )}
+      {form.subCategory === "Reptile" && (
+        <ReptileDetails onSave={subFormSave} subCategory={form.subCategory} />
+      )}
+      {form.subCategory === "Rabbits" && (
+        <RabbitsDetails onSave={subFormSave} subCategory={form.subCategory} />
+      )}
+      {form.subCategory === "Rodents" && (
+        <RodentsDetails onSave={subFormSave} subCategory={form.subCategory} />
+      )}
+      {form.subCategory === "Livestock" && (
+        <LivestockDetails onSave={subFormSave} subCategory={form.subCategory} />
+      )}
+      {form.subCategory === "Horses" && (
+        <HorsesDetails onSave={subFormSave} subCategory={form.subCategory} />
+      )}
+      {form.subCategory === "Amphibian" && (
+        <AmphibianDetails onSave={subFormSave} subCategory={form.subCategory} />
+      )}
+      {form.itemCategory === "Pet Supplies" && (
+        <SuppliesDetails onSave={subFormSave} subCategory={form.subCategory} />
       )}
     </Styled.FormContainer>
   );
