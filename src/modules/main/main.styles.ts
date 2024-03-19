@@ -301,6 +301,8 @@ export const FilterSection = styled.div`
     overflow: auto;
     padding: 0 20px 20px;
     height: 100%;
+    position: relative;
+    z-index: 11;
     & > * {
       margin-bottom: 20px;
     }

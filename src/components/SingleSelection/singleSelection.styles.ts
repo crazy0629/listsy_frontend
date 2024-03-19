@@ -15,7 +15,7 @@ export const SelectOptionWrapper = styled.div`
   box-shadow: 0px 18px 40px 0px rgba(180, 180, 180, 0.25);
   border-radius: 5px;
   margin-top: 5px;
-  z-index: 1;
+  z-index: 22;
   opacity: 0;
   visibility: hidden;
   transition: all 0.1s;

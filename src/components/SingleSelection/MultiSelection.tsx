@@ -3,7 +3,7 @@ import * as Styled from "./singleSelection.styles";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 type Props = {
-  label?: string;
+  label?: string | React.ReactNode;
   placeholder?: string;
   value: string[];
   data: string[];
@@ -186,6 +186,10 @@ export const MultiSelection: React.FC<Props> = ({
                         return element.itemCancellationPolicy === item;
                       } else if (type == "itemLicensesGroup") {
                         return element.itemLicensesGroup === item;
+                      } else if (type == "itemColor") {
+                        return element.itemColor === item;
+                      } else if (type == "itemMaterial") {
+                        return element.itemMaterial === item;
                       }
                       return false;
                     })[0]?.count

@@ -274,6 +274,12 @@ export const InfoItemWrapper = styled.div`
     font-weight: 500;
   }
   span:last-child {
+    display: inline-flex;
+    align-items: center;
+    svg {
+      margin-left: 8px;
+      cursor: pointer;
+    }
     font-size: 12px;
     font-weight: 400;
     color: #000000a0;

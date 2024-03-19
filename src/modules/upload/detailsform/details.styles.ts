@@ -7,6 +7,48 @@ export const FormContainer = styled.div`
   }
 `;
 
+export const CustomLabel = styled.div`
+  display: flex;
+  align-items: center;
+  svg {
+    margin-left: 4px;
+    cursor: pointer;
+  }
+`;
+
+export const SizeModalWrapper = styled.div`
+  padding: 20px;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 18px 40px 0px rgba(180, 180, 180, 0.25);
+  background: #00000020;
+  margin: 0 !important;
+  div {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  img {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`;
+
 export const TextAreaFormItem = styled.div<{ height: number }>`
   height: ${({ height }) => height}px;
   border-radius: 5px;
