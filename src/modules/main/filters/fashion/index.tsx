@@ -5,6 +5,11 @@ import { selectData } from "@/modules/upload/detailsform/DataList/data-fashion";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
 import { useRouter } from "next/router";
+import {
+  CustomLabel,
+  SizeModalWrapper,
+} from "@/modules/upload/detailsform/details.styles";
+import { MdOutlineErrorOutline } from "react-icons/md";
 
 type Props = {
   onChange: (data: any) => void;
@@ -19,6 +24,8 @@ export const FashionFilter: React.FC<Props> = ({
 }) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
+    subCategory: "",
+    size: [],
     gender: [] as string[],
     itemCondition: [] as string[],
     color: [] as string[],
@@ -41,6 +48,7 @@ export const FashionFilter: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false);
   const typingTimer = useRef(null);
   const [priceChanged, setPriceChanged] = useState(false);
+  const [sizeModal, setSizeModal] = useState(false);
 
   const getLocationInfo = () => {
     let locationAddress = localStorage.getItem("locationAddress");
@@ -71,6 +79,18 @@ export const FashionFilter: React.FC<Props> = ({
       setFilter((prev) => ({
         ...prev,
         itemCondition: router.query.itemCondition.toString().split("%"),
+      }));
+    }
+    if (router.query.subCategory) {
+      setFilter((prev) => ({
+        ...prev,
+        subCategory: router.query.subCategory.toString(),
+      }));
+    }
+    if (router.query.size) {
+      setFilter((prev) => ({
+        ...prev,
+        size: router.query.size.toString().split("%"),
       }));
     }
     if (router.query.color) {
@@ -113,6 +133,14 @@ export const FashionFilter: React.FC<Props> = ({
     if (data.gender.length > 0) {
       queryPath.gender = data.gender.join("%");
     }
+    if (data.subCategory !== "") {
+      if (data.subCategory !== "All") {
+        queryPath.subCategory = data.subCategory;
+      }
+    }
+    if (data.size.length > 0) {
+      queryPath.size = data.size.join("%");
+    }
     if (data.itemCondition.length > 0) {
       queryPath.itemCondition = data.itemCondition.join("%");
     }
@@ -150,6 +178,8 @@ export const FashionFilter: React.FC<Props> = ({
         itemCategory,
         itemSellerRating: selectData.sellerRating,
         itemGender: selectData.gender,
+        itemSubCategory: selectData.category[itemCategory],
+        itemSize: selectData.size[itemCategory],
         itemCondition: selectData.condition,
         itemColor: selectData.color,
         itemMaterial: selectData.material,
@@ -162,6 +192,9 @@ export const FashionFilter: React.FC<Props> = ({
         filter,
       }
     );
+
+    console.log(1234, adsCountData.data);
+
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
@@ -262,7 +295,11 @@ export const FashionFilter: React.FC<Props> = ({
   };
 
   const handleFilterSelect = async (label: string, value: any) => {
-    setFilter((prev) => ({ ...prev, [label]: value }));
+    if (label === "subCategory" && value === "All") {
+      setFilter((prev) => ({ ...prev, [label]: "" }));
+    } else {
+      setFilter((prev) => ({ ...prev, [label]: value }));
+    }
     setRouterPath({ ...filter, [label]: value }, minPrice, maxPrice);
   };
 
@@ -291,6 +328,42 @@ export const FashionFilter: React.FC<Props> = ({
           prefix2={currency}
           suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
         />
+        {itemCategory && (
+          <>
+            <SingleSelection
+              data={["All", ...selectData.category[itemCategory]]}
+              placeholder="Select Subcategory"
+              value={filter.subCategory}
+              onChange={(value) => handleFilterSelect("subCategory", value)}
+              type="itemSubCategory"
+              countList={adCnt.itemSubCategory}
+            />
+            {selectData.size[itemCategory] && (
+              <MultiSelection
+                data={
+                  filter.subCategory === "Shoes"
+                    ? selectData.size.Shoes
+                    : selectData.size[itemCategory]
+                }
+                label={
+                  <CustomLabel>
+                    Size*
+                    <MdOutlineErrorOutline
+                      size={16}
+                      color={"#666"}
+                      onClick={() => setSizeModal(true)}
+                    />
+                  </CustomLabel>
+                }
+                placeholder="Select Size"
+                value={filter.size}
+                onChange={(value) => handleFilterSelect("size", value)}
+                type="itemSize"
+                countList={adCnt.itemSize}
+              />
+            )}
+          </>
+        )}
         <MultiSelection
           data={selectData.gender}
           placeholder="Select Gender"
@@ -350,6 +423,41 @@ export const FashionFilter: React.FC<Props> = ({
         >
           {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
         </ShowAdvancedFilter>
+        {sizeModal && (
+          <SizeModalWrapper onClick={() => setSizeModal(false)}>
+            <div>
+              {itemCategory === "Ethnic Wear" &&
+              filter.subCategory === "Shoes" ? (
+                <img
+                  src={`/assets/images/fashion_size/EthnicShoes.png`}
+                  alt=""
+                />
+              ) : itemCategory === "Vintage Clothing" &&
+                filter.subCategory === "Shoes" ? (
+                <img
+                  src={`/assets/images/fashion_size/VintageShoes.png`}
+                  alt=""
+                />
+              ) : itemCategory === "Sustainable and Eco-Friendly Fashion" ? (
+                <>
+                  <img
+                    src={`/assets/images/fashion_size/Sustainable and Eco-Friendly FashionTop.png`}
+                    alt=""
+                  />
+                  <img
+                    src={`/assets/images/fashion_size/Sustainable and Eco-Friendly FashionBottom.png`}
+                    alt=""
+                  />
+                </>
+              ) : (
+                <img
+                  src={`/assets/images/fashion_size/${itemCategory}.png`}
+                  alt=""
+                />
+              )}
+            </div>
+          </SizeModalWrapper>
+        )}
       </>
     )
   );

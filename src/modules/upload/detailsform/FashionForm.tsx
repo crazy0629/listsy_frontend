@@ -88,7 +88,7 @@ export const FashionForm: React.FC<Props> = ({ onSave }) => {
           }));
         }}
       />
-      <FashionDetail onSave={subFormSave} />
+      <FashionDetail onSave={subFormSave} category={form.itemCategory} />
     </Styled.FormContainer>
   );
 };

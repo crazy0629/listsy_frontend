@@ -3,7 +3,7 @@ import * as Styled from "./singleSelection.styles";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 type Props = {
-  label?: string;
+  label?: string | React.ReactNode;
   placeholder?: string;
   value?: string;
   data: string[];
@@ -44,8 +44,6 @@ export const SingleSelection: React.FC<Props> = ({
     };
   }, [ref]);
 
-  const handleSearch = () => {};
-
   return (
     <Styled.SelectFormItem ref={ref}>
       {label && <p>{label}</p>}
@@ -69,32 +67,55 @@ export const SingleSelection: React.FC<Props> = ({
             placeholder="Search..."
           />
         </div>
-        {data
-          .filter((f) => f.toLowerCase().includes(search.toLowerCase()))
-          .map((item, key) => (
-            <p
-              key={key}
-              onClick={() => {
-                onChange(item);
-                setIsOpen(false);
-              }}
-            >
-              <span
-                className="checkbox-label"
-                style={{ color: item === "Not Listed" ? "red" : "#000" }}
+        {data &&
+          data
+            .filter((f) => f.toLowerCase().includes(search.toLowerCase()))
+            .map((item, key) => (
+              <p
+                key={key}
+                onClick={() => {
+                  onChange(item);
+                  setIsOpen(false);
+                }}
               >
-                {item === "Not Listed" ? "Cannot Find  My Option" : item}
-              </span>
-              {countList &&
-                countList.length > 0 &&
-                type == "itemSearchRange" && (
-                  <span>({countList[key].distance})</span>
+                <span
+                  className="checkbox-label"
+                  style={{ color: item === "Not Listed" ? "red" : "#000" }}
+                >
+                  {item === "Not Listed" ? "Cannot Find  My Option" : item}
+                </span>
+                {countList &&
+                  countList.length > 0 &&
+                  type == "itemSearchRange" && (
+                    <span>({countList[key].distance})</span>
+                  )}
+                {countList && countList.length > 0 && type == "itemType" && (
+                  <span>({countList[key].count})</span>
                 )}
-              {countList && countList.length > 0 && type == "itemType" && (
-                <span>({countList[key].count})</span>
-              )}
-            </p>
-          ))}
+                {item === "All" ? (
+                  <span>
+                    (
+                    {countList
+                      .map((item) => item.count)
+                      .reduce((prev, next) => Number(prev) + Number(next), 0)}
+                    )
+                  </span>
+                ) : (
+                  countList &&
+                  countList.length > 0 &&
+                  type == "itemSubCategory" && (
+                    <span>
+                      (
+                      {
+                        countList.filter((f) => f.itemSubCategory === item)[0]
+                          ?.count
+                      }
+                      )
+                    </span>
+                  )
+                )}
+              </p>
+            ))}
       </Styled.SelectOptionWrapper>
     </Styled.SelectFormItem>
   );

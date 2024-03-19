@@ -152,7 +152,7 @@ export const AuthListWrapper = styled.div<{ visible?: string }>`
   opacity: ${({ visible }) => (visible ? 1 : 0)};
   visibility: ${({ visible }) => (visible ? "visible" : "hidden")};
   position: absolute;
-  z-index: 10;
+  z-index: 15;
   top: 38px;
   right: 0;
   display: flex;
@@ -189,12 +189,14 @@ export const AppMainSection = styled.div`
 `;
 
 export const AppMainContainer = styled.div<{ nosidebar?: string }>`
-  width: 100%;
-  padding-left: ${({ nosidebar }) => (nosidebar ? "0" : "240px")};
+  width: calc(100% - 240px);
+  z-index: 12;
   flex: 1;
   /* overflow: auto; */
   transition: all 0.3s;
   @media screen and (max-width: 1024px) {
+    width: 100%;
+    padding-left: ${({ nosidebar }) => (nosidebar ? "0" : "240px")};
     padding-left: 0;
   }
 `;
@@ -435,16 +437,16 @@ export const SidebarCountrySelect = styled.div`
 
 export const AppSidebarWrapper = styled.div`
   box-shadow: 0 0 5px 5px solid #00000030;
+  min-width: 240px;
   width: 240px;
-  position: fixed;
   height: calc(100vh - 85px);
   display: flex;
   flex-direction: column;
   transition: all 0.3s;
   background: #fff;
-  z-index: 10;
-  left: 0;
   @media screen and (max-width: 1024px) {
+    position: fixed;
+    z-index: 15;
     &.show {
       left: 0;
     }
@@ -463,7 +465,7 @@ export const AppSidebarOverlay = styled.div`
     right: 0;
     bottom: 0;
     background: #00000050;
-    z-index: 9;
+    z-index: 14;
     position: fixed;
     transition: all 0.3s;
     opacity: 0;
