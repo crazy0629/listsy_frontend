@@ -92,28 +92,29 @@ export const SingleSelection: React.FC<Props> = ({
                 {countList && countList.length > 0 && type == "itemType" && (
                   <span>({countList[key].count})</span>
                 )}
-                {item === "All" ? (
-                  <span>
-                    (
-                    {countList
-                      .map((item) => item.count)
-                      .reduce((prev, next) => Number(prev) + Number(next), 0)}
-                    )
-                  </span>
-                ) : (
-                  countList &&
-                  countList.length > 0 &&
-                  type == "itemSubCategory" && (
+                {countList &&
+                  (item === "All" ? (
                     <span>
                       (
-                      {
-                        countList.filter((f) => f.itemSubCategory === item)[0]
-                          ?.count
-                      }
+                      {countList
+                        .map((item) => item.count)
+                        .reduce((prev, next) => Number(prev) + Number(next), 0)}
                       )
                     </span>
-                  )
-                )}
+                  ) : (
+                    countList &&
+                    countList.length > 0 &&
+                    type == "itemSubCategory" && (
+                      <span>
+                        (
+                        {
+                          countList.filter((f) => f.itemSubCategory === item)[0]
+                            ?.count
+                        }
+                        )
+                      </span>
+                    )
+                  ))}
               </p>
             ))}
       </Styled.SelectOptionWrapper>

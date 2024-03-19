@@ -159,7 +159,7 @@ export const Details: React.FC<Props> = ({
     ) {
       toast.error("Phone Number Required!");
     } else {
-      const res = await axios.post(`${SERVER_URI}/pet/loadPetInfo`, {
+      const res = await axios.post(`${SERVER_URI}/pet/loadPetsInfo`, {
         ...data,
         price,
         priceUnit,

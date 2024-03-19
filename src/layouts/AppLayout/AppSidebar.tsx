@@ -56,7 +56,7 @@ const mainNav = [
   },
   {
     label: "Pets and Pet Supplies",
-    href: "/pets",
+    href: "/pets/all-pets",
     icon: "pets",
   },
   {
