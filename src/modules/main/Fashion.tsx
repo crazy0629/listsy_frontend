@@ -48,6 +48,8 @@ export const FashionSection: React.FC<FashionProps> = ({ page }) => {
       countryCode,
     });
 
+    console.log(res.data);
+
     if (res.data.success) {
       if (index > 0) {
         setData((prev: any) => [...prev, ...res.data.data]);

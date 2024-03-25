@@ -96,6 +96,8 @@ export const MultiSelection: React.FC<Props> = ({
                         return element.itemScreenSize === item;
                       } else if (type == "itemBrand") {
                         return element.itemBrand === item;
+                      } else if (type == "itemBreed") {
+                        return element.itemBreed === item;
                       } else if (type == "itemSmartTV") {
                         return element.itemSmartTV === item;
                       } else if (type == "itemColour") {
@@ -190,6 +192,26 @@ export const MultiSelection: React.FC<Props> = ({
                         return element.itemColor === item;
                       } else if (type == "itemMaterial") {
                         return element.itemMaterial === item;
+                      } else if (type == "itemVaccinations") {
+                        return element.itemVaccinations === item;
+                      } else if (type == "itemTankSize") {
+                        return element.itemTankSize === item;
+                      } else if (type == "itemCareLevel") {
+                        return element.itemCareLevel === item;
+                      } else if (type == "itemDiet") {
+                        return element.itemDiet === item;
+                      } else if (type == "itemSpecies") {
+                        return element.itemSpecies === item;
+                      } else if (type == "itemTrainingLevel") {
+                        return element.itemTrainingLevel === item;
+                      } else if (type == "itemHealth") {
+                        return element.itemHealth === item;
+                      } else if (type == "itemHoofCare") {
+                        return element.itemHoofCare === item;
+                      } else if (type == "itemInsurance") {
+                        return element.itemInsurance === item;
+                      } else if (type == "itemPetType") {
+                        return element.itemPetType === item;
                       }
                       return false;
                     })[0]?.count

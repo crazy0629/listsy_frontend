@@ -306,6 +306,8 @@ export const UploadModalBody = styled.div`
 
 export const PriceInputWrapper = styled.div`
   width: 100%;
+  margin-bottom: 20px;
+
   p {
     color: #000;
     font-size: 12px;
@@ -459,7 +461,6 @@ export const SaveButtonWrapper = styled.div`
 `;
 
 export const LocationWrapper = styled.div`
-  margin-top: 20px;
   div {
     p {
       color: #000;

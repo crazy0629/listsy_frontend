@@ -2,12 +2,12 @@ import React from "react";
 import { AppLayout } from "@/layouts";
 import { DiyCraftSection } from "@/modules/main/DiyCraft";
 
-const DiyJewelry: React.FC = () => {
+const DiyJewellery: React.FC = () => {
   return (
-    <AppLayout name="diy_jewelry">
-      <DiyCraftSection page="/for-sale/jewelry-making-supplies" />
+    <AppLayout name="diy_Jewellery">
+      <DiyCraftSection page="/for-sale/Jewellery-making-supplies" />
     </AppLayout>
   );
 };
 
-export default DiyJewelry;
+export default DiyJewellery;

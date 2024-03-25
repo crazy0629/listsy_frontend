@@ -26,10 +26,14 @@ export const PetAd: React.FC<{ data: any }> = ({ data }) => {
       </Styled.InfoItemWrapper>
       <Styled.InfoItemWrapper>
         <span>Price</span>
-        <span>
-          {data?.priceUnit}
-          {data?.price}
-        </span>
+        {data?.itemCategory !== "Pets for adoption" ? (
+          <span>
+            {data?.priceUnit}
+            {data?.price}
+          </span>
+        ) : (
+          <span>Free</span>
+        )}
       </Styled.InfoItemWrapper>
       <Styled.InfoItemWrapper>
         <span>View Count</span>

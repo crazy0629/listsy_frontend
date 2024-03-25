@@ -1,10 +1,6 @@
 import { InputRange, MultiSelection, SingleSelection } from "@/components";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  FilterOptionWrapper,
-  FilterWrapper,
-  ShowAdvancedFilter,
-} from "../../main.styles";
+import { FilterOptionWrapper, ShowAdvancedFilter } from "../../main.styles";
 import { selectData } from "@/modules/upload/detailsform/DataList/data-pets";
 import axios from "axios";
 import { SERVER_URI } from "@/config";
@@ -96,7 +92,7 @@ export const PetFilter: React.FC<Props> = ({
       sellerRating: [] as string[],
     },
     supplies: {
-      type: [] as string[],
+      petType: [] as string[],
       sellerRating: [] as string[],
     },
     centerLocationSelected: false,
@@ -123,26 +119,35 @@ export const PetFilter: React.FC<Props> = ({
         minPrice: minPrice,
         maxPrice: maxPrice,
         itemCategory,
-        itemSellerRating: selectData.filters,
-        itemSubCategory: selectData.category[itemCategory],
-        itemGender: selectData.filters[itemCategory.toLowerCase()]?.gender,
-        itemAge: selectData.filters[itemCategory.toLowerCase()]?.age,
-        itemBreed: selectData.filters[itemCategory.toLowerCase()]?.breed,
+        itemSellerRating: selectData.filters.SellerRating,
+        itemSubCategory: selectData.subCategory[itemCategory],
+        itemGender:
+          selectData.filters[filter.subCategory.toLowerCase()]?.gender,
+        itemAge: selectData.filters[filter.subCategory.toLowerCase()]?.age,
+        itemBreed: selectData.filters[filter.subCategory.toLowerCase()]?.breed,
         itemVaccinations:
-          selectData.filters[itemCategory.toLowerCase()]?.vaccinations,
-        itemSpecies: selectData.filters[itemCategory.toLowerCase()]?.species,
-        itemTankSize: selectData.filters[itemCategory.toLowerCase()]?.tankSize,
+          selectData.filters[filter.subCategory.toLowerCase()]?.vaccinations,
+        itemSpecies:
+          selectData.filters[filter.subCategory.toLowerCase()]?.species,
+        itemTankSize:
+          selectData.filters[filter.subCategory.toLowerCase()]?.tankSize,
         itemCareLevel:
-          selectData.filters[itemCategory.toLowerCase()]?.careLevel,
-        itemDiet: selectData.filters[itemCategory.toLowerCase()]?.diet,
-        itemSize: selectData.filters[itemCategory.toLowerCase()]?.size,
+          selectData.filters[filter.subCategory.toLowerCase()]?.careLevel,
+        itemDiet: selectData.filters[filter.subCategory.toLowerCase()]?.diet,
+        itemSize: selectData.filters[filter.subCategory.toLowerCase()]?.size,
+        itemType: selectData.filters[filter.subCategory.toLowerCase()]?.type,
         itemTrainingLevel:
-          selectData.filters[itemCategory.toLowerCase()]?.trainingLevel,
-        itemHealth: selectData.filters[itemCategory.toLowerCase()]?.health,
-        itemHoofCare: selectData.filters[itemCategory.toLowerCase()]?.hoofCare,
+          selectData.filters[filter.subCategory.toLowerCase()]?.trainingLevel,
+        itemHealth:
+          selectData.filters[filter.subCategory.toLowerCase()]?.health,
+        itemHoofCare:
+          selectData.filters[filter.subCategory.toLowerCase()]?.hoofCare,
         itemInsurance:
-          selectData.filters[itemCategory.toLowerCase()]?.insurance,
-
+          selectData.filters[filter.subCategory.toLowerCase()]?.insurance,
+        itemPetType:
+          itemCategory === "Pet Supplies"
+            ? selectData.filters["supplies"].type
+            : undefined,
         itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
@@ -151,9 +156,6 @@ export const PetFilter: React.FC<Props> = ({
         filter,
       }
     );
-
-    console.log(1234, adsCountData.data);
-
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
@@ -292,12 +294,31 @@ export const PetFilter: React.FC<Props> = ({
       }));
     }
     if (router.query.type) {
+      setFilter((prev) => ({
+        ...prev,
+        [router.query.subCategory.toString()]: {
+          ...prev[router.query.subCategory.toString()],
+          type: router.query.type.toString().split("%"),
+        },
+      }));
+    }
+
+    if (router.query.petType) {
+      setFilter((prev) => ({
+        ...prev,
+        supplies: {
+          ...prev.supplies,
+          petType: router.query.petType.toString().split("%"),
+        },
+      }));
+    }
+    if (router.query.sellerRating) {
       if (itemCategory === "Pet Supplies") {
         setFilter((prev) => ({
           ...prev,
           supplies: {
             ...prev.supplies,
-            type: router.query.type.toString().split("%"),
+            sellerRating: router.query.sellerRating.toString().split("%"),
           },
         }));
       } else {
@@ -305,20 +326,10 @@ export const PetFilter: React.FC<Props> = ({
           ...prev,
           [router.query.subCategory.toString()]: {
             ...prev[router.query.subCategory.toString()],
-            type: router.query.type.toString().split("%"),
+            sellerRating: router.query.sellerRating.toString().split("%"),
           },
         }));
       }
-    }
-
-    if (router.query.sellerRating) {
-      setFilter((prev) => ({
-        ...prev,
-        [router.query.subCategory.toString()]: {
-          ...prev[router.query.subCategory.toString()],
-          sellerRating: router.query.sellerRating.toString().split("%"),
-        },
-      }));
     }
 
     if (router.query.minPrice) {
@@ -374,7 +385,7 @@ export const PetFilter: React.FC<Props> = ({
         ...filterObj,
         ...filter.Fish,
       };
-    } else if (filter.subCategory == "Reptile") {
+    } else if (filter.subCategory == "Reptiles") {
       filterObj = {
         ...filterObj,
         ...filter.Reptiles,
@@ -404,6 +415,11 @@ export const PetFilter: React.FC<Props> = ({
         ...filterObj,
         ...filter.Amphibian,
       };
+    } else if (itemCategory === "Pet Supplies") {
+      filterObj = {
+        ...filterObj,
+        ...filter.supplies,
+      };
     }
     onChange(filterObj);
   }, [filter]);
@@ -425,17 +441,15 @@ export const PetFilter: React.FC<Props> = ({
   }, [minPrice, maxPrice]);
 
   const getLocationInfo = () => {
-    let locationSelected = localStorage.getItem("locationSelected");
-    if (locationSelected == "true") {
-      let locationAddress = localStorage.getItem("locationAddress");
-      setAddress(locationAddress);
-      setCountryCode("");
-    } else if (locationSelected == "false") {
-      let locationAddress = localStorage.getItem("locationAddress");
-      let countryCode = localStorage.getItem("locationCountryCode");
-      setAddress(locationAddress);
-      setCountryCode(countryCode);
-    }
+    let locationAddress = localStorage.getItem("locationAddress");
+    let countryCode = localStorage.getItem("locationCountryCode");
+    setAddress(locationAddress);
+    setCountryCode(countryCode);
+
+    getCountryCode(
+      Number(localStorage.getItem("centerlat")),
+      Number(localStorage.getItem("centerlng"))
+    );
   };
 
   useEffect(() => {
@@ -523,7 +537,9 @@ export const PetFilter: React.FC<Props> = ({
       queryPath.SearchWithin = data.SearchWithin;
     }
     if (data.subCategory !== "") {
-      queryPath.subCategory = data.subCategory;
+      if (data.subCategory !== "All") {
+        queryPath.subCategory = data.subCategory;
+      }
     }
     if (data.Dogs?.breed.length > 0) {
       queryPath.breed = data.Dogs?.breed.join("%");
@@ -686,8 +702,8 @@ export const PetFilter: React.FC<Props> = ({
       queryPath.sellerRating = data.Amphibian?.sellerRating.join("%");
     }
 
-    if (data.supplies?.type.length > 0) {
-      queryPath.type = data.supplies?.type.join("%");
+    if (data.supplies?.petType?.length > 0) {
+      queryPath.petType = data.supplies?.petType.join("%");
     }
     if (data.supplies?.sellerRating.length > 0) {
       queryPath.sellerRating = data.supplies?.sellerRating.join("%");
@@ -710,1238 +726,1247 @@ export const PetFilter: React.FC<Props> = ({
   };
 
   return (
-    // adCnt != null && (
-    <>
-      <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
-      <SingleSelection
-        data={selectData.filters.SearchWithin}
-        placeholder="Nationwide"
-        value={filter.SearchWithin}
-        onChange={(value) =>
-          setFilter((prev) => ({ ...prev, SearchWithin: value }))
-        }
-        type="itemSearchRange"
-        countList={adCnt?.itemRangeInfo}
-      />
-      <InputRange
-        value1={minPrice}
-        value2={maxPrice}
-        placeholder1="Min price"
-        placeholder2="Max price"
-        type1="number"
-        type2="number"
-        onChange1={handleMinPrice}
-        onChange2={handleMaxPrice}
-        prefix1={currency}
-        prefix2={currency}
-        suffix={0}
-        // suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
-      />
-      <SingleSelection
-        data={selectData.subCategory[itemCategory]}
-        placeholder="Select Subcategory"
-        value={filter.subCategory}
-        onChange={(value) => {
-          setFilter((prev) => ({
-            ...prev,
-            subCategory: value,
-            Dogs: {
-              breed: [],
-              age: [],
-              gender: [],
-              vaccinations: [],
-              sellerRating: [],
-            },
-            Cats: {
-              breed: [],
-              age: [],
-              gender: [],
-              vaccinations: [],
-              sellerRating: [],
-            },
-            Birds: {
-              breed: [],
-              age: [],
-              gender: [],
-              sellerRating: [],
-            },
-            Fish: {
-              species: [],
-              tankSize: [],
-              careLevel: [],
-              diet: [],
-              sellerRating: [],
-            },
-            Reptiles: {
-              species: [],
-              age: [],
-              gender: [],
-              size: [],
-              sellerRating: [],
-            },
-            Rabbits: {
-              breed: [],
-              age: [],
-              gender: [],
-              vaccinations: [],
-              sellerRating: [],
-            },
-            Rodents: {
-              species: [],
-              age: [],
-              gender: [],
-              sellerRating: [],
-            },
-            Livestock: {
-              type: [],
-              age: [],
-              gender: [],
-              sellerRating: [],
-            },
-            Horses: {
-              breed: [],
-              age: [],
-              gender: [],
-              trainingLevel: [],
-              vaccinations: [],
-              healthCertification: [],
-              hoofCare: [],
-              insurance: [],
-              sellerRating: [],
-            },
-            Amphibian: {
-              species: [],
-              age: [],
-              gender: [],
-              sellerRating: [],
-            },
-          }));
-          handleFilterSelect({
-            ...filter,
-            subCategory: value,
-            Dogs: {
-              breed: [],
-              age: [],
-              gender: [],
-              vaccinations: [],
-              sellerRating: [],
-            },
-            Cats: {
-              breed: [],
-              age: [],
-              gender: [],
-              vaccinations: [],
-              sellerRating: [],
-            },
-            Birds: {
-              breed: [],
-              age: [],
-              gender: [],
-              sellerRating: [],
-            },
-            Fish: {
-              species: [],
-              tankSize: [],
-              careLevel: [],
-              diet: [],
-              sellerRating: [],
-            },
-            Reptiles: {
-              species: [],
-              age: [],
-              gender: [],
-              size: [],
-              sellerRating: [],
-            },
-            Rabbits: {
-              breed: [],
-              age: [],
-              gender: [],
-              vaccinations: [],
-              sellerRating: [],
-            },
-            Rodents: {
-              species: [],
-              age: [],
-              gender: [],
-              sellerRating: [],
-            },
-            Livestock: {
-              type: [],
-              age: [],
-              gender: [],
-              sellerRating: [],
-            },
-            Horses: {
-              breed: [],
-              age: [],
-              gender: [],
-              trainingLevel: [],
-              vaccinations: [],
-              healthCertification: [],
-              hoofCare: [],
-              insurance: [],
-              sellerRating: [],
-            },
-            Amphibian: {
-              species: [],
-              age: [],
-              gender: [],
-              sellerRating: [],
-            },
-          });
-        }}
-        type="subCategory"
-        countList={adCnt?.subCategory}
-      />
-      {filter.subCategory == "Dogs" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.dogs.age}
-            placeholder="Select Age*"
-            value={filter.Dogs.age}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Dogs: { ...prev.Dogs, age: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Dogs: { ...filter.Dogs, age: value },
-              });
-            }}
-            type="age"
-            countList={adCnt?.age}
+    adCnt != null && (
+      <>
+        <FilterOptionWrapper>Main Filter</FilterOptionWrapper>
+        <SingleSelection
+          data={selectData.filters.SearchWithin}
+          placeholder="Nationwide"
+          value={filter.SearchWithin}
+          onChange={(value) =>
+            setFilter((prev) => ({ ...prev, SearchWithin: value }))
+          }
+          type="itemSearchRange"
+          countList={adCnt?.itemRangeInfo}
+        />
+        {itemCategory !== "Pets for adoption" && (
+          <InputRange
+            value1={minPrice}
+            value2={maxPrice}
+            placeholder1="Min price"
+            placeholder2="Max price"
+            type1="number"
+            type2="number"
+            onChange1={handleMinPrice}
+            onChange2={handleMaxPrice}
+            prefix1={currency}
+            prefix2={currency}
+            suffix={adCnt.itemPriceRange != -1 ? adCnt.itemPriceRange : 0}
           />
-          <MultiSelection
-            data={selectData.filters.dogs.gender}
-            placeholder="Select Gender*"
-            value={filter.Dogs.gender}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Dogs: { ...prev.Dogs, gender: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Dogs: { ...filter.Dogs, gender: value },
-              });
-            }}
-            type="gender"
-            countList={adCnt?.gender}
-          />
-          <MultiSelection
-            data={selectData.filters.dogs.vaccinations}
-            placeholder="Select Vaccinations*"
-            value={filter.Dogs.vaccinations}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Dogs: { ...prev.Dogs, vaccinations: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Dogs: { ...filter.Dogs, vaccinations: value },
-              });
-            }}
-            type="vaccinations"
-            countList={adCnt?.vaccinations}
-          />
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-              <MultiSelection
-                data={selectData.filters.dogs.breed}
-                placeholder="Select Breed"
-                value={filter.Dogs.breed}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Dogs: { ...prev.Dogs, breed: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Dogs: { ...filter.Dogs, breed: value },
-                  });
-                }}
-                type="breed"
-                countList={adCnt?.breed}
-              />
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.Dogs.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Dogs: { ...prev.Dogs, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Dogs: { ...filter.Dogs, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-      {filter.subCategory == "Cats" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.cats.age}
-            placeholder="Select Age*"
-            value={filter.Cats.age}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Cats: { ...prev.Cats, age: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Cats: { ...filter.Cats, age: value },
-              });
-            }}
-            type="age"
-            countList={adCnt?.age}
-          />
-          <MultiSelection
-            data={selectData.filters.cats.gender}
-            placeholder="Select Gender*"
-            value={filter.Cats.gender}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Cats: { ...prev.Cats, gender: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Cats: { ...filter.Cats, gender: value },
-              });
-            }}
-            type="gender"
-            countList={adCnt?.gender}
-          />
-          <MultiSelection
-            data={selectData.filters.cats.vaccinations}
-            placeholder="Select Vaccinations*"
-            value={filter.Cats.vaccinations}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Cats: { ...prev.Cats, vaccinations: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Cats: { ...filter.Cats, vaccinations: value },
-              });
-            }}
-            type="vaccinations"
-            countList={adCnt?.vaccinations}
-          />
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-              <MultiSelection
-                data={selectData.filters.cats.breed}
-                placeholder="Select Breed"
-                value={filter.Cats.breed}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Cats: { ...prev.Cats, breed: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Cats: { ...filter.Cats, breed: value },
-                  });
-                }}
-                type="breed"
-                countList={adCnt?.breed}
-              />
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.Cats.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Cats: { ...prev.Cats, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Cats: { ...filter.Cats, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-      {filter.subCategory == "Birds" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.birds.age}
-            placeholder="Select Age*"
-            value={filter.Birds.age}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Birds: { ...prev.Birds, age: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Birds: { ...filter.Birds, age: value },
-              });
-            }}
-            type="age"
-            countList={adCnt?.age}
-          />
-          <MultiSelection
-            data={selectData.filters.birds.gender}
-            placeholder="Select Gender*"
-            value={filter.Birds.gender}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Birds: { ...prev.Birds, gender: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Birds: { ...filter.Birds, gender: value },
-              });
-            }}
-            type="gender"
-            countList={adCnt?.gender}
-          />
+        )}
+        <SingleSelection
+          data={["All", ...selectData.subCategory[itemCategory]]}
+          placeholder="Select Subcategory"
+          value={filter.subCategory}
+          onChange={(value) => {
+            setFilter((prev) => ({
+              ...prev,
+              subCategory: value === "All" ? "" : value,
+              Dogs: {
+                breed: [],
+                age: [],
+                gender: [],
+                vaccinations: [],
+                sellerRating: [],
+              },
+              Cats: {
+                breed: [],
+                age: [],
+                gender: [],
+                vaccinations: [],
+                sellerRating: [],
+              },
+              Birds: {
+                breed: [],
+                age: [],
+                gender: [],
+                sellerRating: [],
+              },
+              Fish: {
+                species: [],
+                tankSize: [],
+                careLevel: [],
+                diet: [],
+                sellerRating: [],
+              },
+              Reptiles: {
+                species: [],
+                age: [],
+                gender: [],
+                size: [],
+                sellerRating: [],
+              },
+              Rabbits: {
+                breed: [],
+                age: [],
+                gender: [],
+                vaccinations: [],
+                sellerRating: [],
+              },
+              Rodents: {
+                species: [],
+                age: [],
+                gender: [],
+                sellerRating: [],
+              },
+              Livestock: {
+                type: [],
+                age: [],
+                gender: [],
+                sellerRating: [],
+              },
+              Horses: {
+                breed: [],
+                age: [],
+                gender: [],
+                trainingLevel: [],
+                vaccinations: [],
+                healthCertification: [],
+                hoofCare: [],
+                insurance: [],
+                sellerRating: [],
+              },
+              Amphibian: {
+                species: [],
+                age: [],
+                gender: [],
+                sellerRating: [],
+              },
+              supplies: {
+                petType: [],
+                sellerRating: [],
+              },
+            }));
+            handleFilterSelect({
+              ...filter,
+              subCategory: value,
+              Dogs: {
+                breed: [],
+                age: [],
+                gender: [],
+                vaccinations: [],
+                sellerRating: [],
+              },
+              Cats: {
+                breed: [],
+                age: [],
+                gender: [],
+                vaccinations: [],
+                sellerRating: [],
+              },
+              Birds: {
+                breed: [],
+                age: [],
+                gender: [],
+                sellerRating: [],
+              },
+              Fish: {
+                species: [],
+                tankSize: [],
+                careLevel: [],
+                diet: [],
+                sellerRating: [],
+              },
+              Reptiles: {
+                species: [],
+                age: [],
+                gender: [],
+                size: [],
+                sellerRating: [],
+              },
+              Rabbits: {
+                breed: [],
+                age: [],
+                gender: [],
+                vaccinations: [],
+                sellerRating: [],
+              },
+              Rodents: {
+                species: [],
+                age: [],
+                gender: [],
+                sellerRating: [],
+              },
+              Livestock: {
+                type: [],
+                age: [],
+                gender: [],
+                sellerRating: [],
+              },
+              Horses: {
+                breed: [],
+                age: [],
+                gender: [],
+                trainingLevel: [],
+                vaccinations: [],
+                healthCertification: [],
+                hoofCare: [],
+                insurance: [],
+                sellerRating: [],
+              },
+              Amphibian: {
+                species: [],
+                age: [],
+                gender: [],
+                sellerRating: [],
+              },
+              supplies: {
+                type: [],
+                sellerRating: [],
+              },
+            });
+          }}
+          type="itemSubCategory"
+          countList={adCnt?.itemSubCategory}
+        />
+        {filter.subCategory == "Dogs" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.dogs.age}
+              placeholder="Select Age*"
+              value={filter.Dogs.age}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Dogs: { ...prev.Dogs, age: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Dogs: { ...filter.Dogs, age: value },
+                });
+              }}
+              type="itemAge"
+              countList={adCnt?.itemAge}
+            />
+            <MultiSelection
+              data={selectData.filters.dogs.gender}
+              placeholder="Select Gender*"
+              value={filter.Dogs.gender}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Dogs: { ...prev.Dogs, gender: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Dogs: { ...filter.Dogs, gender: value },
+                });
+              }}
+              type="itemGender"
+              countList={adCnt?.itemGender}
+            />
+            <MultiSelection
+              data={selectData.filters.dogs.vaccinations}
+              placeholder="Select Vaccinations*"
+              value={filter.Dogs.vaccinations}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Dogs: { ...prev.Dogs, vaccinations: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Dogs: { ...filter.Dogs, vaccinations: value },
+                });
+              }}
+              type="itemVaccinations"
+              countList={adCnt?.itemVaccinations}
+            />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.filters.dogs.breed}
+                  placeholder="Select Breed"
+                  value={filter.Dogs.breed}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Dogs: { ...prev.Dogs, breed: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Dogs: { ...filter.Dogs, breed: value },
+                    });
+                  }}
+                  type="itemBreed"
+                  countList={adCnt?.itemBreed}
+                />
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.Dogs.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Dogs: { ...prev.Dogs, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Dogs: { ...filter.Dogs, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+        {filter.subCategory == "Cats" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.cats.age}
+              placeholder="Select Age*"
+              value={filter.Cats.age}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Cats: { ...prev.Cats, age: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Cats: { ...filter.Cats, age: value },
+                });
+              }}
+              type="itemAge"
+              countList={adCnt?.itemAge}
+            />
+            <MultiSelection
+              data={selectData.filters.cats.gender}
+              placeholder="Select Gender*"
+              value={filter.Cats.gender}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Cats: { ...prev.Cats, gender: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Cats: { ...filter.Cats, gender: value },
+                });
+              }}
+              type="itemGender"
+              countList={adCnt?.itemGender}
+            />
+            <MultiSelection
+              data={selectData.filters.cats.vaccinations}
+              placeholder="Select Vaccinations*"
+              value={filter.Cats.vaccinations}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Cats: { ...prev.Cats, vaccinations: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Cats: { ...filter.Cats, vaccinations: value },
+                });
+              }}
+              type="itemVaccinations"
+              countList={adCnt?.itemVaccinations}
+            />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.filters.cats.breed}
+                  placeholder="Select Breed"
+                  value={filter.Cats.breed}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Cats: { ...prev.Cats, breed: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Cats: { ...filter.Cats, breed: value },
+                    });
+                  }}
+                  type="itemBreed"
+                  countList={adCnt?.itemBreed}
+                />
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.Cats.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Cats: { ...prev.Cats, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Cats: { ...filter.Cats, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+        {filter.subCategory == "Birds" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.birds.age}
+              placeholder="Select Age*"
+              value={filter.Birds.age}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Birds: { ...prev.Birds, age: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Birds: { ...filter.Birds, age: value },
+                });
+              }}
+              type="itemAge"
+              countList={adCnt?.itemAge}
+            />
+            <MultiSelection
+              data={selectData.filters.birds.gender}
+              placeholder="Select Gender*"
+              value={filter.Birds.gender}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Birds: { ...prev.Birds, gender: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Birds: { ...filter.Birds, gender: value },
+                });
+              }}
+              type="itemGender"
+              countList={adCnt?.itemGender}
+            />
 
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-              <MultiSelection
-                data={selectData.filters.birds.breed}
-                placeholder="Select Breed"
-                value={filter.Birds.breed}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Birds: { ...prev.Birds, breed: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Birds: { ...filter.Birds, breed: value },
-                  });
-                }}
-                type="breed"
-                countList={adCnt?.breed}
-              />
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.Birds.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Birds: { ...prev.Birds, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Birds: { ...filter.Birds, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-      {filter.subCategory == "Fish" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.fish.tankSize}
-            placeholder="Select Tank Size*"
-            value={filter.Fish.tankSize}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Fish: { ...prev.Fish, tankSize: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Fish: { ...filter.Fish, tankSize: value },
-              });
-            }}
-            type="tankSize"
-            countList={adCnt?.tankSize}
-          />
-          <MultiSelection
-            data={selectData.filters.fish.careLevel}
-            placeholder="Select Care Level*"
-            value={filter.Fish.careLevel}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Fish: { ...prev.Fish, careLevel: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Fish: { ...filter.Fish, careLevel: value },
-              });
-            }}
-            type="careLevel"
-            countList={adCnt?.careLevel}
-          />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.filters.birds.breed}
+                  placeholder="Select Breed"
+                  value={filter.Birds.breed}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Birds: { ...prev.Birds, breed: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Birds: { ...filter.Birds, breed: value },
+                    });
+                  }}
+                  type="itemBreed"
+                  countList={adCnt?.itemBreed}
+                />
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.Birds.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Birds: { ...prev.Birds, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Birds: { ...filter.Birds, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+        {filter.subCategory == "Fish" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.fish.tankSize}
+              placeholder="Select Tank Size*"
+              value={filter.Fish.tankSize}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Fish: { ...prev.Fish, tankSize: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Fish: { ...filter.Fish, tankSize: value },
+                });
+              }}
+              type="itemTankSize"
+              countList={adCnt?.itemTankSize}
+            />
+            <MultiSelection
+              data={selectData.filters.fish.careLevel}
+              placeholder="Select Care Level*"
+              value={filter.Fish.careLevel}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Fish: { ...prev.Fish, careLevel: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Fish: { ...filter.Fish, careLevel: value },
+                });
+              }}
+              type="itemCareLevel"
+              countList={adCnt?.itemCareLevel}
+            />
 
-          <MultiSelection
-            data={selectData.filters.fish.diet}
-            placeholder="Select Diet*"
-            value={filter.Fish.diet}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Fish: { ...prev.Fish, diet: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Fish: { ...filter.Fish, diet: value },
-              });
-            }}
-            type="diet"
-            countList={adCnt?.diet}
-          />
+            <MultiSelection
+              data={selectData.filters.fish.diet}
+              placeholder="Select Diet*"
+              value={filter.Fish.diet}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Fish: { ...prev.Fish, diet: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Fish: { ...filter.Fish, diet: value },
+                });
+              }}
+              type="itemDiet"
+              countList={adCnt?.itemDiet}
+            />
 
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-              <MultiSelection
-                data={selectData.filters.fish.species}
-                placeholder="Select Breed"
-                value={filter.Fish.species}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Fish: { ...prev.Fish, species: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Fish: { ...filter.Fish, species: value },
-                  });
-                }}
-                type="species"
-                countList={adCnt?.species}
-              />
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.Fish.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Fish: { ...prev.Fish, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Fish: { ...filter.Fish, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-      {filter.subCategory == "Reptile" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.reptiles.age}
-            placeholder="Select Age*"
-            value={filter.Reptiles.age}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Reptiles: { ...prev.Reptiles, age: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Reptiles: { ...filter.Reptiles, age: value },
-              });
-            }}
-            type="age"
-            countList={adCnt?.age}
-          />
-          <MultiSelection
-            data={selectData.filters.reptiles.gender}
-            placeholder="Select Gender*"
-            value={filter.Reptiles.gender}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Reptiles: { ...prev.Reptiles, gender: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Reptiles: { ...filter.Reptiles, gender: value },
-              });
-            }}
-            type="gender"
-            countList={adCnt?.gender}
-          />
-          <MultiSelection
-            data={selectData.filters.reptiles.size}
-            placeholder="Select Size*"
-            value={filter.Reptiles.size}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Reptiles: { ...prev.Reptiles, size: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Reptiles: { ...filter.Reptiles, size: value },
-              });
-            }}
-            type="size"
-            countList={adCnt?.size}
-          />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.filters.fish.species}
+                  placeholder="Select Species"
+                  value={filter.Fish.species}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Fish: { ...prev.Fish, species: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Fish: { ...filter.Fish, species: value },
+                    });
+                  }}
+                  type="itemSpecies"
+                  countList={adCnt?.itemSpecies}
+                />
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.Fish.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Fish: { ...prev.Fish, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Fish: { ...filter.Fish, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+        {filter.subCategory == "Reptiles" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.reptiles.age}
+              placeholder="Select Age*"
+              value={filter.Reptiles.age}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Reptiles: { ...prev.Reptiles, age: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Reptiles: { ...filter.Reptiles, age: value },
+                });
+              }}
+              type="itemAge"
+              countList={adCnt?.itemAge}
+            />
+            <MultiSelection
+              data={selectData.filters.reptiles.gender}
+              placeholder="Select Gender*"
+              value={filter.Reptiles.gender}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Reptiles: { ...prev.Reptiles, gender: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Reptiles: { ...filter.Reptiles, gender: value },
+                });
+              }}
+              type="itemGender"
+              countList={adCnt?.itemGender}
+            />
+            <MultiSelection
+              data={selectData.filters.reptiles.size}
+              placeholder="Select Size*"
+              value={filter.Reptiles.size}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Reptiles: { ...prev.Reptiles, size: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Reptiles: { ...filter.Reptiles, size: value },
+                });
+              }}
+              type="itemSize"
+              countList={adCnt?.itemSize}
+            />
 
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-              <MultiSelection
-                data={selectData.filters.reptiles.species}
-                placeholder="Select Species"
-                value={filter.Reptiles.species}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Reptiles: { ...prev.Reptiles, species: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Reptiles: { ...filter.Reptiles, species: value },
-                  });
-                }}
-                type="species"
-                countList={adCnt?.species}
-              />
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.Reptiles.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Reptiles: { ...prev.Reptiles, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Reptiles: { ...filter.Reptiles, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-      {filter.subCategory == "Rabbits" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.rabbits.age}
-            placeholder="Select Age*"
-            value={filter.Rabbits.age}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Rabbits: { ...prev.Rabbits, age: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Rabbits: { ...filter.Rabbits, age: value },
-              });
-            }}
-            type="age"
-            countList={adCnt?.age}
-          />
-          <MultiSelection
-            data={selectData.filters.rabbits.gender}
-            placeholder="Select Gender*"
-            value={filter.Rabbits.gender}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Rabbits: { ...prev.Rabbits, gender: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Rabbits: { ...filter.Rabbits, gender: value },
-              });
-            }}
-            type="gender"
-            countList={adCnt?.gender}
-          />
-          <MultiSelection
-            data={selectData.filters.rabbits.vaccinations}
-            placeholder="Select Vaccinations*"
-            value={filter.Rabbits.vaccinations}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Rabbits: { ...prev.Rabbits, vaccinations: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Rabbits: { ...filter.Rabbits, vaccinations: value },
-              });
-            }}
-            type="vaccinations"
-            countList={adCnt?.vaccinations}
-          />
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-              <MultiSelection
-                data={selectData.filters.rabbits.breed}
-                placeholder="Select Breed"
-                value={filter.Rabbits.breed}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Rabbits: { ...prev.Rabbits, breed: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Rabbits: { ...filter.Rabbits, breed: value },
-                  });
-                }}
-                type="breed"
-                countList={adCnt?.breed}
-              />
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.Rabbits.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Rabbits: { ...prev.Rabbits, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Rabbits: { ...filter.Rabbits, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-      {filter.subCategory == "Rodents" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.rodents.age}
-            placeholder="Select Age*"
-            value={filter.Rodents.age}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Rodents: { ...prev.Rodents, age: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Rodents: { ...filter.Rodents, age: value },
-              });
-            }}
-            type="age"
-            countList={adCnt?.age}
-          />
-          <MultiSelection
-            data={selectData.filters.rodents.gender}
-            placeholder="Select Gender*"
-            value={filter.Rodents.gender}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Rodents: { ...prev.Rodents, gender: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Rodents: { ...filter.Rodents, gender: value },
-              });
-            }}
-            type="gender"
-            countList={adCnt?.gender}
-          />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.filters.reptiles.species}
+                  placeholder="Select Species"
+                  value={filter.Reptiles.species}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Reptiles: { ...prev.Reptiles, species: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Reptiles: { ...filter.Reptiles, species: value },
+                    });
+                  }}
+                  type="itemSpecies"
+                  countList={adCnt?.itemSpecies}
+                />
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.Reptiles.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Reptiles: { ...prev.Reptiles, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Reptiles: { ...filter.Reptiles, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+        {filter.subCategory == "Rabbits" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.rabbits.age}
+              placeholder="Select Age*"
+              value={filter.Rabbits.age}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Rabbits: { ...prev.Rabbits, age: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Rabbits: { ...filter.Rabbits, age: value },
+                });
+              }}
+              type="itemAge"
+              countList={adCnt?.itemAge}
+            />
+            <MultiSelection
+              data={selectData.filters.rabbits.gender}
+              placeholder="Select Gender*"
+              value={filter.Rabbits.gender}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Rabbits: { ...prev.Rabbits, gender: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Rabbits: { ...filter.Rabbits, gender: value },
+                });
+              }}
+              type="itemGender"
+              countList={adCnt?.itemGender}
+            />
+            <MultiSelection
+              data={selectData.filters.rabbits.vaccinations}
+              placeholder="Select Vaccinations*"
+              value={filter.Rabbits.vaccinations}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Rabbits: { ...prev.Rabbits, vaccinations: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Rabbits: { ...filter.Rabbits, vaccinations: value },
+                });
+              }}
+              type="itemVaccinations"
+              countList={adCnt?.itemVaccinations}
+            />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.filters.rabbits.breed}
+                  placeholder="Select Breed"
+                  value={filter.Rabbits.breed}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Rabbits: { ...prev.Rabbits, breed: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Rabbits: { ...filter.Rabbits, breed: value },
+                    });
+                  }}
+                  type="itemBreed"
+                  countList={adCnt?.itemBreed}
+                />
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.Rabbits.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Rabbits: { ...prev.Rabbits, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Rabbits: { ...filter.Rabbits, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+        {filter.subCategory == "Rodents" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.rodents.age}
+              placeholder="Select Age*"
+              value={filter.Rodents.age}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Rodents: { ...prev.Rodents, age: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Rodents: { ...filter.Rodents, age: value },
+                });
+              }}
+              type="itemAge"
+              countList={adCnt?.itemAge}
+            />
+            <MultiSelection
+              data={selectData.filters.rodents.gender}
+              placeholder="Select Gender*"
+              value={filter.Rodents.gender}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Rodents: { ...prev.Rodents, gender: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Rodents: { ...filter.Rodents, gender: value },
+                });
+              }}
+              type="itemGender"
+              countList={adCnt?.itemGender}
+            />
 
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-              <MultiSelection
-                data={selectData.filters.rodents.species}
-                placeholder="Select Species"
-                value={filter.Rodents.species}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Rodents: { ...prev.Rodents, species: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Rodents: { ...filter.Rodents, species: value },
-                  });
-                }}
-                type="species"
-                countList={adCnt?.species}
-              />
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.Rodents.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Rodents: { ...prev.Rodents, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Rodents: { ...filter.Rodents, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-      {filter.subCategory == "Livestock" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.livestocks.age}
-            placeholder="Select Age*"
-            value={filter.Livestock.age}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Livestock: { ...prev.Livestock, age: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Livestock: { ...filter.Livestock, age: value },
-              });
-            }}
-            type="age"
-            countList={adCnt?.age}
-          />
-          <MultiSelection
-            data={selectData.filters.livestocks.gender}
-            placeholder="Select Gender*"
-            value={filter.Livestock.gender}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Livestock: { ...prev.Livestock, gender: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Livestock: { ...filter.Livestock, gender: value },
-              });
-            }}
-            type="gender"
-            countList={adCnt?.gender}
-          />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.filters.rodents.species}
+                  placeholder="Select Species"
+                  value={filter.Rodents.species}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Rodents: { ...prev.Rodents, species: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Rodents: { ...filter.Rodents, species: value },
+                    });
+                  }}
+                  type="itemSpecies"
+                  countList={adCnt?.itemSpecies}
+                />
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.Rodents.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Rodents: { ...prev.Rodents, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Rodents: { ...filter.Rodents, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+        {filter.subCategory == "Livestock" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.livestock.age}
+              placeholder="Select Age*"
+              value={filter.Livestock.age}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Livestock: { ...prev.Livestock, age: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Livestock: { ...filter.Livestock, age: value },
+                });
+              }}
+              type="itemAge"
+              countList={adCnt?.itemAge}
+            />
+            <MultiSelection
+              data={selectData.filters.livestock.gender}
+              placeholder="Select Gender*"
+              value={filter.Livestock.gender}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Livestock: { ...prev.Livestock, gender: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Livestock: { ...filter.Livestock, gender: value },
+                });
+              }}
+              type="itemGender"
+              countList={adCnt?.itemGender}
+            />
 
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-              <MultiSelection
-                data={selectData.filters.livestocks.type}
-                placeholder="Select Type"
-                value={filter.Livestock.type}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Livestock: { ...prev.Livestock, type: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Livestock: { ...filter.Livestock, type: value },
-                  });
-                }}
-                type="type"
-                countList={adCnt?.type}
-              />
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.Livestock.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Livestock: { ...prev.Livestock, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Livestock: { ...filter.Livestock, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-      {filter.subCategory == "Horses" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.horses.age}
-            placeholder="Select Age*"
-            value={filter.Horses.age}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Horses: { ...prev.Horses, age: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Horses: { ...filter.Horses, age: value },
-              });
-            }}
-            type="age"
-            countList={adCnt?.age}
-          />
-          <MultiSelection
-            data={selectData.filters.horses.gender}
-            placeholder="Select Gender*"
-            value={filter.Horses.gender}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Horses: { ...prev.Horses, gender: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Horses: { ...filter.Horses, gender: value },
-              });
-            }}
-            type="gender"
-            countList={adCnt?.gender}
-          />
-          <MultiSelection
-            data={selectData.filters.horses.trainingLevel}
-            placeholder="Select Training Level*"
-            value={filter.Horses.trainingLevel}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Horses: { ...prev.Horses, trainingLevel: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Horses: { ...filter.Horses, trainingLevel: value },
-              });
-            }}
-            type="trainingLevel"
-            countList={adCnt?.trainingLevel}
-          />
-          <MultiSelection
-            data={selectData.filters.horses.vaccinations}
-            placeholder="Select Vaccinations*"
-            value={filter.Horses.vaccinations}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Horses: { ...prev.Horses, vaccinations: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Horses: { ...filter.Horses, vaccinations: value },
-              });
-            }}
-            type="vaccinations"
-            countList={adCnt?.vaccinations}
-          />
-          <MultiSelection
-            data={selectData.filters.horses.health}
-            placeholder="Select Health Verification*"
-            value={filter.Horses.healthCertification}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Horses: { ...prev.Horses, healthCertification: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Horses: { ...filter.Horses, healthCertification: value },
-              });
-            }}
-            type="healthCertification"
-            countList={adCnt?.healthCertification}
-          />
-          <MultiSelection
-            data={selectData.filters.horses.hoofCare}
-            placeholder="Select Hoof Care*"
-            value={filter.Horses.hoofCare}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Horses: { ...prev.Horses, hoofCare: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Horses: { ...filter.Horses, hoofCare: value },
-              });
-            }}
-            type="hoofCare"
-            countList={adCnt?.hoofCare}
-          />
-          <MultiSelection
-            data={selectData.filters.horses.insurance}
-            placeholder="Select Insurance*"
-            value={filter.Horses.insurance}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Horses: { ...prev.Horses, insurance: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Horses: { ...filter.Horses, insurance: value },
-              });
-            }}
-            type="insurance"
-            countList={adCnt?.insurance}
-          />
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-              <MultiSelection
-                data={selectData.filters.horses.breed}
-                placeholder="Select Breed"
-                value={filter.Horses.breed}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Horses: { ...prev.Horses, breed: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Horses: { ...filter.Horses, breed: value },
-                  });
-                }}
-                type="breed"
-                countList={adCnt?.breed}
-              />
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.Horses.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Horses: { ...prev.Horses, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Horses: { ...filter.Horses, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-      {filter.subCategory == "Amphibian" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.amphibian.age}
-            placeholder="Select Age*"
-            value={filter.Amphibian.age}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Amphibian: { ...prev.Amphibian, age: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Amphibian: { ...filter.Amphibian, age: value },
-              });
-            }}
-            type="age"
-            countList={adCnt?.age}
-          />
-          <MultiSelection
-            data={selectData.filters.amphibian.gender}
-            placeholder="Select Gender*"
-            value={filter.Amphibian.gender}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                Amphibian: { ...prev.Amphibian, gender: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                Amphibian: { ...filter.Amphibian, gender: value },
-              });
-            }}
-            type="gender"
-            countList={adCnt?.gender}
-          />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.filters.livestock.type}
+                  placeholder="Select Type"
+                  value={filter.Livestock.type}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Livestock: { ...prev.Livestock, type: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Livestock: { ...filter.Livestock, type: value },
+                    });
+                  }}
+                  type="itemType"
+                  countList={adCnt?.itemType}
+                />
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.Livestock.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Livestock: { ...prev.Livestock, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Livestock: { ...filter.Livestock, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+        {filter.subCategory == "Horses" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.horses.age}
+              placeholder="Select Age*"
+              value={filter.Horses.age}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Horses: { ...prev.Horses, age: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Horses: { ...filter.Horses, age: value },
+                });
+              }}
+              type="itemAge"
+              countList={adCnt?.itemAge}
+            />
+            <MultiSelection
+              data={selectData.filters.horses.gender}
+              placeholder="Select Gender*"
+              value={filter.Horses.gender}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Horses: { ...prev.Horses, gender: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Horses: { ...filter.Horses, gender: value },
+                });
+              }}
+              type="itemGender"
+              countList={adCnt?.itemGender}
+            />
+            <MultiSelection
+              data={selectData.filters.horses.trainingLevel}
+              placeholder="Select Training Level*"
+              value={filter.Horses.trainingLevel}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Horses: { ...prev.Horses, trainingLevel: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Horses: { ...filter.Horses, trainingLevel: value },
+                });
+              }}
+              type="itemTrainingLevel"
+              countList={adCnt?.itemTrainingLevel}
+            />
+            <MultiSelection
+              data={selectData.filters.horses.vaccinations}
+              placeholder="Select Vaccinations*"
+              value={filter.Horses.vaccinations}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Horses: { ...prev.Horses, vaccinations: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Horses: { ...filter.Horses, vaccinations: value },
+                });
+              }}
+              type="itemVaccinations"
+              countList={adCnt?.itemVaccinations}
+            />
+            <MultiSelection
+              data={selectData.filters.horses.health}
+              placeholder="Select Health Cerification*"
+              value={filter.Horses.healthCertification}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Horses: { ...prev.Horses, healthCertification: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Horses: { ...filter.Horses, healthCertification: value },
+                });
+              }}
+              type="itemHealth"
+              countList={adCnt?.itemHealth}
+            />
+            <MultiSelection
+              data={selectData.filters.horses.hoofCare}
+              placeholder="Select Hoof Care*"
+              value={filter.Horses.hoofCare}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Horses: { ...prev.Horses, hoofCare: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Horses: { ...filter.Horses, hoofCare: value },
+                });
+              }}
+              type="itemHoofCare"
+              countList={adCnt?.itemHoofCare}
+            />
+            <MultiSelection
+              data={selectData.filters.horses.insurance}
+              placeholder="Select Insurance*"
+              value={filter.Horses.insurance}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Horses: { ...prev.Horses, insurance: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Horses: { ...filter.Horses, insurance: value },
+                });
+              }}
+              type="itemInsurance"
+              countList={adCnt?.itemInsurance}
+            />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.filters.horses.breed}
+                  placeholder="Select Breed"
+                  value={filter.Horses.breed}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Horses: { ...prev.Horses, breed: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Horses: { ...filter.Horses, breed: value },
+                    });
+                  }}
+                  type="itemBreed"
+                  countList={adCnt?.itemBreed}
+                />
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.Horses.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Horses: { ...prev.Horses, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Horses: { ...filter.Horses, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+        {filter.subCategory == "Amphibian" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.amphibian.age}
+              placeholder="Select Age*"
+              value={filter.Amphibian.age}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Amphibian: { ...prev.Amphibian, age: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Amphibian: { ...filter.Amphibian, age: value },
+                });
+              }}
+              type="itemAge"
+              countList={adCnt?.itemAge}
+            />
+            <MultiSelection
+              data={selectData.filters.amphibian.gender}
+              placeholder="Select Gender*"
+              value={filter.Amphibian.gender}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  Amphibian: { ...prev.Amphibian, gender: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  Amphibian: { ...filter.Amphibian, gender: value },
+                });
+              }}
+              type="itemGender"
+              countList={adCnt?.itemGender}
+            />
 
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
-              <MultiSelection
-                data={selectData.filters.amphibian.species}
-                placeholder="Select Species"
-                value={filter.Amphibian.species}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Amphibian: { ...prev.Amphibian, species: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Amphibian: { ...filter.Amphibian, species: value },
-                  });
-                }}
-                type="species"
-                countList={adCnt?.species}
-              />
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.Amphibian.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    Amphibian: { ...prev.Amphibian, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    Amphibian: { ...filter.Amphibian, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-      {itemCategory == "Pet Supplies" && (
-        <>
-          <MultiSelection
-            data={selectData.filters.supplies.type}
-            placeholder="Select Pet Type*"
-            value={filter.supplies.type}
-            onChange={(value) => {
-              setFilter((prev) => ({
-                ...prev,
-                supplies: { ...prev.supplies, type: value },
-              }));
-              handleFilterSelect({
-                ...filter,
-                supplies: { ...filter.supplies, type: value },
-              });
-            }}
-            type="type"
-            countList={adCnt?.type}
-          />
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+                <MultiSelection
+                  data={selectData.filters.amphibian.species}
+                  placeholder="Select Species"
+                  value={filter.Amphibian.species}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Amphibian: { ...prev.Amphibian, species: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Amphibian: { ...filter.Amphibian, species: value },
+                    });
+                  }}
+                  type="itemSpecies"
+                  countList={adCnt?.itemSpecies}
+                />
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.Amphibian.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      Amphibian: { ...prev.Amphibian, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      Amphibian: { ...filter.Amphibian, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+        {itemCategory == "Pet Supplies" && (
+          <>
+            <MultiSelection
+              data={selectData.filters.supplies.type}
+              placeholder="Select Pet Type*"
+              value={filter.supplies.petType}
+              onChange={(value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  supplies: { ...prev.supplies, petType: value },
+                }));
+                handleFilterSelect({
+                  ...filter,
+                  supplies: { ...filter.supplies, petType: value },
+                });
+              }}
+              type="itemPetType"
+              countList={adCnt?.itemPetType}
+            />
 
-          {isAdvancedFilter && (
-            <>
-              <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
+            {isAdvancedFilter && (
+              <>
+                <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
 
-              <MultiSelection
-                data={selectData.filters.SellerRating}
-                placeholder="Select Seller Rating"
-                value={filter.supplies.sellerRating}
-                onChange={(value) => {
-                  setFilter((prev) => ({
-                    ...prev,
-                    supplies: { ...prev.supplies, sellerRating: value },
-                  }));
-                  handleFilterSelect({
-                    ...filter,
-                    supplies: { ...filter.supplies, sellerRating: value },
-                  });
-                }}
-                type="itemSellerRating"
-                countList={adCnt?.itemSellerRating}
-              />
-            </>
-          )}
-          <ShowAdvancedFilter
-            onClick={() => setIsAdvancedFilter((prev) => !prev)}
-          >
-            {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
-          </ShowAdvancedFilter>
-        </>
-      )}
-    </>
-    // )
+                <MultiSelection
+                  data={selectData.filters.SellerRating}
+                  placeholder="Select Seller Rating"
+                  value={filter.supplies.sellerRating}
+                  onChange={(value) => {
+                    setFilter((prev) => ({
+                      ...prev,
+                      supplies: { ...prev.supplies, sellerRating: value },
+                    }));
+                    handleFilterSelect({
+                      ...filter,
+                      supplies: { ...filter.supplies, sellerRating: value },
+                    });
+                  }}
+                  type="itemSellerRating"
+                  countList={adCnt?.itemSellerRating}
+                />
+              </>
+            )}
+            <ShowAdvancedFilter
+              onClick={() => setIsAdvancedFilter((prev) => !prev)}
+            >
+              {isAdvancedFilter ? "Hide" : "Show"} Advanced Filter
+            </ShowAdvancedFilter>
+          </>
+        )}
+      </>
+    )
   );
 };

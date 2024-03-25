@@ -97,7 +97,7 @@ export const selectData = {
       "Antique Furniture",
       "Vintage Clothing & Accessories",
       "Watches & Clocks",
-      "Jewelry",
+      "Jewellery",
       "Glass & Crystal",
       "Ceramics & Pottery",
       "Silver & Metalware",

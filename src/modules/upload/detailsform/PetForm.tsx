@@ -17,9 +17,10 @@ import { SuppliesDetails } from "./Pets/Supplies";
 
 type Props = {
   onSave: (data: any) => void;
+  onCategoryChange: (value: boolean) => void;
 };
 
-export const PetForm: React.FC<Props> = ({ onSave }) => {
+export const PetForm: React.FC<Props> = ({ onSave, onCategoryChange }) => {
   const [form, setForm] = useState({
     title: "",
     subTitle: "",
@@ -104,6 +105,7 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
             subCategory: "",
             itemDetailInfo: null,
           }));
+          onCategoryChange(value === "Pets for adoption");
         }}
       />
       <SingleSelection
@@ -132,7 +134,7 @@ export const PetForm: React.FC<Props> = ({ onSave }) => {
       {form.subCategory === "Fish" && (
         <FishDetails onSave={subFormSave} subCategory={form.subCategory} />
       )}
-      {form.subCategory === "Reptile" && (
+      {form.subCategory === "Reptiles" && (
         <ReptileDetails onSave={subFormSave} subCategory={form.subCategory} />
       )}
       {form.subCategory === "Rabbits" && (

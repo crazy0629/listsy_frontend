@@ -67,7 +67,12 @@ export const HeaderNavWrapper = styled.div`
       h5 {
         border: 1px solid #afafaf;
         padding: 5px 10px;
+        display: flex;
+        align-items: center;
         border-radius: 5px;
+        svg {
+          margin-right: 4px;
+        }
       }
     }
     span {
