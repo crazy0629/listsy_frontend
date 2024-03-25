@@ -52,6 +52,7 @@ export const Details: React.FC<Props> = ({
   const [phoneNumberShare, setPhoneNumberShare] = useState(false);
   const [telephoneNumber, setTelephoneNumber] = useState("");
   const [telephoneNumberChanged, setTelephoneNumberChanged] = useState(false);
+  const [noPriceInput, setNoPriceInput] = useState(false);
 
   const handleCopyClick = () => {
     setCopied(true);
@@ -151,7 +152,7 @@ export const Details: React.FC<Props> = ({
   const handlePetFormSave = async (data: any) => {
     if (!addressSelected) {
       toast.error("Select location!");
-    } else if (Number(price) === 0) {
+    } else if (!noPriceInput && Number(price) === 0) {
       toast.error("Enter Price!");
     } else if (
       authContext.user?.telephoneNumber == undefined &&
@@ -577,7 +578,9 @@ export const Details: React.FC<Props> = ({
 
   const formComp: any = {
     sale: <ForSaleForm onSave={handleForSaleFormSave} />,
-    pet: <PetForm onSave={handlePetFormSave} />,
+    pet: (
+      <PetForm onSave={handlePetFormSave} onCategoryChange={setNoPriceInput} />
+    ),
     food: <FoodForm onSave={handleFoodFormSave} />,
     diy: <DiyForm onSave={handleDiyFormSave} />,
     garden: <GardenForm onSave={handleGardenFormSave} />,
@@ -651,17 +654,19 @@ export const Details: React.FC<Props> = ({
               )}
             </CopyToClipboard>
           </Styled.VideoInfoWrapper>
-          <Styled.PriceInputWrapper>
-            <p>Price*</p>
-            <div>
-              <span>{priceUnit}</span>
-              <input
-                type="number"
-                onChange={(e) => setPrice(e.target.value)}
-                value={price}
-              />
-            </div>
-          </Styled.PriceInputWrapper>
+          {!noPriceInput && (
+            <Styled.PriceInputWrapper>
+              <p>Price*</p>
+              <div>
+                <span>{priceUnit}</span>
+                <input
+                  type="number"
+                  onChange={(e) => setPrice(e.target.value)}
+                  value={price}
+                />
+              </div>
+            </Styled.PriceInputWrapper>
+          )}
           <Styled.LocationWrapper>
             <div>
               <p>Location*</p>

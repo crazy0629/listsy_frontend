@@ -72,7 +72,7 @@ export const biyFilter = [
     label: "Scrapbooking and Paper Crafts",
     page: "/for-sale/scrapbooking-paper-crafts",
   },
-  { label: "Jewelry Making", page: "/for-sale/jewelry-making-supplies" },
+  { label: "Jewellery Making", page: "/for-sale/Jewellery-making-supplies" },
   {
     label: "Woodworking and Carpentry",
     page: "/for-sale/woodworking-carpentry-tools",
@@ -223,6 +223,24 @@ export const foodFilter = [
   },
   { label: "Gluten-Free", page: "/culinary-products/gluten-free-cuisine" },
   { label: "Other Cuisine", page: "/culinary-products/other-cuisine" },
+];
+
+export const realEstateFilter = [
+  { label: "All", page: "/real-estate/all" },
+  { label: "For Sale", page: "/real-estate/for-sale" },
+  { label: "For Rent", page: "/real-estate/for-rent" },
+  { label: "Lease-to-Own", page: "/real-estate/lease-to-own" },
+  { label: "Auction", page: "/real-estate/auction" },
+  { label: "New Construction", page: "/real-estate/new-construction" },
+  { label: "Foreclosures", page: "/real-estate/foreclosures" },
+  { label: "Short Sale", page: "/real-estate/short-sale" },
+  { label: "Commercial", page: "/real-estate/commercial" },
+  { label: "Vacation Rentals", page: "/real-estate/vacation-rentals" },
+  { label: "Sublet", page: "/real-estate/sublet" },
+  {
+    label: "Investment Properties",
+    page: "/real-estate/investment-properties",
+  },
 ];
 
 export const gardenFilter = [

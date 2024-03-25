@@ -41,7 +41,7 @@ const mainNav = [
   },
   {
     label: "Real Estate and Property Listings",
-    href: "/estate",
+    href: "/real-estate/all",
     icon: "realestate",
   },
   {

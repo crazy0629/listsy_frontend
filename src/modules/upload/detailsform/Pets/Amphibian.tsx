@@ -53,7 +53,7 @@ export const AmphibianDetails: React.FC<Props> = ({ subCategory, onSave }) => {
       />
       <SingleSelection
         direction="top"
-        data={selectData.filters.amphibian.species}
+        data={selectData.filters.amphibian.species.slice(1)}
         label="Species"
         placeholder="Select Species"
         value={form.species}

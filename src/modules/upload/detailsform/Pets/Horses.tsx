@@ -117,10 +117,10 @@ export const HorsesDetails: React.FC<Props> = ({ subCategory, onSave }) => {
       />
       <SingleSelection
         direction="top"
-        data={selectData.filters.horses.breed}
+        data={selectData.filters.horses.breed.slice(1)}
         label="Breed"
         placeholder="Select Breed"
-        value={form.gender}
+        value={form.breed}
         onChange={(value) => setForm((prev) => ({ ...prev, breed: value }))}
       />
       <Styled.SaveButton onClick={handleSave}>Save</Styled.SaveButton>

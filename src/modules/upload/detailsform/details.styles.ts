@@ -26,7 +26,8 @@ export const SizeModalWrapper = styled.div`
   position: fixed;
   z-index: 999;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+
   justify-content: center;
   box-shadow: 0px 18px 40px 0px rgba(180, 180, 180, 0.25);
   background: #00000020;

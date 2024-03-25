@@ -67,7 +67,7 @@ export const RabbitsDetails: React.FC<Props> = ({ subCategory, onSave }) => {
       />
       <SingleSelection
         direction="top"
-        data={selectData.filters.rabbits.breed}
+        data={selectData.filters.rabbits.breed.slice(1)}
         label="Breed"
         placeholder="Select Breed"
         value={form.gender}

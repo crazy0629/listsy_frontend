@@ -37,7 +37,7 @@ export const LivestockDetails: React.FC<Props> = ({ subCategory, onSave }) => {
     <Styled.FormContainer>
       <SingleSelection
         direction="top"
-        data={selectData.filters.livestocks.age}
+        data={selectData.filters.livestock.age}
         label="Age*"
         placeholder="Select Age"
         value={form.age}
@@ -45,7 +45,7 @@ export const LivestockDetails: React.FC<Props> = ({ subCategory, onSave }) => {
       />
       <SingleSelection
         direction="top"
-        data={selectData.filters.livestocks.gender}
+        data={selectData.filters.livestock.gender}
         label="Gender*"
         placeholder="Select Gender"
         value={form.gender}
@@ -54,7 +54,7 @@ export const LivestockDetails: React.FC<Props> = ({ subCategory, onSave }) => {
 
       <SingleSelection
         direction="top"
-        data={selectData.filters.livestocks.type}
+        data={selectData.filters.livestock.type.slice(1)}
         label="Type"
         placeholder="Select Type"
         value={form.type}

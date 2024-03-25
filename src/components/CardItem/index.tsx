@@ -10,6 +10,7 @@ import { calcCompareTime, getTimestamp } from "@/utils";
 import { useRouter } from "next/router";
 import { NavItem } from "@/modules/profile/profile.styles";
 import { categories } from "@/modules/upload/data";
+import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 
 type Props = {
   link: string;
@@ -58,6 +59,8 @@ export const CardItem: React.FC<Props> = ({
   const videoRef = useRef<any>(null);
   const [category, setCategory] = useState("");
   const [boostFlag, setBoostFlag] = useState(false);
+
+  useAutoplayVideo(videoRef);
 
   useEffect(() => {
     setCategory(
@@ -141,9 +144,7 @@ export const CardItem: React.FC<Props> = ({
               <p>{reviewMark}</p>
               <span>{`(${reviewCount} Reviews)`}</span>
             </div>
-            <h3>
-              {priceUnit} {price.toFixed(2)}
-            </h3>
+            <h3>{price === 0 ? "Free" : priceUnit + " " + price.toFixed(2)}</h3>
           </div>
           <div className="location">
             <p>

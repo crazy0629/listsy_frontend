@@ -52,7 +52,7 @@ const pageFilter = [
     type: "grid",
   },
   {
-    label: "Fashion and Beauty",
+    label: "Fashion and Apparel",
     key: "fashion",
     type: "grid",
   },
@@ -67,7 +67,7 @@ const pageFilter = [
     type: "grid",
   },
   {
-    label: "Pets and Animals",
+    label: "Pets and Pet Supplies",
     key: "pet",
     type: "grid",
   },

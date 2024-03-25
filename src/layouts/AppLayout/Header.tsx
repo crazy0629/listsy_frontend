@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { UploadModal } from "@/modules/upload";
 import { ConfirmModal } from "@/components";
 import axios from "axios";
-import { MdMailOutline } from "react-icons/md";
+import { MdMailOutline, MdPlayCircle } from "react-icons/md";
 
 export const Header: React.FC<{
   onSidebar: () => void;
@@ -125,7 +125,9 @@ export const Header: React.FC<{
         </Styled.HeaderSearchInput>
         <div className="icon-wrapper upload">
           {/* <AiOutlinePlusCircle size={24} onClick={handleUploadClick} /> */}
-          <h5 onClick={handleUploadClick}>+ Upload</h5>
+          <h5 onClick={handleUploadClick}>
+            <MdPlayCircle size={16} color="#ff923f" /> List With Video
+          </h5>
         </div>
         <div
           className="icon-wrapper message"

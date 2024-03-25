@@ -6,7 +6,7 @@ export const selectData = {
       "Cats",
       "Birds",
       "Fish",
-      "Reptile",
+      "Reptiles",
       "Rabbits",
       "Rodents",
       "Livestock",
@@ -19,7 +19,7 @@ export const selectData = {
       "Cats",
       "Birds",
       "Fish",
-      "Reptile",
+      "Reptiles",
       "Rabbits",
       "Rodents",
       "Livestock",
@@ -40,6 +40,7 @@ export const selectData = {
   filters: {
     dogs: {
       breed: [
+        "Not Specified",
         "Affenpinscher",
         "Afghan Hound",
         "Airedale Terrier ",
@@ -310,7 +311,6 @@ export const selectData = {
         "White Swiss Shepherd ",
         "Yorkie Russell",
         "Yorkshire Terrier",
-        "Other Breed",
       ],
       age: [
         "Newborn: 0-2 months",
@@ -336,6 +336,7 @@ export const selectData = {
     },
     cats: {
       breed: [
+        "Not Specified",
         "Abyssinian",
         "Aegen",
         "American Bobtail",
@@ -415,7 +416,6 @@ export const selectData = {
         "Toyger",
         "Turkish Angora",
         "Turkish Van",
-        "Other Breed",
       ],
       age: [
         "Kitten (0-6 months)",
@@ -439,6 +439,7 @@ export const selectData = {
     },
     birds: {
       breed: [
+        "Not Specified",
         "Budgie",
         "Caique",
         "Canary",
@@ -464,13 +465,13 @@ export const selectData = {
         "Osprey",
         "Osprey",
         "Buzzard",
-        "Other Bird",
       ],
       age: ["Baby", "Juvenile", "Young Adult", "Adult", "Senior"],
       gender: ["Male", "Female", "Pair", "Unsexed or Unknown", "Mixed"],
     },
     fish: {
       species: [
+        "Not Specified",
         "Ancistrus ",
         "Archerfish",
         "Arowana",
@@ -518,7 +519,6 @@ export const selectData = {
         "Triggerfish",
         "Tropical Fish ",
         "Wild Fish ",
-        "Other Fish",
       ],
       tankSize: ["Small tank", "Medium tank", "Large tank"],
       careLevel: ["Beginner", "Intermediate", "Advanced"],
@@ -526,13 +526,13 @@ export const selectData = {
     },
     reptiles: {
       species: [
+        "Not Specified",
         "Lizard",
         "Snake",
         "Terrapin",
         "Tortoise",
         "Turtle",
         "Crocodilian",
-        "Other Reptile",
       ],
       age: ["Baby", "Juvenile", "Young Adult", "Adult", "Senior"],
       gender: ["Male", "Female", "Pair", "Unsexed or Unknown", "Mixed"],
@@ -540,6 +540,7 @@ export const selectData = {
     },
     rabbits: {
       breed: [
+        "Not Specified",
         "Alaska",
         "Angora",
         "Argente",
@@ -609,7 +610,6 @@ export const selectData = {
         "Tri Coloured Dutch",
         "Vienna",
         "Wheaten",
-        "Other Rabbit",
       ],
       age: ["Baby", "Juvenile", "Young Adult", "Adult", "Senior"],
       gender: ["Male", "Female", "Pair", "Unsexed or Unknown", "Mixed"],
@@ -626,6 +626,7 @@ export const selectData = {
     },
     rodents: {
       species: [
+        "Not Specified",
         "Guinea Pig",
         "Hamster",
         "Mouse",
@@ -644,13 +645,13 @@ export const selectData = {
         "Mink",
         "Gerbil",
         "Civet",
-        "Other Rodent",
       ],
       age: ["Baby", "Juvenile", "Young Adult", "Adult", "Senior"],
       gender: ["Male", "Female", "Pair", "Unsexed or Unknown", "Mixed"],
     },
-    livestocks: {
+    livestock: {
       type: [
+        "Not Specified",
         "Alpaca",
         "Animal Feed",
         "Chicken",
@@ -666,13 +667,13 @@ export const selectData = {
         "Ram",
         "Sheep",
         "Turkeys",
-        "Other Livestock",
       ],
       age: ["Baby", "Juvenile", "Young Adult", "Adult", "Senior"],
       gender: ["Male", "Female", "Pair", "Unsexed or Unknown", "Mixed"],
     },
     horses: {
       breed: [
+        "Not Specified",
         "Abaga",
         "Abyssinian",
         "Adaev",
@@ -1108,7 +1109,6 @@ export const selectData = {
         "Welara",
         "Welsh Pony ",
         "Western Sudan pony",
-        "Other Breed",
       ],
       age: ["Baby", "Juvenile", "Young Adult", "Adult", "Senior"],
       gender: ["Stallion", "Mares", "Gelding"],
@@ -1147,16 +1147,16 @@ export const selectData = {
     },
     amphibian: {
       species: [
+        "Not Specified",
         "Frog",
         "Toad",
         "Salamander  & Newt",
         "Caecilian",
-        "Other Species",
       ],
       age: ["Baby", "Juvenile", "Young Adult", "Adult", "Senior"],
       gender: ["Male", "Female", "Pair", "Unsexed or Unknown", "Mixed"],
     },
-    SellerRating: ["5*", "4*", "3*", "2*", "1*"],
+    SellerRating: ["5*", "4*", "3*", "2*", "1*", "0*"],
     SearchWithin: [
       "Nationwide",
       "Current location",
