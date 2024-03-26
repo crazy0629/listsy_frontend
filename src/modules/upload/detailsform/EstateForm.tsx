@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as Styled from "./details.styles";
 import { SingleSelection } from "@/components";
 import { toast } from "react-toastify";
-import { fashionFilter } from "@/modules/main/fiterData";
+import { realEstateFilter } from "@/modules/main/fiterData";
 import { EstateDetail } from "./Estate";
 
 type Props = {
@@ -76,7 +76,7 @@ export const EstateForm: React.FC<Props> = ({ onSave }) => {
       </Styled.TextAreaFormItem>
       <SingleSelection
         direction="top"
-        data={fashionFilter.map((item) => item.label).slice(1)}
+        data={realEstateFilter.map((item) => item.label).slice(1)}
         label="Category*"
         placeholder="Select Category"
         value={form.itemCategory}
