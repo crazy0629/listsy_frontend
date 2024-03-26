@@ -61,11 +61,7 @@ const pageFilter = [
     key: "sports",
     type: "grid",
   },
-  {
-    label: "Children’s Items",
-    key: "children",
-    type: "grid",
-  },
+
   {
     label: "Pets and Pet Supplies",
     key: "pet",
@@ -76,11 +72,7 @@ const pageFilter = [
     key: "art",
     type: "grid",
   },
-  {
-    label: "Books and Education",
-    key: "education",
-    type: "grid",
-  },
+
   {
     label: "Musical Instruments",
     key: "music",

@@ -3,6 +3,7 @@ import * as Styled from "../details.styles";
 import { SingleSelection } from "@/components";
 import { selectData } from "../DataList/data-estate";
 import { toast } from "react-toastify";
+import { InputComponent } from "@/components/InputComponent";
 
 type Props = {
   onSave: (data: any) => void;
@@ -20,12 +21,9 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
     energy: "",
     nearest: "",
     facilities: "",
+    built: "",
+    plot: "",
   });
-  const [sizeModal, setSizeModal] = useState(false);
-
-  useEffect(() => {
-    setForm((prev) => ({ ...prev, subcategory: "", size: "" }));
-  }, [category]);
 
   const handleSave = () => {
     if (!form.type) {
@@ -70,6 +68,22 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
             setForm((prev) => ({ ...prev, bathrooms: value }))
           }
         />
+        <InputComponent
+          value={form.built}
+          onChange={(e) =>
+            setForm((prev) => ({ ...prev, built: e.target.value }))
+          }
+          placeholder="Built Surface"
+          label="Built Surface"
+        />
+        <InputComponent
+          value={form.plot}
+          onChange={(e) =>
+            setForm((prev) => ({ ...prev, plot: e.target.value }))
+          }
+          placeholder="Plot Surface"
+          label="Plot Surface"
+        />
         <SingleSelection
           direction="top"
           data={selectData.tenure}
@@ -80,11 +94,29 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
         />
         <SingleSelection
           direction="top"
+          data={selectData.condition}
+          label="Property Contidion"
+          placeholder="Select Property Condition"
+          value={form.condition}
+          onChange={(value) =>
+            setForm((prev) => ({ ...prev, condition: value }))
+          }
+        />
+        <SingleSelection
+          direction="top"
           data={selectData.year}
           label="Year Built"
           placeholder="Select Year Built"
           value={form.year}
           onChange={(value) => setForm((prev) => ({ ...prev, year: value }))}
+        />
+        <SingleSelection
+          direction="top"
+          data={selectData.energy}
+          label="Energy Efficiency Rating"
+          placeholder="Select Energy Efficiency Rating"
+          value={form.energy}
+          onChange={(value) => setForm((prev) => ({ ...prev, energy: value }))}
         />
         <SingleSelection
           direction="top"

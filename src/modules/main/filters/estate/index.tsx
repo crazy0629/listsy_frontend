@@ -209,7 +209,7 @@ export const EstateFilter: React.FC<Props> = ({
         filter,
       }
     );
-
+    console.log(12345, adsCountData.data);
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
@@ -345,8 +345,8 @@ export const EstateFilter: React.FC<Props> = ({
           placeholder="Select Property type"
           value={filter.type}
           onChange={(value) => handleFilterSelect("type", value)}
-          type="itemType"
-          countList={adCnt.itemType}
+          type="itemPropertyType"
+          countList={adCnt.itemPropertyType}
         />
 
         <MultiSelection
@@ -412,7 +412,7 @@ export const EstateFilter: React.FC<Props> = ({
             />
             <MultiSelection
               data={selectData.facilities}
-              placeholder="Select Seller Rating"
+              placeholder="Select Facilities"
               value={filter.facilities}
               onChange={(value) => handleFilterSelect("facilities", value)}
               type="itemFacilities"

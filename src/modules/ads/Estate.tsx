@@ -11,78 +11,80 @@ export const Estate: React.FC<{ data: any }> = ({ data }) => {
         <p>{SERVER_UPLOAD_URI + data?.adId?.adFileName}</p>
       </Styled.InfoItemWrapper2>
       <Styled.InfoItemWrapper>
-        <span>Listing Type</span>
-        <span>{data?.listingType}</span>
+        <span>Address</span>
+        <span>{data?.address}</span>
+      </Styled.InfoItemWrapper>
+      <Styled.InfoItemWrapper>
+        <span>Price</span>
+        <span>
+          {data?.priceUnit}
+          {data?.price}
+        </span>
+      </Styled.InfoItemWrapper>
+      <Styled.InfoItemWrapper>
+        <span>View Count</span>
+        <span>{data?.viewCount}</span>
+      </Styled.InfoItemWrapper>
+      <Styled.InfoItemWrapper>
+        <span>Category</span>
+        <span>{data?.itemCategory}</span>
       </Styled.InfoItemWrapper>
       <Styled.InfoItemWrapper>
         <span>Property Type</span>
-        <span>{data?.listingType}</span>
+        <span>{data?.itemDetailInfo?.type}</span>
       </Styled.InfoItemWrapper>
       <Styled.InfoItemWrapper>
         <span>Bedrooms</span>
-        <span>{data?.bedroomCount}</span>
+        <span>{data?.itemDetailInfo?.bedrooms}</span>
       </Styled.InfoItemWrapper>
       <Styled.InfoItemWrapper>
         <span>Bathrooms</span>
-        <span>{data?.bathroomCount}</span>
-      </Styled.InfoItemWrapper>
-      <Styled.InfoItemWrapper>
-        <span>Tenure</span>
-        <span>{data?.tenure}</span>
-      </Styled.InfoItemWrapper>
-      <Styled.InfoItemWrapper>
-        <span>Property Condition</span>
-        <span>{data?.propertyCondition}</span>
-      </Styled.InfoItemWrapper>
-      <Styled.InfoItemWrapper>
-        <span>Post Code / Zip Code</span>
-        <span>{data?.postCode}</span>
-      </Styled.InfoItemWrapper>
-      <Styled.InfoItemWrapper>
-        <span>Year Built</span>
-        <span>{data?.yearBuilt}</span>
+        <span>{data?.itemDetailInfo?.bathrooms}</span>
       </Styled.InfoItemWrapper>
       <Styled.InfoItemWrapper>
         <span>Built Surface</span>
-        <span>{data?.builtSurface}</span>
+        <span>{data?.itemDetailInfo?.built}</span>
       </Styled.InfoItemWrapper>
       <Styled.InfoItemWrapper>
         <span>Plot Surface</span>
-        <span>{data?.plotSurface}</span>
+        <span>{data?.itemDetailInfo?.plot}</span>
       </Styled.InfoItemWrapper>
-      <Styled.InfoItemWrapper2>
-        <span>Key Features</span>
-        <ul>
-          {data?.keyFeatures?.map((item: any, key: number) => (
-            <li key={key}>
-              <MdCheck />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </Styled.InfoItemWrapper2>
-      <Styled.InfoItemWrapper2>
-        <span>Nearest Top Attractions</span>
-        <ul>
-          {data?.nearestAttraction?.map((item: any, key: number) => (
-            <li key={key}>
-              <MdCheck />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </Styled.InfoItemWrapper2>
-      <Styled.InfoItemWrapper2>
-        <span>Facilities</span>
-        <ul>
-          {data?.facilities?.map((item: any, key: number) => (
-            <li key={key}>
-              <MdCheck />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </Styled.InfoItemWrapper2>
+      {data.itemDetailInfo.tenure && (
+        <Styled.InfoItemWrapper>
+          <span>Tenure</span>
+          <span>{data?.itemDetailInfo?.tenure}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.condition && (
+        <Styled.InfoItemWrapper>
+          <span>Property Condition</span>
+          <span>{data?.itemDetailInfo?.condition}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.year && (
+        <Styled.InfoItemWrapper>
+          <span>Year Built</span>
+          <span>{data?.itemDetailInfo?.year}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.energy && (
+        <Styled.InfoItemWrapper>
+          <span>Energy Efficiency Rating</span>
+          <span>{data?.itemDetailInfo?.energy}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.nearest && (
+        <Styled.InfoItemWrapper>
+          <span>Nearest Top Attractions</span>
+          <span>{data?.itemDetailInfo?.nearest}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.facilities && (
+        <Styled.InfoItemWrapper>
+          <span>Facilities</span>
+          <span>{data?.itemDetailInfo?.facilities}</span>
+        </Styled.InfoItemWrapper>
+      )}
     </>
   );
 };

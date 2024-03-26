@@ -212,6 +212,12 @@ export const MultiSelection: React.FC<Props> = ({
                         return element.itemInsurance === item;
                       } else if (type == "itemPetType") {
                         return element.itemPetType === item;
+                      } else if (type == "itemPropertyType") {
+                        return element.itemPropertyType === item;
+                      } else if (type == "itemBedrooms") {
+                        return element.itemBedrooms === item;
+                      } else if (type == "itemBathrooms") {
+                        return element.itemBathrooms === item;
                       }
                       return false;
                     })[0]?.count
