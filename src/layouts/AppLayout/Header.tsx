@@ -4,6 +4,7 @@ import {
   IoMdMenu,
   IoIosSearch,
   IoMdNotificationsOutline,
+  IoIosClose,
 } from "react-icons/io";
 import { TbLogin, TbUserPlus, TbUser, TbLogout } from "react-icons/tb";
 import * as Styled from "./layout.styles";
@@ -22,6 +23,7 @@ export const Header: React.FC<{
 }> = ({ onSidebar }) => {
   const router = useRouter();
   const [visible, setVisible] = useState(false);
+  const [mobileSearch, setMobileSearch] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [uploadModal, setUploadModal] = useState(false);
   const [uploadCancelModal, setUploadCancelModal] = useState(false);
@@ -119,10 +121,19 @@ export const Header: React.FC<{
         />
       </Styled.HeaderLogoWrapper>
       <Styled.HeaderNavWrapper>
-        <Styled.HeaderSearchInput>
+        <Styled.HeaderSearchInput className={mobileSearch ? "show" : ""}>
           <input type="text" placeholder="Search..." onChange={() => {}} />
-          <IoIosSearch size={20} color="#AFAFAF" />
+          <IoIosSearch size={20} color="#AFAFAF" className="search-icon" />
+          <IoIosClose
+            size={30}
+            color="#AFAFAF"
+            className="close-icon"
+            onClick={() => setMobileSearch(false)}
+          />
         </Styled.HeaderSearchInput>
+        <Styled.HeaderMobileSearchIcon onClick={() => setMobileSearch(true)}>
+          <IoIosSearch size={20} color="#AFAFAF" className="search-icon" />
+        </Styled.HeaderMobileSearchIcon>
         <div className="icon-wrapper upload">
           {/* <AiOutlinePlusCircle size={24} onClick={handleUploadClick} /> */}
           <h5 onClick={handleUploadClick}>

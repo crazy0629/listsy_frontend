@@ -1,7 +1,7 @@
 export const selectData = {
-  category: ["All", "Pets for sale", "Pets for adoption", "Pet Supplies"],
+  category: ["All", "Pets for Sale", "Pets for Adoption", "Pet Supplies"],
   subCategory: {
-    "Pets for sale": [
+    "Pets for Sale": [
       "Dogs",
       "Cats",
       "Birds",
@@ -14,7 +14,7 @@ export const selectData = {
       "Amphibian",
     ],
 
-    "Pets for adoption": [
+    "Pets for Adoption": [
       "Dogs",
       "Cats",
       "Birds",
