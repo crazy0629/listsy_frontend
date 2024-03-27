@@ -196,7 +196,7 @@ export const EstateFilter: React.FC<Props> = ({
         itemBedrooms: selectData.bedrooms,
         itemBathrooms: selectData.bathrooms,
         itemTenure: selectData.tenure,
-        itemCondition: selectData.condition,
+        itemPropertyCondition: selectData.condition,
         itemYear: selectData.year,
         itemEnergy: selectData.energy,
         itemNearest: selectData.nearest,
@@ -382,8 +382,8 @@ export const EstateFilter: React.FC<Props> = ({
               placeholder="Select Property Condition"
               value={filter.condition}
               onChange={(value) => handleFilterSelect("condition", value)}
-              type="itemCondition"
-              countList={adCnt.itemCondition}
+              type="itemPropertyCondition"
+              countList={adCnt.itemPropertyCondition}
             />
             <MultiSelection
               data={selectData.year}

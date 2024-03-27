@@ -218,6 +218,18 @@ export const MultiSelection: React.FC<Props> = ({
                         return element.itemBedrooms === item;
                       } else if (type == "itemBathrooms") {
                         return element.itemBathrooms === item;
+                      } else if (type == "itemTenure") {
+                        return element.itemTenure === item;
+                      } else if (type == "itemPropertyCondition") {
+                        return element.itemPropertyCondition === item;
+                      } else if (type == "itemYear") {
+                        return element.itemYear === item;
+                      } else if (type == "itemEnergy") {
+                        return element.itemEnergy === item;
+                      } else if (type == "itemNearest") {
+                        return element.itemNearest === item;
+                      } else if (type == "itemFacilities") {
+                        return element.itemFacilities === item;
                       }
                       return false;
                     })[0]?.count
