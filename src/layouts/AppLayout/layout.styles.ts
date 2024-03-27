@@ -123,8 +123,41 @@ export const HeaderSearchInput = styled.div`
       color: #afafaf;
     }
   }
-  @media screen and (max-width: 768px) {
+  .close-icon {
     display: none;
+  }
+  @media screen and (max-width: 768px) {
+    .search-icon {
+      display: none;
+    }
+    .close-icon {
+      display: block;
+      cursor: pointer;
+    }
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    &.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    position: absolute;
+    z-index: 9999999;
+    background: white;
+    left: 10px;
+    right: 10px;
+    max-width: none;
+    width: auto;
+  }
+`;
+
+export const HeaderMobileSearchIcon = styled.div`
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
 `;
 

@@ -643,11 +643,11 @@ export const petFilter = [
     page: "/pets/all-pets",
   },
   {
-    label: "Pets for sale",
+    label: "Pets for Sale",
     page: "/pets/for-sale",
   },
   {
-    label: "Pets for adoption",
+    label: "Pets for Adoption",
     page: "/pets/for-adoption",
   },
   {
