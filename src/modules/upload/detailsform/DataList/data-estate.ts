@@ -43,6 +43,7 @@ export const selectData = {
     "Custom Tenure Options",
   ],
   condition: [
+    "Not Specified",
     "Brand New",
     "Less than 5 years old",
     "5-10 years old",
@@ -52,6 +53,7 @@ export const selectData = {
     "Historic/Heritage (100+ years)",
   ],
   year: [
+    "Not Specified",
     "Brand New",
     "Less than 5 years old",
     "5-10 years old",
@@ -61,6 +63,7 @@ export const selectData = {
     "Historic/Heritage (100+ years)",
   ],
   energy: [
+    "Not Specified",
     "ENERGY STAR Certified",
     "LEED Certification",
     "HERS Index Score",
@@ -88,6 +91,7 @@ export const selectData = {
     "Not Available/Not Applicable",
   ],
   nearest: [
+    "Not Specified",
     "Shopping Centers/Malls",
     "Parks and Recreational Areas",
     "Schools and Educational Institutions",
@@ -101,6 +105,7 @@ export const selectData = {
     "Airports",
   ],
   facilities: [
+    "Not Specified",
     "Parking",
     "Outdoor Space",
     "Swimming Pool",

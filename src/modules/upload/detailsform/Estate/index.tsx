@@ -86,7 +86,7 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
         />
         <SingleSelection
           direction="top"
-          data={selectData.tenure}
+          data={selectData.tenure.slice(1)}
           label="Tenure"
           placeholder="Select Tenure"
           value={form.tenure}
@@ -94,7 +94,7 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
         />
         <SingleSelection
           direction="top"
-          data={selectData.condition}
+          data={selectData.condition.slice(1)}
           label="Property Contidion"
           placeholder="Select Property Condition"
           value={form.condition}
@@ -104,7 +104,7 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
         />
         <SingleSelection
           direction="top"
-          data={selectData.year}
+          data={selectData.year.slice(1)}
           label="Year Built"
           placeholder="Select Year Built"
           value={form.year}
@@ -112,7 +112,7 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
         />
         <SingleSelection
           direction="top"
-          data={selectData.energy}
+          data={selectData.energy.slice(1)}
           label="Energy Efficiency Rating"
           placeholder="Select Energy Efficiency Rating"
           value={form.energy}
@@ -120,7 +120,7 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
         />
         <SingleSelection
           direction="top"
-          data={selectData.nearest}
+          data={selectData.nearest.slice(1)}
           label="Nearest Top Attractions"
           placeholder="Select Nearest Top Attractions"
           value={form.nearest}
@@ -128,7 +128,7 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
         />
         <SingleSelection
           direction="top"
-          data={selectData.facilities}
+          data={selectData.facilities.slice(1)}
           label="Facilities"
           placeholder="Select Facilities"
           value={form.facilities}
