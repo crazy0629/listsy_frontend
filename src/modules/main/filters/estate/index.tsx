@@ -19,17 +19,17 @@ export const EstateFilter: React.FC<Props> = ({
 }) => {
   const [filter, setFilter] = useState({
     SearchWithin: "",
-    built: "",
-    plot: "",
+    propertySize: [] as string[],
+    lotSize: [] as string[],
     type: [] as string[],
     bedrooms: [] as string[],
     bathrooms: [] as string[],
-    tenure: [] as string[],
+    ownership: [] as string[],
     condition: [] as string[],
     year: [] as string[],
-    energy: [] as string[],
-    nearest: [] as string[],
-    facilities: [] as string[],
+    lease: [] as string[],
+    parking: [] as string[],
+    amenities: [] as string[],
     sellerRating: [] as string[],
     centerLocationSelected: false,
     selectedLocation: null,
@@ -85,10 +85,10 @@ export const EstateFilter: React.FC<Props> = ({
         bathrooms: router.query.bathrooms.toString().split("%"),
       }));
     }
-    if (router.query.tenure) {
+    if (router.query.ownership) {
       setFilter((prev) => ({
         ...prev,
-        tenure: router.query.tenure.toString().split("%"),
+        ownership: router.query.ownership.toString().split("%"),
       }));
     }
     if (router.query.condition) {
@@ -103,25 +103,36 @@ export const EstateFilter: React.FC<Props> = ({
         year: router.query.year.toString().split("%"),
       }));
     }
-    if (router.query.energy) {
+    if (router.query.lease) {
       setFilter((prev) => ({
         ...prev,
-        energy: router.query.energy.toString().split("%"),
+        lease: router.query.lease.toString().split("%"),
       }));
     }
-    if (router.query.nearest) {
+    if (router.query.parking) {
       setFilter((prev) => ({
         ...prev,
-        nearest: router.query.nearest.toString().split("%"),
+        parking: router.query.parking.toString().split("%"),
       }));
     }
-    if (router.query.facilities) {
+    if (router.query.amenities) {
       setFilter((prev) => ({
         ...prev,
-        facilities: router.query.facilities.toString().split("%"),
+        amenities: router.query.amenities.toString().split("%"),
       }));
     }
-
+    if (router.query.propertySize) {
+      setFilter((prev) => ({
+        ...prev,
+        propertySize: router.query.propertySize.toString().split("%"),
+      }));
+    }
+    if (router.query.lotSize) {
+      setFilter((prev) => ({
+        ...prev,
+        lotSize: router.query.lotSize.toString().split("%"),
+      }));
+    }
     if (router.query.sellerRating) {
       setFilter((prev) => ({
         ...prev,
@@ -150,8 +161,8 @@ export const EstateFilter: React.FC<Props> = ({
     if (data.bathrooms.length > 0) {
       queryPath.bathrooms = data.bathrooms.join("%");
     }
-    if (data.tenure.length > 0) {
-      queryPath.tenure = data.tenure.join("%");
+    if (data.ownership.length > 0) {
+      queryPath.ownership = data.ownership.join("%");
     }
     if (data.condition.length > 0) {
       queryPath.condition = data.condition.join("%");
@@ -159,14 +170,20 @@ export const EstateFilter: React.FC<Props> = ({
     if (data.year.length > 0) {
       queryPath.condition = data.condition.join("%");
     }
-    if (data.energy.length > 0) {
-      queryPath.energy = data.energy.join("%");
+    if (data.lease.length > 0) {
+      queryPath.lease = data.lease.join("%");
     }
-    if (data.nearest.length > 0) {
-      queryPath.nearest = data.nearest.join("%");
+    if (data.parking.length > 0) {
+      queryPath.parking = data.parking.join("%");
     }
-    if (data.facilities.length > 0) {
-      queryPath.facilities = data.facilities.join("%");
+    if (data.amenities.length > 0) {
+      queryPath.amenities = data.amenities.join("%");
+    }
+    if (data.propertySize.length > 0) {
+      queryPath.propertySize = data.propertySize.join("%");
+    }
+    if (data.lotSize.length > 0) {
+      queryPath.lotSize = data.lotSize.join("%");
     }
     if (data.sellerRating.length > 0) {
       queryPath.sellerRating = data.sellerRating.join("%");
@@ -195,12 +212,14 @@ export const EstateFilter: React.FC<Props> = ({
         itemType: selectData.type,
         itemBedrooms: selectData.bedrooms,
         itemBathrooms: selectData.bathrooms,
-        itemTenure: selectData.tenure,
+        itemOwnership: selectData.ownership,
+        itemPropertySize: selectData.propertySize,
+        itemLotSize: selectData.lotSize,
         itemPropertyCondition: selectData.condition,
         itemYear: selectData.year,
-        itemEnergy: selectData.energy,
-        itemNearest: selectData.nearest,
-        itemFacilities: selectData.facilities,
+        itemLease: selectData.lease,
+        itemParking: selectData.parking,
+        itemAmenities: selectData.amenities,
         itemSearchRange: [-1, 0, 1, 5, 15, 30, 50, 100, 200],
         address,
         countryCode,
@@ -209,7 +228,6 @@ export const EstateFilter: React.FC<Props> = ({
         filter,
       }
     );
-    console.log(12345, adsCountData.data);
     setAdCnt(adsCountData.data);
     setIsLoading(false);
   };
@@ -370,12 +388,28 @@ export const EstateFilter: React.FC<Props> = ({
           <>
             <FilterOptionWrapper>Advanced Filter</FilterOptionWrapper>
             <MultiSelection
-              data={selectData.tenure}
-              placeholder="Select Tenure"
-              value={filter.tenure}
-              onChange={(value) => handleFilterSelect("tenure", value)}
-              type="itemTenure"
-              countList={adCnt.itemTenure}
+              data={selectData.propertySize}
+              placeholder="Select Property Size"
+              value={filter.propertySize}
+              onChange={(value) => handleFilterSelect("propertySize", value)}
+              type="itemPropertySize"
+              countList={adCnt.itemPropertySize}
+            />
+            <MultiSelection
+              data={selectData.lotSize}
+              placeholder="Select Lot Size"
+              value={filter.lotSize}
+              onChange={(value) => handleFilterSelect("lotSize", value)}
+              type="itemLotSize"
+              countList={adCnt.itemLotSize}
+            />
+            <MultiSelection
+              data={selectData.ownership}
+              placeholder="Select Ownership"
+              value={filter.ownership}
+              onChange={(value) => handleFilterSelect("ownership", value)}
+              type="itemOwnership"
+              countList={adCnt.itemOwnership}
             />
             <MultiSelection
               data={selectData.condition}
@@ -394,29 +428,29 @@ export const EstateFilter: React.FC<Props> = ({
               countList={adCnt.itemYear}
             />
             <MultiSelection
-              data={selectData.energy}
-              placeholder="Select Energy Efficiency Rating"
-              value={filter.energy}
-              onChange={(value) => handleFilterSelect("energy", value)}
-              type="itemEnergy"
-              countList={adCnt.itemEnergy}
+              data={selectData.lease}
+              placeholder="Select Lease Term"
+              value={filter.lease}
+              onChange={(value) => handleFilterSelect("lease", value)}
+              type="itemLease"
+              countList={adCnt.itemLease}
             />
 
             <MultiSelection
-              data={selectData.nearest}
-              placeholder="Select Nearest Top Attractions"
-              value={filter.nearest}
-              onChange={(value) => handleFilterSelect("nearest", value)}
-              type="itemNearest"
-              countList={adCnt.itemNearest}
+              data={selectData.parking}
+              placeholder="Select Parking"
+              value={filter.parking}
+              onChange={(value) => handleFilterSelect("parking", value)}
+              type="itemParking"
+              countList={adCnt.itemParking}
             />
             <MultiSelection
-              data={selectData.facilities}
-              placeholder="Select Facilities"
-              value={filter.facilities}
-              onChange={(value) => handleFilterSelect("facilities", value)}
-              type="itemFacilities"
-              countList={adCnt.itemFacilities}
+              data={selectData.amenities}
+              placeholder="Select Amenities"
+              value={filter.amenities}
+              onChange={(value) => handleFilterSelect("amenities", value)}
+              type="itemAmenities"
+              countList={adCnt.itemAmenities}
             />
             <MultiSelection
               data={selectData.sellerRating}

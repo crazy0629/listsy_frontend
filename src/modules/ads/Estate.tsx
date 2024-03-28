@@ -41,18 +41,22 @@ export const Estate: React.FC<{ data: any }> = ({ data }) => {
         <span>Bathrooms</span>
         <span>{data?.itemDetailInfo?.bathrooms}</span>
       </Styled.InfoItemWrapper>
-      <Styled.InfoItemWrapper>
-        <span>Built Surface</span>
-        <span>{data?.itemDetailInfo?.built}</span>
-      </Styled.InfoItemWrapper>
-      <Styled.InfoItemWrapper>
-        <span>Plot Surface</span>
-        <span>{data?.itemDetailInfo?.plot}</span>
-      </Styled.InfoItemWrapper>
-      {data.itemDetailInfo.tenure && (
+      {data?.itemDetailInfo?.propertySize && (
         <Styled.InfoItemWrapper>
-          <span>Tenure</span>
-          <span>{data?.itemDetailInfo?.tenure}</span>
+          <span>Property Size</span>
+          <span>{data?.itemDetailInfo?.propertySize}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data?.itemDetailInfo?.lotSize && (
+        <Styled.InfoItemWrapper>
+          <span>Lot Size</span>
+          <span>{data?.itemDetailInfo?.lotSize}</span>
+        </Styled.InfoItemWrapper>
+      )}
+      {data.itemDetailInfo.ownership && (
+        <Styled.InfoItemWrapper>
+          <span>Ownership</span>
+          <span>{data?.itemDetailInfo?.ownership}</span>
         </Styled.InfoItemWrapper>
       )}
       {data.itemDetailInfo.condition && (
@@ -67,22 +71,22 @@ export const Estate: React.FC<{ data: any }> = ({ data }) => {
           <span>{data?.itemDetailInfo?.year}</span>
         </Styled.InfoItemWrapper>
       )}
-      {data.itemDetailInfo.energy && (
+      {data.itemDetailInfo.lease && (
         <Styled.InfoItemWrapper>
-          <span>Energy Efficiency Rating</span>
-          <span>{data?.itemDetailInfo?.energy}</span>
+          <span>Lease Term</span>
+          <span>{data?.itemDetailInfo?.lease}</span>
         </Styled.InfoItemWrapper>
       )}
-      {data.itemDetailInfo.nearest && (
+      {data.itemDetailInfo.parking && (
         <Styled.InfoItemWrapper>
-          <span>Nearest Top Attractions</span>
-          <span>{data?.itemDetailInfo?.nearest}</span>
+          <span>Parking</span>
+          <span>{data?.itemDetailInfo?.parking}</span>
         </Styled.InfoItemWrapper>
       )}
-      {data.itemDetailInfo.facilities && (
+      {data.itemDetailInfo.amenities && (
         <Styled.InfoItemWrapper>
-          <span>Facilities</span>
-          <span>{data?.itemDetailInfo?.facilities}</span>
+          <span>Amenities</span>
+          <span>{data?.itemDetailInfo?.amenities}</span>
         </Styled.InfoItemWrapper>
       )}
     </>

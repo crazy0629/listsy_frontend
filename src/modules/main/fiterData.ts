@@ -227,20 +227,44 @@ export const foodFilter = [
 
 export const realEstateFilter = [
   { label: "All", page: "/real-estate/all" },
-  { label: "For Sale", page: "/real-estate/for-sale" },
-  { label: "For Rent", page: "/real-estate/for-rent" },
-  { label: "Lease-to-Own", page: "/real-estate/lease-to-own" },
-  { label: "Auction", page: "/real-estate/auction" },
-  { label: "New Construction", page: "/real-estate/new-construction" },
-  { label: "Foreclosures", page: "/real-estate/foreclosures" },
-  { label: "Short Sale", page: "/real-estate/short-sale" },
-  { label: "Commercial", page: "/real-estate/commercial" },
-  { label: "Vacation Rentals", page: "/real-estate/vacation-rentals" },
-  { label: "Sublet", page: "/real-estate/sublet" },
+  { label: "Residential For Sale", page: "/real-estate/residential-for-sale" },
+  { label: "Residential For Rent", page: "/real-estate/residential-for-rent" },
+  { label: "Commercial For Sale", page: "/real-estate/commercial-for-sale" },
+  { label: "Commercial For Rent", page: "/real-estate/commercial-for-rent" },
+  { label: "Industrial For Sale", page: "/real-estate/industrial-for-sale" },
+  { label: "Industrial For Rent", page: "/real-estate/industrial-for-rent" },
+  {
+    label: "Agricultural Land For Sale",
+    page: "/real-estate/agricultural-land-for-sale",
+  },
+  { label: "Vacation / Short-Term Rentals", page: "/real-estate/vacation" },
+  {
+    label: "New Construction Homes",
+    page: "/real-estate/new-construction-homes",
+  },
+  { label: "Condominiums", page: "/real-estate/condominiums" },
+  {
+    label: "Cooperative Housing (Co-op)",
+    page: "/real-estate/cooperative-housing",
+  },
+  { label: "Luxury Properties", page: "/real-estate/luxury-properties" },
+  { label: "Foreclosed Homes", page: "/real-estate/foreclosed-homes" },
+  {
+    label: "Short Sale Properties",
+    page: "/real-estate/short-sale-properties",
+  },
+  { label: "Auction Properties", page: "/real-estate/auction-properties" },
+  { label: "Land For Sale", page: "/real-estate/land-for-sale" },
+  { label: "Mixed-Use Properties", page: "/real-estate/mixed-use-properties" },
   {
     label: "Investment Properties",
     page: "/real-estate/investment-properties",
   },
+  { label: "Lease-to-Own Homes", page: "/real-estate/lease-to-own-homes" },
+  { label: "Owner-Financed Sales", page: "/real-estate/owner-financed-sales" },
+  { label: "Rent-to-Own Options", page: "/real-estate/rent-to-own-options" },
+  { label: "Shared Housing / Roommates", page: "/real-estate/shared-housing" },
+  { label: "Sublets", page: "/real-estate/sublets" },
 ];
 
 export const gardenFilter = [

@@ -54,6 +54,9 @@ export const VideoWrapper = styled.div`
     position: absolute;
     top: 47%;
   }
+  @media screen and (max-width: 480px) {
+    padding-top: 80%;
+  }
 `;
 
 export const VideoInfoWrapper = styled.div`

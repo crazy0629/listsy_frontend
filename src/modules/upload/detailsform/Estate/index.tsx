@@ -15,14 +15,14 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
     type: "",
     bedrooms: "",
     bathrooms: "",
-    tenure: "",
+    ownership: "",
     condition: "",
     year: "",
-    energy: "",
-    nearest: "",
-    facilities: "",
-    built: "",
-    plot: "",
+    lease: "",
+    parking: "",
+    amenities: "",
+    lotSize: "",
+    propertySize: "",
   });
 
   const handleSave = () => {
@@ -68,29 +68,33 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
             setForm((prev) => ({ ...prev, bathrooms: value }))
           }
         />
-        <InputComponent
-          value={form.built}
-          onChange={(e) =>
-            setForm((prev) => ({ ...prev, built: e.target.value }))
+        <SingleSelection
+          direction="top"
+          data={selectData.propertySize.slice(1)}
+          label="Property Size"
+          placeholder="Select Property Size"
+          value={form.propertySize}
+          onChange={(value) =>
+            setForm((prev) => ({ ...prev, propertySize: value }))
           }
-          placeholder="Built Surface"
-          label="Built Surface"
-        />
-        <InputComponent
-          value={form.plot}
-          onChange={(e) =>
-            setForm((prev) => ({ ...prev, plot: e.target.value }))
-          }
-          placeholder="Plot Surface"
-          label="Plot Surface"
         />
         <SingleSelection
           direction="top"
-          data={selectData.tenure.slice(1)}
-          label="Tenure"
-          placeholder="Select Tenure"
-          value={form.tenure}
-          onChange={(value) => setForm((prev) => ({ ...prev, tenure: value }))}
+          data={selectData.lotSize.slice(1)}
+          label="Lot Size"
+          placeholder="Select Lot Size"
+          value={form.lotSize}
+          onChange={(value) => setForm((prev) => ({ ...prev, lotSize: value }))}
+        />
+        <SingleSelection
+          direction="top"
+          data={selectData.ownership.slice(1)}
+          label="Ownership"
+          placeholder="Select Ownership"
+          value={form.ownership}
+          onChange={(value) =>
+            setForm((prev) => ({ ...prev, ownership: value }))
+          }
         />
         <SingleSelection
           direction="top"
@@ -112,28 +116,28 @@ export const EstateDetail: React.FC<Props> = ({ onSave, category }) => {
         />
         <SingleSelection
           direction="top"
-          data={selectData.energy.slice(1)}
-          label="Energy Efficiency Rating"
-          placeholder="Select Energy Efficiency Rating"
-          value={form.energy}
-          onChange={(value) => setForm((prev) => ({ ...prev, energy: value }))}
+          data={selectData.lease.slice(1)}
+          label="Lease Term"
+          placeholder="Select Lease Term"
+          value={form.lease}
+          onChange={(value) => setForm((prev) => ({ ...prev, lease: value }))}
         />
         <SingleSelection
           direction="top"
-          data={selectData.nearest.slice(1)}
-          label="Nearest Top Attractions"
-          placeholder="Select Nearest Top Attractions"
-          value={form.nearest}
-          onChange={(value) => setForm((prev) => ({ ...prev, nearest: value }))}
+          data={selectData.parking.slice(1)}
+          label="Parking"
+          placeholder="Select Parking"
+          value={form.parking}
+          onChange={(value) => setForm((prev) => ({ ...prev, parking: value }))}
         />
         <SingleSelection
           direction="top"
-          data={selectData.facilities.slice(1)}
-          label="Facilities"
-          placeholder="Select Facilities"
-          value={form.facilities}
+          data={selectData.amenities.slice(1)}
+          label="Amenities"
+          placeholder="Select Amenities"
+          value={form.amenities}
           onChange={(value) =>
-            setForm((prev) => ({ ...prev, facilities: value }))
+            setForm((prev) => ({ ...prev, amenities: value }))
           }
         />
 
