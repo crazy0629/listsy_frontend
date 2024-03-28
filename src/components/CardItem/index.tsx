@@ -60,6 +60,8 @@ export const CardItem: React.FC<Props> = ({
   const [category, setCategory] = useState("");
   const [boostFlag, setBoostFlag] = useState(false);
 
+  const [isIntersecting, setIsIntersecting] = useState(false);
+
   useAutoplayVideo(videoRef);
 
   useEffect(() => {

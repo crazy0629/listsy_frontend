@@ -4,8 +4,8 @@ import { RealEstateSection } from "@/modules/main/RealEstate";
 
 const RealEstateForSale: React.FC = () => {
   return (
-    <AppLayout name="real_estate_auction">
-      <RealEstateSection page="/real-estate/auction" />
+    <AppLayout name="real_estate_sublets">
+      <RealEstateSection page="/real-estate/sublets" />
     </AppLayout>
   );
 };

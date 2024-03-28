@@ -140,18 +140,22 @@ export const Header: React.FC<{
             <MdPlayCircle size={16} color="#ff923f" /> List With Video
           </h5>
         </div>
-        <div
-          className="icon-wrapper message"
-          onClick={() => router.push("/message")}
-        >
-          <MdMailOutline size={24} />
-          {<span />}
-        </div>
+        {currentUser && (
+          <>
+            <div
+              className="icon-wrapper message"
+              onClick={() => router.push("/message")}
+            >
+              <MdMailOutline size={20} />
+              {<span />}
+            </div>
 
-        <div className="icon-wrapper">
-          <IoMdNotificationsOutline size={24} />
-          <span />
-        </div>
+            <div className="icon-wrapper">
+              <IoMdNotificationsOutline size={20} />
+              <span />
+            </div>
+          </>
+        )}
         <Styled.AuthActionWrapper ref={wrapperRef}>
           <Styled.AuthActionButton onClick={() => setVisible((prev) => !prev)}>
             {currentUser ? (

@@ -16,14 +16,14 @@ export const useAutoplayVideo = (
             videoElement?.play().catch((error) => console.log(error));
           } else {
             videoElement?.pause();
-            if (videoRef.current.currentTime) videoRef.current.currentTime = 0;
+            if (videoRef.current?.currentTime) videoRef.current.currentTime = 0;
           }
         });
       },
       {
         root: null, // viewport
         rootMargin: "0px",
-        threshold: 0.5, // Trigger when 50% of the video is visible
+        threshold: 1.0, // Trigger when 50% of the video issi vible
       }
     );
 
